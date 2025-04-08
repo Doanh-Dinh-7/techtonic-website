@@ -103,19 +103,19 @@ export default function Gallery() {
     club: [
       {
         name: "Thành viên ban sự kiện",
-        image: "/ban_chu_nhiem/Dinh_Sy_Quoc_Doanh.jpg",
+        image: "/cau_lac_bo/Dinh_Sy_Quoc_Doanh.jpg",
       },
       {
         name: "Thành viên ban nhân sự",
-        image: "/ban_chu_nhiem/Dinh_Sy_Quoc_Doanh.jpg",
+        image: "/cau_lac_bo/Dinh_Sy_Quoc_Doanh.jpg",
       },
       {
         name: "Thành viên ban truyền thông",
-        image: "/ban_chu_nhiem/Dinh_Sy_Quoc_Doanh.jpg",
+        image: "/cau_lac_bo/Dinh_Sy_Quoc_Doanh.jpg",
       },
       {
         name: "Thành viên ban chuyên môn",
-        image: "/ban_chu_nhiem/Dinh_Sy_Quoc_Doanh.jpg",
+        image: "/cau_lac_bo/Dinh_Sy_Quoc_Doanh.jpg",
       },
     ],
     activities: [
@@ -133,15 +133,15 @@ export default function Gallery() {
       },
       {
         name: "TECHWARE SEASON 1",
-        image: "/ban_chu_nhiem/Dinh_Sy_Quoc_Doanh.jpg",
+        image: "/hoat_dong/Dinh_Sy_Quoc_Doanh.jpg",
       },
       {
         name: "Tên hoạt động",
-        image: "/ban_chu_nhiem/Dinh_Sy_Quoc_Doanh.jpg",
+        image: "/hoat_dong/Dinh_Sy_Quoc_Doanh.jpg",
       },
       {
         name: "Tên hoạt động",
-        image: "/ban_chu_nhiem/Dinh_Sy_Quoc_Doanh.jpg",
+        image: "/hoat_dong/Dinh_Sy_Quoc_Doanh.jpg",
       },
     ],
   };
