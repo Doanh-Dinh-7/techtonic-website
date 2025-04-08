@@ -8,18 +8,24 @@ import { useState } from "react";
 interface GallyProps {
   name: string;
   image: string;
+  category?: string;
 }
 
-function PhotoCard({ name, image }: GallyProps) {
+function PhotoCard({ name, image, category }: GallyProps) {
   const [imgSrc, setImgSrc] = useState(image);
+  const aspectClass =
+    category === "club" || category === "activities"
+      ? "aspect-video"
+      : "aspect-square";
 
   return (
     <Card className="overflow-hidden hover:shadow-lg transition-all">
       <CardContent className="p-0 text-center">
-        <div className="aspect-video relative">
+        {/* Nếu category là club hoặc activities thì aspect-video còn không thì aspect-square  */}
+        <div className={`${aspectClass} relative`}>
           <Image
             src={imgSrc}
-            alt={image}
+            alt={name}
             fill
             className="object-cover"
             onError={() => setImgSrc("/placeholder.svg")}
@@ -56,16 +62,16 @@ export default function Gallery() {
         image: "/founders/Pham_Bao_Han.jpg",
       },
       {
-        name: "Nguyễn Đình Khoa",
-        image: "/founders/Nguyen_Dinh_Khoa.jpg",
-      },
-      {
         name: "Lê Minh Thư",
         image: "/founders/Le_Minh_Thu.jpg",
       },
       {
         name: "Nguyễn Thị Ánh Tuyết",
         image: "/founders/Nguyen_Thi_Anh_Tuyet.jpg",
+      },
+      {
+        name: "Nguyễn Đình Khoa",
+        image: "/founders/Nguyen_Dinh_Khoa.jpg",
       },
     ],
     membership: [
@@ -123,7 +129,7 @@ export default function Gallery() {
       },
       {
         name: 'NGƯỜI TRONG NGÀNH "MIS"',
-        image: "/ban_chu_nhiem/Dinh_Sy_Quoc_Doanh.jpg",
+        image: "/hoat_dong/nguoi_trong_nganh_mis.jpg",
       },
       {
         name: "TECHWARE SEASON 1",
@@ -161,7 +167,7 @@ export default function Gallery() {
             <TabsContent key={category} value={category}>
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
                 {images.map((image, index) => (
-                  <PhotoCard key={index} {...image} />
+                  <PhotoCard key={index} {...image} category={category} />
                 ))}
               </div>
             </TabsContent>
