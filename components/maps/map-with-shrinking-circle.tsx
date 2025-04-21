@@ -169,7 +169,7 @@ const MapComponent = () => {
     timerRef.current = setInterval(() => {
       setCountdown((prev) => {
         if (prev <= 1) {
-          clearInterval(timerRef.current);
+          timerRef.current && clearInterval(timerRef.current);
           setIsRunning(false);
 
           // Lưu trạng thái cuối cùng
@@ -210,7 +210,9 @@ const MapComponent = () => {
       });
     }, 1000);
 
-    return () => clearInterval(timerRef.current);
+    return () => {
+      timerRef.current && clearInterval(timerRef.current);
+    };
   }, [isRunning, shrinkInterval, selectedPoint, radius]);
 
   // Lấy vị trí hiện tại của người dùng thông qua API
@@ -273,7 +275,7 @@ const MapComponent = () => {
   const pauseTimer = () => setIsRunning(false);
 
   const resetTimer = () => {
-    clearInterval(timerRef.current);
+    timerRef.current && clearInterval(timerRef.current);
     localStorage.clear();
 
     setCountdown(initialCountdown);
