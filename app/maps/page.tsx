@@ -1,7 +1,15 @@
-import MapWithShrinkingCircle from "@/components/maps/map-with-shrinking-circle";
+// import MapWithShrinkingCircle from "@/components/maps/map-with-shrinking-circle";
 import { ArrowLeft } from "lucide-react";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
+import dynamic from "next/dynamic";
+
+const MapWithShrinkingCircle = dynamic(
+  () => import("@/components/maps/map-with-shrinking-circle"),
+  {
+    ssr: false,
+  }
+);
 
 export default function MapsPage() {
   return (
