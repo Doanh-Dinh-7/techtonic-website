@@ -9,7 +9,7 @@ import {
   useMap,
   Polygon,
 } from "react-leaflet";
-import L from "leaflet";
+import L, { LatLngExpression, LatLngLiteral } from "leaflet";
 import "leaflet/dist/leaflet.css";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -28,7 +28,7 @@ const DefaultIcon = L.icon({
 });
 L.Marker.prototype.options.icon = DefaultIcon;
 
-const CenterUpdater = ({ center }) => {
+const CenterUpdater = ({ center }: { center: LatLngExpression }) => {
   const map = useMap();
   useEffect(() => {
     map.setView(center);
@@ -37,12 +37,12 @@ const CenterUpdater = ({ center }) => {
 };
 
 // Hàm định dạng thời gian từ giây -> mm:ss
-const formatTime = (seconds: number) =>
+const formatTime = (seconds: number): string =>
   `${Math.floor(seconds / 60)
     .toString()
     .padStart(2, "0")}:${(seconds % 60).toString().padStart(2, "0")}`;
 
-const calculateDistance = (p1, p2) => {
+const calculateDistance = (p1: LatLngLiteral, p2: LatLngLiteral) => {
   const R = 6371e3;
   const φ1 = (p1.lat * Math.PI) / 180;
   const φ2 = (p2.lat * Math.PI) / 180;
@@ -54,7 +54,10 @@ const calculateDistance = (p1, p2) => {
   return R * c;
 };
 
-const getRandomPoint = (center, maxDistance) => {
+const getRandomPoint = (
+  center: LatLngLiteral,
+  maxDistance: number
+): LatLngLiteral => {
   const angle = Math.random() * 2 * Math.PI;
   const distance = Math.random() * maxDistance;
   const latOffset = distance / 111111;
@@ -67,11 +70,17 @@ const getRandomPoint = (center, maxDistance) => {
   };
 };
 
+type PolygonType = {
+  name: string;
+  color: string;
+  positions: LatLngExpression[];
+};
+
 // Danh sách các vùng Trạm rỗng
-const polygons = [];
+const polygons: PolygonType[] = [];
 
 // // Danh sách các vùng Trạm
-// const polygons = [
+// const polygons: PolygonType[] = [
 //   {
 //     name: "Khu vực tập trung",
 //     color: "slategray",
@@ -138,9 +147,9 @@ const polygons = [];
 
 const MapComponent = () => {
   // Trung tâm trạm 5 16.0344, 108.2341
-  const defaultCenter = { lat: 16.0344, lng: 108.2341 };
+  const defaultCenter: LatLngLiteral = { lat: 16.0344, lng: 108.2341 };
   // Vị trí kho báu 16.0342, 108.2331
-  const defaultPoint = { lat: 16.0342, lng: 108.2331 };
+  const defaultPoint: LatLngLiteral = { lat: 16.0342, lng: 108.2331 };
   const initialRadius = 170; // 1000 meters = 1km
 
   const [center, setCenter] = useState(defaultCenter);
@@ -151,7 +160,7 @@ const MapComponent = () => {
   const [shrinkSteps, setShrinkSteps] = useState(5);
   const [isRunning, setIsRunning] = useState(false);
   const [hasStarted, setHasStarted] = useState(false);
-  const timerRef = useRef(null);
+  const timerRef = useRef<NodeJS.Timeout | null>(null);
 
   const shrinkInterval = Math.floor(initialCountdown / shrinkSteps);
 
@@ -283,7 +292,7 @@ const MapComponent = () => {
   }, [center, radius]);
 
   // Khi người dùng thay đổi input thời gian
-  const handleCountdownChange = (e) => {
+  const handleCountdownChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = parseInt(e.target.value);
     if (value > 0) {
       const seconds = value * 60;
