@@ -42,23 +42,23 @@ npm run dev
 ```
 techtonic-website/
 ├── app/                    # Thư mục chứa các route và pages của ứng dụng
-│   ├── (routes)/          # Các route chính của ứng dụng
-│   │   ├── about/        # Trang giới thiệu
-│   │   ├── activities/   # Trang hoạt động
-│   │   ├── gallery/      # Trang thư viện ảnh
-│   │   └── page.tsx      # Trang chủ
-│   └── layout.tsx        # Layout chính của ứng dụng
-├── components/            # Các component tái sử dụng
-│   ├── ui/               # Các component UI cơ bản
-│   └── sections/         # Các section của trang
-├── public/               # Thư mục chứa các file tĩnh
-│   └── images/          # Thư mục chứa hình ảnh
-├── styles/              # Thư mục chứa các file CSS
-├── types/               # Các file định nghĩa TypeScript
-├── utils/               # Các hàm tiện ích
-├── .gitignore          # File cấu hình Git
-├── next.config.js      # Cấu hình Next.js
-├── package.json        # File quản lý dependencies
-├── tailwind.config.js  # Cấu hình Tailwind CSS
-└── tsconfig.json       # Cấu hình TypeScript
+│   ├── (routes)/           # Các route chính của ứng dụng
+│   │   ├── about/          # Trang giới thiệu
+│   │   ├── activities/     # Trang hoạt động
+│   │   ├── gallery/        # Trang thư viện ảnh
+│   │   └── page.tsx        # Trang chủ
+│   └── layout.tsx          # Layout chính của ứng dụng
+├── components/             # Các component tái sử dụng
+│   ├── ui/                 # Các component UI cơ bản
+│   └── sections/           # Các section của trang
+├── public/                 # Thư mục chứa các file tĩnh
+│   └── images/             # Thư mục chứa hình ảnh
+├── styles/                 # Thư mục chứa các file CSS
+├── types/                  # Các file định nghĩa TypeScript
+├── utils/                  # Các hàm tiện ích
+├── .gitignore              # File cấu hình Git
+├── next.config.js          # Cấu hình Next.js
+├── package.json            # File quản lý dependencies
+├── tailwind.config.js      # Cấu hình Tailwind CSS
+└── tsconfig.json           # Cấu hình TypeScript
 ```
