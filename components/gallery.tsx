@@ -133,7 +133,7 @@ export default function Gallery() {
       },
       {
         name: "TECHWARE SEASON 1",
-        image: "/hoat_dong/Dinh_Sy_Quoc_Doanh.jpg",
+        image: "/hoat_dong/IMG_7815.jpeg",
       },
       {
         name: "Tên hoạt động",
