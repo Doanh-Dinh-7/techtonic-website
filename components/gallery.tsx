@@ -1,43 +1,11 @@
 "use client";
-
-import Image from "next/image";
-import { Card, CardContent } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { useState } from "react";
-
-interface GallyProps {
-  name: string;
-  image: string;
-  category?: string;
-}
-
-function PhotoCard({ name, image, category }: GallyProps) {
-  const [imgSrc, setImgSrc] = useState(image);
-  const aspectClass =
-    category === "club" || category === "activities"
-      ? "aspect-video"
-      : "aspect-square";
-
-  return (
-    <Card className="overflow-hidden hover:shadow-lg transition-all">
-      <CardContent className="p-0 text-center">
-        {/* Nếu category là club hoặc activities thì aspect-video còn không thì aspect-square  */}
-        <div className={`${aspectClass} relative`}>
-          <Image
-            src={imgSrc}
-            alt={name}
-            fill
-            className="object-cover"
-            onError={() => setImgSrc("/placeholder.svg")}
-          />
-        </div>
-        <h3 className="font-bold text-lg py-1">{name}</h3>
-      </CardContent>
-    </Card>
-  );
-}
+import { useIntersectionObserver } from "@/hooks/use-intersection-observer";
+import Carousel from "./carousel";
 
 export default function Gallery() {
+  const { ref, hasIntersected } = useIntersectionObserver();
+
   // Sample gallery data - replace with actual images
   const galleries = {
     founders: [
@@ -145,34 +113,85 @@ export default function Gallery() {
       },
     ],
   };
+  const tabData = [
+    {
+      value: "founders",
+      label: "Founders",
+      description: "Những người sáng lập câu lạc bộ",
+    },
+    {
+      value: "membership",
+      label: "Ban chủ nhiệm",
+      description: "Đội ngũ lãnh đạo hiện tại",
+    },
+    {
+      value: "club",
+      label: "Câu lạc bộ",
+      description: "Hình ảnh tổng quan về câu lạc bộ",
+    },
+    {
+      value: "activities",
+      label: "Hoạt động",
+      description: "Các hoạt động và sự kiện của câu lạc bộ",
+    },
+  ];
 
   return (
-    <section id="gallery" className="py-24 bg-gray-50">
+    <section id="gallery" className="py-20 bg-gray-50" ref={ref}>
       <div className="container mx-auto px-4">
-        <h2 className="text-3xl md:text-4xl font-bold text-center mb-16">
+        <h2
+          className={`text-3xl md:text-4xl font-bold text-center mb-16 transition-all duration-1000 ${
+            hasIntersected
+              ? "opacity-100 translate-y-0"
+              : "opacity-0 translate-y-10"
+          }`}
+        >
           Thư viện hình ảnh
         </h2>
 
-        <Tabs defaultValue="activities" className="w-full">
-          <TabsList className="grid grid-cols-2 md:grid-cols-4 mb-8">
-            <TabsTrigger value="founders">Founders</TabsTrigger>
-            <TabsTrigger value="membership">
-              Thành viên ban chủ nhiệm
-            </TabsTrigger>
-            <TabsTrigger value="club">Câu lạc bộ</TabsTrigger>
-            <TabsTrigger value="activities">Hoạt động</TabsTrigger>
-          </TabsList>
+        <div
+          className={`transition-all duration-1000 delay-300 ${
+            hasIntersected
+              ? "opacity-100 translate-y-0"
+              : "opacity-0 translate-y-10"
+          }`}
+        >
+          <Tabs defaultValue="activities" className="w-full">
+            <TabsList className="grid grid-cols-2 md:grid-cols-4 mb-8">
+              {tabData.map((tab) => (
+                <TabsTrigger
+                  key={tab.value}
+                  value={tab.value}
+                  className="transition-all hover:scale-105"
+                >
+                  {tab.label}
+                </TabsTrigger>
+              ))}
+            </TabsList>
 
-          {Object.entries(galleries).map(([category, images]) => (
-            <TabsContent key={category} value={category}>
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-                {images.map((image, index) => (
-                  <PhotoCard key={index} {...image} category={category} />
-                ))}
-              </div>
-            </TabsContent>
-          ))}
-        </Tabs>
+            {tabData.map((tab) => (
+              <TabsContent
+                key={tab.value}
+                value={tab.value}
+                className="space-y-6"
+              >
+                <div className="text-center mb-8">
+                  <h3 className="text-2xl font-semibold mb-2">{tab.label}</h3>
+                  <p className="text-gray-600">{tab.description}</p>
+                </div>
+
+                <div className="transform transition-all duration-500 hover:scale-[1.02]">
+                  <Carousel
+                    images={galleries[tab.value as keyof typeof galleries]}
+                    autoPlay={true}
+                    interval={4000}
+                    categoryName={tab.value}
+                  />
+                </div>
+              </TabsContent>
+            ))}
+          </Tabs>
+        </div>
       </div>
     </section>
   );

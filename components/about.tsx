@@ -1,13 +1,30 @@
+"use client";
+
+import { useIntersectionObserver } from "@/hooks/use-intersection-observer";
+
 export default function About() {
+  const { ref, hasIntersected } = useIntersectionObserver();
   return (
-    <section id="about" className="py-24 bg-white">
+    <section id="about" className="py-24 bg-white" ref={ref}>
       <div className="container mx-auto px-4">
-        <h2 className="text-3xl md:text-4xl font-bold text-center mb-16">
+        <h2
+          className={`text-3xl md:text-4xl font-bold text-center mb-16 transition-all duration-1000 ${
+            hasIntersected
+              ? "opacity-100 translate-y-0"
+              : "opacity-0 translate-y-10"
+          }`}
+        >
           Giới thiệu chung
         </h2>
 
         <div className="grid md:grid-cols-3 gap-10">
-          <div className="bg-blue-50 p-8 rounded-lg shadow-md hover:shadow-lg transition-shadow">
+          <div
+            className={`bg-blue-50 p-8 rounded-lg shadow-md hover:shadow-lg transition-all duration-700 transform hover:scale-105 ${
+              hasIntersected
+                ? "opacity-100 translate-y-0 delay-100"
+                : "opacity-0 translate-y-10"
+            }`}
+          >
             <h3 className="text-2xl font-bold mb-4 text-blue-600">Tầm nhìn</h3>
             <p className="text-gray-700">
               Trở thành câu lạc bộ học thuật hàng đầu trực thuộc khoa Thống kê -
@@ -17,7 +34,13 @@ export default function About() {
             </p>
           </div>
 
-          <div className="bg-purple-50 p-8 rounded-lg shadow-md hover:shadow-lg transition-shadow">
+          <div
+            className={`bg-purple-50 p-8 rounded-lg shadow-md hover:shadow-lg transition-all duration-700 transform hover:scale-105 ${
+              hasIntersected
+                ? "opacity-100 translate-y-0 delay-300"
+                : "opacity-0 translate-y-10"
+            }`}
+          >
             <h3 className="text-2xl font-bold mb-4 text-purple-600">Sứ mệnh</h3>
             <p className="text-gray-700">
               Mang đến một môi trường học thuật cạnh tranh, lành mạnh, giúp cải
@@ -28,7 +51,13 @@ export default function About() {
             </p>
           </div>
 
-          <div className="bg-indigo-50 p-8 rounded-lg shadow-md hover:shadow-lg transition-shadow">
+          <div
+            className={`bg-indigo-50 p-8 rounded-lg shadow-md hover:shadow-lg transition-all duration-700 transform hover:scale-105 ${
+              hasIntersected
+                ? "opacity-100 translate-y-0 delay-500"
+                : "opacity-0 translate-y-10"
+            }`}
+          >
             <h3 className="text-2xl font-bold mb-4 text-indigo-600">
               Giá trị cốt lõi
             </h3>

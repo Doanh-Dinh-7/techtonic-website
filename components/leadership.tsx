@@ -3,18 +3,34 @@
 import Image from "next/image";
 import { Card, CardContent } from "@/components/ui/card";
 import { useState } from "react";
+import { useIntersectionObserver } from "@/hooks/use-intersection-observer";
 
 interface LeaderProps {
   name: string;
   position: string;
   image: string;
+  index: number;
+  hasIntersected: boolean;
 }
 
-function LeaderCard({ name, position, image }: LeaderProps) {
+function LeaderCard({
+  name,
+  position,
+  image,
+  index,
+  hasIntersected,
+}: LeaderProps) {
   const [imgSrc, setImgSrc] = useState(image);
 
   return (
-    <Card className="overflow-hidden hover:shadow-lg transition-all">
+    <Card
+      className={`overflow-hidden hover:shadow-lg transition-all duration-700 transform hover:scale-105 ${
+        hasIntersected
+          ? "opacity-100 translate-y-0"
+          : "opacity-0 translate-y-10"
+      }`}
+      style={{ transitionDelay: `${index * 50}ms` }}
+    >
       <div className="aspect-square relative">
         <Image
           src={imgSrc}
@@ -33,6 +49,8 @@ function LeaderCard({ name, position, image }: LeaderProps) {
 }
 
 export default function Leadership() {
+  const { ref, hasIntersected } = useIntersectionObserver();
+
   const leaders = [
     {
       name: "Nguyễn Văn Quang",
@@ -62,15 +80,26 @@ export default function Leadership() {
   ];
 
   return (
-    <section id="leadership" className="py-24 bg-gray-50">
+    <section id="leadership" className="py-24 bg-gray-50" ref={ref}>
       <div className="container mx-auto px-4">
-        <h2 className="text-3xl md:text-4xl font-bold text-center mb-16">
+        <h2
+          className={`text-3xl md:text-4xl font-bold text-center mb-16 transition-all duration-1000 ${
+            hasIntersected
+              ? "opacity-100 translate-y-0"
+              : "opacity-0 translate-y-10"
+          }`}
+        >
           Ban chủ nhiệm
         </h2>
 
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6">
           {leaders.map((leader, index) => (
-            <LeaderCard key={index} {...leader} />
+            <LeaderCard
+              key={index}
+              {...leader}
+              index={index}
+              hasIntersected={hasIntersected}
+            />
           ))}
         </div>
       </div>
