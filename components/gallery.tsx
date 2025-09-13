@@ -1,196 +1,50 @@
 "use client";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { useIntersectionObserver } from "@/hooks/use-intersection-observer";
-import Carousel from "./carousel";
 
-export default function Gallery() {
-  const { ref, hasIntersected } = useIntersectionObserver();
+import { motion } from "framer-motion";
+import { Badge } from "@/components/ui/badge";
+import Image from "next/image";
 
-  // Sample gallery data - replace with actual images
-  const galleries = {
-    founders: [
-      {
-        name: "Nguyễn Văn Quang",
-        image: "/founders/Nguyen_Van_Quang.jpg",
-      },
-      {
-        name: "Đinh Sỹ Quốc Doanh",
-        image: "/founders/Dinh_Sy_Quoc_Doanh.jpg",
-      },
-      {
-        name: "Nguyễn Anh Tú",
-        image: "/founders/Nguyen_Anh_Tu.jpg",
-      },
-      {
-        name: "Nguyễn Thị Kim Phượng",
-        image: "/founders/Nguyen_Thi_Kim_Phuong.jpg",
-      },
-      {
-        name: "Phạm Bảo Hân",
-        image: "/founders/Pham_Bao_Han.jpg",
-      },
-      {
-        name: "Lê Minh Thư",
-        image: "/founders/Le_Minh_Thu.jpg",
-      },
-      {
-        name: "Nguyễn Thị Ánh Tuyết",
-        image: "/founders/Nguyen_Thi_Anh_Tuyet.jpg",
-      },
-      {
-        name: "Nguyễn Đình Khoa",
-        image: "/founders/Nguyen_Dinh_Khoa.jpg",
-      },
-    ],
-    membership: [
-      {
-        name: "Nguyễn Văn Quang",
-        image: "/membership/Nguyen_Van_Quang.jpg",
-      },
-      {
-        name: "Nguyễn Anh Tú",
-        image: "/membership/Nguyen_Anh_Tu.jpg",
-      },
-      {
-        name: "Nguyễn Thị Kim Phượng",
-        image: "/membership/Nguyen_Thi_Kim_Phuong.jpg",
-      },
-      {
-        name: "Phạm Bảo Hân",
-        image: "/membership/Pham_Bao_Han.jpg",
-      },
-      {
-        name: "Đinh Sỹ Quốc Doanh",
-        image: "/membership/Dinh_Sy_Quoc_Doanh.jpg",
-      },
-      {
-        name: "Đinh Sỹ Quốc Doanh",
-        image: "/membership/Dinh_Sy_Quoc_Doanh.jpg",
-      },
-    ],
-    club: [
-      {
-        name: "Thành viên ban sự kiện",
-        image: "/cau_lac_bo/Dinh_Sy_Quoc_Doanh.jpg",
-      },
-      {
-        name: "Thành viên ban nhân sự",
-        image: "/cau_lac_bo/Dinh_Sy_Quoc_Doanh.jpg",
-      },
-      {
-        name: "Thành viên ban truyền thông",
-        image: "/cau_lac_bo/Dinh_Sy_Quoc_Doanh.jpg",
-      },
-      {
-        name: "Thành viên ban chuyên môn",
-        image: "/cau_lac_bo/Dinh_Sy_Quoc_Doanh.jpg",
-      },
-    ],
-    activities: [
-      {
-        name: "MEMTOR-MENTEE SEASON 1",
-        image: "/hoat_dong/mentor_mentee.jpg",
-      },
-      {
-        name: "MEETING MEMBER - TECH 1",
-        image: "/hoat_dong/gap_mat_gen1.jpg",
-      },
-      {
-        name: 'NGƯỜI TRONG NGÀNH "MIS"',
-        image: "/hoat_dong/nguoi_trong_nganh_mis.jpg",
-      },
-      {
-        name: "TECHWARE SEASON 1",
-        image: "/hoat_dong/IMG_7815.jpeg",
-      },
-      {
-        name: "Tên hoạt động",
-        image: "/hoat_dong/Dinh_Sy_Quoc_Doanh.jpg",
-      },
-      {
-        name: "Tên hoạt động",
-        image: "/hoat_dong/Dinh_Sy_Quoc_Doanh.jpg",
-      },
-    ],
-  };
-  const tabData = [
-    {
-      value: "founders",
-      label: "Founders",
-      description: "Những người sáng lập câu lạc bộ",
-    },
-    {
-      value: "membership",
-      label: "Ban chủ nhiệm",
-      description: "Đội ngũ lãnh đạo hiện tại",
-    },
-    {
-      value: "club",
-      label: "Câu lạc bộ",
-      description: "Hình ảnh tổng quan về câu lạc bộ",
-    },
-    {
-      value: "activities",
-      label: "Hoạt động",
-      description: "Các hoạt động và sự kiện của câu lạc bộ",
-    },
-  ];
-
+export function Gallery() {
   return (
-    <section id="gallery" className="py-20 bg-gray-50" ref={ref}>
+    <section className="py-20 bg-gray-50">
       <div className="container mx-auto px-4">
-        <h2
-          className={`text-3xl md:text-4xl font-bold text-center mb-16 transition-all duration-1000 ${
-            hasIntersected
-              ? "opacity-100 translate-y-0"
-              : "opacity-0 translate-y-10"
-          }`}
+        <motion.div
+          className="text-center space-y-4 mb-16"
+          initial={{ opacity: 0, y: 50 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8 }}
+          viewport={{ once: true }}
         >
-          Thư viện hình ảnh
-        </h2>
+          <Badge className="bg-orange-100 text-orange-700">Thư viện ảnh</Badge>
+          <h2 className="text-3xl lg:text-4xl font-bold text-gray-900">
+            Khoảnh khắc đáng nhớ
+          </h2>
+          <p className="text-lg text-gray-600 max-w-2xl mx-auto">
+            Những hình ảnh sinh động về các hoạt động của TechTonic Club
+          </p>
+        </motion.div>
 
-        <div
-          className={`transition-all duration-1000 delay-300 ${
-            hasIntersected
-              ? "opacity-100 translate-y-0"
-              : "opacity-0 translate-y-10"
-          }`}
-        >
-          <Tabs defaultValue="activities" className="w-full">
-            <TabsList className="grid grid-cols-2 md:grid-cols-4 mb-8">
-              {tabData.map((tab) => (
-                <TabsTrigger
-                  key={tab.value}
-                  value={tab.value}
-                  className="transition-all hover:scale-105"
-                >
-                  {tab.label}
-                </TabsTrigger>
-              ))}
-            </TabsList>
-
-            {tabData.map((tab) => (
-              <TabsContent
-                key={tab.value}
-                value={tab.value}
-                className="space-y-6"
-              >
-                <div className="text-center mb-8">
-                  <h3 className="text-2xl font-semibold mb-2">{tab.label}</h3>
-                  <p className="text-gray-600">{tab.description}</p>
-                </div>
-
-                <div className="transform transition-all duration-500 hover:scale-[1.02]">
-                  <Carousel
-                    images={galleries[tab.value as keyof typeof galleries]}
-                    autoPlay={true}
-                    interval={4000}
-                    categoryName={tab.value}
-                  />
-                </div>
-              </TabsContent>
-            ))}
-          </Tabs>
+        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+          {[1, 2, 3, 4, 5, 6, 7, 8].map((_, index) => (
+            <motion.div
+              key={index}
+              className="relative aspect-square rounded-lg overflow-hidden shadow-lg"
+              initial={{ opacity: 0, scale: 0.8 }}
+              whileInView={{ opacity: 1, scale: 1 }}
+              transition={{ delay: index * 0.1, duration: 0.6 }}
+              viewport={{ once: true }}
+              whileHover={{ scale: 1.05 }}
+            >
+              <Image
+                src={`/gallery_text.png?height=300&width=300&text=Gallery+${
+                  index + 1
+                }`}
+                alt={`Gallery ${index + 1}`}
+                fill
+                className="object-cover"
+              />
+            </motion.div>
+          ))}
         </div>
       </div>
     </section>

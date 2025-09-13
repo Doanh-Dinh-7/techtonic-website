@@ -1,301 +1,120 @@
 "use client";
 
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
-import { useIntersectionObserver } from "@/hooks/use-intersection-observer";
+import React, { useState, useEffect } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import { Badge } from "@/components/ui/badge";
+import { Code, Trophy, Presentation } from "lucide-react";
+import Image from "next/image";
 
-export default function Activities() {
-  const { ref, hasIntersected } = useIntersectionObserver();
+export function Activities() {
+  const [currentActivity, setCurrentActivity] = useState(0);
+
+  const activities = [
+    {
+      title: "Workshop Công nghệ",
+      description:
+        "Tổ chức workshop định kỳ về các công nghệ mới nhất như AI, Machine Learning, Web Development và Data Science.",
+      image: "/placeholder.svg?height=200&width=400&text=Workshop",
+      icon: Code,
+    },
+    {
+      title: "Hackathon & Contest",
+      description:
+        "Tham gia và tổ chức các cuộc thi lập trình, hackathon để thử thách và phát triển kỹ năng coding.",
+      image: "/placeholder.svg?height=200&width=400&text=Hackathon",
+      icon: Trophy,
+    },
+    {
+      title: "Tech Talk & Seminar",
+      description:
+        "Mời các chuyên gia trong ngành chia sẻ kinh nghiệm và xu hướng công nghệ mới nhất.",
+      image: "/placeholder.svg?height=200&width=400&text=Tech+Talk",
+      icon: Presentation,
+    },
+  ];
+
+  // Auto-rotate activities
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrentActivity((prev) => (prev + 1) % 3);
+    }, 4000);
+    return () => clearInterval(interval);
+  }, []);
 
   return (
-    <section id="activities" className="py-20 bg-white" ref={ref}>
+    <section id="activities" className="py-20">
       <div className="container mx-auto px-4">
-        <h2
-          className={`text-3xl md:text-4xl font-bold text-center mb-16 transition-all duration-1000 ${
-            hasIntersected
-              ? "opacity-100 translate-y-0"
-              : "opacity-0 translate-y-10"
-          }`}
+        <motion.div
+          className="text-center space-y-4 mb-16"
+          initial={{ opacity: 0, y: 50 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8 }}
+          viewport={{ once: true }}
         >
-          Lĩnh vực hoạt động
-        </h2>
+          <Badge className="bg-purple-100 text-purple-700">Hoạt động</Badge>
+          <h2 className="text-3xl lg:text-4xl font-bold text-gray-900">
+            Các hoạt động nổi bật
+          </h2>
+          <p className="text-lg text-gray-600 max-w-2xl mx-auto">
+            Khám phá những chương trình đa dạng và bổ ích của TechTonic Club
+          </p>
+        </motion.div>
 
-        <div
-          className={`transition-all duration-1000 delay-300 ${
-            hasIntersected
-              ? "opacity-100 translate-y-0"
-              : "opacity-0 translate-y-10"
-          }`}
-        >
-          <Tabs defaultValue="programming" className="w-full">
-            <TabsList className="grid grid-cols-2 md:grid-cols-4 mb-8">
-              <TabsTrigger
-                value="programming"
-                className="transition-all hover:scale-105"
+        {/* Activity Carousel */}
+        <div className="relative max-w-4xl mx-auto">
+          <div className="overflow-hidden rounded-2xl">
+            <AnimatePresence mode="wait">
+              <motion.div
+                key={currentActivity}
+                initial={{ opacity: 0, scale: 0.9 }}
+                animate={{ opacity: 1, scale: 1 }}
+                exit={{ opacity: 0, scale: 1.1 }}
+                transition={{ duration: 0.5, ease: "easeInOut" }}
+                className="bg-white rounded-2xl shadow-lg overflow-hidden"
               >
-                Cơ sở lập trình
-              </TabsTrigger>
-              <TabsTrigger
-                value="web"
-                className="transition-all hover:scale-105"
-              >
-                Lập trình web
-              </TabsTrigger>
-              <TabsTrigger
-                value="testing"
-                className="transition-all hover:scale-105"
-              >
-                Kiểm thử phần mềm
-              </TabsTrigger>
-              <TabsTrigger
-                value="data"
-                className="transition-all hover:scale-105"
-              >
-                Khoa học dữ liệu & AI
-              </TabsTrigger>
-            </TabsList>
+                <div className="grid md:grid-cols-2">
+                  <div className="relative h-64 md:h-auto">
+                    <Image
+                      src={
+                        activities[currentActivity].image || "/placeholder.svg"
+                      }
+                      alt={activities[currentActivity].title}
+                      fill
+                      className="object-cover"
+                    />
+                  </div>
+                  <div className="p-8 flex flex-col justify-center">
+                    <div className="flex items-center gap-3 mb-4">
+                      <div className="w-12 h-12 bg-purple-100 rounded-lg flex items-center justify-center">
+                        {React.createElement(activities[currentActivity].icon, {
+                          className: "h-6 w-6 text-purple-600",
+                        })}
+                      </div>
+                      <h3 className="text-2xl font-bold text-gray-900">
+                        {activities[currentActivity].title}
+                      </h3>
+                    </div>
+                    <p className="text-gray-600 leading-relaxed">
+                      {activities[currentActivity].description}
+                    </p>
+                  </div>
+                </div>
+              </motion.div>
+            </AnimatePresence>
+          </div>
 
-            <TabsContent value="programming" className="space-y-6">
-              <Card className="hover:shadow-lg transition-all duration-300 transform hover:scale-[1.02]">
-                <CardHeader>
-                  <CardTitle>Cơ sở lập trình</CardTitle>
-                  <CardDescription>
-                    Nền tảng cho mọi kỹ năng công nghệ
-                  </CardDescription>
-                </CardHeader>
-                <CardContent>
-                  <ul className="space-y-2">
-                    <li className="flex items-start">
-                      <span className="font-semibold mr-2">•</span>
-                      <span>Ngôn ngữ lập trình: C/C++, Java, Python</span>
-                    </li>
-                    <li className="flex items-start">
-                      <span className="font-semibold mr-2">•</span>
-                      <span>Cấu trúc dữ liệu và giải thuật</span>
-                    </li>
-                    <li className="flex items-start">
-                      <span className="font-semibold mr-2">•</span>
-                      <span>Lập trình hướng đối tượng</span>
-                    </li>
-                  </ul>
-                </CardContent>
-              </Card>
-
-              <Card className="hover:shadow-lg transition-all duration-300 transform hover:scale-[1.02]">
-                <CardHeader>
-                  <CardTitle>Cơ sở dữ liệu</CardTitle>
-                  <CardDescription>
-                    Quản lý và xử lý dữ liệu hiệu quả
-                  </CardDescription>
-                </CardHeader>
-                <CardContent>
-                  <ul className="space-y-2">
-                    <li className="flex items-start">
-                      <span className="font-semibold mr-2">•</span>
-                      <span>
-                        SQL và các hệ quản trị CSDL: MySQL, PostgreSQL
-                      </span>
-                    </li>
-                    <li className="flex items-start">
-                      <span className="font-semibold mr-2">•</span>
-                      <span>NoSQL: MongoDB, Redis</span>
-                    </li>
-                    <li className="flex items-start">
-                      <span className="font-semibold mr-2">•</span>
-                      <span>Thiết kế và tối ưu hóa cơ sở dữ liệu</span>
-                    </li>
-                  </ul>
-                </CardContent>
-              </Card>
-            </TabsContent>
-
-            <TabsContent value="web" className="space-y-6">
-              <Card className="hover:shadow-lg transition-all duration-300 transform hover:scale-[1.02]">
-                <CardHeader>
-                  <CardTitle>Back-end</CardTitle>
-                  <CardDescription>
-                    Xây dựng nền tảng vững chắc cho ứng dụng web
-                  </CardDescription>
-                </CardHeader>
-                <CardContent>
-                  <ul className="space-y-2">
-                    <li className="flex items-start">
-                      <span className="font-semibold mr-2">•</span>
-                      <span>Node.js, Express, NestJS</span>
-                    </li>
-                    <li className="flex items-start">
-                      <span className="font-semibold mr-2">•</span>
-                      <span>Java Spring Boot</span>
-                    </li>
-                    <li className="flex items-start">
-                      <span className="font-semibold mr-2">•</span>
-                      <span>API Development & RESTful Services</span>
-                    </li>
-                  </ul>
-                </CardContent>
-              </Card>
-
-              <Card className="hover:shadow-lg transition-all duration-300 transform hover:scale-[1.02]">
-                <CardHeader>
-                  <CardTitle>Front-end</CardTitle>
-                  <CardDescription>
-                    Tạo giao diện người dùng hiện đại và trải nghiệm tuyệt vời
-                  </CardDescription>
-                </CardHeader>
-                <CardContent>
-                  <ul className="space-y-2">
-                    <li className="flex items-start">
-                      <span className="font-semibold mr-2">•</span>
-                      <span>HTML, CSS, JavaScript</span>
-                    </li>
-                    <li className="flex items-start">
-                      <span className="font-semibold mr-2">•</span>
-                      <span>React, Vue, Angular</span>
-                    </li>
-                    <li className="flex items-start">
-                      <span className="font-semibold mr-2">•</span>
-                      <span>Responsive Design & UI/UX Principles</span>
-                    </li>
-                  </ul>
-                </CardContent>
-              </Card>
-
-              <Card className="hover:shadow-lg transition-all duration-300 transform hover:scale-[1.02]">
-                <CardHeader>
-                  <CardTitle>Phân tích nghiệp vụ</CardTitle>
-                  <CardDescription>
-                    Hiểu rõ yêu cầu để xây dựng giải pháp phù hợp
-                  </CardDescription>
-                </CardHeader>
-                <CardContent>
-                  <ul className="space-y-2">
-                    <li className="flex items-start">
-                      <span className="font-semibold mr-2">•</span>
-                      <span>Thu thập và phân tích yêu cầu</span>
-                    </li>
-                    <li className="flex items-start">
-                      <span className="font-semibold mr-2">•</span>
-                      <span>Thiết kế hệ thống và kiến trúc phần mềm</span>
-                    </li>
-                    <li className="flex items-start">
-                      <span className="font-semibold mr-2">•</span>
-                      <span>Agile & Scrum methodology</span>
-                    </li>
-                  </ul>
-                </CardContent>
-              </Card>
-            </TabsContent>
-
-            <TabsContent value="testing" className="space-y-6">
-              <Card className="hover:shadow-lg transition-all duration-300 transform hover:scale-[1.02]">
-                <CardHeader>
-                  <CardTitle>Manual Testing</CardTitle>
-                  <CardDescription>Đảm bảo chất lượng phần mềm</CardDescription>
-                </CardHeader>
-                <CardContent>
-                  <ul className="space-y-2">
-                    <li className="flex items-start">
-                      <span className="font-semibold mr-2">•</span>
-                      <span>Kiểm thử chức năng, UI/UX</span>
-                    </li>
-                    <li className="flex items-start">
-                      <span className="font-semibold mr-2">•</span>
-                      <span>Kiểm thử hiệu năng và bảo mật</span>
-                    </li>
-                    <li className="flex items-start">
-                      <span className="font-semibold mr-2">•</span>
-                      <span>Quản lý lỗi và báo cáo kiểm thử</span>
-                    </li>
-                  </ul>
-                </CardContent>
-              </Card>
-
-              <Card className="hover:shadow-lg transition-all duration-300 transform hover:scale-[1.02]">
-                <CardHeader>
-                  <CardTitle>Automation Testing</CardTitle>
-                  <CardDescription>
-                    Tự động hóa quy trình kiểm thử
-                  </CardDescription>
-                </CardHeader>
-                <CardContent>
-                  <ul className="space-y-2">
-                    <li className="flex items-start">
-                      <span className="font-semibold mr-2">•</span>
-                      <span>Selenium, Cypress, Playwright</span>
-                    </li>
-                    <li className="flex items-start">
-                      <span className="font-semibold mr-2">•</span>
-                      <span>API Testing: Postman, RestAssured</span>
-                    </li>
-                    <li className="flex items-start">
-                      <span className="font-semibold mr-2">•</span>
-                      <span>CI/CD và Testing trong DevOps</span>
-                    </li>
-                  </ul>
-                </CardContent>
-              </Card>
-            </TabsContent>
-
-            <TabsContent value="data" className="space-y-6">
-              <Card className="hover:shadow-lg transition-all duration-300 transform hover:scale-[1.02]">
-                <CardHeader>
-                  <CardTitle>Data Analyst</CardTitle>
-                  <CardDescription>Khai phá giá trị từ dữ liệu</CardDescription>
-                </CardHeader>
-                <CardContent>
-                  <ul className="space-y-2">
-                    <li className="flex items-start">
-                      <span className="font-semibold mr-2">•</span>
-                      <span>Thu thập và xử lý dữ liệu</span>
-                    </li>
-                    <li className="flex items-start">
-                      <span className="font-semibold mr-2">•</span>
-                      <span>Phân tích thống kê và trực quan hóa dữ liệu</span>
-                    </li>
-                    <li className="flex items-start">
-                      <span className="font-semibold mr-2">•</span>
-                      <span>Công cụ: Python, R, SQL, Power BI, Tableau</span>
-                    </li>
-                  </ul>
-                </CardContent>
-              </Card>
-
-              <Card className="hover:shadow-lg transition-all duration-300 transform hover:scale-[1.02]">
-                <CardHeader>
-                  <CardTitle>AI Engineer</CardTitle>
-                  <CardDescription>
-                    Xây dựng các giải pháp trí tuệ nhân tạo
-                  </CardDescription>
-                </CardHeader>
-                <CardContent>
-                  <ul className="space-y-2">
-                    <li className="flex items-start">
-                      <span className="font-semibold mr-2">•</span>
-                      <span>Machine Learning & Deep Learning</span>
-                    </li>
-                    <li className="flex items-start">
-                      <span className="font-semibold mr-2">•</span>
-                      <span>Natural Language Processing</span>
-                    </li>
-                    <li className="flex items-start">
-                      <span className="font-semibold mr-2">•</span>
-                      <span>Computer Vision</span>
-                    </li>
-                    <li className="flex items-start">
-                      <span className="font-semibold mr-2">•</span>
-                      <span>Frameworks: TensorFlow, PyTorch, scikit-learn</span>
-                    </li>
-                  </ul>
-                </CardContent>
-              </Card>
-            </TabsContent>
-          </Tabs>
+          {/* Activity Indicators */}
+          <div className="flex justify-center mt-6 gap-2">
+            {activities.map((_, index) => (
+              <button
+                key={index}
+                onClick={() => setCurrentActivity(index)}
+                className={`w-3 h-3 rounded-full transition-colors ${
+                  index === currentActivity ? "bg-purple-600" : "bg-gray-300"
+                }`}
+              />
+            ))}
+          </div>
         </div>
       </div>
     </section>

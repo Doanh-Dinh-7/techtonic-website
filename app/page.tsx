@@ -1,30 +1,86 @@
-import Hero from "@/components/hero";
-import About from "@/components/about";
-import Leadership from "@/components/leadership";
-import Activities from "@/components/activities";
-import Gallery from "@/components/gallery";
-import Footer from "@/components/footer";
-import Link from "next/link";
-import { Button } from "@/components/ui/button";
-import { MapPin } from "lucide-react";
+"use client";
 
-export default function Home() {
+import { useState, useEffect } from "react";
+import { Header } from "@/components/header";
+import { Hero } from "@/components/hero";
+import { About } from "@/components/about";
+import { Benefits } from "@/components/benefits";
+import { Video } from "@/components/video";
+import { Activities } from "@/components/activities";
+import { Gallery } from "@/components/gallery";
+import { Achievements } from "@/components/achievements";
+import { Testimonials } from "@/components/testimonials";
+import { Registration } from "@/components/registration";
+import { Team } from "@/components/team";
+import { Contact } from "@/components/contact";
+import { Footer } from "@/components/footer";
+import { BackToTop } from "@/components/ui/back-to-top";
+
+export default function TechTonicClubLanding() {
+  const [showHeader, setShowHeader] = useState(false);
+  const [showBackToTop, setShowBackToTop] = useState(false);
+
+  // Handle scroll for header and back-to-top visibility
+  useEffect(() => {
+    const handleScroll = () => {
+      const heroHeight = window.innerHeight;
+      const scrolled = window.scrollY > heroHeight;
+      setShowHeader(scrolled);
+      setShowBackToTop(scrolled);
+    };
+
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
+  // Scroll to top function
+  const scrollToTop = () => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  };
+
   return (
-    <main className="min-h-screen">
+    <div className="min-h-screen bg-white">
+      {/* Sticky Header */}
+      <Header show={showHeader} onLogoClick={scrollToTop} />
+
+      {/* Hero Section */}
       <Hero />
+
+      {/* About Section */}
       <About />
-      <Leadership />
+
+      {/* Benefits Section */}
+      <Benefits />
+
+      {/* Video Section */}
+      <Video />
+
+      {/* Activities Section */}
       <Activities />
+
+      {/* Gallery Section */}
       <Gallery />
-      <div className="w-full flex justify-center py-12 bg-background">
-        <Link href="/maps">
-          <Button className="flex items-center gap-2 bg-primary hover:bg-primary/90 text-primary-foreground">
-            <MapPin size={20} />
-            Khám phá bản đồ tương tác
-          </Button>
-        </Link>
-      </div>
+
+      {/* Achievements Section */}
+      <Achievements />
+
+      {/* Testimonials Section */}
+      <Testimonials />
+
+      {/* Registration Section */}
+      <Registration />
+
+      {/* Team Section */}
+      <Team />
+
+      {/* Contact Section */}
+      <Contact />
+
+      {/* Back to Top Button */}
+      <BackToTop show={showBackToTop} onClick={scrollToTop} />
+
+      {/* Footer */}
       <Footer />
-    </main>
+    </div>
   );
 }

@@ -1,0 +1,150 @@
+"use client";
+
+import React from "react";
+import { motion } from "framer-motion";
+import { Badge } from "@/components/ui/badge";
+import {
+  Mail,
+  Phone,
+  MapPin,
+  Facebook,
+  Instagram,
+  Youtube,
+} from "lucide-react";
+import Link from "next/link";
+
+export function Contact() {
+  const contactInfo = [
+    {
+      icon: Mail,
+      title: "Email",
+      info: "techtonic.club@due.edu.vn",
+      color: "blue",
+    },
+    { icon: Phone, title: "Hotline", info: "0123 456 789", color: "green" },
+    {
+      icon: MapPin,
+      title: "Địa chỉ",
+      info: "Khoa Thống kê - Tin học, ĐH Kinh tế - ĐH Đà Nẵng",
+      color: "red",
+    },
+  ];
+
+  const socialLinks = [
+    { icon: Facebook, color: "blue", href: "#" },
+    { icon: Instagram, color: "pink", href: "#" },
+    { icon: Youtube, color: "red", href: "#" },
+  ];
+
+  return (
+    <section
+      id="contact"
+      className="py-20 bg-gray-900 text-white relative overflow-hidden"
+    >
+      {/* Animated background */}
+      <motion.div
+        className="absolute inset-0 opacity-10"
+        animate={{
+          background: [
+            "linear-gradient(45deg, #3b82f6, #8b5cf6)",
+            "linear-gradient(45deg, #8b5cf6, #3b82f6)",
+            "linear-gradient(45deg, #3b82f6, #8b5cf6)",
+          ],
+        }}
+        transition={{ duration: 10, repeat: Number.POSITIVE_INFINITY }}
+      />
+
+      <div className="container mx-auto px-4 relative">
+        <motion.div
+          className="text-center space-y-4 mb-16"
+          initial={{ opacity: 0, y: 50 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8 }}
+          viewport={{ once: true }}
+        >
+          <Badge className="bg-white/20 text-white border-white/30">
+            Liên hệ
+          </Badge>
+          <h2 className="text-3xl lg:text-4xl font-bold">
+            Kết nối với TechTonic Club
+          </h2>
+          <p className="text-lg text-gray-300 max-w-2xl mx-auto">
+            Luôn sẵn sàng hỗ trợ và giải đáp mọi thắc mắc của bạn
+          </p>
+        </motion.div>
+
+        <div className="max-w-2xl mx-auto">
+          <motion.div
+            className="bg-white/5 rounded-2xl p-8"
+            initial={{ opacity: 0, y: 50 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8 }}
+            viewport={{ once: true }}
+          >
+            <div className="space-y-6">
+              {contactInfo.map((contact, index) => (
+                <motion.div
+                  key={index}
+                  className="flex items-center gap-4"
+                  initial={{ opacity: 0, x: -30 }}
+                  whileInView={{ opacity: 1, x: 0 }}
+                  transition={{ delay: index * 0.2, duration: 0.6 }}
+                  viewport={{ once: true }}
+                >
+                  <motion.div
+                    className={`w-12 h-12 bg-${contact.color}-600 rounded-lg flex items-center justify-center`}
+                    whileHover={{
+                      scale: 1.1,
+                      rotate: 360,
+                      transition: { duration: 0.5 },
+                    }}
+                  >
+                    {React.createElement(contact.icon, {
+                      className: "h-6 w-6",
+                    })}
+                  </motion.div>
+                  <div>
+                    <h3 className="font-semibold">{contact.title}</h3>
+                    <p className="text-gray-300">{contact.info}</p>
+                  </div>
+                </motion.div>
+              ))}
+            </div>
+
+            <motion.div
+              className="mt-8 pt-6 border-t border-white/20"
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.6, duration: 0.6 }}
+              viewport={{ once: true }}
+            >
+              <h3 className="text-xl font-semibold mb-4">Theo dõi chúng tôi</h3>
+              <div className="flex gap-4 justify-center">
+                {socialLinks.map((social, index) => (
+                  <motion.div
+                    key={index}
+                    whileHover={{
+                      y: -5,
+                      rotate: [0, -10, 10, -10, 0],
+                      transition: { duration: 0.5 },
+                    }}
+                    whileTap={{ scale: 0.9 }}
+                  >
+                    <Link
+                      href={social.href}
+                      className={`w-12 h-12 bg-${social.color}-600 rounded-lg flex items-center justify-center hover:bg-${social.color}-700 transition-colors`}
+                    >
+                      {React.createElement(social.icon, {
+                        className: "h-6 w-6",
+                      })}
+                    </Link>
+                  </motion.div>
+                ))}
+              </div>
+            </motion.div>
+          </motion.div>
+        </div>
+      </div>
+    </section>
+  );
+}
