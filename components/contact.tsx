@@ -25,7 +25,7 @@ export function Contact() {
     {
       icon: MapPin,
       title: "Địa chỉ",
-      info: "Khoa Thống kê - Tin học, ĐH Kinh tế - ĐH Đà Nẵng",
+      info: "Hội Sinh viên, ĐH Kinh tế - ĐH Đà Nẵng",
       color: "red",
     },
   ];
@@ -62,7 +62,7 @@ export function Contact() {
           transition={{ duration: 0.8 }}
           viewport={{ once: true }}
         >
-          <Badge className="bg-white/20 text-white border-white/30">
+          <Badge className="bg-white/20 text-white border-white/30 hover:bg-white/30 hover:text-white">
             Liên hệ
           </Badge>
           <h2 className="text-3xl lg:text-4xl font-bold">

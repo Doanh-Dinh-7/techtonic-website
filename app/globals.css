@@ -97,3 +97,66 @@
 html {
   scroll-behavior: smooth;
 }
+
+/* Infinite scroll animation for partners */
+@keyframes scroll {
+  0% {
+    transform: translateX(0);
+  }
+
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+@keyframes scroll-smooth {
+  0% {
+    transform: translateX(0);
+  }
+
+  100% {
+    transform: translateX(calc(-100% / 2));
+  }
+}
+
+/* Đối tác scroll */
+/* .animate-scroll {
+  animation: scroll 20s linear infinite;
+}
+
+.animate-scroll-smooth {
+  animation: scroll-smooth 25s linear infinite;
+} */
+
+@keyframes scroll-left {
+  from {
+    transform: translateX(0);
+  }
+
+  to {
+    transform: translateX(calc(-1 * var(--total-width)));
+  }
+}
+
+@keyframes scroll-right {
+  from {
+    transform: translateX(calc(-1 * var(--total-width)));
+  }
+
+  to {
+    transform: translateX(0);
+  }
+}
+
+/* Dynamic animation classes */
+.scroll-left-dynamic {
+  animation: scroll-left var(--animation-duration, 15s) linear infinite;
+}
+
+.scroll-right-dynamic {
+  animation: scroll-right var(--animation-duration, 15s) linear infinite;
+}
+
+.hover\:pause-animation:hover {
+  animation-play-state: paused;
+}

@@ -9,45 +9,66 @@ import {
 } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { Code, Users, ChevronRight } from "lucide-react";
+import { Code, Users, ChevronRight, ChevronDown } from "lucide-react";
 import Image from "next/image";
+import { toast } from "@/hooks/use-toast";
 
 export function Hero() {
+  const [isLoaded, setIsLoaded] = useState(false);
+
+  useEffect(() => {
+    setIsLoaded(true);
+  }, []);
+
+  const scrollToNext = () => {
+    const nextSection = document.getElementById("about");
+    if (nextSection) {
+      nextSection.scrollIntoView({ behavior: "smooth" });
+    }
+  };
+
   const { scrollY } = useScroll();
   const heroRef = useRef(null);
   const [currentHeroImage, setCurrentHeroImage] = useState(0);
 
   // Parallax effect for hero background
-  const heroY = useTransform(scrollY, [0, 500], [0, 150]);
-  const heroScale = useTransform(scrollY, [0, 500], [1, 1.1]);
+  const viewportHeight =
+    typeof window !== "undefined" ? window.innerHeight : 800;
+  const heroY = useTransform(scrollY, [0, viewportHeight], [0, 150]);
+  const heroScale = useTransform(scrollY, [0, viewportHeight], [1, 1.1]);
+
+  const heroImages = [
+    "/hero/mentor_mentee_ss1.webp",
+    "/hero/tech_x_plore.webp",
+    "/hero/cslt_1.webp",
+    "/hero/techware_ss1.webp",
+    "/hero/nckh_s1.webp",
+    "/hero/mentor_mentee_ss2.webp",
+  ];
 
   // Auto-rotate hero images every 5 seconds
   useEffect(() => {
     const interval = setInterval(() => {
-      setCurrentHeroImage((prev) => (prev + 1) % 4);
+      setCurrentHeroImage((prev) => (prev + 1) % heroImages.length);
     }, 5000);
     return () => clearInterval(interval);
-  }, []);
-
-  const heroImages = [
-    "/placeholder.svg?height=500&width=600&text=Coding+Workshop",
-    "/placeholder.svg?height=500&width=600&text=Tech+Meetup",
-    "/placeholder.svg?height=500&width=600&text=Hackathon+Event",
-    "/placeholder.svg?height=500&width=600&text=Team+Collaboration",
-  ];
+  }, [heroImages.length]);
 
   return (
+    // background color: #3ca2d8, #3db4e7, #3654a5
     <section
       ref={heroRef}
-      className="relative bg-gradient-to-br from-blue-600 via-purple-600 to-indigo-700 text-white overflow-hidden min-h-screen flex items-center"
+      className="relative bg-gradient-to-br from-[#3654a5] via-[#3db4e7] to-[#3ca2d8] text-white overflow-hidden flex items-center min-h-screen"
     >
+      {" "}
+      <div className="absolute inset-0 bg-[url('/thumbnail.jpg')] bg-cover bg-center opacity-20"></div>
       <motion.div
         className="absolute inset-0 bg-black/20"
         style={{ y: heroY, scale: heroScale }}
       />
-      <div className="relative container mx-auto px-4 py-20 lg:py-32">
-        <div className="grid lg:grid-cols-2 gap-12 items-center">
-          <div className="space-y-8">
+      <div className="relative container mx-auto px-4 py-10 lg:py-20 ">
+        <div className="grid lg:grid-cols-2 gap-12 items-center justify-items-center">
+          <div className="space-y-8 text-center lg:text-left">
             <motion.div
               className="space-y-4"
               initial={{ opacity: 0, y: 50 }}
@@ -60,7 +81,14 @@ export function Hero() {
                 transition={{ delay: 0.2, duration: 0.6 }}
               >
                 <Badge className="bg-white/20 text-white border-white/30 hover:bg-white/30">
-                  💻 Khoa Thống kê - Tin học
+                  <Image
+                    src="/hero/logo_school.webp"
+                    alt="Due"
+                    width={20}
+                    height={20}
+                    className="mr-2"
+                  />
+                  Trường Đại học Kinh tế - Đại học Đà Nẵng
                 </Badge>
               </motion.div>
               <motion.h1
@@ -85,11 +113,11 @@ export function Hero() {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.8, duration: 0.8 }}
               >
-                Nơi nuôi dưỡng đam mê công nghệ và kết nối tương lai
+                Nơi nuôi dưỡng đam mê công nghệ và phát triển kỹ năng chuyên môn
               </motion.p>
             </motion.div>
             <motion.div
-              className="flex flex-col sm:flex-row gap-4"
+              className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start"
               initial={{ opacity: 0, scale: 0.8 }}
               animate={{ opacity: 1, scale: 1 }}
               transition={{
@@ -109,19 +137,35 @@ export function Hero() {
                 <Button
                   size="lg"
                   className="bg-white text-blue-600 hover:bg-blue-50 font-semibold"
+                  onClick={() =>
+                    toast({
+                      title: "Coming soon!",
+                      description: "Tính năng đăng ký sẽ sớm ra mắt",
+                      variant: "info",
+                    })
+                  }
                 >
                   <Users className="mr-2 h-5 w-5" />
                   Tham gia ngay
                 </Button>
               </motion.div>
               <motion.div
-                whileHover={{ scale: 1.05 }}
+                whileHover={{
+                  scale: 1.05,
+                  boxShadow: "0 10px 25px rgba(0,0,0,0.2)",
+                }}
                 whileTap={{ scale: 0.95 }}
               >
                 <Button
                   size="lg"
                   variant="outline"
-                  className="border-white text-white hover:bg-white/10 bg-transparent"
+                  className="border-white text-white bg-blue-600 hover:bg-blue-500 hover:text-white "
+                  onClick={() => {
+                    window.open(
+                      "https://www.facebook.com/TechTonic.Club17",
+                      "_blank"
+                    );
+                  }}
                 >
                   Khám phá thêm
                   <ChevronRight className="ml-2 h-5 w-5" />
@@ -130,13 +174,13 @@ export function Hero() {
             </motion.div>
           </div>
           <motion.div
-            className="relative"
+            className="relative items-center justify-center"
             initial={{ opacity: 0, x: 100 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ delay: 0.5, duration: 1 }}
           >
-            <div className="relative h-[500px] w-full rounded-2xl overflow-hidden shadow-2xl">
-              <AnimatePresence mode="wait">
+            <div className="relative h-[500px] w-[500px] rounded-2xl overflow-hidden shadow-2xl aspect-square">
+              <AnimatePresence mode="sync">
                 <motion.div
                   key={currentHeroImage}
                   initial={{ opacity: 0, scale: 1.1 }}
@@ -149,7 +193,7 @@ export function Hero() {
                     src={heroImages[currentHeroImage] || "/placeholder.svg"}
                     alt="TechTonic Club Activities"
                     fill
-                    className="object-cover"
+                    className="object-cover rounded-2xl"
                   />
                 </motion.div>
               </AnimatePresence>
@@ -171,6 +215,18 @@ export function Hero() {
           </motion.div>
         </div>
       </div>
+      {/* Scroll indicator */}
+      <button
+        onClick={scrollToNext}
+        className={`absolute bottom-1 left-1/2 transform -translate-x-1/2 text-white/70 hover:text-white transition-all duration-1000 delay-700 ${
+          isLoaded ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"
+        }`}
+      >
+        <div className="flex flex-col items-center animate-bounce">
+          <span className="text-sm mb-2">Cuộn xuống</span>
+          <ChevronDown size={24} />
+        </div>
+      </button>
     </section>
   );
 }

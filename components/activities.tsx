@@ -3,7 +3,13 @@
 import React, { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Badge } from "@/components/ui/badge";
-import { Code, Trophy, Presentation } from "lucide-react";
+import {
+  BookOpenCheck,
+  HeartHandshake,
+  Trophy,
+  LandPlot,
+  Presentation,
+} from "lucide-react";
 import Image from "next/image";
 
 export function Activities() {
@@ -11,35 +17,114 @@ export function Activities() {
 
   const activities = [
     {
-      title: "Workshop Công nghệ",
-      description:
-        "Tổ chức workshop định kỳ về các công nghệ mới nhất như AI, Machine Learning, Web Development và Data Science.",
-      image: "/placeholder.svg?height=200&width=400&text=Workshop",
-      icon: Code,
+      title: "Chia sẻ - Hướng dẫn",
+      description: (
+        <>
+          Với tinh thần{" "}
+          <em>
+            <strong>"Học để chia sẻ – Chia sẻ để phát triển"</strong>
+          </em>
+          , TechTonic tổ chức các <em>lớp chia sẻ nội bộ</em> hỗ trợ sinh viên
+          củng cố kiến thức thực tế, tập trung vào các môn nền tảng như:{" "}
+          <strong>Lập trình cơ bản bằng Python</strong>,{" "}
+          <strong>Phân tích nghiệp vụ (BA)</strong>,{" "}
+          <strong>Cơ sở dữ liệu</strong>, <strong>Lập trình Web (FE/BE)</strong>
+          .
+        </>
+      ),
+      image: "/activity/cshd.webp",
+      icon: BookOpenCheck,
+      position: "center",
     },
     {
-      title: "Hackathon & Contest",
-      description:
-        "Tham gia và tổ chức các cuộc thi lập trình, hackathon để thử thách và phát triển kỹ năng coding.",
-      image: "/placeholder.svg?height=200&width=400&text=Hackathon",
+      title: (
+        <>
+          Mentor-Mentee{" "}
+          <span className="text-sm text-gray-500"> "From Us To You"</span>
+        </>
+      ),
+      description: (
+        <>
+          Chương trình{" "}
+          <em>
+            <strong>Mentor–Mentee</strong>
+          </em>{" "}
+          kết nối <strong>sinh viên năm nhất, năm hai</strong> với{" "}
+          <strong>anh chị giàu kinh nghiệm</strong>, tạo{" "}
+          <em>không gian học hỏi</em> và <em>định hướng toàn diện</em>. Qua sự{" "}
+          <strong>chia sẻ tận tâm</strong>, Mentee được hỗ trợ{" "}
+          <strong>học tập, kỹ năng, ngoại khóa</strong> và{" "}
+          <em>đời sống sinh viên</em>, mở rộng <strong>quan hệ</strong> và{" "}
+          <em>phát triển bản thân bền vững</em>.
+        </>
+      ),
+      image: "/activity/mentor_mentee.webp",
+      icon: HeartHandshake,
+      position: "center",
+    },
+    {
+      title: (
+        <>
+          ICPC-OLP, NCKH
+          <span className="text-sm text-gray-500"> & Contest</span>
+        </>
+      ),
+      description: (
+        <>
+          Các thành viên được tham gia <b>ICPC-OLP</b>, <em>Smart Campus</em>,{" "}
+          <em>Hackathon</em> và <em>Nghiên cứu khoa học</em>, thử thách bản thân
+          qua <strong>coding contest</strong>, rèn luyện{" "}
+          <b>tư duy giải quyết vấn đề</b>, <i>tinh thần đồng đội</i> và tích lũy{" "}
+          <strong>kinh nghiệm thực chiến</strong> cho{" "}
+          <em>hành trình nghề nghiệp công nghệ</em>.
+        </>
+      ),
+      image: "/activity/olp_icpc.webp",
       icon: Trophy,
+      position: "top center",
     },
     {
-      title: "Tech Talk & Seminar",
-      description:
-        "Mời các chuyên gia trong ngành chia sẻ kinh nghiệm và xu hướng công nghệ mới nhất.",
-      image: "/placeholder.svg?height=200&width=400&text=Tech+Talk",
+      title: "TechWare",
+      description: (
+        <>
+          <strong>TechWare</strong> là <em>chương trình nội bộ biểu tượng</em>{" "}
+          của TechTonic, nơi <b>5 đội</b> (Dev, BA, Tester, UX, IT Support) cùng
+          vượt <em>thử thách sáng tạo</em>, <i>phá mật thư</i>,{" "}
+          <i>truy tìm kho báu</i>. Đây là <strong>sân chơi gắn kết</strong>,
+          giúp thành viên <b>thấu hiểu</b>, <b>kết nối</b> và{" "}
+          <em>xây dựng cộng đồng bền vững</em>.
+        </>
+      ),
+      image: "/activity/techware.webp",
+      icon: LandPlot,
+      position: "center",
+    },
+    {
+      title: "Người trong ngành MIS",
+      description: (
+        <>
+          {" "}
+          Buổi trò chuyện là <strong>cầu nối</strong> giữa{" "}
+          <em>anh chị đi trước</em> và <em>sinh viên</em>, chia sẻ đa dạng chủ
+          đề từ <b>AI, Chatbot, dữ liệu, công nghệ số</b> đến{" "}
+          <b>lập trình, kiểm thử</b>. Qua <em>câu chuyện thực tế</em>, sinh viên
+          nhận được <strong>góc nhìn nghề nghiệp</strong>,{" "}
+          <b>kỹ năng thiết yếu</b> và <em>định hướng tương lai</em>.
+        </>
+      ),
+      image: "/activity/ntn_mis.webp",
       icon: Presentation,
+      position: "bottom center",
     },
   ];
 
   // Auto-rotate activities
   useEffect(() => {
     const interval = setInterval(() => {
-      setCurrentActivity((prev) => (prev + 1) % 3);
-    }, 4000);
+      setCurrentActivity((prev) => (prev + 1) % activities.length);
+    }, 5000);
     return () => clearInterval(interval);
-  }, []);
+  }, [activities.length]);
 
   return (
     <section id="activities" className="py-20">
@@ -51,7 +136,9 @@ export function Activities() {
           transition={{ duration: 0.8 }}
           viewport={{ once: true }}
         >
-          <Badge className="bg-purple-100 text-purple-700">Hoạt động</Badge>
+          <Badge className="bg-purple-100 text-purple-700 hover:bg-purple-700 hover:text-purple-100">
+            Hoạt động
+          </Badge>
           <h2 className="text-3xl lg:text-4xl font-bold text-gray-900">
             Các hoạt động nổi bật
           </h2>
@@ -61,8 +148,8 @@ export function Activities() {
         </motion.div>
 
         {/* Activity Carousel */}
-        <div className="relative max-w-4xl mx-auto">
-          <div className="overflow-hidden rounded-2xl">
+        <div className="relative max-w-5xl mx-auto">
+          <div className="overflow-hidden rounded-2xl shadow-2xl shadow-purple-200">
             <AnimatePresence mode="wait">
               <motion.div
                 key={currentActivity}
@@ -70,17 +157,20 @@ export function Activities() {
                 animate={{ opacity: 1, scale: 1 }}
                 exit={{ opacity: 0, scale: 1.1 }}
                 transition={{ duration: 0.5, ease: "easeInOut" }}
-                className="bg-white rounded-2xl shadow-lg overflow-hidden"
+                className="bg-white rounded-2xl overflow-hidden"
               >
-                <div className="grid md:grid-cols-2">
-                  <div className="relative h-64 md:h-auto">
+                <div className="grid lg:grid-cols-2 ">
+                  <div className="relative h-[40vh]">
                     <Image
                       src={
                         activities[currentActivity].image || "/placeholder.svg"
                       }
-                      alt={activities[currentActivity].title}
+                      alt={activities[currentActivity].title as string}
                       fill
-                      className="object-cover"
+                      className="object-cover object-center"
+                      style={{
+                        objectPosition: activities[currentActivity].position,
+                      }} // có thể đổi: "top", "bottom", "left", "right"
                     />
                   </div>
                   <div className="p-8 flex flex-col justify-center">
@@ -94,7 +184,7 @@ export function Activities() {
                         {activities[currentActivity].title}
                       </h3>
                     </div>
-                    <p className="text-gray-600 leading-relaxed">
+                    <p className="text-gray-600 leading-relaxed text-justify">
                       {activities[currentActivity].description}
                     </p>
                   </div>

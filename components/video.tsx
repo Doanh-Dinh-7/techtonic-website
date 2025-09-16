@@ -16,7 +16,9 @@ export function Video() {
           transition={{ duration: 0.8 }}
           viewport={{ once: true }}
         >
-          <Badge className="bg-red-100 text-red-700">Video giới thiệu</Badge>
+          <Badge className="bg-red-100 text-red-700 hover:bg-red-700 hover:text-red-100">
+            Video giới thiệu
+          </Badge>
           <h2 className="text-3xl lg:text-4xl font-bold text-gray-900">
             Khám phá TechTonic Club
           </h2>
@@ -32,22 +34,15 @@ export function Video() {
           transition={{ duration: 0.8 }}
           viewport={{ once: true }}
         >
-          <div className="relative bg-gray-900 rounded-2xl overflow-hidden shadow-2xl aspect-video">
-            <div className="absolute inset-0 flex items-center justify-center">
-              <motion.button
-                className="w-20 h-20 bg-white/20 backdrop-blur-sm rounded-full flex items-center justify-center hover:bg-white/30 transition-colors"
-                whileHover={{ scale: 1.1 }}
-                whileTap={{ scale: 0.9 }}
-              >
-                <Play className="h-8 w-8 text-white ml-1" />
-              </motion.button>
-            </div>
-            <Image
-              src="/placeholder.svg?height=400&width=800&text=TechTonic+Club+Video"
-              alt="TechTonic Club Video"
-              fill
-              className="object-cover opacity-70"
-            />
+          <div className="relative bg-gray-900 rounded-2xl overflow-hidden shadow-2xl shadow-red-200 aspect-video ">
+            <iframe
+              className="w-full h-full"
+              src="https://www.youtube.com/embed/0qoiC8_fi8k?rel=0&autoplay=0"
+              title="YouTube video player"
+              frameBorder="0"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+              allowFullScreen
+            ></iframe>
           </div>
         </motion.div>
       </div>

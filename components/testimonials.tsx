@@ -34,10 +34,10 @@ export function Testimonials() {
   // Auto-rotate testimonials
   useEffect(() => {
     const interval = setInterval(() => {
-      setCurrentTestimonial((prev) => (prev + 1) % 3);
+      setCurrentTestimonial((prev) => (prev + 1) % testimonials.length);
     }, 5000);
     return () => clearInterval(interval);
-  }, []);
+  }, [testimonials.length]);
 
   return (
     <section className="py-20 bg-gray-50">
@@ -49,7 +49,9 @@ export function Testimonials() {
           transition={{ duration: 0.8 }}
           viewport={{ once: true }}
         >
-          <Badge className="bg-indigo-100 text-indigo-700">Cảm nhận</Badge>
+          <Badge className="bg-indigo-100 text-indigo-700 hover:bg-indigo-700 hover:text-indigo-100">
+            Cảm nhận
+          </Badge>
           <h2 className="text-3xl lg:text-4xl font-bold text-gray-900">
             Thành viên nói gì về chúng tôi
           </h2>

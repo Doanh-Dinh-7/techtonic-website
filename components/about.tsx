@@ -34,7 +34,9 @@ export function About() {
           transition={{ duration: 0.8 }}
           viewport={{ once: true }}
         >
-          <Badge className="bg-blue-100 text-blue-700">Về chúng tôi</Badge>
+          <Badge className="bg-blue-100 text-blue-700 hover:bg-blue-700 hover:text-blue-100">
+            Về chúng tôi
+          </Badge>
           <h2 className="text-3xl lg:text-4xl font-bold text-gray-900">
             TechTonic Club
           </h2>
@@ -43,26 +45,35 @@ export function About() {
         <div className="max-w-4xl mx-auto">
           <Tabs defaultValue="vision" className="w-full">
             <TabsList className="grid w-full grid-cols-3">
-              <TabsTrigger value="vision" className="flex items-center gap-2">
+              <TabsTrigger
+                value="vision"
+                className="flex items-center gap-2 data-[state=active]:text-blue-600"
+              >
                 <Eye className="h-4 w-4" />
                 Tầm nhìn
               </TabsTrigger>
-              <TabsTrigger value="mission" className="flex items-center gap-2">
+              <TabsTrigger
+                value="mission"
+                className="flex items-center gap-2 data-[state=active]:text-green-600"
+              >
                 <Target className="h-4 w-4" />
                 Sứ mệnh
               </TabsTrigger>
-              <TabsTrigger value="values" className="flex items-center gap-2">
+              <TabsTrigger
+                value="values"
+                className="flex items-center gap-2 data-[state=active]:text-purple-600"
+              >
                 <Gem className="h-4 w-4" />
                 Giá trị cốt lõi
               </TabsTrigger>
             </TabsList>
 
-            <TabsContent value="vision" className="mt-8">
+            <TabsContent value="vision" className="mt-8 ">
               <motion.div
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6 }}
-                className="bg-white rounded-2xl p-8 shadow-lg"
+                className="bg-white rounded-2xl p-8 shadow-lg shadow-blue-200"
               >
                 <div className="flex items-center gap-4 mb-6">
                   <div className="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center">
@@ -71,10 +82,10 @@ export function About() {
                   <h3 className="text-2xl font-bold text-gray-900">Tầm nhìn</h3>
                 </div>
                 <p className="text-lg text-gray-600 leading-relaxed">
-                  Trở thành câu lạc bộ học thuật hàng đầu trực thuộc khoa Thống
-                  kê - Tin học tại trường Đại học Kinh Tế - Đại học Đà Nẵng, nơi
-                  trao đi những giá trị sâu sắc cho sinh viên trong khoảng thời
-                  gian học đại học và tương lai.
+                  Trở thành câu lạc bộ học thuật hàng đầu trực thuộc Hội Sinh
+                  viên tại trường Đại học Kinh Tế - Đại học Đà Nẵng, nơi trao đi
+                  những giá trị sâu sắc cho sinh viên trong khoảng thời gian học
+                  đại học và tương lai.
                 </p>
               </motion.div>
             </TabsContent>
@@ -84,7 +95,7 @@ export function About() {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6 }}
-                className="bg-white rounded-2xl p-8 shadow-lg"
+                className="bg-white rounded-2xl p-8 shadow-lg shadow-green-200"
               >
                 <div className="flex items-center gap-4 mb-6">
                   <div className="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center">
@@ -107,7 +118,7 @@ export function About() {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6 }}
-                className="bg-white rounded-2xl p-8 shadow-lg"
+                className="bg-white rounded-2xl p-8 shadow-lg shadow-purple-200"
               >
                 <div className="flex items-center gap-4 mb-6">
                   <div className="w-12 h-12 bg-purple-100 rounded-lg flex items-center justify-center">

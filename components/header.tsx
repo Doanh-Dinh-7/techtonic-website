@@ -4,6 +4,7 @@ import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { Code, Menu, X, Users } from "lucide-react";
+import { toast } from "@/hooks/use-toast";
 
 interface HeaderProps {
   show: boolean;
@@ -12,6 +13,14 @@ interface HeaderProps {
 
 export function Header({ show, onLogoClick }: HeaderProps) {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+
+  const handleJoinClick = () => {
+    toast({
+      title: "Coming soon!",
+      description: "Tính năng đăng ký sẽ sớm ra mắt",
+      variant: "success",
+    });
+  };
 
   const navigationItems = [
     { name: "Giới thiệu", href: "#about" },
@@ -46,9 +55,7 @@ export function Header({ show, onLogoClick }: HeaderProps) {
                 onClick={onLogoClick}
                 whileHover={{ scale: 1.05 }}
               >
-                <div className="w-8 h-8 bg-gradient-to-r from-blue-600 to-purple-600 rounded-lg flex items-center justify-center">
-                  <Code className="h-5 w-5 text-white" />
-                </div>
+                <img src="/logo.png" alt="TechTonic Club" className="h-8" />
                 <span className="font-bold text-gray-900">TechTonic Club</span>
               </motion.div>
 
@@ -76,7 +83,10 @@ export function Header({ show, onLogoClick }: HeaderProps) {
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
                 >
-                  <Button className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700">
+                  <Button
+                    className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700"
+                    onClick={handleJoinClick}
+                  >
                     <Users className="mr-2 h-4 w-4" />
                     Tham gia ngay
                   </Button>
@@ -121,7 +131,10 @@ export function Header({ show, onLogoClick }: HeaderProps) {
                       </a>
                     ))}
                     <div className="px-4">
-                      <Button className="w-full bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700">
+                      <Button
+                        className="w-full bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700"
+                        onClick={handleJoinClick}
+                      >
                         <Users className="mr-2 h-4 w-4" />
                         Tham gia ngay
                       </Button>

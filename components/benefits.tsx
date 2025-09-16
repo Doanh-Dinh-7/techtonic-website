@@ -23,6 +23,10 @@ export function Benefits() {
       desc: "Học và thực hành các ngôn ngữ lập trình hiện đại, framework và công nghệ mới nhất trong ngành.",
       image: "/placeholder.svg?height=300&width=400&text=Programming+Skills",
       color: "blue",
+      textColor: "text-blue-600",
+      bgColor: "bg-blue-100",
+      shadowColor: "shadow-blue-200",
+      hoverShadowColor: "hover:shadow-blue-200",
     },
     {
       icon: Network,
@@ -30,6 +34,10 @@ export function Benefits() {
       desc: "Kết nối với sinh viên cùng đam mê, alumni và các chuyên gia trong ngành công nghệ thông tin.",
       image: "/placeholder.svg?height=300&width=400&text=Networking",
       color: "green",
+      textColor: "text-green-600",
+      bgColor: "bg-green-100",
+      shadowColor: "shadow-green-200",
+      hoverShadowColor: "hover:shadow-green-200",
     },
     {
       icon: Lightbulb,
@@ -37,6 +45,10 @@ export function Benefits() {
       desc: "Tham gia các dự án thực tế, từ ý tưởng đến triển khai, giúp tích lũy kinh nghiệm làm việc.",
       image: "/placeholder.svg?height=300&width=400&text=Real+Projects",
       color: "yellow",
+      textColor: "text-yellow-600",
+      bgColor: "bg-yellow-100",
+      shadowColor: "shadow-yellow-200",
+      hoverShadowColor: "hover:shadow-yellow-200",
     },
     {
       icon: Trophy,
@@ -44,6 +56,10 @@ export function Benefits() {
       desc: "Tham gia các cuộc thi lập trình, hackathon cấp trường, quốc gia và quốc tế.",
       image: "/placeholder.svg?height=300&width=400&text=Competitions",
       color: "purple",
+      textColor: "text-purple-600",
+      bgColor: "bg-purple-100",
+      shadowColor: "shadow-purple-200",
+      hoverShadowColor: "hover:shadow-purple-200",
     },
     {
       icon: GraduationCap,
@@ -51,13 +67,21 @@ export function Benefits() {
       desc: "Rèn luyện kỹ năng mềm, leadership và khả năng làm việc nhóm thông qua các hoạt động CLB.",
       image: "/placeholder.svg?height=300&width=400&text=Personal+Development",
       color: "red",
+      textColor: "text-red-600",
+      bgColor: "bg-red-100",
+      shadowColor: "shadow-red-200",
+      hoverShadowColor: "hover:shadow-red-200",
     },
     {
       icon: Handshake,
       title: "Cơ hội việc làm",
       desc: "Tiếp cận thông tin tuyển dụng, thực tập và cơ hội nghề nghiệp từ các đối tác doanh nghiệp.",
       image: "/placeholder.svg?height=300&width=400&text=Job+Opportunities",
-      color: "indigo",
+      color: "orange",
+      textColor: "text-orange-600",
+      bgColor: "bg-orange-100",
+      shadowColor: "shadow-orange-200",
+      hoverShadowColor: "hover:shadow-orange-200",
     },
   ];
 
@@ -71,7 +95,7 @@ export function Benefits() {
           transition={{ duration: 0.8 }}
           viewport={{ once: true }}
         >
-          <Badge className="bg-green-100 text-green-700">
+          <Badge className="bg-green-100 text-green-700 hover:bg-green-700 hover:text-green-100">
             Lợi ích tham gia
           </Badge>
           <h2 className="text-3xl lg:text-4xl font-bold text-gray-900">
@@ -97,17 +121,19 @@ export function Benefits() {
             >
               <Dialog>
                 <DialogTrigger asChild>
-                  <Card className="border-0 shadow-lg hover:shadow-xl transition-shadow h-full cursor-pointer">
-                    <CardHeader>
+                  <Card
+                    className={`border-0 shadow-lg hover:shadow-xl transition-shadow h-full cursor-pointer ${benefit.shadowColor} ${benefit.hoverShadowColor}`}
+                  >
+                    <CardHeader className="flex-row items-center gap-4">
                       <motion.div
-                        className={`w-12 h-12 bg-${benefit.color}-100 rounded-lg flex items-center justify-center mb-4`}
+                        className={`w-12 h-12 ${benefit.bgColor} rounded-lg flex items-center justify-center`}
                         whileHover={{
                           rotate: [0, -5, 5, -5, 0],
                           transition: { duration: 0.5 },
                         }}
                       >
                         {React.createElement(benefit.icon, {
-                          className: `h-6 w-6 text-${benefit.color}-600`,
+                          className: `h-6 w-6 ${benefit.textColor}`,
                         })}
                       </motion.div>
                       <CardTitle>{benefit.title}</CardTitle>
@@ -117,14 +143,14 @@ export function Benefits() {
                     </CardContent>
                   </Card>
                 </DialogTrigger>
-                <DialogContent className="max-w-2xl">
+                <DialogContent>
                   <div className="space-y-4">
                     <div className="flex items-center gap-3">
                       <div
-                        className={`w-12 h-12 bg-${benefit.color}-100 rounded-lg flex items-center justify-center`}
+                        className={`w-12 h-12 ${benefit.bgColor} rounded-lg flex items-center justify-center`}
                       >
                         {React.createElement(benefit.icon, {
-                          className: `h-6 w-6 text-${benefit.color}-600`,
+                          className: `h-6 w-6 ${benefit.textColor}`,
                         })}
                       </div>
                       <h3 className="text-2xl font-bold">{benefit.title}</h3>

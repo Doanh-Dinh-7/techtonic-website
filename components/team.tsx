@@ -12,11 +12,26 @@ import {
 } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import Image from "next/image";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@radix-ui/react-dropdown-menu";
+import { MoreHorizontal } from "lucide-react";
 
 export function Team() {
-  const [selectedTerm, setSelectedTerm] = useState("2024");
+  const [selectedTerm, setSelectedTerm] = useState("founder");
 
   const teamData = {
+    founder: [
+      {
+        name: "Nguyễn Văn An",
+        role: "Chủ tịch CLB",
+        desc: "Sinh viên xuất sắc, chuyên về Full-stack Development và AI",
+        image: "/placeholder.svg?height=120&width=120&text=President",
+      },
+    ],
     "2024": [
       {
         name: "Nguyễn Văn An",
@@ -59,6 +74,17 @@ export function Team() {
     ],
   };
 
+  const tabs = [
+    { value: "founder", label: "Founder" },
+    // Thêm nhiệm kỳ mới ở đây
+    { value: "2024", label: "Nhiệm kỳ 2024" },
+    { value: "2023", label: "Nhiệm kỳ 2023" },
+  ];
+
+  // Giới hạn số tab hiển thị trực tiếp
+  const visibleTabs = tabs.slice(0, 5);
+  const hiddenTabs = tabs.slice(5);
+
   return (
     <section id="team" className="py-20">
       <div className="container mx-auto px-4">
@@ -69,7 +95,9 @@ export function Team() {
           transition={{ duration: 0.8 }}
           viewport={{ once: true }}
         >
-          <Badge className="bg-red-100 text-red-700">Đội ngũ</Badge>
+          <Badge className="bg-red-100 text-red-700 hover:bg-red-700 hover:text-red-100">
+            Đội ngũ
+          </Badge>
           <h2 className="text-3xl lg:text-4xl font-bold text-gray-900">
             Ban điều hành & Mentor
           </h2>
@@ -79,15 +107,35 @@ export function Team() {
           </p>
         </motion.div>
 
-        <div className="max-w-4xl mx-auto">
+        <div className="max-w-7xl mx-auto">
           <Tabs
             value={selectedTerm}
             onValueChange={setSelectedTerm}
             className="w-full"
           >
-            <TabsList className="grid w-full grid-cols-2 mb-8">
-              <TabsTrigger value="2024">Nhiệm kỳ 2024</TabsTrigger>
-              <TabsTrigger value="2023">Nhiệm kỳ 2023</TabsTrigger>
+            <TabsList className="flex w-full mb-8 gap-2">
+              {visibleTabs.map((tab) => (
+                <TabsTrigger key={tab.value} value={tab.value}>
+                  {tab.label}
+                </TabsTrigger>
+              ))}
+
+              {hiddenTabs.length > 0 && (
+                <DropdownMenu>
+                  <DropdownMenuTrigger asChild>
+                    <TabsTrigger value="more">
+                      <MoreHorizontal className="w-4 h-4" />
+                    </TabsTrigger>
+                  </DropdownMenuTrigger>
+                  <DropdownMenuContent>
+                    {hiddenTabs.map((tab) => (
+                      <DropdownMenuItem key={tab.value} asChild>
+                        <TabsTrigger value={tab.value}>{tab.label}</TabsTrigger>
+                      </DropdownMenuItem>
+                    ))}
+                  </DropdownMenuContent>
+                </DropdownMenu>
+              )}
             </TabsList>
 
             {Object.entries(teamData).map(([term, members]) => (
