@@ -21,55 +21,134 @@ import {
 import { MoreHorizontal } from "lucide-react";
 
 export function Team() {
-  const [selectedTerm, setSelectedTerm] = useState("founder");
+  const [selectedTerm, setSelectedTerm] = useState("2024");
 
   const teamData = {
     founder: [
       {
-        name: "Nguyễn Văn An",
-        role: "Chủ tịch CLB",
+        name: "Nguyễn Văn Quang",
+        role: "Co-Founder",
         desc: "Sinh viên xuất sắc, chuyên về Full-stack Development và AI",
-        image: "/placeholder.svg?height=120&width=120&text=President",
+        image:
+          "https://res.cloudinary.com/dggsvq2tw/image/upload/v1758206572/Nguyen_Van_Quang_pqrrh1.jpg",
+      },
+      {
+        name: "Đinh Sỹ Quốc Doanh",
+        role: "Co-Founder",
+        desc: "Sinh viên xuất sắc, chuyên về Full-stack Development và AI",
+        image:
+          "https://res.cloudinary.com/dggsvq2tw/image/upload/v1758206562/Dinh_Sy_Quoc_Doanh_hiqkcs.jpg",
+      },
+      {
+        name: "Nguyễn Anh Tú",
+        role: "Co-Founder",
+        desc: "Sinh viên xuất sắc, chuyên về Full-stack Development và AI",
+        image:
+          "https://res.cloudinary.com/dggsvq2tw/image/upload/v1758206563/Nguyen_Anh_Tu_z0wpya.jpg",
+      },
+      {
+        name: "Nguyễn Thị Kim Phượng",
+        role: "Co-Founder",
+        desc: "Sinh viên xuất sắc, chuyên về Full-stack Development và AI",
+        image:
+          "https://res.cloudinary.com/dggsvq2tw/image/upload/v1758206565/Nguyen_Thi_Kim_Phuong_tjgduj.jpg",
+      },
+      {
+        name: "Phạm Bảo Hân",
+        role: "Co-Founder",
+        desc: "Sinh viên xuất sắc, chuyên về Full-stack Development và AI",
+        image:
+          "https://res.cloudinary.com/dggsvq2tw/image/upload/v1758206567/Pham_Bao_Han_wkv0s1.jpg",
+      },
+      {
+        name: "Lê Minh Thư",
+        role: "Co-Founder",
+        desc: "Sinh viên xuất sắc, chuyên về Full-stack Development và AI",
+        image:
+          "https://res.cloudinary.com/dggsvq2tw/image/upload/v1758206563/Le_Minh_Thu_suucwn.jpg",
+      },
+      {
+        name: "Nguyễn Thị Ánh Tuyết",
+        role: "Co-Founder",
+        desc: "Sinh viên xuất sắc, chuyên về Full-stack Development và AI",
+        image:
+          "https://res.cloudinary.com/dggsvq2tw/image/upload/v1758206563/Nguyen_Thi_Anh_Tuyet_an6hzg.jpg",
+      },
+      {
+        name: "Nguyễn Đình Khoa",
+        role: "Co-Founder",
+        desc: "Sinh viên xuất sắc, chuyên về Full-stack Development và AI",
+        image:
+          "https://res.cloudinary.com/dggsvq2tw/image/upload/v1758206554/Nguyen_Dinh_Khoa_focqi8.jpg",
       },
     ],
     "2024": [
       {
-        name: "Nguyễn Văn An",
-        role: "Chủ tịch CLB",
+        name: "Minh Anh",
+        role: "Chủ nhiệm CLB",
         desc: "Sinh viên xuất sắc, chuyên về Full-stack Development và AI",
-        image: "/placeholder.svg?height=120&width=120&text=President",
+        image: "/ban_chu_nhiem/2024/Minh_Anh.jpg",
       },
       {
-        name: "Trần Thị Bình",
-        role: "Phó chủ tịch",
+        name: "Nhung Nguyệt",
+        role: "Trưởng ban Chuyên môn",
         desc: "Chuyên gia về Data Science và Machine Learning",
-        image: "/placeholder.svg?height=120&width=120&text=Vice+President",
+        image: "/ban_chu_nhiem/2024/Nhung_Nguyet.jpg",
       },
       {
-        name: "Lê Văn Cường",
-        role: "Trưởng ban Học thuật",
+        name: "Nguyễn Anh Tú",
+        role: "Trưởng ban Sự kiện",
         desc: "Chuyên về Backend Development và Database",
-        image: "/placeholder.svg?height=120&width=120&text=Academic+Head",
+        image: "/ban_chu_nhiem/2024/Nguyen_Anh_Tu.jpg",
       },
       {
-        name: "Phạm Thị Dung",
+        name: "Thảo Nguyễn",
+        role: "Trưởng ban Nhân sự",
+        desc: "Chuyên về Backend Development và Database",
+        image: "/ban_chu_nhiem/2024/Thao_Nguyen.jpg",
+      },
+      {
+        name: "Đình Khoa",
         role: "Trưởng ban Truyền thông",
         desc: "Chuyên về Frontend Development và UI/UX Design",
-        image: "/placeholder.svg?height=120&width=120&text=PR+Head",
+        image: "/ban_chu_nhiem/2024/Pham_Thi_Dung.jpg",
       },
     ],
     "2023": [
       {
-        name: "Hoàng Văn Nam",
-        role: "Cựu Chủ tịch",
-        desc: "Hiện đang làm Senior Developer tại FPT Software",
-        image: "/placeholder.svg?height=120&width=120&text=Ex+President",
+        name: "Nguyễn Văn Quang",
+        role: "Chủ nhiệm CLB",
+        desc: "Sinh viên xuất sắc, chuyên về Full-stack Development và AI",
+        image:
+          "https://res.cloudinary.com/dggsvq2tw/image/upload/v1758206561/Nguyen_Van_Quang_hxn3vo.jpg",
       },
       {
-        name: "Võ Thị Hoa",
-        role: "Cựu Phó chủ tịch",
-        desc: "Hiện đang làm Data Analyst tại Viettel",
-        image: "/placeholder.svg?height=120&width=120&text=Ex+VP",
+        name: "Đinh Sỹ Quốc Doanh",
+        role: "Trưởng ban Chuyên môn",
+        desc: "Sinh viên xuất sắc, chuyên về Full-stack Development và AI",
+        image:
+          "https://res.cloudinary.com/dggsvq2tw/image/upload/v1758206558/Dinh_Sy_Quoc_Doanh_sjpkd6.jpg",
+      },
+      {
+        name: "Nguyễn Anh Tú",
+        role: "Trưởng ban Sự kiện",
+        desc: "Sinh viên xuất sắc, chuyên về Full-stack Development và AI",
+        image:
+          "https://res.cloudinary.com/dggsvq2tw/image/upload/v1758206558/Nguyen_Anh_Tu_b5ntqm.jpg",
+      },
+      {
+        name: "Nguyễn Thị Kim Phượng",
+        role: "Trưởng ban Nhân sự",
+        desc: "Sinh viên xuất sắc, chuyên về Full-stack Development và AI",
+        image:
+          "https://res.cloudinary.com/dggsvq2tw/image/upload/v1758206558/Nguyen_Anh_Tu_b5ntqm.jpg",
+      },
+      {
+        name: "Phạm Bảo Hân",
+        role: "Trưởng ban Truyền thông",
+        desc: "Sinh viên xuất sắc, chuyên về Full-stack Development và AI",
+        image:
+          "https://res.cloudinary.com/dggsvq2tw/image/upload/v1758206562/Pham_Bao_Han_c5sxpd.jpg",
       },
     ],
   };
@@ -113,9 +192,13 @@ export function Team() {
             onValueChange={setSelectedTerm}
             className="w-full"
           >
-            <TabsList className="flex w-full mb-8 gap-2">
+            <TabsList className="flex w-full mb-8 gap-2 bg-blue-200 rounded-lg p-7">
               {visibleTabs.map((tab) => (
-                <TabsTrigger key={tab.value} value={tab.value}>
+                <TabsTrigger
+                  key={tab.value}
+                  value={tab.value}
+                  className="px-4 py-2 rounded-md text-black data-[state=active]:bg-blue-500 data-[state=active]:text-white"
+                >
                   {tab.label}
                 </TabsTrigger>
               ))}
@@ -123,14 +206,22 @@ export function Team() {
               {hiddenTabs.length > 0 && (
                 <DropdownMenu>
                   <DropdownMenuTrigger asChild>
-                    <TabsTrigger value="more">
+                    <TabsTrigger
+                      value="more"
+                      className="px-4 py-2 rounded-md text-black data-[state=active]:bg-blue-500 data-[state=active]:text-white"
+                    >
                       <MoreHorizontal className="w-4 h-4" />
                     </TabsTrigger>
                   </DropdownMenuTrigger>
                   <DropdownMenuContent>
                     {hiddenTabs.map((tab) => (
                       <DropdownMenuItem key={tab.value} asChild>
-                        <TabsTrigger value={tab.value}>{tab.label}</TabsTrigger>
+                        <TabsTrigger
+                          value={tab.value}
+                          className="w-full text-black data-[state=active]:bg-blue-500 data-[state=active]:text-white"
+                        >
+                          {tab.label}
+                        </TabsTrigger>
                       </DropdownMenuItem>
                     ))}
                   </DropdownMenuContent>
@@ -140,7 +231,7 @@ export function Team() {
 
             {Object.entries(teamData).map(([term, members]) => (
               <TabsContent key={term} value={term}>
-                <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3  gap-8">
                   {members.map((member, index) => (
                     <motion.div
                       key={index}
@@ -154,7 +245,7 @@ export function Team() {
                         transition: { duration: 0.3 },
                       }}
                     >
-                      <Card className="text-center border-0 shadow-lg h-full">
+                      <Card className="text-center border-0 shadow-lg shadow-blue-200 h-full">
                         <CardHeader>
                           <motion.div
                             whileHover={{ scale: 1.1 }}

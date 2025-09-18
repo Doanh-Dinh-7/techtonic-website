@@ -84,7 +84,7 @@ export function Header({ show, onLogoClick }: HeaderProps) {
                   whileTap={{ scale: 0.95 }}
                 >
                   <Button
-                    className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700"
+                    className="bg-gradient-to-r from-[#3756a6] to-[#667ee4] hover:from-[#3756a6] hover:to-[#667ee4]"
                     onClick={handleJoinClick}
                   >
                     <Users className="mr-2 h-4 w-4" />
@@ -132,7 +132,7 @@ export function Header({ show, onLogoClick }: HeaderProps) {
                     ))}
                     <div className="px-4">
                       <Button
-                        className="w-full bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700"
+                        className="w-full bg-gradient-to-r from-[#3756a6] to-[#667ee4] hover:from-[#3756a6] hover:to-[#667ee4]"
                         onClick={handleJoinClick}
                       >
                         <Users className="mr-2 h-4 w-4" />

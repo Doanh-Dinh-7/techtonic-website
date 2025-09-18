@@ -109,9 +109,12 @@ export function Achievements() {
                 />
               </div> */}
               {[
-                { src: "/achievement/vtc_academy.webp", alt: "VTC Academy" },
                 {
-                  src: "/achievement/mgm_technology.webp",
+                  src: "https://res.cloudinary.com/dggsvq2tw/image/upload/v1758206553/vtc_academy_ljobmz.webp",
+                  alt: "VTC Academy",
+                },
+                {
+                  src: "https://res.cloudinary.com/dggsvq2tw/image/upload/v1758206553/mgm_technology_yrnnxp.webp",
                   alt: "MGM Technology",
                 },
               ].map((partner, index) => (

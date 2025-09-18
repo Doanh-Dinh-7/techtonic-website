@@ -32,7 +32,8 @@ export function Activities() {
           .
         </>
       ),
-      image: "/activity/cshd.webp",
+      image:
+        "https://res.cloudinary.com/dggsvq2tw/image/upload/v1758206556/cshd_icrmfj.webp",
       icon: BookOpenCheck,
       position: "center",
     },
@@ -58,7 +59,8 @@ export function Activities() {
           <em>phát triển bản thân bền vững</em>.
         </>
       ),
-      image: "/activity/mentor_mentee.webp",
+      image:
+        "https://res.cloudinary.com/dggsvq2tw/image/upload/v1758206554/mentor_mentee_kjmjqd.webp",
       icon: HeartHandshake,
       position: "center",
     },
@@ -79,7 +81,8 @@ export function Activities() {
           <em>hành trình nghề nghiệp công nghệ</em>.
         </>
       ),
-      image: "/activity/olp_icpc.webp",
+      image:
+        "https://res.cloudinary.com/dggsvq2tw/image/upload/v1758206555/olp_icpc_qlzrul.webp",
       icon: Trophy,
       position: "top center",
     },
@@ -95,7 +98,8 @@ export function Activities() {
           <em>xây dựng cộng đồng bền vững</em>.
         </>
       ),
-      image: "/activity/techware.webp",
+      image:
+        "https://res.cloudinary.com/dggsvq2tw/image/upload/v1758206574/techware_qb6urk.webp",
       icon: LandPlot,
       position: "center",
     },
@@ -112,7 +116,8 @@ export function Activities() {
           <b>kỹ năng thiết yếu</b> và <em>định hướng tương lai</em>.
         </>
       ),
-      image: "/activity/ntn_mis.webp",
+      image:
+        "https://res.cloudinary.com/dggsvq2tw/image/upload/v1758206555/ntn_mis_g8na7u.webp",
       icon: Presentation,
       position: "bottom center",
     },

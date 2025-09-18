@@ -17,162 +17,161 @@ export function Gallery() {
     row_1: [
       {
         id: "10",
-        src: "/gallery/cslt/cslt3_1.webp",
+        src: "https://res.cloudinary.com/dggsvq2tw/image/upload/v1758206576/CSLT7_1_e6mce3.webp",
         alt: "Cslt 1",
       },
       {
         id: "11",
-
-        src: "/gallery/techxplore/tx1.webp",
+        src: "https://res.cloudinary.com/dggsvq2tw/image/upload/v1758206580/tx1_ukiv2f.webp",
         alt: "TechXplore 1",
       },
       {
         id: "12",
-        src: "/gallery/cslt/cslt7_1.webp",
-        alt: "Cslt 4",
+        src: "https://res.cloudinary.com/dggsvq2tw/image/upload/v1758206559/CSLT3_3_al7vxr.webp",
+        alt: "Cslt 2",
       },
       {
         id: "13",
-        src: "/gallery/techxplore/tx3.webp",
-        alt: "TechXplore 3",
-      },
-      {
-        id: "14",
-        src: "/gallery/cslt/cslt7_3.webp",
-        alt: "Cslt 6",
-      },
-      {
-        id: "15",
-        src: "/gallery/techxplore/tx4.webp",
-        alt: "TechXplore 4",
-      },
-      {
-        id: "16",
-        src: "/gallery/cslt/cslt3_3.webp",
-        alt: "Cslt 3",
-      },
-      {
-        id: "17",
-        src: "/gallery/techxplore/tx2.webp",
+        src: "https://res.cloudinary.com/dggsvq2tw/image/upload/v1758206575/tx2_mtobag.webp",
         alt: "TechXplore 2",
       },
       {
+        id: "14",
+        src: "https://res.cloudinary.com/dggsvq2tw/image/upload/v1758206559/CSLT3_1_wlf7dl.webp",
+        alt: "Cslt 3",
+      },
+      {
+        id: "15",
+        src: "https://res.cloudinary.com/dggsvq2tw/image/upload/v1758206576/tx3_fcyobt.webp",
+        alt: "TechXplore 3",
+      },
+      {
+        id: "16",
+        src: "https://res.cloudinary.com/dggsvq2tw/image/upload/v1758206556/CSLT7_3_voldl1.webp",
+        alt: "Cslt 4",
+      },
+      {
+        id: "17",
+        src: "https://res.cloudinary.com/dggsvq2tw/image/upload/v1758206560/tx4_vgbytt.webp",
+        alt: "TechXplore 4",
+      },
+      {
         id: "18",
-        src: "/gallery/cslt/cslt7_2.webp",
+        src: "https://res.cloudinary.com/dggsvq2tw/image/upload/v1758206554/CSLT7_2_lk8cgv.webp",
         alt: "Cslt 5",
       },
       {
         id: "19",
-        src: "/gallery/techxplore/tx5.webp",
+        src: "https://res.cloudinary.com/dggsvq2tw/image/upload/v1758206577/tx5_brjia6.webp",
         alt: "TechXplore 5",
       },
     ],
     row_2: [
       {
         id: "20",
-        src: "/gallery/mm/mm1.webp",
+        src: "https://res.cloudinary.com/dggsvq2tw/image/upload/v1758206560/mm1_bk4o4u.webp",
         alt: "Mentor-Mentee 1",
       },
       {
         id: "21",
-        src: "/gallery/mm/mm2.webp",
+        src: "https://res.cloudinary.com/dggsvq2tw/image/upload/v1758206577/mm2_gewykm.webp",
         alt: "Mentor-Mentee 2",
       },
       {
-        id: "23",
-        src: "/gallery/mm/mm4.webp",
+        id: "22",
+        src: "https://res.cloudinary.com/dggsvq2tw/image/upload/v1758206557/mm4_fc12rj.webp",
         alt: "Mentor-Mentee 4",
       },
       {
-        id: "24",
-        src: "/gallery/mm/mm5.webp",
+        id: "23",
+        src: "https://res.cloudinary.com/dggsvq2tw/image/upload/v1758206572/mm5_elp0af.webp",
         alt: "Mentor-Mentee 5",
       },
       {
         id: "24",
-        src: "/gallery/mm/mm6.webp",
+        src: "https://res.cloudinary.com/dggsvq2tw/image/upload/v1758206578/mm6_nvs60b.webp",
         alt: "Mentor-Mentee 6",
       },
       {
-        id: "24",
-        src: "/gallery/mm/mm7.webp",
+        id: "25",
+        src: "https://res.cloudinary.com/dggsvq2tw/image/upload/v1758206573/mm7_sxeuow.webp",
         alt: "Mentor-Mentee 7",
       },
       {
-        id: "24",
-        src: "/gallery/mm/mm8.webp",
+        id: "26",
+        src: "https://res.cloudinary.com/dggsvq2tw/image/upload/v1758206573/mm8_zcnku6.webp",
         alt: "Mentor-Mentee 8",
       },
       {
-        id: "24",
-        src: "/gallery/mm/mm9.webp",
+        id: "27",
+        src: "https://res.cloudinary.com/dggsvq2tw/image/upload/v1758206584/mm9_u8uhve.webp",
         alt: "Mentor-Mentee 9",
       },
     ],
     row_3: [
       {
         id: "30",
-        src: "/gallery/ntnm/ntnm1.webp",
+        src: "https://res.cloudinary.com/dggsvq2tw/image/upload/v1758206574/ntnm1_p4uehk.webp",
         alt: "Người trong ngành MIS 1",
       },
       {
         id: "31",
-        src: "/gallery/ntnm/ntnm2.webp",
+        src: "https://res.cloudinary.com/dggsvq2tw/image/upload/v1758206580/ntnm2_pj15jw.webp",
         alt: "Người trong ngành MIS 2",
       },
       {
         id: "32",
-        src: "/gallery/ntnm/ntnm3.webp",
+        src: "https://res.cloudinary.com/dggsvq2tw/image/upload/v1758206575/ntnm3_fiezhd.webp",
         alt: "Người trong ngành MIS 3",
       },
       {
         id: "33",
-        src: "/gallery/tw/tw1.webp",
+        src: "https://res.cloudinary.com/dggsvq2tw/image/upload/v1758206578/tw1_egckia.webp",
         alt: "TechWare 1",
       },
       {
         id: "34",
-        src: "/gallery/tw/tw2.webp",
+        src: "https://res.cloudinary.com/dggsvq2tw/image/upload/v1758206561/tw2_plxjv3.webp",
         alt: "TechWare 2",
       },
       {
         id: "35",
-        src: "/gallery/tw/tw3.webp",
+        src: "https://res.cloudinary.com/dggsvq2tw/image/upload/v1758206581/tw3_vjo45k.webp",
         alt: "TechWare 3",
       },
       {
         id: "36",
-        src: "/gallery/tw/tw4.webp",
+        src: "https://res.cloudinary.com/dggsvq2tw/image/upload/v1758206585/tw4_edkcqy.webp",
         alt: "TechWare 4",
       },
       {
         id: "37",
-        src: "/gallery/tw/tw5.webp",
+        src: "https://res.cloudinary.com/dggsvq2tw/image/upload/v1758206582/tw5_wceecw.webp",
         alt: "TechWare 5",
       },
       {
         id: "38",
-        src: "/gallery/tw/tw6.webp",
+        src: "https://res.cloudinary.com/dggsvq2tw/image/upload/v1758206583/tw6_mjz94x.webp",
         alt: "TechWare 6",
       },
       {
         id: "39",
-        src: "/gallery/tw/tw7.webp",
+        src: "https://res.cloudinary.com/dggsvq2tw/image/upload/v1758206582/tw7_lkrisz.webp",
         alt: "TechWare 7",
       },
       {
         id: "310",
-        src: "/gallery/tw/tw8.webp",
+        src: "https://res.cloudinary.com/dggsvq2tw/image/upload/v1758206579/tw8_bb1f0p.webp",
         alt: "TechWare 8",
       },
       {
         id: "311",
-        src: "/gallery/tw/tw9.webp",
+        src: "https://res.cloudinary.com/dggsvq2tw/image/upload/v1758206584/tw9_pdf6kh.webp",
         alt: "TechWare 9",
       },
       {
         id: "312",
-        src: "/gallery/tw/tw10.webp",
+        src: "https://res.cloudinary.com/dggsvq2tw/image/upload/v1758206581/tw10_e2pf3b.webp",
         alt: "TechWare 10",
       },
     ],
@@ -211,13 +210,12 @@ export function Gallery() {
         const scrollSpeed = 100; // 100px/s
 
         // Thời gian = khoảng cách / tốc độ
-        const duration = (totalWidth * 2) / scrollSpeed;
+        const duration = totalWidth / scrollSpeed;
 
         // Đảm bảo thời gian tối thiểu là 10s và tối đa là 60s
         durations.push(Math.max(10, Math.min(60, duration)));
         widths.push(totalWidth);
       });
-
       setAnimationConfig({
         durations,
         widths,
@@ -227,16 +225,9 @@ export function Gallery() {
 
     calculateAnimationDuration();
 
-    let timeout: NodeJS.Timeout;
-    const handleResize = () => {
-      clearTimeout(timeout);
-      timeout = setTimeout(() => calculateAnimationDuration(), 200); // debounce 200ms
-    };
-
-    window.addEventListener("resize", handleResize);
+    window.addEventListener("resize", calculateAnimationDuration);
     return () => {
-      clearTimeout(timeout);
-      window.removeEventListener("resize", handleResize);
+      window.removeEventListener("resize", calculateAnimationDuration);
     };
   }, [rows]);
 
@@ -246,7 +237,7 @@ export function Gallery() {
         <motion.div
           className="text-center space-y-4 mb-16"
           initial={{ opacity: 0, y: 50 }}
-          whileInView={{ opacity: 1, y: 0 }}
+          animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8 }}
           viewport={{ once: true }}
         >
@@ -285,8 +276,8 @@ export function Gallery() {
                     } as React.CSSProperties
                   }
                   initial={{ opacity: 0, y: 30 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  transition={{ delay: rowIndex * 0.2, duration: 0.6 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.6 }}
                   viewport={{ once: true }}
                 >
                   {/* First set */}
@@ -303,8 +294,8 @@ export function Gallery() {
                           src={item.src}
                           alt={item.alt}
                           fill
+                          fetchPriority="high"
                           className="object-cover"
-                          loading="lazy"
                         />
                       </div>
                     </motion.div>
@@ -324,7 +315,6 @@ export function Gallery() {
                           alt={item.alt}
                           fill
                           className="object-cover"
-                          loading="lazy"
                         />
                       </div>
                     </motion.div>

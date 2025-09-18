@@ -11,6 +11,7 @@ import {
   Instagram,
   Youtube,
 } from "lucide-react";
+import { SiThreads as Threads } from "react-icons/si";
 import Link from "next/link";
 
 export function Contact() {
@@ -18,22 +19,42 @@ export function Contact() {
     {
       icon: Mail,
       title: "Email",
-      info: "techtonic.club@due.edu.vn",
-      color: "blue",
+      info: "techtonic.clb@gmail.com",
+      bgColor: "bg-blue-600",
     },
-    { icon: Phone, title: "Hotline", info: "0123 456 789", color: "green" },
+    {
+      icon: Phone,
+      title: "Hotline",
+      info: "077 249 3327",
+      bgColor: "bg-green-600",
+    },
     {
       icon: MapPin,
       title: "Địa chỉ",
-      info: "Hội Sinh viên, ĐH Kinh tế - ĐH Đà Nẵng",
-      color: "red",
+      info: "71 Ngũ Hành Sơn, Phường Ngũ Hành Sơn, Đà Nẵng, Việt Nam",
+      bgColor: "bg-red-600",
     },
   ];
 
   const socialLinks = [
-    { icon: Facebook, color: "blue", href: "#" },
-    { icon: Instagram, color: "pink", href: "#" },
-    { icon: Youtube, color: "red", href: "#" },
+    {
+      icon: Facebook,
+      bgColor: "bg-blue-600",
+      hoverBgColor: "hover:bg-blue-700",
+      href: "https://www.facebook.com/TechTonic.Club17",
+    },
+    {
+      icon: Instagram,
+      bgColor: "bg-pink-600",
+      hoverBgColor: "hover:bg-pink-700",
+      href: "https://www.instagram.com/techtonic.club",
+    },
+    {
+      icon: Threads,
+      bgColor: "bg-neutral-600",
+      hoverBgColor: "hover:bg-neutral-700",
+      href: "https://www.threads.com/@techtonic.club",
+    },
   ];
 
   return (
@@ -92,7 +113,7 @@ export function Contact() {
                   viewport={{ once: true }}
                 >
                   <motion.div
-                    className={`w-12 h-12 bg-${contact.color}-600 rounded-lg flex items-center justify-center`}
+                    className={`w-12 h-12 ${contact.bgColor} rounded-lg flex items-center justify-center`}
                     whileHover={{
                       scale: 1.1,
                       rotate: 360,
@@ -132,7 +153,8 @@ export function Contact() {
                   >
                     <Link
                       href={social.href}
-                      className={`w-12 h-12 bg-${social.color}-600 rounded-lg flex items-center justify-center hover:bg-${social.color}-700 transition-colors`}
+                      target="_blank"
+                      className={`w-12 h-12 ${social.bgColor} rounded-lg flex items-center justify-center ${social.hoverBgColor} transition-colors`}
                     >
                       {React.createElement(social.icon, {
                         className: "h-6 w-6",

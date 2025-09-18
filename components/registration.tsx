@@ -34,7 +34,7 @@ export function Registration() {
   ];
 
   return (
-    <section className="py-20 bg-gradient-to-r from-blue-600 to-purple-600 text-white">
+    <section className="py-20 bg-gradient-to-r from-[#3756a6] to-[#667ee4] text-white">
       <div className="container mx-auto px-4">
         <div className="max-w-4xl mx-auto text-center space-y-8">
           <motion.div

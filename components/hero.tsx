@@ -38,12 +38,12 @@ export function Hero() {
   const heroScale = useTransform(scrollY, [0, viewportHeight], [1, 1.1]);
 
   const heroImages = [
-    "/hero/mentor_mentee_ss1.webp",
-    "/hero/tech_x_plore.webp",
-    "/hero/cslt_1.webp",
-    "/hero/techware_ss1.webp",
-    "/hero/nckh_s1.webp",
-    "/hero/mentor_mentee_ss2.webp",
+    "https://res.cloudinary.com/dggsvq2tw/image/upload/v1758206566/mentor_mentee_ss1_wv08vr.webp",
+    "https://res.cloudinary.com/dggsvq2tw/image/upload/v1758206566/tech_x_plore_cot6ms.webp",
+    "https://res.cloudinary.com/dggsvq2tw/image/upload/v1758206584/cslt_1_ygk3oa.webp",
+    "https://res.cloudinary.com/dggsvq2tw/image/upload/v1758206567/techware_ss1_ljlofj.webp",
+    "https://res.cloudinary.com/dggsvq2tw/image/upload/v1758206585/nckh_s1_lfu4nn.webp",
+    "https://res.cloudinary.com/dggsvq2tw/image/upload/v1758206579/mentor_mentee_ss2_th0fyt.webp",
   ];
 
   // Auto-rotate hero images every 5 seconds
@@ -82,7 +82,7 @@ export function Hero() {
               >
                 <Badge className="bg-white/20 text-white border-white/30 hover:bg-white/30">
                   <Image
-                    src="/hero/logo_school.webp"
+                    src="https://res.cloudinary.com/dggsvq2tw/image/upload/v1758206564/logo_school_mxtnzv.webp"
                     alt="Due"
                     width={20}
                     height={20}

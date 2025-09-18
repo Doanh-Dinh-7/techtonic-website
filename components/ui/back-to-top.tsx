@@ -18,7 +18,7 @@ export function BackToTop({ show, onClick }: BackToTopProps) {
           exit={{ scale: 0, opacity: 0 }}
           transition={{ duration: 0.3 }}
           onClick={onClick}
-          className="fixed bottom-8 right-8 w-12 h-12 bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-full shadow-lg hover:shadow-xl transition-shadow z-50 flex items-center justify-center"
+          className="fixed bottom-8 right-8 w-12 h-12 bg-gradient-to-r from-[#3756a6] to-[#667ee4] text-white rounded-full shadow-lg hover:shadow-xl transition-shadow z-50 flex items-center justify-center"
           whileHover={{
             scale: 1.1,
             boxShadow: "0 10px 25px rgba(59, 130, 246, 0.4)",
