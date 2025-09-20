@@ -177,7 +177,7 @@ export function Gallery() {
     ],
   };
 
-  const rows = useMemo(() => Object.values(galleryItems), [galleryItems]);
+  const rows = useMemo(() => Object.values(galleryItems), []);
 
   // Tính toán thời gian animation dựa trên kích thước thực tế
   useEffect(() => {
@@ -294,7 +294,7 @@ export function Gallery() {
                           src={item.src}
                           alt={item.alt}
                           fill
-                          fetchPriority="high"
+                          priority
                           className="object-cover"
                         />
                       </div>
@@ -314,6 +314,7 @@ export function Gallery() {
                           src={item.src}
                           alt={item.alt}
                           fill
+                          priority
                           className="object-cover"
                         />
                       </div>

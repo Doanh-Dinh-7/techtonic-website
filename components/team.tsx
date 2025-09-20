@@ -141,7 +141,7 @@ export function Team() {
         role: "Trưởng ban Nhân sự",
         desc: "Sinh viên xuất sắc, chuyên về Full-stack Development và AI",
         image:
-          "https://res.cloudinary.com/dggsvq2tw/image/upload/v1758206558/Nguyen_Anh_Tu_b5ntqm.jpg",
+          "https://res.cloudinary.com/dggsvq2tw/image/upload/v1758206558/Nguyen_Thi_Kim_Phuong_b19fgp.jpg",
       },
       {
         name: "Phạm Bảo Hân",

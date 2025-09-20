@@ -54,6 +54,20 @@ export function Hero() {
     return () => clearInterval(interval);
   }, [heroImages.length]);
 
+  const handleJoinClick = () => {
+    const registerUrl = process.env.NEXT_PUBLIC_REGISTER_URL || null;
+
+    if (registerUrl) {
+      window.open(registerUrl, "_blank");
+    } else {
+      toast({
+        title: "Coming soon!",
+        description: "Tính năng đăng ký sẽ sớm ra mắt",
+        variant: "success",
+      });
+    }
+  };
+
   return (
     // background color: #3ca2d8, #3db4e7, #3654a5
     <section
@@ -137,13 +151,7 @@ export function Hero() {
                 <Button
                   size="lg"
                   className="bg-white text-blue-600 hover:bg-blue-50 font-semibold"
-                  onClick={() =>
-                    toast({
-                      title: "Coming soon!",
-                      description: "Tính năng đăng ký sẽ sớm ra mắt",
-                      variant: "info",
-                    })
-                  }
+                  onClick={handleJoinClick}
                 >
                   <Users className="mr-2 h-5 w-5" />
                   Tham gia ngay

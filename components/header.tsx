@@ -15,11 +15,17 @@ export function Header({ show, onLogoClick }: HeaderProps) {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   const handleJoinClick = () => {
-    toast({
-      title: "Coming soon!",
-      description: "Tính năng đăng ký sẽ sớm ra mắt",
-      variant: "success",
-    });
+    const registerUrl = process.env.NEXT_PUBLIC_REGISTER_URL || null;
+
+    if (registerUrl) {
+      window.open(registerUrl, "_blank");
+    } else {
+      toast({
+        title: "Coming soon!",
+        description: "Tính năng đăng ký sẽ sớm ra mắt",
+        variant: "success",
+      });
+    }
   };
 
   const navigationItems = [
