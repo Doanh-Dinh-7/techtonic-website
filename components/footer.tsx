@@ -1,7 +1,6 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { Code } from "lucide-react";
 import Image from "next/image";
 
 export function Footer() {
@@ -14,13 +13,17 @@ export function Footer() {
             whileHover={{ scale: 1.05 }}
           >
             <Image
-              src="/logo.png"
+              src="/element/logo_white.png"
               alt="TechTonic Club"
-              width={24}
-              height={24}
+              width={13}
+              height={400}
+              className="object-cover h-8"
             />
 
-            <span className="font-semibold text-white">TechTonic Club</span>
+            <span className="font-semibold text-white font-paris2024 text-sm leading-none">
+              TECH <br />
+              TONIC
+            </span>
           </motion.div>
           <p className="text-sm">
             © 2024 TechTonic Club. Tất cả quyền được bảo lưu.

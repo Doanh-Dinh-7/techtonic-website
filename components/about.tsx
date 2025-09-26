@@ -37,7 +37,7 @@ export function About() {
           <Badge className="bg-blue-100 text-blue-700 hover:bg-blue-700 hover:text-blue-100">
             Về chúng tôi
           </Badge>
-          <h2 className="text-3xl lg:text-4xl font-bold text-gray-900">
+          <h2 className="text-3xl lg:text-5xl font-bold text-gray-900 font-paris2024 ">
             TechTonic Club
           </h2>
         </motion.div>
@@ -79,7 +79,9 @@ export function About() {
                   <div className="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center">
                     <Eye className="h-6 w-6 text-blue-600" />
                   </div>
-                  <h3 className="text-2xl font-bold text-gray-900">Tầm nhìn</h3>
+                  <h3 className="text-3xl font-normal text-gray-900 font-utm-akashi">
+                    Tầm nhìn
+                  </h3>
                 </div>
                 <p className="text-lg text-gray-600 leading-relaxed">
                   Trở thành câu lạc bộ học thuật hàng đầu trực thuộc Hội Sinh
@@ -101,7 +103,9 @@ export function About() {
                   <div className="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center">
                     <Target className="h-6 w-6 text-green-600" />
                   </div>
-                  <h3 className="text-2xl font-bold text-gray-900">Sứ mệnh</h3>
+                  <h3 className="text-3xl font-normal text-gray-900 font-utm-akashi">
+                    Sứ mệnh
+                  </h3>
                 </div>
                 <p className="text-lg text-gray-600 leading-relaxed">
                   Mang đến một môi trường học thuật cạnh tranh, lành mạnh, giúp
@@ -124,7 +128,7 @@ export function About() {
                   <div className="w-12 h-12 bg-purple-100 rounded-lg flex items-center justify-center">
                     <Gem className="h-6 w-6 text-purple-600" />
                   </div>
-                  <h3 className="text-2xl font-bold text-gray-900">
+                  <h3 className="text-3xl font-normal text-gray-900 font-utm-akashi">
                     Giá trị cốt lõi
                   </h3>
                 </div>

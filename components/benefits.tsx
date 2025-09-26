@@ -98,7 +98,7 @@ export function Benefits() {
           <Badge className="bg-green-100 text-green-700 hover:bg-green-700 hover:text-green-100">
             Lợi ích tham gia
           </Badge>
-          <h2 className="text-3xl lg:text-4xl font-bold text-gray-900">
+          <h2 className="text-3xl lg:text-5xl font-bold text-gray-900 font-paris2024">
             Tại sao nên tham gia TechTonic?
           </h2>
           <p className="text-lg text-gray-600 max-w-2xl mx-auto">
@@ -136,7 +136,9 @@ export function Benefits() {
                           className: `h-6 w-6 ${benefit.textColor}`,
                         })}
                       </motion.div>
-                      <CardTitle>{benefit.title}</CardTitle>
+                      <CardTitle className="font-utm-akashi text-2xl font-normal">
+                        {benefit.title}
+                      </CardTitle>
                     </CardHeader>
                     <CardContent>
                       <p className="text-gray-600">{benefit.desc}</p>
@@ -153,7 +155,9 @@ export function Benefits() {
                           className: `h-6 w-6 ${benefit.textColor}`,
                         })}
                       </div>
-                      <h3 className="text-2xl font-bold">{benefit.title}</h3>
+                      <h3 className="text-2xl font-normal font-utm-akashi">
+                        {benefit.title}
+                      </h3>
                     </div>
                     <Image
                       src={benefit.image || "/placeholder.svg"}

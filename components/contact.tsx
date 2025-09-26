@@ -86,7 +86,7 @@ export function Contact() {
           <Badge className="bg-white/20 text-white border-white/30 hover:bg-white/30 hover:text-white">
             Liên hệ
           </Badge>
-          <h2 className="text-3xl lg:text-4xl font-bold">
+          <h2 className="text-3xl lg:text-5xl font-bold font-paris2024">
             Kết nối với TechTonic Club
           </h2>
           <p className="text-lg text-gray-300 max-w-2xl mx-auto">
@@ -139,7 +139,9 @@ export function Contact() {
               transition={{ delay: 0.6, duration: 0.6 }}
               viewport={{ once: true }}
             >
-              <h3 className="text-xl font-semibold mb-4">Theo dõi chúng tôi</h3>
+              <h3 className="text-xl font-medium mb-4 font-utm-akashi">
+                Theo dõi chúng tôi
+              </h3>
               <div className="flex gap-4 justify-center">
                 {socialLinks.map((social, index) => (
                   <motion.div

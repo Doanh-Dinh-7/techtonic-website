@@ -244,7 +244,7 @@ export function Gallery() {
           <Badge className="bg-orange-100 text-orange-700 hover:bg-orange-700 hover:text-orange-100">
             Thư viện ảnh
           </Badge>
-          <h2 className="text-3xl lg:text-4xl font-bold text-gray-900">
+          <h2 className="text-3xl lg:text-5xl font-bold text-gray-900 font-paris2024">
             Khoảnh khắc đáng nhớ
           </h2>
           <p className="text-lg text-gray-600 max-w-2xl mx-auto">

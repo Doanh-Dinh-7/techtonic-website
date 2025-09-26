@@ -106,15 +106,15 @@ export function Hero() {
                 </Badge>
               </motion.div>
               <motion.h1
-                className="text-4xl lg:text-6xl font-bold leading-tight"
+                className="text-4xl lg:text-6xl font-bold leading-tight font-paris2024"
                 initial={{ opacity: 0, y: 30 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.4, duration: 0.8 }}
               >
-                TechTonic Club
+                TECHTONIC CLUB
               </motion.h1>
               <motion.p
-                className="text-xl lg:text-2xl text-blue-100 font-medium"
+                className="text-xl lg:text-2xl text-blue-100 font-medium font-utm-akashi"
                 initial={{ opacity: 0, y: 30 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.6, duration: 0.8 }}
@@ -182,12 +182,12 @@ export function Hero() {
             </motion.div>
           </div>
           <motion.div
-            className="relative items-center justify-center"
+            className="relative items-center justify-center w-full max-w-lg mx-auto lg:max-w-none"
             initial={{ opacity: 0, x: 100 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ delay: 0.5, duration: 1 }}
           >
-            <div className="relative h-[500px] w-[500px] rounded-2xl overflow-hidden shadow-2xl aspect-square">
+            <div className="relative w-full h-[300px] sm:h-[400px] md:h-[450px] lg:h-[500px] rounded-2xl overflow-hidden shadow-2xl aspect-square max-w-[500px] mx-auto">
               <AnimatePresence mode="sync">
                 <motion.div
                   key={currentHeroImage}
@@ -207,16 +207,20 @@ export function Hero() {
               </AnimatePresence>
             </div>
             <motion.div
-              className="absolute -bottom-6 -left-6 bg-white text-gray-800 p-4 rounded-xl shadow-lg"
+              className="absolute -bottom-3 -left-3 sm:-bottom-4 sm:-left-4 lg:-bottom-6 lg:-left-6 bg-white text-gray-800 p-3 sm:p-4 rounded-xl shadow-lg max-w-[200px] sm:max-w-none"
               initial={{ opacity: 0, scale: 0 }}
               animate={{ opacity: 1, scale: 1 }}
               transition={{ delay: 1.5, duration: 0.6, type: "spring" }}
             >
               <div className="flex items-center gap-2">
-                <Code className="h-6 w-6 text-blue-500" />
-                <div>
-                  <p className="font-semibold">100+ thành viên</p>
-                  <p className="text-sm text-gray-600">Đam mê công nghệ</p>
+                <Code className="h-5 w-5 sm:h-6 sm:w-6 text-blue-500 flex-shrink-0" />
+                <div className="min-w-0">
+                  <p className="font-semibold text-sm sm:text-base">
+                    100+ thành viên
+                  </p>
+                  <p className="text-xs sm:text-sm text-gray-600">
+                    Đam mê công nghệ
+                  </p>
                 </div>
               </div>
             </motion.div>

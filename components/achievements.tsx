@@ -37,7 +37,7 @@ export function Achievements() {
           <Badge className="bg-yellow-100 text-yellow-700 hover:bg-yellow-700 hover:text-yellow-100">
             Thành tích
           </Badge>
-          <h2 className="text-3xl lg:text-4xl font-bold text-gray-900">
+          <h2 className="text-3xl lg:text-5xl font-bold text-gray-900 font-paris2024">
             Dấu ấn & Thành tựu
           </h2>
           <p className="text-lg text-gray-600 max-w-2xl mx-auto">
@@ -82,7 +82,7 @@ export function Achievements() {
             transition={{ duration: 0.8 }}
             viewport={{ once: true }}
           >
-            <h3 className="text-xl font-semibold mb-6 text-center">
+            <h3 className="text-xl font-medium mb-6 text-center font-utm-akashi">
               Đối tác & Hợp tác
             </h3>
 

@@ -121,17 +121,10 @@ export function Registration() {
         throw new Error("Form ID không được cấu hình");
       }
 
-      const formUrl = `https://docs.google.com/forms/d/e/${formId}/formResponse`;
+      const baseUrl = `https://docs.google.com/forms/d/e/${formId}/viewform?usp=pp_url`;
 
-      // Tạo form ẩn để submit đến Google Forms
-      const hiddenForm = document.createElement("form");
-      hiddenForm.action = formUrl;
-      hiddenForm.method = "POST";
-      hiddenForm.target = "_blank";
-      hiddenForm.style.display = "none";
-
-      // Thêm các trường input ẩn
-      const fields = {
+      // Tạo URL parameters cho pre-fill
+      const params = new URLSearchParams({
         "entry.637618999": formData.class,
         "entry.2089236837": formData.studentId,
         "entry.51064004": formData.fullName,
@@ -146,50 +139,43 @@ export function Registration() {
         "entry.508226384": formData.whyChooseDepartment,
         "entry.705796435": formData.department,
         "entry.1701397463": formData.knowAnyone,
-      };
-
-      // Thêm các trường vào form
-      Object.entries(fields).forEach(([name, value]) => {
-        const input = document.createElement("input");
-        input.type = "hidden";
-        input.name = name;
-        input.value = value || "";
-        hiddenForm.appendChild(input);
       });
 
-      // Thêm form vào DOM và submit
-      document.body.appendChild(hiddenForm);
-      hiddenForm.submit();
-      document.body.removeChild(hiddenForm);
+      const formUrl = `${baseUrl}&${params.toString()}`;
 
-      // Hiển thị thông báo thành công
+      // Mở form trong tab mới
+      window.open(formUrl, "_blank", "noopener,noreferrer");
+
+      // Hiển thị thông báo hướng dẫn
       toast({
-        title: "Đăng ký thành công!",
+        title: "Form đăng ký đã mở!",
         description:
-          "Cảm ơn bạn đã đăng ký tham gia TechTonic Club. Chúng tôi sẽ liên hệ với bạn sớm nhất.",
+          "Form đăng ký đã được mở trong tab mới. Vui lòng kiểm tra và hoàn tất đăng ký trong tab đó.",
         variant: "success",
       });
 
-      // Reset form
-      setFormData({
-        fullName: "",
-        email: "",
-        phone: "",
-        studentId: "",
-        class: "",
-        facebookLink: "",
-        gender: "",
-        selfDescription: "",
-        questions: "",
-        whyJoin: "",
-        knowAnyone: "",
-        skills: "",
-        whyChooseDepartment: "",
-        department: "",
-      });
-      setCurrentStep(1);
+      // Reset form sau khi mở
+      setTimeout(() => {
+        setFormData({
+          fullName: "",
+          email: "",
+          phone: "",
+          studentId: "",
+          class: "",
+          facebookLink: "",
+          gender: "",
+          selfDescription: "",
+          questions: "",
+          whyJoin: "",
+          knowAnyone: "",
+          skills: "",
+          whyChooseDepartment: "",
+          department: "",
+        });
+        setCurrentStep(1);
+      }, 2000);
     } catch (error) {
-      console.error("Lỗi khi gửi form:", error);
+      console.error("Lỗi khi mở form:", error);
       toast({
         title: "Có lỗi xảy ra",
         description:
@@ -214,7 +200,7 @@ export function Registration() {
             <Badge className="bg-white/20 text-white border-white/30 hover:bg-white/30 hover:text-white">
               Tham gia ngay
             </Badge>
-            <h2 className="text-3xl lg:text-4xl font-bold">
+            <h2 className="text-3xl lg:text-5xl font-bold font-paris2024">
               Sẵn sàng bắt đầu hành trình công nghệ
             </h2>
             <p className="text-xl text-blue-100">
@@ -228,7 +214,9 @@ export function Registration() {
                 <div className="w-16 h-16 bg-white/20 rounded-full flex items-center justify-center mx-auto hover:bg-white/30 transition-colors duration-300">
                   <span className="text-2xl font-bold">{item.step}</span>
                 </div>
-                <h3 className="text-xl font-semibold">{item.title}</h3>
+                <h3 className="text-xl font-medium font-utm-akashi">
+                  {item.title}
+                </h3>
                 <p className="text-blue-100">{item.desc}</p>
               </div>
             ))}
@@ -237,7 +225,7 @@ export function Registration() {
           <div>
             <Card className="bg-white/10 border-white/20 backdrop-blur-sm">
               <CardHeader>
-                <CardTitle className="text-white text-2xl">
+                <CardTitle className="text-white text-2xl font-utm-akashi font-normal">
                   Đăng ký tham gia TechTonic Club
                 </CardTitle>
                 <CardDescription className="text-blue-100">
@@ -659,7 +647,7 @@ export function Registration() {
                         ) : (
                           <>
                             <Code className="mr-2 h-5 w-5" />
-                            Gửi đăng ký
+                            Mở form đăng ký
                           </>
                         )}
                       </Button>

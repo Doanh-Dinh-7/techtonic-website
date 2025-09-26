@@ -144,7 +144,7 @@ export function Activities() {
           <Badge className="bg-purple-100 text-purple-700 hover:bg-purple-700 hover:text-purple-100">
             Hoạt động
           </Badge>
-          <h2 className="text-3xl lg:text-4xl font-bold text-gray-900">
+          <h2 className="text-3xl lg:text-5xl font-bold text-gray-900 font-paris2024">
             Các hoạt động nổi bật
           </h2>
           <p className="text-lg text-gray-600 max-w-2xl mx-auto">
@@ -185,7 +185,7 @@ export function Activities() {
                           className: "h-6 w-6 text-purple-600",
                         })}
                       </div>
-                      <h3 className="text-2xl font-bold text-gray-900">
+                      <h3 className="text-3xl font-thin text-gray-900 font-utm-akashi">
                         {activities[currentActivity].title}
                       </h3>
                     </div>

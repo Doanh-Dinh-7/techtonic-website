@@ -9,38 +9,87 @@ import { Typewriter } from "@/components/ui/typewriter";
 
 export function Testimonials() {
   const [currentTestimonial, setCurrentTestimonial] = useState(0);
+  const [isHovered, setIsHovered] = useState(false);
+  const [isTypewriterComplete, setIsTypewriterComplete] = useState(false);
+  const [timeoutId, setTimeoutId] = useState<NodeJS.Timeout | null>(null);
 
+  const getDynamicRole = (year: number) => {
+    const now = new Date();
+    const currentYear = now.getFullYear();
+    const currentMonth = now.getMonth() + 1;
+
+    let academicYearDifference;
+
+    if (currentMonth >= 7) {
+      academicYearDifference = currentYear - year;
+    } else {
+      academicYearDifference = currentYear - 1 - year;
+    }
+
+    if (academicYearDifference > 4) {
+      return "Cựu sinh viên";
+    } else if (academicYearDifference < 1) {
+      return "Tân sinh viên";
+    } else {
+      return `Sinh viên năm ${academicYearDifference + 1}`;
+    }
+  };
+
+  // Text for testimonials is max 55 words
   const testimonials = [
     {
-      name: "Nguyễn Văn Minh",
-      role: "Sinh viên năm 3, Khoa Thống kê - Tin học",
-      text: "TechTonic Club đã giúp tôi phát triển kỹ năng lập trình và tư duy giải quyết vấn đề. Môi trường học tập tại đây thực sự tuyệt vời!",
+      name: "Nguyễn Văn Quang",
+      role: "Founder/Chủ nhiệm CLB TechTonic nhiệm kỳ 2024 - 2025",
+      year: 2022, // Nhập học năm 2022
+      text: "Với mình, TechTonic không chỉ là một CLB học thuật về công nghệ thông tin, mà còn là một môi trường năng động, sáng tạo và gắn kết, nơi mỗi thành viên đều có cơ hội rèn luyện, phát triển bản thân và cùng nhau tạo nên những kỷ niệm đáng nhớ!",
       image: "/placeholder.svg?height=60&width=60",
     },
     {
-      name: "Trần Thị Lan",
-      role: "Sinh viên năm 4, Khoa Thống kê - Tin học",
-      text: "Nhờ tham gia CLB, tôi đã có cơ hội tham gia các dự án thực tế và kết nối với nhiều bạn cùng đam mê công nghệ.",
+      name: "Nguyễn Thị Ngọc Nhi",
+      role: "Phó chủ nhiệm CLB TechTonic nhiệm kỳ 2025 - 2026",
+      year: 2024, // Nhập học năm 2024
+      text: "Nhờ tham gia CLB, mình vừa học hỏi, rèn luyện kỹ năng, vừa gắn kết như một gia đình nhỏ. Ở vai trò Phó chủ nhiệm, mình tự hào đồng hành cùng mọi người tạo ra hoạt động ý nghĩa, kỷ niệm đẹp. CLB là môi trường tuyệt vời để khám phá bản thân, phát triển năng lực và lan tỏa giá trị tích cực.",
       image: "/placeholder.svg?height=60&width=60",
     },
     {
       name: "Lê Văn Hùng",
-      role: "Cựu thành viên, hiện là Developer",
+      role: "hiện là Developer",
+      year: 2025, // Nhập học 2025
       text: "TechTonic Club đã định hướng con đường sự nghiệp của tôi. Những kiến thức và kỹ năng học được ở đây rất hữu ích cho công việc.",
       image: "/placeholder.svg?height=60&width=60",
     },
   ];
 
-  // Auto-rotate testimonials
+  // Auto-rotate testimonials based on typewriter completion
   useEffect(() => {
-    const interval = setInterval(() => {
-      setCurrentTestimonial((prev) => (prev + 1) % testimonials.length);
-    }, 5000);
-    return () => clearInterval(interval);
-  }, [testimonials.length]);
+    if (isHovered) return; // Pause when hovered
+
+    if (isTypewriterComplete) {
+      // Wait 3 seconds after typewriter completes, then move to next testimonial
+      const timeout = setTimeout(() => {
+        setCurrentTestimonial((prev) => (prev + 1) % testimonials.length);
+        setIsTypewriterComplete(false); // Reset for next testimonial
+      }, 3000);
+
+      setTimeoutId(timeout);
+      return () => clearTimeout(timeout);
+    }
+  }, [isTypewriterComplete, isHovered, testimonials.length]);
+
+  // Clear timeout when component unmounts or hover state changes
+  useEffect(() => {
+    return () => {
+      if (timeoutId) clearTimeout(timeoutId);
+    };
+  }, [timeoutId]);
+
+  // Reset typewriter completion when testimonial changes
+  useEffect(() => {
+    setIsTypewriterComplete(false);
+  }, [currentTestimonial]);
 
   return (
-    <section className="py-20 bg-gray-50">
+    <section id="testimonials" className="py-20 bg-gray-50">
       <div className="container mx-auto px-4">
         <motion.div
           className="text-center space-y-4 mb-16"
@@ -52,7 +101,7 @@ export function Testimonials() {
           <Badge className="bg-indigo-100 text-indigo-700 hover:bg-indigo-700 hover:text-indigo-100">
             Cảm nhận
           </Badge>
-          <h2 className="text-3xl lg:text-4xl font-bold text-gray-900">
+          <h2 className="text-3xl lg:text-5xl font-bold text-gray-900 font-paris2024">
             Thành viên nói gì về chúng tôi
           </h2>
         </motion.div>
@@ -65,7 +114,11 @@ export function Testimonials() {
               animate={{ opacity: 1, x: 0 }}
               exit={{ opacity: 0, x: -100 }}
               transition={{ duration: 0.5 }}
-              className="bg-white rounded-2xl shadow-lg p-8"
+              className={`bg-white rounded-2xl shadow-lg p-8 transition-all duration-300 ${
+                isHovered ? "shadow-xl scale-[1.02]" : ""
+              }`}
+              onMouseEnter={() => setIsHovered(true)}
+              onMouseLeave={() => setIsHovered(false)}
             >
               <div className="text-center">
                 <motion.div
@@ -98,11 +151,13 @@ export function Testimonials() {
                   ))}
                 </div>
 
-                <blockquote className="text-xl text-gray-600 italic mb-6 leading-relaxed">
+                <blockquote className="text-xl text-gray-600 italic mb-6 leading-relaxed min-h-[8rem] md:min-h-[6rem]">
                   "
                   <Typewriter
                     text={testimonials[currentTestimonial].text}
-                    delay={30}
+                    delay={20}
+                    pause={isHovered}
+                    onComplete={() => setIsTypewriterComplete(true)}
                   />
                   "
                 </blockquote>
@@ -112,11 +167,13 @@ export function Testimonials() {
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: 0.5 }}
                 >
-                  <h4 className="text-lg font-semibold text-gray-900">
+                  <h4 className="text-xl font-medium text-gray-900 font-utm-akashi">
                     {testimonials[currentTestimonial].name}
                   </h4>
                   <p className="text-gray-600">
-                    {testimonials[currentTestimonial].role}
+                    {`${getDynamicRole(
+                      testimonials[currentTestimonial].year
+                    )} - ${testimonials[currentTestimonial].role}`}
                   </p>
                 </motion.div>
               </div>

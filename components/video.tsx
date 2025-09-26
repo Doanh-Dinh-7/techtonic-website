@@ -19,7 +19,7 @@ export function Video() {
           <Badge className="bg-red-100 text-red-700 hover:bg-red-700 hover:text-red-100">
             Video giới thiệu
           </Badge>
-          <h2 className="text-3xl lg:text-4xl font-bold text-gray-900">
+          <h2 className="text-3xl lg:text-5xl font-bold text-gray-900 font-paris2024">
             Khám phá TechTonic Club
           </h2>
           <p className="text-lg text-gray-600 max-w-2xl mx-auto">

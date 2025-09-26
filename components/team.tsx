@@ -259,7 +259,9 @@ export function Team() {
                               className="rounded-full mx-auto mb-4"
                             />
                           </motion.div>
-                          <CardTitle>{member.name}</CardTitle>
+                          <CardTitle className="font-utm-akashi font-normal">
+                            {member.name}
+                          </CardTitle>
                           <CardDescription>{member.role}</CardDescription>
                         </CardHeader>
                         <CardContent>

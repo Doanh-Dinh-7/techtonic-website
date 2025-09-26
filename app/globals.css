@@ -2,6 +2,23 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Custom Fonts */
+@font-face {
+  font-family : 'UTM Akashi';
+  src         : url('/fonts/UTM Akashi.ttf') format('truetype');
+  font-weight : normal;
+  font-style  : normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family : 'Paris2024';
+  src         : url('/fonts/Paris2024-Black.ttf') format('truetype');
+  font-weight : 900;
+  font-style  : normal;
+  font-display: swap;
+}
+
 @layer utilities {
   .text-balance {
     text-wrap: balance;
