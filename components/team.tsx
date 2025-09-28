@@ -28,89 +28,89 @@ export function Team() {
       {
         name: "Nguyễn Văn Quang",
         role: "Co-Founder",
-        desc: "Sinh viên xuất sắc, chuyên về Full-stack Development và AI",
+        // desc: "Sinh viên chuyên về Business Analytics",
         image:
           "https://res.cloudinary.com/dggsvq2tw/image/upload/v1758206572/Nguyen_Van_Quang_pqrrh1.jpg",
       },
       {
         name: "Đinh Sỹ Quốc Doanh",
         role: "Co-Founder",
-        desc: "Sinh viên xuất sắc, chuyên về Full-stack Development và AI",
+        // desc: "Sinh viên xuất sắc, chuyên về Full-stack Development",
         image:
           "https://res.cloudinary.com/dggsvq2tw/image/upload/v1758206562/Dinh_Sy_Quoc_Doanh_hiqkcs.jpg",
       },
       {
         name: "Nguyễn Anh Tú",
         role: "Co-Founder",
-        desc: "Sinh viên xuất sắc, chuyên về Full-stack Development và AI",
+        // desc: "Sinh viên chuyên về Business Analytics",
         image:
           "https://res.cloudinary.com/dggsvq2tw/image/upload/v1758206563/Nguyen_Anh_Tu_z0wpya.jpg",
       },
       {
         name: "Nguyễn Thị Kim Phượng",
         role: "Co-Founder",
-        desc: "Sinh viên xuất sắc, chuyên về Full-stack Development và AI",
+        // desc: "Sinh viên chuyên về Business Analytics",
         image:
           "https://res.cloudinary.com/dggsvq2tw/image/upload/v1758206565/Nguyen_Thi_Kim_Phuong_tjgduj.jpg",
       },
       {
         name: "Phạm Bảo Hân",
         role: "Co-Founder",
-        desc: "Sinh viên xuất sắc, chuyên về Full-stack Development và AI",
+        // desc: "Sinh viên xuất sắc, chuyên về Full-stack Development và AI",
         image:
           "https://res.cloudinary.com/dggsvq2tw/image/upload/v1758206567/Pham_Bao_Han_wkv0s1.jpg",
       },
       {
         name: "Lê Minh Thư",
         role: "Co-Founder",
-        desc: "Sinh viên xuất sắc, chuyên về Full-stack Development và AI",
+        // desc: "Sinh viên xuất sắc, chuyên về Full-stack Development và AI",
         image:
           "https://res.cloudinary.com/dggsvq2tw/image/upload/v1758206563/Le_Minh_Thu_suucwn.jpg",
       },
       {
         name: "Nguyễn Thị Ánh Tuyết",
         role: "Co-Founder",
-        desc: "Sinh viên xuất sắc, chuyên về Full-stack Development và AI",
+        // desc: "Sinh viên xuất sắc, chuyên về Full-stack Development và AI",
         image:
           "https://res.cloudinary.com/dggsvq2tw/image/upload/v1758206563/Nguyen_Thi_Anh_Tuyet_an6hzg.jpg",
       },
       {
         name: "Nguyễn Đình Khoa",
         role: "Co-Founder",
-        desc: "Sinh viên xuất sắc, chuyên về Full-stack Development và AI",
+        // desc: "Sinh viên xuất sắc, chuyên về Full-stack Development và AI",
         image:
           "https://res.cloudinary.com/dggsvq2tw/image/upload/v1758206554/Nguyen_Dinh_Khoa_focqi8.jpg",
       },
     ],
     "2024": [
       {
-        name: "Minh Anh",
+        name: "Phan Nhật Minh Anh",
         role: "Chủ nhiệm CLB",
-        desc: "Sinh viên xuất sắc, chuyên về Full-stack Development và AI",
+        // desc: "Sinh viên xuất sắc, chuyên về Full-stack Development và AI",
         image: "/ban_chu_nhiem/2024/Minh_Anh.jpg",
       },
       {
-        name: "Nhung Nguyệt",
+        name: "Lê Thị Nhung Nguyệt",
         role: "Trưởng ban Chuyên môn",
-        desc: "Chuyên gia về Data Science và Machine Learning",
+        // desc: "Chuyên gia về Data Science và Machine Learning",
         image: "/ban_chu_nhiem/2024/Nhung_Nguyet.jpg",
       },
       {
         name: "Nguyễn Anh Tú",
         role: "Trưởng ban Sự kiện",
-        desc: "Chuyên về Backend Development và Database",
+        // desc: "Chuyên về Backend Development và Database",
         image: "/ban_chu_nhiem/2024/Nguyen_Anh_Tu.jpg",
       },
       {
-        name: "Thảo Nguyễn",
+        name: "Nguyễn Thị Phương Thảo",
         role: "Trưởng ban Nhân sự",
-        desc: "Chuyên về Backend Development và Database",
+        // desc: "Chuyên về Backend Development và Database",
         image: "/ban_chu_nhiem/2024/Thao_Nguyen.jpg",
       },
       {
-        name: "Đình Khoa",
+        name: "Võ Đình Khoa",
         role: "Trưởng ban Truyền thông",
-        desc: "Chuyên về Frontend Development và UI/UX Design",
+        // desc: "Chuyên về Frontend Development và UI/UX Design",
         image: "/ban_chu_nhiem/2024/Pham_Thi_Dung.jpg",
       },
     ],
@@ -118,35 +118,35 @@ export function Team() {
       {
         name: "Nguyễn Văn Quang",
         role: "Chủ nhiệm CLB",
-        desc: "Sinh viên xuất sắc, chuyên về Full-stack Development và AI",
+        // desc: "Sinh viên xuất sắc, chuyên về Full-stack Development và AI",
         image:
           "https://res.cloudinary.com/dggsvq2tw/image/upload/v1758206561/Nguyen_Van_Quang_hxn3vo.jpg",
       },
       {
         name: "Đinh Sỹ Quốc Doanh",
         role: "Trưởng ban Chuyên môn",
-        desc: "Sinh viên xuất sắc, chuyên về Full-stack Development và AI",
+        // desc: "Sinh viên xuất sắc, chuyên về Full-stack Development và AI",
         image:
           "https://res.cloudinary.com/dggsvq2tw/image/upload/v1758206558/Dinh_Sy_Quoc_Doanh_sjpkd6.jpg",
       },
       {
         name: "Nguyễn Anh Tú",
         role: "Trưởng ban Sự kiện",
-        desc: "Sinh viên xuất sắc, chuyên về Full-stack Development và AI",
+        // desc: "Sinh viên xuất sắc, chuyên về Full-stack Development và AI",
         image:
           "https://res.cloudinary.com/dggsvq2tw/image/upload/v1758206558/Nguyen_Anh_Tu_b5ntqm.jpg",
       },
       {
         name: "Nguyễn Thị Kim Phượng",
         role: "Trưởng ban Nhân sự",
-        desc: "Sinh viên xuất sắc, chuyên về Full-stack Development và AI",
+        // desc: "Sinh viên xuất sắc, chuyên về Full-stack Development và AI",
         image:
           "https://res.cloudinary.com/dggsvq2tw/image/upload/v1758206558/Nguyen_Thi_Kim_Phuong_b19fgp.jpg",
       },
       {
         name: "Phạm Bảo Hân",
         role: "Trưởng ban Truyền thông",
-        desc: "Sinh viên xuất sắc, chuyên về Full-stack Development và AI",
+        // desc: "Sinh viên xuất sắc, chuyên về Full-stack Development và AI",
         image:
           "https://res.cloudinary.com/dggsvq2tw/image/upload/v1758206562/Pham_Bao_Han_c5sxpd.jpg",
       },
@@ -262,19 +262,22 @@ export function Team() {
                           <CardTitle className="font-utm-akashi font-normal">
                             {member.name}
                           </CardTitle>
-                          <CardDescription>{member.role}</CardDescription>
+                          {/* <CardDescription>{member.role}</CardDescription> */}
+                          <CardContent>{member.role}</CardContent>
                         </CardHeader>
-                        <CardContent>
-                          <motion.p
-                            className="text-sm text-gray-600"
-                            initial={{ opacity: 0 }}
-                            whileInView={{ opacity: 1 }}
-                            transition={{ delay: 0.5, duration: 0.6 }}
-                            viewport={{ once: true }}
-                          >
-                            {member.desc}
-                          </motion.p>
-                        </CardContent>
+                        {/* {member?.desc && (
+                          <CardContent>
+                            <motion.p
+                              className="text-sm text-gray-600"
+                              initial={{ opacity: 0 }}
+                              whileInView={{ opacity: 1 }}
+                              transition={{ delay: 0.5, duration: 0.6 }}
+                              viewport={{ once: true }}
+                            >
+                              {member?.desc}
+                            </motion.p>
+                          </CardContent>
+                        )} */}
                       </Card>
                     </motion.div>
                   ))}
