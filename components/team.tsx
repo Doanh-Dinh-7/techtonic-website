@@ -102,16 +102,16 @@ export function Team() {
         image: "/ban_chu_nhiem/2024/Nguyen_Anh_Tu.jpg",
       },
       {
-        name: "Nguyễn Thị Phương Thảo",
+        name: "Lê Nữ Hạnh Nhân",
         role: "Trưởng ban Nhân sự",
         // desc: "Chuyên về Backend Development và Database",
-        image: "/ban_chu_nhiem/2024/Thao_Nguyen.jpg",
+        image: "/ban_chu_nhiem/2024/Hanh_Nhan.jpg",
       },
       {
         name: "Võ Đình Khoa",
         role: "Trưởng ban Truyền thông",
         // desc: "Chuyên về Frontend Development và UI/UX Design",
-        image: "/ban_chu_nhiem/2024/Pham_Thi_Dung.jpg",
+        image: "/ban_chu_nhiem/2024/Vo_Dinh_khoa.jpg",
       },
     ],
     "2023": [
