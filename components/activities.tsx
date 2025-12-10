@@ -82,7 +82,7 @@ export function Activities() {
         </>
       ),
       image:
-        "https://res.cloudinary.com/dggsvq2tw/image/upload/v1758206555/olp_icpc_qlzrul.webp",
+        "https://res.cloudinary.com/dggsvq2tw/image/upload/v1765385333/olp_icpc_btvsuh.webp",
       icon: Trophy,
       position: "top center",
     },

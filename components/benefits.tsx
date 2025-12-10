@@ -54,7 +54,8 @@ export function Benefits() {
       icon: Trophy,
       title: "Cơ hội thi đấu",
       desc: "Tham gia các cuộc thi lập trình, hackathon cấp trường, quốc gia và quốc tế.",
-      image: "/placeholder.svg?height=300&width=400&text=Competitions",
+      image:
+        "https://res.cloudinary.com/dggsvq2tw/image/upload/v1758206555/olp_icpc_qlzrul.webp",
       color: "purple",
       textColor: "text-purple-600",
       bgColor: "bg-purple-100",
