@@ -11,7 +11,7 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Code, Users, ChevronRight, ChevronDown } from "lucide-react";
 import Image from "next/image";
-import { toast } from "@/hooks/use-toast";
+import Link from "next/link";
 
 export function Hero() {
   const [isLoaded, setIsLoaded] = useState(false);
@@ -21,7 +21,7 @@ export function Hero() {
   }, []);
 
   const scrollToNext = () => {
-    const nextSection = document.getElementById("about");
+    const nextSection = document.getElementById("core-values");
     if (nextSection) {
       nextSection.scrollIntoView({ behavior: "smooth" });
     }
@@ -53,20 +53,6 @@ export function Hero() {
     }, 5000);
     return () => clearInterval(interval);
   }, [heroImages.length]);
-
-  const handleJoinClick = () => {
-    const registerUrl = process.env.NEXT_PUBLIC_REGISTER_URL || null;
-
-    if (registerUrl) {
-      window.open(registerUrl, "_blank");
-    } else {
-      toast({
-        title: "Coming soon!",
-        description: "Tính năng đăng ký sẽ sớm ra mắt",
-        variant: "success",
-      });
-    }
-  };
 
   return (
     // background color: #3ca2d8, #3db4e7, #3654a5
@@ -148,14 +134,32 @@ export function Hero() {
                 }}
                 whileTap={{ scale: 0.95 }}
               >
-                <Button
-                  size="lg"
-                  className="bg-white text-blue-600 hover:bg-blue-50 font-semibold"
-                  onClick={handleJoinClick}
-                >
-                  <Users className="mr-2 h-5 w-5" />
-                  Tham gia ngay
-                </Button>
+                {process.env.NEXT_PUBLIC_REGISTER_URL ? (
+                  <Button
+                    size="lg"
+                    className="bg-white text-blue-600 hover:bg-blue-50 font-semibold"
+                    onClick={() =>
+                      window.open(
+                        process.env.NEXT_PUBLIC_REGISTER_URL!,
+                        "_blank"
+                      )
+                    }
+                  >
+                    <Users className="mr-2 h-5 w-5" />
+                    Tham gia ngay
+                  </Button>
+                ) : (
+                  <Button
+                    size="lg"
+                    className="bg-white text-blue-600 hover:bg-blue-50 font-semibold"
+                    asChild
+                  >
+                    <Link href="/recruitment" className="inline-flex items-center">
+                      <Users className="mr-2 h-5 w-5" />
+                      Tham gia ngay
+                    </Link>
+                  </Button>
+                )}
               </motion.div>
               <motion.div
                 whileHover={{

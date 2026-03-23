@@ -232,7 +232,7 @@ export function Gallery() {
   }, [rows]);
 
   return (
-    <section className="py-20 bg-gray-50">
+    <section id="gallery" className="py-20 bg-gray-50">
       <div className="container mx-auto px-4">
         <motion.div
           className="text-center space-y-4 mb-16"

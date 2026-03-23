@@ -9,7 +9,6 @@ import {
   MapPin,
   Facebook,
   Instagram,
-  Youtube,
 } from "lucide-react";
 import { SiThreads as Threads } from "react-icons/si";
 import Link from "next/link";

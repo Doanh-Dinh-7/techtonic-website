@@ -3,26 +3,33 @@
 import React from "react";
 import { motion } from "framer-motion";
 import { Badge } from "@/components/ui/badge";
-import { Trophy, Users, Code, Calendar } from "lucide-react";
+import { Trophy, Users, Code, Calendar, type LucideIcon } from "lucide-react";
 import { Counter } from "@/components/ui/counter";
 import Image from "next/image";
+import { partnerLogos } from "@/lib/content/partners";
+
+const statStyles: Record<
+  string,
+  { bg: string; text: string }
+> = {
+  yellow: { bg: "bg-yellow-100", text: "text-yellow-600" },
+  blue: { bg: "bg-blue-100", text: "text-blue-600" },
+  green: { bg: "bg-green-100", text: "text-green-600" },
+  purple: { bg: "bg-purple-100", text: "text-purple-600" },
+};
 
 export function Achievements() {
-  const stats = [
+  const stats: {
+    icon: LucideIcon;
+    number: number;
+    label: string;
+    color: keyof typeof statStyles;
+  }[] = [
     { icon: Trophy, number: 10, label: "Giải thưởng", color: "yellow" },
     { icon: Users, number: 100, label: "Thành viên", color: "blue" },
     { icon: Code, number: 20, label: "Dự án", color: "green" },
     { icon: Calendar, number: 2, label: "Năm hoạt động", color: "purple" },
   ];
-
-  // Danh sách đối tác - dễ dàng thêm/bớt
-  // const partners = [
-  //   { src: "/placeholder.svg?height=60&width=120", alt: "Đại học" },
-  //   { src: "/placeholder.svg?height=60&width=120", alt: "Viện nghiên cứu" },
-  //   { src: "/placeholder.svg?height=60&width=120", alt: "Công ty công nghệ" },
-  //   { src: "/placeholder.svg?height=60&width=120", alt: "Quỹ giáo dục" },
-  //   { src: "/placeholder.svg?height=60&width=120", alt: "Đối tác khác" },
-  // ];
 
   return (
     <section id="achievements" className="py-20">
@@ -46,33 +53,36 @@ export function Achievements() {
           </p>
         </motion.div>
         <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8 mb-12">
-          {stats.map((stat, index) => (
-            <motion.div
-              key={index}
-              className="text-center space-y-2"
-              initial={{ opacity: 0, y: 50 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ delay: index * 0.1, duration: 0.6 }}
-              viewport={{ once: true }}
-            >
+          {stats.map((stat, index) => {
+            const styles = statStyles[stat.color];
+            return (
               <motion.div
-                className={`w-16 h-16 bg-${stat.color}-100 rounded-full flex items-center justify-center mx-auto mb-4`}
-                whileHover={{
-                  scale: 1.1,
-                  rotate: 360,
-                  transition: { duration: 0.5 },
-                }}
+                key={stat.label}
+                className="text-center space-y-2"
+                initial={{ opacity: 0, y: 50 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ delay: index * 0.1, duration: 0.6 }}
+                viewport={{ once: true }}
               >
-                {React.createElement(stat.icon, {
-                  className: `h-8 w-8 text-${stat.color}-600`,
-                })}
+                <motion.div
+                  className={`w-16 h-16 ${styles.bg} rounded-full flex items-center justify-center mx-auto mb-4`}
+                  whileHover={{
+                    scale: 1.1,
+                    rotate: 360,
+                    transition: { duration: 0.5 },
+                  }}
+                >
+                  {React.createElement(stat.icon, {
+                    className: `h-8 w-8 ${styles.text}`,
+                  })}
+                </motion.div>
+                <div className={`text-3xl font-bold ${styles.text}`}>
+                  <Counter end={stat.number} />+
+                </div>
+                <div className="text-gray-600">{stat.label}</div>
               </motion.div>
-              <div className={`text-3xl font-bold text-${stat.color}-600`}>
-                <Counter end={stat.number} />+
-              </div>
-              <div className="text-gray-600">{stat.label}</div>
-            </motion.div>
-          ))}
+            );
+          })}
         </div>
         <div className="bg-white rounded-2xl p-8">
           <motion.div
@@ -86,38 +96,8 @@ export function Achievements() {
               Đối tác & Hợp tác
             </h3>
 
-            {/* <div className="grid grid-cols-2 md:grid-cols-4 gap-8 items-center"> */}
             <div className="grid grid-cols-2 md:grid-cols-2 gap-8 items-center">
-              {/* <div className="h-[40px] flex items-center justify-center">
-                <Image
-                  src="/achievement/vtc_academy.png"
-                  alt="Đại học"
-                  width={0}
-                  height={40}
-                  sizes="auto"
-                  className="h-full w-auto object-contain"
-                />
-              </div>
-              <div className="h-[40px] flex items-center justify-center">
-                <Image
-                  src="/achievement/mgm_technology.png"
-                  alt="Viện nghiên cứu"
-                  width={0}
-                  height={40}
-                  sizes="auto"
-                  className="h-full w-auto object-contain"
-                />
-              </div> */}
-              {[
-                {
-                  src: "https://res.cloudinary.com/dggsvq2tw/image/upload/v1758206553/vtc_academy_ljobmz.webp",
-                  alt: "VTC Academy",
-                },
-                {
-                  src: "https://res.cloudinary.com/dggsvq2tw/image/upload/v1758206553/mgm_technology_yrnnxp.webp",
-                  alt: "MGM Technology",
-                },
-              ].map((partner, index) => (
+              {partnerLogos.map((partner, index) => (
                 <motion.div
                   key={partner.alt}
                   className="h-[40px] flex items-center justify-center"
@@ -139,42 +119,6 @@ export function Achievements() {
               ))}
             </div>
           </motion.div>
-
-          {/* <div className="relative overflow-hidden">
-            <div className="flex animate-scroll-smooth hover:pause-animation">
-              {partners.map((partner, index) => (
-                <div
-                  key={`first-${index}`}
-                  className="flex items-center shrink-0"
-                >
-                  <Image
-                    src={partner.src}
-                    alt={partner.alt}
-                    width={120}
-                    height={60}
-                    className="opacity-60 hover:opacity-100 transition-opacity duration-300"
-                  />
-                  <div className="w-16"></div>
-                </div>
-              ))}
-
-              {partners.map((partner, index) => (
-                <div
-                  key={`second-${index}`}
-                  className="flex items-center shrink-0"
-                >
-                  <Image
-                    src={partner.src}
-                    alt={partner.alt}
-                    width={120}
-                    height={60}
-                    className="opacity-60 hover:opacity-100 transition-opacity duration-300"
-                  />
-                  <div className="w-16"></div>
-                </div>
-              ))}
-            </div>
-          </div> */}
         </div>
       </div>
     </section>

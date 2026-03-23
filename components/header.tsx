@@ -1,11 +1,21 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Button } from "@/components/ui/button";
-import { Code, Menu, X, Users } from "lucide-react";
-import { toast } from "@/hooks/use-toast";
+import { Menu, X, Users } from "lucide-react";
 import Image from "next/image";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
+
+const mainNav = [
+  { name: "Trang chủ", href: "/" },
+  { name: "Giới thiệu", href: "/about" },
+  { name: "Các ban", href: "/departments" },
+  { name: "Dự án", href: "/portfolio" },
+  { name: "Sự kiện", href: "/events" },
+  { name: "Tuyển thành viên", href: "/recruitment" },
+] as const;
 
 interface HeaderProps {
   show: boolean;
@@ -13,44 +23,8 @@ interface HeaderProps {
 }
 
 export function Header({ show, onLogoClick }: HeaderProps) {
+  const pathname = usePathname();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const [activeSection, setActiveSection] = useState("");
-
-  // Intersection Observer để theo dõi section hiện tại
-  useEffect(() => {
-    const sections = navigationItems.map((item) => item.href.substring(1));
-
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            setActiveSection(entry.target.id);
-          }
-        });
-      },
-      {
-        threshold: 0.3,
-        rootMargin: "-50px 0px -50px 0px",
-      }
-    );
-
-    // Quan sát tất cả các section
-    sections.forEach((sectionId) => {
-      const element = document.getElementById(sectionId);
-      if (element) {
-        observer.observe(element);
-      }
-    });
-
-    return () => {
-      sections.forEach((sectionId) => {
-        const element = document.getElementById(sectionId);
-        if (element) {
-          observer.unobserve(element);
-        }
-      });
-    };
-  }, []);
 
   const handleJoinClick = () => {
     const registerUrl = process.env.NEXT_PUBLIC_REGISTER_URL || null;
@@ -58,78 +32,13 @@ export function Header({ show, onLogoClick }: HeaderProps) {
     if (registerUrl) {
       window.open(registerUrl, "_blank");
     } else {
-      toast({
-        title: "Coming soon!",
-        description: "Tính năng đăng ký sẽ sớm ra mắt",
-        variant: "success",
-      });
+      window.location.href = "/recruitment";
     }
   };
 
-  const navigationItems = [
-    { name: "Giới thiệu", href: "#about" },
-    { name: "Lợi ích", href: "#benefits" },
-    { name: "Hoạt động", href: "#activities" },
-    { name: "Thành tích", href: "#achievements" },
-    { name: "Cảm nhận", href: "#testimonials" },
-    { name: "Đội ngũ", href: "#team" },
-    { name: "Liên hệ", href: "#contact" },
-  ];
-
-  const handleNavClick = (href: string) => {
-    // Close mobile menu first
-    setMobileMenuOpen(false);
-
-    // Add a small delay to ensure menu closes and DOM is ready
-    setTimeout(() => {
-      const element = document.querySelector(href);
-
-      if (element) {
-        // Get element position
-        const elementRect = element.getBoundingClientRect();
-        const elementTop = elementRect.top + window.pageYOffset;
-        const headerHeight = 80; // Approximate header height
-
-        // Try scrollIntoView first
-        try {
-          element.scrollIntoView({
-            behavior: "smooth",
-            block: "start",
-            inline: "nearest",
-          });
-        } catch (error) {
-          console.error("ScrollIntoView failed:", error);
-        }
-
-        // Also try window.scrollTo as backup
-        setTimeout(() => {
-          window.scrollTo({
-            top: elementTop - headerHeight,
-            behavior: "smooth",
-          });
-
-          // Force scroll if smooth doesn't work
-          setTimeout(() => {
-            if (
-              Math.abs(window.pageYOffset - (elementTop - headerHeight)) > 50
-            ) {
-              window.scrollTo(0, elementTop - headerHeight);
-            }
-          }, 500);
-        }, 100);
-      } else {
-        // Try to find by ID instead
-        const sectionId = href.substring(1);
-        const elementById = document.getElementById(sectionId);
-        if (elementById) {
-          elementById.scrollIntoView({
-            behavior: "smooth",
-            block: "start",
-            inline: "nearest",
-          });
-        }
-      }
-    }, 100); // Small delay to ensure menu closes
+  const isNavActive = (href: string) => {
+    if (href === "/") return pathname === "/";
+    return pathname === href || pathname.startsWith(`${href}/`);
   };
 
   return (
@@ -144,70 +53,88 @@ export function Header({ show, onLogoClick }: HeaderProps) {
         >
           <div className="container mx-auto px-4">
             <div className="flex items-center justify-between h-16">
-              {/* Logo */}
-              <motion.div
+              <Link
+                href="/"
                 className="flex items-center gap-1 cursor-pointer"
-                onClick={onLogoClick}
-                whileHover={{ scale: 1.05 }}
+                onClick={(e) => {
+                  if (pathname === "/") {
+                    e.preventDefault();
+                    onLogoClick();
+                  }
+                }}
               >
-                <Image
-                  src="/element/logo_black.png"
-                  alt="TechTonic Club"
-                  className="object-cover h-10"
-                  width={17}
-                  height={400}
-                />
-                <span className="font-bold text-gray-900 font-paris2024 text-xl leading-none">
-                  TECH <br />
-                  TONIC
-                </span>
-              </motion.div>
+                <motion.div
+                  className="flex items-center gap-1"
+                  whileHover={{ scale: 1.05 }}
+                >
+                  <Image
+                    src="/element/logo_black.png"
+                    alt="TechTonic Club"
+                    className="object-cover h-10"
+                    width={17}
+                    height={400}
+                  />
+                  <span className="font-bold text-gray-900 font-paris2024 text-xl leading-none">
+                    TECH <br />
+                    TONIC
+                  </span>
+                </motion.div>
+              </Link>
 
-              {/* Desktop Navigation */}
-              <nav className="hidden md:flex items-center space-x-8">
-                {navigationItems.map((item) => {
-                  const isActive = activeSection === item.href.substring(1);
+              <nav className="hidden lg:flex items-center gap-4 xl:gap-6 flex-wrap justify-end max-w-[60%]">
+                {mainNav.map((item) => {
+                  const active = isNavActive(item.href);
                   return (
-                    <motion.a
-                      key={item.name}
+                    <Link
+                      key={item.href}
                       href={item.href}
-                      className={`transition-colors font-medium ${
-                        isActive
-                          ? "text-blue-600 scale-105"
+                      className={`text-sm font-medium transition-colors whitespace-nowrap ${
+                        active
+                          ? "text-blue-600"
                           : "text-gray-600 hover:text-blue-600"
                       }`}
-                      whileHover={{ scale: 1.05 }}
-                      onClick={(e) => {
-                        e.preventDefault();
-                        handleNavClick(item.href);
-                      }}
                     >
                       {item.name}
-                    </motion.a>
+                    </Link>
                   );
                 })}
               </nav>
 
-              {/* CTA Button */}
-              <div className="hidden md:block">
+              <div className="hidden lg:block shrink-0">
                 <motion.div
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
                 >
-                  <Button
-                    className="bg-gradient-to-r from-[#3756a6] to-[#667ee4] hover:from-[#3756a6] hover:to-[#667ee4]"
-                    onClick={handleJoinClick}
-                  >
-                    <Users className="mr-2 h-4 w-4" />
-                    Tham gia ngay
-                  </Button>
+                  {process.env.NEXT_PUBLIC_REGISTER_URL ? (
+                    <Button
+                      className="bg-gradient-to-r from-[#3756a6] to-[#667ee4] hover:from-[#3756a6] hover:to-[#667ee4]"
+                      onClick={handleJoinClick}
+                    >
+                      <Users className="mr-2 h-4 w-4" />
+                      Tham gia ngay
+                    </Button>
+                  ) : (
+                    <Button
+                      className="bg-gradient-to-r from-[#3756a6] to-[#667ee4] hover:from-[#3756a6] hover:to-[#667ee4]"
+                      asChild
+                    >
+                      <Link
+                        href="/recruitment"
+                        className="inline-flex items-center"
+                      >
+                        <Users className="mr-2 h-4 w-4" />
+                        Tham gia ngay
+                      </Link>
+                    </Button>
+                  )}
                 </motion.div>
               </div>
 
-              {/* Mobile Menu Button */}
               <button
-                className="md:hidden p-2"
+                className="lg:hidden p-2"
+                type="button"
                 onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+                aria-label="Menu"
               >
                 {mobileMenuOpen ? (
                   <X className="h-6 w-6 text-gray-600" />
@@ -217,7 +144,6 @@ export function Header({ show, onLogoClick }: HeaderProps) {
               </button>
             </div>
 
-            {/* Mobile Menu */}
             <AnimatePresence>
               {mobileMenuOpen && (
                 <motion.div
@@ -225,36 +151,52 @@ export function Header({ show, onLogoClick }: HeaderProps) {
                   animate={{ height: "auto", opacity: 1 }}
                   exit={{ height: 0, opacity: 0 }}
                   transition={{ duration: 0.3 }}
-                  className="md:hidden border-t border-gray-200 bg-white"
+                  className="lg:hidden border-t border-gray-200 bg-white overflow-hidden"
                 >
-                  <div className="py-4 space-y-4">
-                    {navigationItems.map((item) => {
-                      const isActive = activeSection === item.href.substring(1);
+                  <div className="py-4 space-y-1">
+                    {mainNav.map((item) => {
+                      const active = isNavActive(item.href);
                       return (
-                        <button
-                          key={item.name}
-                          className={`w-full text-left px-4 py-2 transition-colors ${
-                            isActive
+                        <Link
+                          key={item.href}
+                          href={item.href}
+                          className={`block w-full text-left px-4 py-2 rounded-md transition-colors ${
+                            active
                               ? "text-blue-600 bg-blue-50 font-medium"
                               : "text-gray-600 hover:text-blue-600 hover:bg-gray-50"
                           }`}
-                          onClick={(e) => {
-                            e.preventDefault();
-                            handleNavClick(item.href);
-                          }}
+                          onClick={() => setMobileMenuOpen(false)}
                         >
                           {item.name}
-                        </button>
+                        </Link>
                       );
                     })}
-                    <div className="px-4">
-                      <Button
-                        className="w-full bg-gradient-to-r from-[#3756a6] to-[#667ee4] hover:from-[#3756a6] hover:to-[#667ee4]"
-                        onClick={handleJoinClick}
-                      >
-                        <Users className="mr-2 h-4 w-4" />
-                        Tham gia ngay
-                      </Button>
+                    <div className="px-4 pt-2">
+                      {process.env.NEXT_PUBLIC_REGISTER_URL ? (
+                        <Button
+                          className="w-full bg-gradient-to-r from-[#3756a6] to-[#667ee4]"
+                          onClick={() => {
+                            setMobileMenuOpen(false);
+                            handleJoinClick();
+                          }}
+                        >
+                          <Users className="mr-2 h-4 w-4" />
+                          Tham gia ngay
+                        </Button>
+                      ) : (
+                        <Button
+                          className="w-full bg-gradient-to-r from-[#3756a6] to-[#667ee4]"
+                          asChild
+                        >
+                          <Link
+                            href="/recruitment"
+                            onClick={() => setMobileMenuOpen(false)}
+                          >
+                            <Users className="mr-2 h-4 w-4" />
+                            Tham gia ngay
+                          </Link>
+                        </Button>
+                      )}
                     </div>
                   </div>
                 </motion.div>
