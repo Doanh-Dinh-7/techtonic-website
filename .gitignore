@@ -38,3 +38,7 @@ next-env.d.ts
 
 # package-lock.json
 package-lock.json
+
+# python
+venv/
+__pycache__/
