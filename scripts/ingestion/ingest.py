@@ -7,8 +7,8 @@ from dataclasses import dataclass
 from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any, Dict, List, Optional, Tuple
+from urllib.parse import urlparse
 
-import httpx
 from bs4 import BeautifulSoup, Tag
 from docx import Document as DocxDocument
 from pypdf import PdfReader
@@ -16,6 +16,10 @@ from supabase import create_client
 
 import google.generativeai as genai
 
+
+# ---------------------------------------------------------------------------
+# Text utilities
+# ---------------------------------------------------------------------------
 
 def approx_tokenize(text: str) -> List[str]:
     text = normalize_text(text)
@@ -43,24 +47,56 @@ def token_len(text: str) -> int:
     return len(approx_tokenize(text))
 
 
-def chunk_text(text: str, *, target_tokens: int = 500, overlap_tokens: int = 50) -> List[str]:
+def chunk_text(text: str, *, target_tokens: int = 400, overlap_tokens: int = 50) -> List[str]:
+    """
+    Chunk theo paragraph trước, fallback sang token window nếu paragraph quá dài.
+    Đảm bảo mỗi chunk có đủ ngữ nghĩa.
+    """
     text = normalize_text(text)
     if not text:
         return []
 
-    ids = approx_tokenize(text)
+    # Tách theo paragraph (2 newline)
+    paragraphs = [p.strip() for p in re.split(r'\n\n+', text) if p.strip()]
+
     chunks: List[str] = []
-    start = 0
-    step = max(1, target_tokens - overlap_tokens)
-    while start < len(ids):
-        end = min(len(ids), start + target_tokens)
-        if ids and isinstance(ids[0], str) and len(ids[0]) == 1 and len(ids) > 0:
-            chunk = "".join(ids[start:end]).strip()
+    current: List[str] = []
+    current_tokens = 0
+
+    for para in paragraphs:
+        para_tokens = token_len(para)
+
+        # Paragraph quá dài → token-window chunk riêng
+        if para_tokens > target_tokens:
+            # Flush current buffer trước
+            if current:
+                chunks.append("\n\n".join(current))
+                current, current_tokens = [], 0
+            # Token-window chunk paragraph dài
+            words = approx_tokenize(para)
+            step = max(1, target_tokens - overlap_tokens)
+            for i in range(0, len(words), step):
+                chunk = " ".join(words[i:i + target_tokens]).strip()
+                if chunk:
+                    chunks.append(chunk)
+            continue
+
+        # Paragraph vừa → gộp vào buffer
+        if current_tokens + para_tokens > target_tokens and current:
+            chunks.append("\n\n".join(current))
+            # Giữ overlap: lấy paragraph cuối làm overlap
+            overlap = [current[-1]] if current else []
+            current = overlap + [para]
+            current_tokens = token_len("\n\n".join(current))
         else:
-            chunk = " ".join(ids[start:end]).strip()
-        if chunk:
-            chunks.append(chunk)
-        start += step
+            current.append(para)
+            current_tokens += para_tokens
+
+    if current:
+        chunks.append("\n\n".join(current))
+
+    # Lọc chunk quá ngắn (< 20 words) — thường là nav/footer noise
+    chunks = [c for c in chunks if token_len(c) >= 20]
     return chunks
 
 
@@ -68,14 +104,16 @@ def sha256(text: str) -> str:
     return hashlib.sha256(text.encode("utf-8")).hexdigest()
 
 
+# ---------------------------------------------------------------------------
+# Env loader
+# ---------------------------------------------------------------------------
+
 def load_env_file(path: Path) -> None:
     if not path.exists():
         return
     for raw in path.read_text(encoding="utf-8").splitlines():
         line = raw.strip()
-        if not line or line.startswith("#"):
-            continue
-        if "=" not in line:
+        if not line or line.startswith("#") or "=" not in line:
             continue
         key, value = line.split("=", 1)
         key = key.strip()
@@ -84,72 +122,65 @@ def load_env_file(path: Path) -> None:
             os.environ[key] = value
 
 
-def fetch_html(url: str, *, timeout_s: float = 20.0) -> str:
-    headers = {"User-Agent": "TechTonicBotIngest/1.0"}
-    with httpx.Client(timeout=timeout_s, follow_redirects=True, headers=headers) as client:
-        r = client.get(url)
-        r.raise_for_status()
-        return r.text
+# ---------------------------------------------------------------------------
+# HTML → clean text (full-page, không dùng heading-based)
+# ---------------------------------------------------------------------------
+
+# Tags chứa noise, không có giá trị ngữ nghĩa
+_NOISE_TAGS = {"script", "style", "noscript", "nav", "footer", "head",
+               "meta", "link", "button", "svg", "img"}
+
+# Block tags dùng để thêm newline
+_BLOCK_TAGS = {"p", "div", "section", "article", "li", "h1", "h2", "h3",
+               "h4", "h5", "h6", "tr", "br", "blockquote", "pre"}
 
 
-def _is_visible_text_tag(tag: Tag) -> bool:
-    if not isinstance(tag, Tag):
-        return False
-    if tag.name in {"script", "style", "noscript"}:
-        return False
-    return True
-
-
-def _collect_text_until_next_heading(start: Tag) -> str:
-    parts: List[str] = []
-    for sib in start.next_siblings:
-        if isinstance(sib, Tag) and sib.name in {"h1", "h2", "h3"}:
-            break
-        if isinstance(sib, Tag) and _is_visible_text_tag(sib):
-            t = sib.get_text("\n", strip=True)
-            if t:
-                parts.append(t)
-    return normalize_text("\n".join(parts))
-
-
-def extract_sections_from_html(html: str) -> List[Tuple[str, str]]:
+def extract_text_from_html(html: str) -> str:
+    """
+    Lấy toàn bộ visible text từ HTML, giữ cấu trúc paragraph.
+    Bỏ nav/footer/script. Thêm newline tại block elements.
+    """
     soup = BeautifulSoup(html, "html.parser")
 
-    for tag in soup(["script", "style", "noscript"]):
+    # Xóa noise tags
+    for tag in soup(_NOISE_TAGS):
         tag.decompose()
 
-    main = soup.find("main")
-    root = main if main is not None else soup.body or soup
+    # Ưu tiên <main>, fallback <body>
+    root = soup.find("main") or soup.body or soup
 
-    headings = root.find_all(["h1", "h2", "h3"])
-    if not headings:
-        return [("Document", normalize_text(root.get_text("\n")))]
+    def _walk(node) -> str:
+        if isinstance(node, str):
+            return node
+        if not isinstance(node, Tag):
+            return ""
+        if node.name in _NOISE_TAGS:
+            return ""
 
-    current_h1: Optional[str] = None
-    current_h2: Optional[str] = None
-    sections: List[Tuple[str, str]] = []
+        children_text = "".join(_walk(c) for c in node.children)
 
-    for h in headings:
-        title = normalize_text(h.get_text(" ", strip=True))
-        if not title:
-            continue
+        if node.name in _BLOCK_TAGS:
+            return f"\n{children_text}\n"
+        return children_text
 
-        if h.name == "h1":
-            current_h1, current_h2 = title, None
-        elif h.name == "h2":
-            current_h2 = title
+    raw = _walk(root)
 
-        path_parts = [p for p in [current_h1, current_h2, title if h.name == "h3" else None] if p]
-        section_path = " > ".join(path_parts) if path_parts else title
-        section_text = _collect_text_until_next_heading(h)
-        if section_text:
-            sections.append((section_path, section_text))
+    # Normalize whitespace nhưng giữ paragraph breaks
+    lines = []
+    for line in raw.splitlines():
+        line = re.sub(r"[ \t]+", " ", line).strip()
+        if line:
+            lines.append(line)
 
-    if not sections:
-        return [("Document", normalize_text(root.get_text("\n")))]
+    # Gộp lines thành paragraphs (dòng trống = paragraph break)
+    text = "\n".join(lines)
+    text = re.sub(r"\n{3,}", "\n\n", text)
+    return normalize_text(text)
 
-    return sections
 
+# ---------------------------------------------------------------------------
+# File parsers
+# ---------------------------------------------------------------------------
 
 def extract_text_from_pdf(path: Path) -> str:
     reader = PdfReader(str(path))
@@ -161,12 +192,70 @@ def extract_text_from_pdf(path: Path) -> str:
 
 def extract_text_from_docx(path: Path) -> str:
     doc = DocxDocument(str(path))
-    parts: List[str] = []
-    for p in doc.paragraphs:
-        if p.text:
-            parts.append(p.text)
+    parts: List[str] = [p.text for p in doc.paragraphs if p.text]
     return normalize_text("\n".join(parts))
 
+
+# ---------------------------------------------------------------------------
+# Web crawler (Playwright)
+# ---------------------------------------------------------------------------
+
+def crawl_site(start_url: str, *, max_pages: int = 30, timeout_s: float = 30.0) -> Dict[str, str]:
+    """
+    Crawl toàn bộ internal links từ start_url dùng Playwright.
+    Trả về dict {url: html_content}.
+    """
+    from playwright.sync_api import sync_playwright
+
+    parsed_base = urlparse(start_url)
+    visited: set = set()
+    queue: list = [start_url]
+    results: Dict[str, str] = {}
+
+    with sync_playwright() as p:
+        browser = p.chromium.launch(headless=True)
+
+        while queue and len(visited) < max_pages:
+            url = queue.pop(0)
+            if url in visited:
+                continue
+            visited.add(url)
+
+            print(f"  Crawling: {url}")
+            try:
+                page = browser.new_page()
+                page.goto(url, wait_until="networkidle", timeout=int(timeout_s * 1000))
+                page.evaluate("window.scrollTo(0, document.body.scrollHeight)")
+                page.wait_for_timeout(1500)
+
+                html = page.content()
+                results[url] = html
+
+                links = page.eval_on_selector_all("a[href]", "els => els.map(e => e.href)")
+                for link in links:
+                    parsed = urlparse(link)
+                    clean = f"{parsed.scheme}://{parsed.netloc}{parsed.path}".rstrip("/")
+                    if (
+                        parsed.netloc == parsed_base.netloc
+                        and clean not in visited
+                        and clean not in queue
+                        and not any(clean.endswith(ext) for ext in [".pdf", ".png", ".jpg", ".svg", ".ico"])
+                    ):
+                        queue.append(clean)
+
+                page.close()
+            except Exception as e:
+                print(f"  ⚠ Skipped {url}: {e}")
+
+        browser.close()
+
+    print(f"  → Crawled {len(results)} pages total")
+    return results
+
+
+# ---------------------------------------------------------------------------
+# SourceDoc + loaders
+# ---------------------------------------------------------------------------
 
 @dataclass
 class SourceDoc:
@@ -177,24 +266,31 @@ class SourceDoc:
 
 def load_website_urls(urls: List[str]) -> List[SourceDoc]:
     docs: List[SourceDoc] = []
-    for url in urls:
-        print(f"  Fetching {url} ...")
-        html = fetch_html(url)
-        sections = extract_sections_from_html(html)
-        content = normalize_text("\n\n".join([f"# {p}\n{s}" for p, s in sections]))
-        print(f"  → {len(sections)} sections extracted")
-        docs.append(
-            SourceDoc(
-                source_id=f"url:{url}",
-                content=content,
-                metadata={
-                    "source": "web",
-                    "source_url": url,
-                    "fetched_at": _now_iso(),
-                    "chunk_strategy": "heading_based",
-                },
+    for start_url in urls:
+        print(f"  Starting crawl from {start_url} ...")
+        pages = crawl_site(start_url, max_pages=30)
+
+        for page_url, html in pages.items():
+            # Dùng full-page text extraction
+            content = extract_text_from_html(html)
+
+            if not content or token_len(content) < 20:
+                print(f"    ⚠ Skipped {page_url} (too short: {token_len(content)} tokens)")
+                continue
+
+            print(f"    ✓ {page_url} → {token_len(content)} tokens")
+            docs.append(
+                SourceDoc(
+                    source_id=f"url:{page_url}",
+                    content=content,
+                    metadata={
+                        "source": "web",
+                        "source_url": page_url,
+                        "fetched_at": _now_iso(),
+                        "chunk_strategy": "full_page_paragraph",
+                    },
+                )
             )
-        )
     return docs
 
 
@@ -207,9 +303,12 @@ def load_files(paths: List[Path]) -> List[SourceDoc]:
         if ext == ".pdf":
             content = extract_text_from_pdf(p)
             doc_type = "pdf"
-        elif ext in (".docx",):
+        elif ext == ".docx":
             content = extract_text_from_docx(p)
             doc_type = "docx"
+        elif ext in (".md", ".txt"):
+            content = normalize_text(p.read_text(encoding="utf-8"))
+            doc_type = ext.lstrip(".")
         else:
             raise ValueError(f"Unsupported file type: {p}")
 
@@ -230,20 +329,14 @@ def load_files(paths: List[Path]) -> List[SourceDoc]:
 
 
 # ---------------------------------------------------------------------------
-# Embedding — sử dụng models/gemini-embedding-001 (3072 dims, stable)
-# Các model available đã xác nhận:
-#   models/gemini-embedding-001       ← dùng model này (stable)
-#   models/gemini-embedding-2-preview
-#   models/gemini-embedding-2
+# Embedding — gemini-embedding-001 → 3072 dims
 # ---------------------------------------------------------------------------
-EMBED_MODEL_DEFAULT = "models/gemini-embedding-001" # 3072 dims
+
+EMBED_MODEL_DEFAULT = "models/gemini-embedding-001"  # 3072 dims
 
 
 def gemini_embed(texts: List[str], *, model: str = EMBED_MODEL_DEFAULT) -> List[List[float]]:
-    """
-    Trả về list embedding vectors cho mỗi text.
-    Model gemini-embedding-001 trả về vector 768 chiều.
-    """
+    """Trả về embedding vectors (3072 dims) cho mỗi text."""
     vectors: List[List[float]] = []
     total = len(texts)
     for i, t in enumerate(texts, 1):
@@ -254,26 +347,22 @@ def gemini_embed(texts: List[str], *, model: str = EMBED_MODEL_DEFAULT) -> List[
     return vectors
 
 
+# ---------------------------------------------------------------------------
+# Row builder + upsert
+# ---------------------------------------------------------------------------
+
 def build_rows(doc: SourceDoc, *, target_tokens: int, overlap_tokens: int) -> List[Dict[str, Any]]:
     chunks = chunk_text(doc.content, target_tokens=target_tokens, overlap_tokens=overlap_tokens)
     rows: List[Dict[str, Any]] = []
     for i, chunk in enumerate(chunks):
-        content_hash = sha256(chunk)
         metadata = dict(doc.metadata)
-        metadata.update(
-            {
-                "source_id": doc.source_id,
-                "chunk_index": i,
-                "content_hash": content_hash,
-                "token_count": token_len(chunk),
-            }
-        )
-        rows.append(
-            {
-                "content": chunk,
-                "metadata": metadata,
-            }
-        )
+        metadata.update({
+            "source_id": doc.source_id,
+            "chunk_index": i,
+            "content_hash": sha256(chunk),
+            "token_count": token_len(chunk),
+        })
+        rows.append({"content": chunk, "metadata": metadata})
     return rows
 
 
@@ -282,39 +371,32 @@ def upsert_documents(rows: List[Dict[str, Any]], *, supabase_url: str, supabase_
     batch_size = 100
     total = len(rows)
     for i in range(0, total, batch_size):
-        batch = rows[i : i + batch_size]
+        batch = rows[i: i + batch_size]
         sb.table("documents").insert(batch).execute()
         print(f"  Upserted {min(i + batch_size, total)}/{total} rows ...")
 
+
+# ---------------------------------------------------------------------------
+# CLI
+# ---------------------------------------------------------------------------
 
 def main() -> int:
     parser = argparse.ArgumentParser(
         description="Ingest TechTonic data into Supabase pgvector (documents table)."
     )
-    parser.add_argument("--urls", nargs="*", default=[], help="List of website URLs to ingest.")
-    parser.add_argument("--files", nargs="*", default=[], help="List of PDF/DOCX files to ingest.")
-    parser.add_argument("--target-tokens", type=int, default=500)
-    parser.add_argument("--overlap-tokens", type=int, default=50)
-    parser.add_argument(
-        "--embed-model",
-        type=str,
-        default=EMBED_MODEL_DEFAULT,
-        help=(
-            "Gemini embedding model. Available: "
-            "models/gemini-embedding-001 (default, stable, 768d), "
-            "models/gemini-embedding-2-preview, "
-            "models/gemini-embedding-2"
-        ),
-    )
-    parser.add_argument(
-        "--env-file",
-        type=str,
-        default=str(Path(__file__).resolve().parents[2] / ".env"),
-        help="Path to .env file (default: repo root .env).",
-    )
+    parser.add_argument("--urls", nargs="*", default=[], help="Website URLs to crawl and ingest.")
+    parser.add_argument("--files", nargs="*", default=[], help="PDF/DOCX/MD/TXT files to ingest.")
+    parser.add_argument("--target-tokens", type=int, default=400,
+                        help="Target tokens per chunk (default: 400).")
+    parser.add_argument("--overlap-tokens", type=int, default=50,
+                        help="Overlap tokens between chunks (default: 50).")
+    parser.add_argument("--embed-model", type=str, default=EMBED_MODEL_DEFAULT,
+                        help="Gemini embedding model (default: gemini-embedding-001, 3072 dims).")
+    parser.add_argument("--env-file", type=str,
+                        default=str(Path(__file__).resolve().parents[2] / ".env"),
+                        help="Path to .env file.")
 
     args = parser.parse_args()
-
     load_env_file(Path(args.env_file))
 
     gemini_api_key = os.environ.get("GEMINI_API_KEY")
@@ -322,27 +404,24 @@ def main() -> int:
     supabase_service_key = os.environ.get("SUPABASE_SERVICE_ROLE_KEY")
 
     if not gemini_api_key:
-        print("ERROR: Missing GEMINI_API_KEY in environment.", file=sys.stderr)
-        return 2
+        print("ERROR: Missing GEMINI_API_KEY", file=sys.stderr); return 2
     if not supabase_url or not supabase_service_key:
-        print("ERROR: Missing SUPABASE_URL or SUPABASE_SERVICE_ROLE_KEY in environment.", file=sys.stderr)
-        return 2
+        print("ERROR: Missing SUPABASE_URL or SUPABASE_SERVICE_ROLE_KEY", file=sys.stderr); return 2
 
     genai.configure(api_key=gemini_api_key)
-
-    print(f"Using embedding model: {args.embed_model}")
+    print(f"Using embedding model : {args.embed_model}")
+    print(f"Chunk target/overlap  : {args.target_tokens}/{args.overlap_tokens} tokens")
 
     docs: List[SourceDoc] = []
     if args.urls:
-        print(f"\n[1/4] Fetching {len(args.urls)} URL(s) ...")
+        print(f"\n[1/4] Crawling {len(args.urls)} URL(s) ...")
         docs.extend(load_website_urls(args.urls))
     if args.files:
         print(f"\n[1/4] Loading {len(args.files)} file(s) ...")
         docs.extend(load_files([Path(p) for p in args.files]))
 
     if not docs:
-        print("Nothing to ingest. Provide --urls and/or --files.", file=sys.stderr)
-        return 2
+        print("Nothing to ingest. Provide --urls and/or --files.", file=sys.stderr); return 2
 
     print(f"\n[2/4] Chunking {len(docs)} document(s) ...")
     all_rows: List[Dict[str, Any]] = []
@@ -350,6 +429,9 @@ def main() -> int:
         rows = build_rows(doc, target_tokens=args.target_tokens, overlap_tokens=args.overlap_tokens)
         print(f"  {doc.source_id} → {len(rows)} chunks")
         all_rows.extend(rows)
+
+    if not all_rows:
+        print("No chunks produced. Check source content.", file=sys.stderr); return 2
 
     print(f"\n[3/4] Embedding {len(all_rows)} chunks ...")
     contents = [r["content"] for r in all_rows]
@@ -360,7 +442,7 @@ def main() -> int:
     print(f"\n[4/4] Upserting {len(all_rows)} rows into Supabase ...")
     upsert_documents(all_rows, supabase_url=supabase_url, supabase_key=supabase_service_key)
 
-    print(f"\nDone! Inserted {len(all_rows)} chunks into documents table.")
+    print(f"\n✓ Done! Inserted {len(all_rows)} chunks into documents table.")
     return 0
 
 
