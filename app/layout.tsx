@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import { Analytics } from "@vercel/analytics/next";
 import { Toaster } from "@/components/ui/toaster";
+import { ChatWidget } from "@/components/chat-widget";
 import "./globals.css";
 
 const inter = Inter({ subsets: ["latin"] });
@@ -23,6 +24,7 @@ export default function RootLayout({
     <html lang="vi" className="scroll-smooth">
       <body className={inter.className}>
         {children}
+        <ChatWidget />
         <Toaster />
         <Analytics />
       </body>
