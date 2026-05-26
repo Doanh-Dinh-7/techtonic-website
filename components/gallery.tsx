@@ -5,177 +5,177 @@ import { Badge } from "@/components/ui/badge";
 import Image from "next/image";
 import { useEffect, useMemo, useState } from "react";
 
+// Tạo dữ liệu gallery với nhiều hình ảnh hơn để tạo hiệu ứng scroll
+const galleryItems = {
+  row_1: [
+    {
+      id: "10",
+      src: "https://res.cloudinary.com/dggsvq2tw/image/upload/v1758206576/CSLT7_1_e6mce3.webp",
+      alt: "Cslt 1",
+    },
+    {
+      id: "11",
+      src: "https://res.cloudinary.com/dggsvq2tw/image/upload/v1758206580/tx1_ukiv2f.webp",
+      alt: "TechXplore 1",
+    },
+    {
+      id: "12",
+      src: "https://res.cloudinary.com/dggsvq2tw/image/upload/v1758206559/CSLT3_3_al7vxr.webp",
+      alt: "Cslt 2",
+    },
+    {
+      id: "13",
+      src: "https://res.cloudinary.com/dggsvq2tw/image/upload/v1758206575/tx2_mtobag.webp",
+      alt: "TechXplore 2",
+    },
+    {
+      id: "14",
+      src: "https://res.cloudinary.com/dggsvq2tw/image/upload/v1758206559/CSLT3_1_wlf7dl.webp",
+      alt: "Cslt 3",
+    },
+    {
+      id: "15",
+      src: "https://res.cloudinary.com/dggsvq2tw/image/upload/v1758206576/tx3_fcyobt.webp",
+      alt: "TechXplore 3",
+    },
+    {
+      id: "16",
+      src: "https://res.cloudinary.com/dggsvq2tw/image/upload/v1758206556/CSLT7_3_voldl1.webp",
+      alt: "Cslt 4",
+    },
+    {
+      id: "17",
+      src: "https://res.cloudinary.com/dggsvq2tw/image/upload/v1758206560/tx4_vgbytt.webp",
+      alt: "TechXplore 4",
+    },
+    {
+      id: "18",
+      src: "https://res.cloudinary.com/dggsvq2tw/image/upload/v1758206554/CSLT7_2_lk8cgv.webp",
+      alt: "Cslt 5",
+    },
+    {
+      id: "19",
+      src: "https://res.cloudinary.com/dggsvq2tw/image/upload/v1758206577/tx5_brjia6.webp",
+      alt: "TechXplore 5",
+    },
+  ],
+  row_2: [
+    {
+      id: "20",
+      src: "https://res.cloudinary.com/dggsvq2tw/image/upload/v1758206560/mm1_bk4o4u.webp",
+      alt: "Mentor-Mentee 1",
+    },
+    {
+      id: "21",
+      src: "https://res.cloudinary.com/dggsvq2tw/image/upload/v1758206577/mm2_gewykm.webp",
+      alt: "Mentor-Mentee 2",
+    },
+    {
+      id: "22",
+      src: "https://res.cloudinary.com/dggsvq2tw/image/upload/v1758206557/mm4_fc12rj.webp",
+      alt: "Mentor-Mentee 4",
+    },
+    {
+      id: "23",
+      src: "https://res.cloudinary.com/dggsvq2tw/image/upload/v1758206572/mm5_elp0af.webp",
+      alt: "Mentor-Mentee 5",
+    },
+    {
+      id: "24",
+      src: "https://res.cloudinary.com/dggsvq2tw/image/upload/v1758206578/mm6_nvs60b.webp",
+      alt: "Mentor-Mentee 6",
+    },
+    {
+      id: "25",
+      src: "https://res.cloudinary.com/dggsvq2tw/image/upload/v1758206573/mm7_sxeuow.webp",
+      alt: "Mentor-Mentee 7",
+    },
+    {
+      id: "26",
+      src: "https://res.cloudinary.com/dggsvq2tw/image/upload/v1758206573/mm8_zcnku6.webp",
+      alt: "Mentor-Mentee 8",
+    },
+    {
+      id: "27",
+      src: "https://res.cloudinary.com/dggsvq2tw/image/upload/v1758206584/mm9_u8uhve.webp",
+      alt: "Mentor-Mentee 9",
+    },
+  ],
+  row_3: [
+    {
+      id: "30",
+      src: "https://res.cloudinary.com/dggsvq2tw/image/upload/v1758206574/ntnm1_p4uehk.webp",
+      alt: "Người trong ngành MIS 1",
+    },
+    {
+      id: "31",
+      src: "https://res.cloudinary.com/dggsvq2tw/image/upload/v1758206580/ntnm2_pj15jw.webp",
+      alt: "Người trong ngành MIS 2",
+    },
+    {
+      id: "32",
+      src: "https://res.cloudinary.com/dggsvq2tw/image/upload/v1758206575/ntnm3_fiezhd.webp",
+      alt: "Người trong ngành MIS 3",
+    },
+    {
+      id: "33",
+      src: "https://res.cloudinary.com/dggsvq2tw/image/upload/v1758206578/tw1_egckia.webp",
+      alt: "TechWare 1",
+    },
+    {
+      id: "34",
+      src: "https://res.cloudinary.com/dggsvq2tw/image/upload/v1758206561/tw2_plxjv3.webp",
+      alt: "TechWare 2",
+    },
+    {
+      id: "35",
+      src: "https://res.cloudinary.com/dggsvq2tw/image/upload/v1758206581/tw3_vjo45k.webp",
+      alt: "TechWare 3",
+    },
+    {
+      id: "36",
+      src: "https://res.cloudinary.com/dggsvq2tw/image/upload/v1758206585/tw4_edkcqy.webp",
+      alt: "TechWare 4",
+    },
+    {
+      id: "37",
+      src: "https://res.cloudinary.com/dggsvq2tw/image/upload/v1758206582/tw5_wceecw.webp",
+      alt: "TechWare 5",
+    },
+    {
+      id: "38",
+      src: "https://res.cloudinary.com/dggsvq2tw/image/upload/v1758206583/tw6_mjz94x.webp",
+      alt: "TechWare 6",
+    },
+    {
+      id: "39",
+      src: "https://res.cloudinary.com/dggsvq2tw/image/upload/v1758206582/tw7_lkrisz.webp",
+      alt: "TechWare 7",
+    },
+    {
+      id: "310",
+      src: "https://res.cloudinary.com/dggsvq2tw/image/upload/v1758206579/tw8_bb1f0p.webp",
+      alt: "TechWare 8",
+    },
+    {
+      id: "311",
+      src: "https://res.cloudinary.com/dggsvq2tw/image/upload/v1758206584/tw9_pdf6kh.webp",
+      alt: "TechWare 9",
+    },
+    {
+      id: "312",
+      src: "https://res.cloudinary.com/dggsvq2tw/image/upload/v1758206581/tw10_e2pf3b.webp",
+      alt: "TechWare 10",
+    },
+  ],
+};
+
 export function Gallery() {
   const [animationConfig, setAnimationConfig] = useState<{
     durations: number[];
     widths: number[];
     loaded: boolean;
   }>({ durations: [], widths: [], loaded: false });
-
-  // Tạo dữ liệu gallery với nhiều hình ảnh hơn để tạo hiệu ứng scroll
-  const galleryItems = {
-    row_1: [
-      {
-        id: "10",
-        src: "https://res.cloudinary.com/dggsvq2tw/image/upload/v1758206576/CSLT7_1_e6mce3.webp",
-        alt: "Cslt 1",
-      },
-      {
-        id: "11",
-        src: "https://res.cloudinary.com/dggsvq2tw/image/upload/v1758206580/tx1_ukiv2f.webp",
-        alt: "TechXplore 1",
-      },
-      {
-        id: "12",
-        src: "https://res.cloudinary.com/dggsvq2tw/image/upload/v1758206559/CSLT3_3_al7vxr.webp",
-        alt: "Cslt 2",
-      },
-      {
-        id: "13",
-        src: "https://res.cloudinary.com/dggsvq2tw/image/upload/v1758206575/tx2_mtobag.webp",
-        alt: "TechXplore 2",
-      },
-      {
-        id: "14",
-        src: "https://res.cloudinary.com/dggsvq2tw/image/upload/v1758206559/CSLT3_1_wlf7dl.webp",
-        alt: "Cslt 3",
-      },
-      {
-        id: "15",
-        src: "https://res.cloudinary.com/dggsvq2tw/image/upload/v1758206576/tx3_fcyobt.webp",
-        alt: "TechXplore 3",
-      },
-      {
-        id: "16",
-        src: "https://res.cloudinary.com/dggsvq2tw/image/upload/v1758206556/CSLT7_3_voldl1.webp",
-        alt: "Cslt 4",
-      },
-      {
-        id: "17",
-        src: "https://res.cloudinary.com/dggsvq2tw/image/upload/v1758206560/tx4_vgbytt.webp",
-        alt: "TechXplore 4",
-      },
-      {
-        id: "18",
-        src: "https://res.cloudinary.com/dggsvq2tw/image/upload/v1758206554/CSLT7_2_lk8cgv.webp",
-        alt: "Cslt 5",
-      },
-      {
-        id: "19",
-        src: "https://res.cloudinary.com/dggsvq2tw/image/upload/v1758206577/tx5_brjia6.webp",
-        alt: "TechXplore 5",
-      },
-    ],
-    row_2: [
-      {
-        id: "20",
-        src: "https://res.cloudinary.com/dggsvq2tw/image/upload/v1758206560/mm1_bk4o4u.webp",
-        alt: "Mentor-Mentee 1",
-      },
-      {
-        id: "21",
-        src: "https://res.cloudinary.com/dggsvq2tw/image/upload/v1758206577/mm2_gewykm.webp",
-        alt: "Mentor-Mentee 2",
-      },
-      {
-        id: "22",
-        src: "https://res.cloudinary.com/dggsvq2tw/image/upload/v1758206557/mm4_fc12rj.webp",
-        alt: "Mentor-Mentee 4",
-      },
-      {
-        id: "23",
-        src: "https://res.cloudinary.com/dggsvq2tw/image/upload/v1758206572/mm5_elp0af.webp",
-        alt: "Mentor-Mentee 5",
-      },
-      {
-        id: "24",
-        src: "https://res.cloudinary.com/dggsvq2tw/image/upload/v1758206578/mm6_nvs60b.webp",
-        alt: "Mentor-Mentee 6",
-      },
-      {
-        id: "25",
-        src: "https://res.cloudinary.com/dggsvq2tw/image/upload/v1758206573/mm7_sxeuow.webp",
-        alt: "Mentor-Mentee 7",
-      },
-      {
-        id: "26",
-        src: "https://res.cloudinary.com/dggsvq2tw/image/upload/v1758206573/mm8_zcnku6.webp",
-        alt: "Mentor-Mentee 8",
-      },
-      {
-        id: "27",
-        src: "https://res.cloudinary.com/dggsvq2tw/image/upload/v1758206584/mm9_u8uhve.webp",
-        alt: "Mentor-Mentee 9",
-      },
-    ],
-    row_3: [
-      {
-        id: "30",
-        src: "https://res.cloudinary.com/dggsvq2tw/image/upload/v1758206574/ntnm1_p4uehk.webp",
-        alt: "Người trong ngành MIS 1",
-      },
-      {
-        id: "31",
-        src: "https://res.cloudinary.com/dggsvq2tw/image/upload/v1758206580/ntnm2_pj15jw.webp",
-        alt: "Người trong ngành MIS 2",
-      },
-      {
-        id: "32",
-        src: "https://res.cloudinary.com/dggsvq2tw/image/upload/v1758206575/ntnm3_fiezhd.webp",
-        alt: "Người trong ngành MIS 3",
-      },
-      {
-        id: "33",
-        src: "https://res.cloudinary.com/dggsvq2tw/image/upload/v1758206578/tw1_egckia.webp",
-        alt: "TechWare 1",
-      },
-      {
-        id: "34",
-        src: "https://res.cloudinary.com/dggsvq2tw/image/upload/v1758206561/tw2_plxjv3.webp",
-        alt: "TechWare 2",
-      },
-      {
-        id: "35",
-        src: "https://res.cloudinary.com/dggsvq2tw/image/upload/v1758206581/tw3_vjo45k.webp",
-        alt: "TechWare 3",
-      },
-      {
-        id: "36",
-        src: "https://res.cloudinary.com/dggsvq2tw/image/upload/v1758206585/tw4_edkcqy.webp",
-        alt: "TechWare 4",
-      },
-      {
-        id: "37",
-        src: "https://res.cloudinary.com/dggsvq2tw/image/upload/v1758206582/tw5_wceecw.webp",
-        alt: "TechWare 5",
-      },
-      {
-        id: "38",
-        src: "https://res.cloudinary.com/dggsvq2tw/image/upload/v1758206583/tw6_mjz94x.webp",
-        alt: "TechWare 6",
-      },
-      {
-        id: "39",
-        src: "https://res.cloudinary.com/dggsvq2tw/image/upload/v1758206582/tw7_lkrisz.webp",
-        alt: "TechWare 7",
-      },
-      {
-        id: "310",
-        src: "https://res.cloudinary.com/dggsvq2tw/image/upload/v1758206579/tw8_bb1f0p.webp",
-        alt: "TechWare 8",
-      },
-      {
-        id: "311",
-        src: "https://res.cloudinary.com/dggsvq2tw/image/upload/v1758206584/tw9_pdf6kh.webp",
-        alt: "TechWare 9",
-      },
-      {
-        id: "312",
-        src: "https://res.cloudinary.com/dggsvq2tw/image/upload/v1758206581/tw10_e2pf3b.webp",
-        alt: "TechWare 10",
-      },
-    ],
-  };
 
   const rows = useMemo(() => Object.values(galleryItems), []);
 
@@ -186,7 +186,7 @@ export function Gallery() {
 
       // Kích thước ảnh theo breakpoint (w-56 md:w-64 lg:w-72)
       let itemWidth: number;
-      let spacing: number = 16; // space-x-4 = 16px
+      const spacing: number = 16; // space-x-4 = 16px
 
       if (viewportWidth >= 1024) {
         // lg

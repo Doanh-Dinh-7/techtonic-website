@@ -29,6 +29,13 @@
   :root {
     --font-sans                 : var(--font-geist-sans);
     --font-mono                 : var(--font-geist-mono);
+    --v2-background             : #0a0a0a;
+    --v2-neon-cyan              : #00f5ff;
+    --v2-neon-purple            : #a855f7;
+    --v2-neon-magenta           : #ff2bd6;
+    --v2-electric-blue          : #3b82f6;
+    --v2-glass-surface          : rgba(255, 255, 255, 0.06);
+    --v2-glass-border           : rgba(255, 255, 255, 0.14);
     --background                : 0 0% 100%;
     --foreground                : 0 0% 3.9%;
     --card                      : 0 0% 100%;
@@ -110,9 +117,94 @@
   }
 }
 
+@layer utilities {
+  .v2-dark-shell {
+    background:
+      radial-gradient(circle at 20% 20%, rgba(0, 245, 255, 0.12), transparent 30%),
+      radial-gradient(circle at 80% 0%, rgba(168, 85, 247, 0.14), transparent 28%),
+      radial-gradient(circle at 50% 100%, rgba(255, 43, 214, 0.1), transparent 32%),
+      var(--v2-background);
+    color: white;
+  }
+
+  .v2-glass {
+    background: var(--v2-glass-surface);
+    border: 1px solid var(--v2-glass-border);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.14);
+    backdrop-filter: blur(24px);
+  }
+
+  .v2-border-gradient {
+    position: relative;
+  }
+
+  .v2-border-gradient::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    padding: 1px;
+    border-radius: inherit;
+    background: linear-gradient(
+      135deg,
+      rgba(0, 245, 255, 0.58),
+      rgba(168, 85, 247, 0.24),
+      rgba(255, 43, 214, 0.48)
+    );
+    mask:
+      linear-gradient(#000 0 0) content-box,
+      linear-gradient(#000 0 0);
+    mask-composite: exclude;
+    pointer-events: none;
+  }
+
+  .v2-neon-text {
+    color: var(--v2-neon-cyan);
+    text-shadow: 0 0 18px rgba(0, 245, 255, 0.42);
+  }
+
+  .v2-grid-bg {
+    background-image:
+      linear-gradient(rgba(0, 245, 255, 0.08) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(0, 245, 255, 0.08) 1px, transparent 1px);
+    background-size: 48px 48px;
+  }
+}
+
 /* Smooth scrolling for the entire page */
 html {
   scroll-behavior: smooth;
+}
+
+html.lenis,
+html.lenis body {
+  height: auto;
+}
+
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+
+.lenis.lenis-smooth [data-lenis-prevent] {
+  overscroll-behavior: contain;
+}
+
+.lenis.lenis-stopped {
+  overflow: hidden;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    scroll-behavior: auto !important;
+    transition-duration: 0.01ms !important;
+  }
 }
 
 /* Infinite scroll animation for partners */

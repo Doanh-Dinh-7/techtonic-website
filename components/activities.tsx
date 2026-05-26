@@ -22,7 +22,9 @@ export function Activities() {
         <>
           Với tinh thần{" "}
           <em>
-            <strong>"Học để chia sẻ – Chia sẻ để phát triển"</strong>
+            <strong>
+              &ldquo;Học để chia sẻ - Chia sẻ để phát triển&rdquo;
+            </strong>
           </em>
           , TechTonic tổ chức các <em>lớp chia sẻ nội bộ</em> hỗ trợ sinh viên
           củng cố kiến thức thực tế, tập trung vào các môn nền tảng như:{" "}
@@ -41,7 +43,10 @@ export function Activities() {
       title: (
         <>
           Mentor-Mentee{" "}
-          <span className="text-sm text-gray-500"> "From Us To You"</span>
+          <span className="text-sm text-gray-500">
+            {" "}
+            &ldquo;From Us To You&rdquo;
+          </span>
         </>
       ),
       description: (

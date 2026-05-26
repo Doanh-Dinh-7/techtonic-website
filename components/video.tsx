@@ -2,8 +2,6 @@
 
 import { motion } from "framer-motion";
 import { Badge } from "@/components/ui/badge";
-import { Play } from "lucide-react";
-import Image from "next/image";
 
 export function Video() {
   return (

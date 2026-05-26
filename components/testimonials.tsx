@@ -152,14 +152,14 @@ export function Testimonials() {
                 </div>
 
                 <blockquote className="text-xl text-gray-600 italic mb-6 leading-relaxed min-h-[8rem] md:min-h-[6rem]">
-                  "
+                  &ldquo;
                   <Typewriter
                     text={testimonials[currentTestimonial].text}
                     delay={20}
                     pause={isHovered}
                     onComplete={() => setIsTypewriterComplete(true)}
                   />
-                  "
+                  &rdquo;
                 </blockquote>
 
                 <motion.div
