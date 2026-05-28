@@ -1,0 +1,1 @@
+export { Video } from "@/components/video";

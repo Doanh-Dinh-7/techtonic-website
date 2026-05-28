@@ -1,0 +1,1 @@
+export { Achievements } from "@/components/achievements";

@@ -42,10 +42,7 @@ const valueItems = [
 
 export function CoreValues() {
   return (
-    <section
-      id="core-values"
-      className="py-16 bg-gray-50 border-b border-gray-100"
-    >
+    <section id="core-values" className="py-16 bg-gray-50 border-b border-gray-100">
       <div className="container mx-auto px-4">
         <motion.div
           className="text-center space-y-3 mb-10"
@@ -62,8 +59,8 @@ export function CoreValues() {
             Những điều chúng mình cùng giữ
           </h2>
           <p className="text-gray-600 max-w-2xl mx-auto">
-            Nền tảng văn hóa TechTonic — xem thêm tầm nhìn &amp; sứ mệnh đầy đủ
-            tại trang Giới thiệu.
+            Nền tảng văn hóa TechTonic — xem thêm tầm nhìn &amp; sứ mệnh đầy đủ tại trang Giới
+            thiệu.
           </p>
         </motion.div>
 
@@ -82,9 +79,7 @@ export function CoreValues() {
               >
                 <v.icon className={`h-6 w-6 ${v.iconColor}`} />
               </div>
-              <span className="font-medium text-gray-800 text-sm">
-                {v.title}
-              </span>
+              <span className="font-medium text-gray-800 text-sm">{v.title}</span>
             </motion.div>
           ))}
         </div>

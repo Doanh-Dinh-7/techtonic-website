@@ -257,7 +257,7 @@ export function Gallery() {
       <div className="w-[100%] relative left-1/2 right-1/2 -mx-[50vw]">
         {!animationConfig.loaded ? (
           <div className="flex justify-center items-center h-64">
-            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-orange-600"></div>
+            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-orange-600" />
           </div>
         ) : (
           <div className="space-y-8">
@@ -265,9 +265,7 @@ export function Gallery() {
               <div key={rowIndex} className="relative overflow-hidden">
                 <motion.div
                   className={`flex space-x-4 hover:pause-animation ${
-                    rowIndex % 2 === 0
-                      ? "scroll-left-dynamic"
-                      : "scroll-right-dynamic"
+                    rowIndex % 2 === 0 ? "scroll-left-dynamic" : "scroll-right-dynamic"
                   }`}
                   style={
                     {

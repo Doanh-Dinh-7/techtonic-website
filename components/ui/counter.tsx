@@ -18,10 +18,7 @@ export function Counter({ end, duration = 2 }: CounterProps) {
       let startTime: number;
       const animate = (currentTime: number) => {
         if (!startTime) startTime = currentTime;
-        const progress = Math.min(
-          (currentTime - startTime) / (duration * 1000),
-          1
-        );
+        const progress = Math.min((currentTime - startTime) / (duration * 1000), 1);
         setCount(Math.floor(progress * end));
         if (progress < 1) {
           requestAnimationFrame(animate);

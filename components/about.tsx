@@ -4,16 +4,7 @@ import React from "react";
 import { motion } from "framer-motion";
 import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import {
-  Eye,
-  Target,
-  Gem,
-  Heart,
-  Handshake,
-  Shield,
-  Star,
-  Flag,
-} from "lucide-react";
+import { Eye, Target, Gem, Heart, Handshake, Shield, Star, Flag } from "lucide-react";
 
 export function About() {
   const values = [
@@ -79,15 +70,12 @@ export function About() {
                   <div className="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center">
                     <Eye className="h-6 w-6 text-blue-600" />
                   </div>
-                  <h3 className="text-3xl font-normal text-gray-900 font-utm-akashi">
-                    Tầm nhìn
-                  </h3>
+                  <h3 className="text-3xl font-normal text-gray-900 font-utm-akashi">Tầm nhìn</h3>
                 </div>
                 <p className="text-lg text-gray-600 leading-relaxed">
-                  Trở thành câu lạc bộ học thuật hàng đầu trực thuộc Hội Sinh
-                  viên tại trường Đại học Kinh Tế - Đại học Đà Nẵng, nơi trao đi
-                  những giá trị sâu sắc cho sinh viên trong khoảng thời gian học
-                  đại học và tương lai.
+                  Trở thành câu lạc bộ học thuật hàng đầu trực thuộc Hội Sinh viên tại trường Đại
+                  học Kinh Tế - Đại học Đà Nẵng, nơi trao đi những giá trị sâu sắc cho sinh viên
+                  trong khoảng thời gian học đại học và tương lai.
                 </p>
               </motion.div>
             </TabsContent>
@@ -103,15 +91,12 @@ export function About() {
                   <div className="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center">
                     <Target className="h-6 w-6 text-green-600" />
                   </div>
-                  <h3 className="text-3xl font-normal text-gray-900 font-utm-akashi">
-                    Sứ mệnh
-                  </h3>
+                  <h3 className="text-3xl font-normal text-gray-900 font-utm-akashi">Sứ mệnh</h3>
                 </div>
                 <p className="text-lg text-gray-600 leading-relaxed">
-                  Mang đến một môi trường học thuật cạnh tranh, lành mạnh, giúp
-                  cải thiện kiến thức, kỹ năng, kinh nghiệm, các mối quan hệ
-                  theo đúng lĩnh vực công nghệ thông tin, phân tích trong kinh
-                  doanh, thông qua sự dẫn dắt chân thành, lòng biết ơn, và trách
+                  Mang đến một môi trường học thuật cạnh tranh, lành mạnh, giúp cải thiện kiến thức,
+                  kỹ năng, kinh nghiệm, các mối quan hệ theo đúng lĩnh vực công nghệ thông tin, phân
+                  tích trong kinh doanh, thông qua sự dẫn dắt chân thành, lòng biết ơn, và trách
                   nhiệm cao của mỗi sinh viên là thành viên của câu lạc bộ.
                 </p>
               </motion.div>
@@ -148,9 +133,7 @@ export function About() {
                           className: `h-4 w-4 text-${value.color}-600`,
                         })}
                       </div>
-                      <span className="font-medium text-gray-800">
-                        {value.title}
-                      </span>
+                      <span className="font-medium text-gray-800">{value.title}</span>
                     </motion.div>
                   ))}
                 </div>

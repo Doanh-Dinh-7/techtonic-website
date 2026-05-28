@@ -16,18 +16,8 @@ export function CameraRig({ children, intensity = 0.35 }: CameraRigProps) {
   useFrame(({ camera, pointer }, delta) => {
     if (reducedMotion) return;
 
-    camera.position.x = MathUtils.damp(
-      camera.position.x,
-      pointer.x * intensity,
-      3,
-      delta,
-    );
-    camera.position.y = MathUtils.damp(
-      camera.position.y,
-      pointer.y * intensity,
-      3,
-      delta,
-    );
+    camera.position.x = MathUtils.damp(camera.position.x, pointer.x * intensity, 3, delta);
+    camera.position.y = MathUtils.damp(camera.position.y, pointer.y * intensity, 3, delta);
     camera.lookAt(0, 0, 0);
   });
 

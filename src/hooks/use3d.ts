@@ -9,8 +9,8 @@ function canCreateWebGLContext() {
     const canvas = document.createElement("canvas");
     return Boolean(
       canvas.getContext("webgl2") ||
-        canvas.getContext("webgl") ||
-        canvas.getContext("experimental-webgl"),
+      canvas.getContext("webgl") ||
+      canvas.getContext("experimental-webgl")
     );
   } catch {
     return false;
@@ -33,6 +33,9 @@ export function useReducedMotionPreference() {
   return reducedMotion;
 }
 
+/**
+ * Centralized runtime capability checks for 3D rendering paths.
+ */
 export function use3d() {
   const reducedMotion = useReducedMotionPreference();
   const [supportsWebGL, setSupportsWebGL] = useState<boolean | null>(null);
@@ -48,6 +51,6 @@ export function use3d() {
       isReady: supportsWebGL !== null,
       shouldRenderMotion: supportsWebGL === true && !reducedMotion,
     }),
-    [reducedMotion, supportsWebGL],
+    [reducedMotion, supportsWebGL]
   );
 }

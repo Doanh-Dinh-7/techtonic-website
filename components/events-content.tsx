@@ -1,8 +1,8 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { Badge } from "@/components/ui/badge";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Badge } from "@/shared/ui/badge";
+import { Card, CardContent, CardHeader, CardTitle } from "@/shared/ui/card";
 import { upcomingWorkshops } from "@/lib/content/events";
 import { techBlogTeasers } from "@/lib/content/blog-posts";
 import { Calendar, PartyPopper, BookOpen } from "lucide-react";
@@ -70,13 +70,9 @@ export function EventsContent() {
                   <CardHeader>
                     <div className="flex justify-between gap-2">
                       <CardTitle className="text-lg">{e.title}</CardTitle>
-                      {e.isSample && (
-                        <span className="text-xs text-amber-600 shrink-0">(mẫu)</span>
-                      )}
+                      {e.isSample && <span className="text-xs text-amber-600 shrink-0">(mẫu)</span>}
                     </div>
-                    <p className="text-sm text-blue-600 font-medium">
-                      {formatDate(e.date)}
-                    </p>
+                    <p className="text-sm text-blue-600 font-medium">{formatDate(e.date)}</p>
                   </CardHeader>
                   <CardContent className="text-gray-600 text-sm space-y-2">
                     {e.location && <p>📍 {e.location}</p>}
@@ -94,12 +90,12 @@ export function EventsContent() {
             Cuộc thi nội bộ &amp; kỷ niệm
           </h2>
           <p className="text-center text-gray-600 text-sm mb-8 max-w-xl mx-auto">
-            Album ảnh chính nằm ở trang Giới thiệu (thư viện). Tại đây có thể thêm
-            recap từng mùa giải khi CLB soạn nội dung.
+            Album ảnh chính nằm ở trang Giới thiệu (thư viện). Tại đây có thể thêm recap từng mùa
+            giải khi CLB soạn nội dung.
           </p>
           <div className="max-w-2xl mx-auto bg-white rounded-xl border border-dashed border-gray-300 p-10 text-center text-gray-500 text-sm">
-            (Mẫu) Khu vực dành cho mô tả cuộc thi nội bộ, đội thắng cuộc và hình ảnh
-            — thêm khi có dữ liệu.
+            (Mẫu) Khu vực dành cho mô tả cuộc thi nội bộ, đội thắng cuộc và hình ảnh — thêm khi có
+            dữ liệu.
           </div>
         </section>
 
@@ -121,21 +117,14 @@ export function EventsContent() {
                   <CardHeader>
                     <div className="flex justify-between gap-2">
                       <CardTitle className="text-base leading-snug">{b.title}</CardTitle>
-                      {b.isSample && (
-                        <span className="text-xs text-amber-600 shrink-0">(mẫu)</span>
-                      )}
+                      {b.isSample && <span className="text-xs text-amber-600 shrink-0">(mẫu)</span>}
                     </div>
-                    {b.date && (
-                      <p className="text-xs text-gray-500">{b.date}</p>
-                    )}
+                    {b.date && <p className="text-xs text-gray-500">{b.date}</p>}
                   </CardHeader>
                   <CardContent className="text-sm text-gray-600">
                     <p className="mb-4">{b.excerpt}</p>
                     {b.href !== "#" ? (
-                      <Link
-                        href={b.href}
-                        className="text-blue-600 font-medium hover:underline"
-                      >
+                      <Link href={b.href} className="text-blue-600 font-medium hover:underline">
                         Đọc thêm
                       </Link>
                     ) : (

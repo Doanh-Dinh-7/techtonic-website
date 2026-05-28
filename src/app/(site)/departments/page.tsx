@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { DepartmentsContent } from "@/components/departments-content";
+import { DepartmentsPageContent } from "@/widgets/departments/departments-page-content";
 
 export const metadata: Metadata = {
   title: "Các ban",
@@ -8,5 +8,5 @@ export const metadata: Metadata = {
 };
 
 export default function DepartmentsPage() {
-  return <DepartmentsContent />;
+  return <DepartmentsPageContent />;
 }

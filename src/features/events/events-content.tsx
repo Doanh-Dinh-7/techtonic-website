@@ -1,0 +1,1 @@
+export { EventsContent } from "@/components/events-content";

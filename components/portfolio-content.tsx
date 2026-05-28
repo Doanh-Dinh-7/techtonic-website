@@ -1,22 +1,15 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { Badge } from "@/components/ui/badge";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
+import { Badge } from "@/shared/ui/badge";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/shared/ui/card";
+import { Button } from "@/shared/ui/button";
 import { featuredProjects } from "@/lib/content/projects";
 import { clubAwards } from "@/lib/content/awards";
 import { Trophy, Github, ExternalLink } from "lucide-react";
 import Link from "next/link";
 
-const githubOrg =
-  process.env.NEXT_PUBLIC_GITHUB_ORG || "https://github.com/techtonic-club";
+const githubOrg = process.env.NEXT_PUBLIC_GITHUB_ORG || "https://github.com/techtonic-club";
 
 export function PortfolioContent() {
   return (
@@ -32,11 +25,10 @@ export function PortfolioContent() {
               <Trophy className="h-3 w-3 mr-1 inline" />
               Dự án &amp; Thành tích
             </Badge>
-            <h1 className="text-3xl lg:text-5xl font-bold font-paris2024">
-              Bảng vàng CLB
-            </h1>
+            <h1 className="text-3xl lg:text-5xl font-bold font-paris2024">Bảng vàng CLB</h1>
             <p className="text-blue-100 text-sm">
-              Sản phẩm và giải thưởng có mục <span className="text-amber-200">(mẫu)</span> — bổ sung link repo và hình ảnh thật sau.
+              Sản phẩm và giải thưởng có mục <span className="text-amber-200">(mẫu)</span> — bổ sung
+              link repo và hình ảnh thật sau.
             </p>
           </motion.div>
         </div>
@@ -60,9 +52,7 @@ export function PortfolioContent() {
                   <CardHeader>
                     <div className="flex justify-between items-start gap-2">
                       <CardTitle className="text-lg">{p.title}</CardTitle>
-                      {p.isSample && (
-                        <span className="text-xs text-amber-600 shrink-0">(mẫu)</span>
-                      )}
+                      {p.isSample && <span className="text-xs text-amber-600 shrink-0">(mẫu)</span>}
                     </div>
                     <CardDescription>{p.description}</CardDescription>
                   </CardHeader>
@@ -116,13 +106,9 @@ export function PortfolioContent() {
                 <div className="flex flex-wrap items-baseline gap-2 mb-1">
                   <span className="font-semibold text-gray-900">{a.name}</span>
                   <span className="text-sm text-blue-600">{a.year}</span>
-                  {a.isSample && (
-                    <span className="text-xs text-amber-600">(mẫu)</span>
-                  )}
+                  {a.isSample && <span className="text-xs text-amber-600">(mẫu)</span>}
                 </div>
-                {a.detail && (
-                  <p className="text-gray-600 text-sm">{a.detail}</p>
-                )}
+                {a.detail && <p className="text-gray-600 text-sm">{a.detail}</p>}
               </motion.li>
             ))}
           </ul>
@@ -136,10 +122,7 @@ export function PortfolioContent() {
             <code className="text-xs bg-white/10 px-1 rounded">NEXT_PUBLIC_GITHUB_ORG</code>
             ). Link mẫu nếu chưa tạo org.
           </p>
-          <Button
-            asChild
-            className="bg-white text-blue-700 hover:bg-blue-50"
-          >
+          <Button asChild className="bg-white text-blue-700 hover:bg-blue-50">
             <a href={githubOrg} target="_blank" rel="noopener noreferrer">
               <Github className="h-4 w-4 mr-2" />
               Mở GitHub

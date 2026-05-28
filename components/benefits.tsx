@@ -5,14 +5,7 @@ import { motion } from "framer-motion";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
-import {
-  Code,
-  Network,
-  Lightbulb,
-  Trophy,
-  GraduationCap,
-  Handshake,
-} from "lucide-react";
+import { Code, Network, Lightbulb, Trophy, GraduationCap, Handshake } from "lucide-react";
 import Image from "next/image";
 
 export function Benefits() {
@@ -54,8 +47,7 @@ export function Benefits() {
       icon: Trophy,
       title: "Cơ hội thi đấu",
       desc: "Tham gia các cuộc thi lập trình, hackathon cấp trường, quốc gia và quốc tế.",
-      image:
-        "https://res.cloudinary.com/dggsvq2tw/image/upload/v1758206555/olp_icpc_qlzrul.webp",
+      image: "https://res.cloudinary.com/dggsvq2tw/image/upload/v1758206555/olp_icpc_qlzrul.webp",
       color: "purple",
       textColor: "text-purple-600",
       bgColor: "bg-purple-100",
@@ -156,9 +148,7 @@ export function Benefits() {
                           className: `h-6 w-6 ${benefit.textColor}`,
                         })}
                       </div>
-                      <h3 className="text-2xl font-normal font-utm-akashi">
-                        {benefit.title}
-                      </h3>
+                      <h3 className="text-2xl font-normal font-utm-akashi">{benefit.title}</h3>
                     </div>
                     <Image
                       src={benefit.image || "/placeholder.svg"}
@@ -167,9 +157,7 @@ export function Benefits() {
                       height={300}
                       className="rounded-lg w-full"
                     />
-                    <p className="text-gray-600 leading-relaxed">
-                      {benefit.desc}
-                    </p>
+                    <p className="text-gray-600 leading-relaxed">{benefit.desc}</p>
                   </div>
                 </DialogContent>
               </Dialog>

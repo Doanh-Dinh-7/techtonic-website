@@ -21,18 +21,25 @@ TechTonic Website là một trang web hiện đại và đáp ứng được xâ
 ## Cài đặt
 
 1. Clone repository:
+
 ```bash
 git clone <Link>
 ```
+
 2. Move root project:
+
 ```bash
 cd techtonic-website
 ```
+
 3. Install project:
+
 ```bash
 npm install --force
 ```
+
 4. Run project:
+
 ```bash
 npm run dev
 ```

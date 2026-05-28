@@ -31,9 +31,8 @@ export function AboutTimeline() {
               Chặng đường phát triển
             </h1>
             <p className="text-violet-100/95 text-sm md:text-base">
-              Các mốc dưới đây có nhãn{" "}
-              <span className="text-amber-200 font-medium">(mẫu)</span> — cập nhật
-              năm và sự kiện chính xác khi có biên bản CLB.
+              Các mốc dưới đây có nhãn <span className="text-amber-200 font-medium">(mẫu)</span> —
+              cập nhật năm và sự kiện chính xác khi có biên bản CLB.
             </p>
           </motion.div>
         </div>
@@ -67,13 +66,9 @@ export function AboutTimeline() {
                         <span className="text-lg font-bold bg-gradient-to-r from-violet-700 to-teal-600 bg-clip-text text-transparent font-utm-akashi">
                           {entry.year}
                         </span>
-                        {entry.isSample && (
-                          <span className="text-xs text-amber-600">(mẫu)</span>
-                        )}
+                        {entry.isSample && <span className="text-xs text-amber-600">(mẫu)</span>}
                       </div>
-                      <h3 className="text-lg font-semibold text-gray-900 mb-2">
-                        {entry.title}
-                      </h3>
+                      <h3 className="text-lg font-semibold text-gray-900 mb-2">{entry.title}</h3>
                       <p className="text-gray-600 leading-relaxed text-sm md:text-base">
                         {entry.description}
                       </p>

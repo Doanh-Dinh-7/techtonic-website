@@ -1,0 +1,1 @@
+export { Team } from "@/components/team";

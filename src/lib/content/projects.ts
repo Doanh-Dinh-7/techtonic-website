@@ -5,8 +5,7 @@ export const featuredProjects: ProjectItem[] = [
   {
     id: "p1",
     title: "Website giới thiệu CLB",
-    description:
-      "Trang thông tin đa trang cho TechTonic, tích hợp form tuyển thành viên.",
+    description: "Trang thông tin đa trang cho TechTonic, tích hợp form tuyển thành viên.",
     stack: ["Next.js", "TypeScript", "Tailwind CSS"],
     demoUrl: "/",
     isSample: true,

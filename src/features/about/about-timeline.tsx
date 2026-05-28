@@ -1,0 +1,1 @@
+export { AboutTimeline } from "@/components/about-timeline";

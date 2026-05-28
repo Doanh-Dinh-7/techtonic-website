@@ -2,13 +2,7 @@
 
 import { motion } from "framer-motion";
 import { Badge } from "@/components/ui/badge";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import Link from "next/link";
 import { Newspaper, ArrowRight } from "lucide-react";
 import { featuredNews } from "@/lib/content/news";
@@ -32,8 +26,8 @@ export function FeaturedNews() {
             Cập nhật mới nhất
           </h2>
           <p className="text-gray-600 max-w-2xl mx-auto text-sm">
-            Một số mục mang nhãn <span className="text-amber-600">(mẫu)</span> —
-            thay nội dung và liên kết thật khi CLB công bố chính thức.
+            Một số mục mang nhãn <span className="text-amber-600">(mẫu)</span> — thay nội dung và
+            liên kết thật khi CLB công bố chính thức.
           </p>
         </motion.div>
 
@@ -54,9 +48,7 @@ export function FeaturedNews() {
                         {item.badge}
                       </Badge>
                     )}
-                    {item.isSample && (
-                      <span className="text-xs text-amber-600">(mẫu)</span>
-                    )}
+                    {item.isSample && <span className="text-xs text-amber-600">(mẫu)</span>}
                   </div>
                   <CardTitle className="text-lg leading-snug">{item.title}</CardTitle>
                   <CardDescription>{item.date}</CardDescription>

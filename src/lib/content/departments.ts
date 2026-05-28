@@ -18,24 +18,16 @@ export const departments: Department[] = [
     id: "media",
     name: "Ban Truyền thông",
     shortName: "TT",
-    description:
-      "Xây dựng hình ảnh CLB trên mạng xã hội, thiết kế poster và nội dung số.",
-    highlights: [
-      "Quản lý fanpage / kênh hình ảnh",
-      "Sản xuất bài đăng, recap sự kiện",
-    ],
+    description: "Xây dựng hình ảnh CLB trên mạng xã hội, thiết kế poster và nội dung số.",
+    highlights: ["Quản lý fanpage / kênh hình ảnh", "Sản xuất bài đăng, recap sự kiện"],
     isSample: true,
   },
   {
     id: "hr",
     name: "Ban Nhân sự",
     shortName: "NS",
-    description:
-      "Tuyển chọn, onboarding và gắn kết thành viên; hỗ trợ văn hóa CLB.",
-    highlights: [
-      "Tổ chức các vòng tuyển thành viên",
-      "Theo dõi hoạt động, gắn kết mentor–mentee",
-    ],
+    description: "Tuyển chọn, onboarding và gắn kết thành viên; hỗ trợ văn hóa CLB.",
+    highlights: ["Tổ chức các vòng tuyển thành viên", "Theo dõi hoạt động, gắn kết mentor–mentee"],
     isSample: true,
   },
   {

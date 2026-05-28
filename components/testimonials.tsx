@@ -127,10 +127,7 @@ export function Testimonials() {
                   transition={{ delay: 0.2, type: "spring", bounce: 0.5 }}
                 >
                   <Image
-                    src={
-                      testimonials[currentTestimonial].image ||
-                      "/placeholder.svg"
-                    }
+                    src={testimonials[currentTestimonial].image || "/placeholder.svg"}
                     alt={testimonials[currentTestimonial].name}
                     width={80}
                     height={80}

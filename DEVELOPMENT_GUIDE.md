@@ -2,19 +2,19 @@
 
 ## Purpose
 
-This guide helps contributors set up the project, run workflows, work with the post–Phase 1 `src/` layout, and debug UI/3D performance.
+This guide helps contributors set up the project, follow daily workflows, and work correctly with the current Phase 3-ready architecture baseline.
 
 ---
 
 ## Requirements
 
-- **Node.js** LTS (recommended >= 20)
-- **npm** (project default; `pnpm-lock.yaml` may exist — use one package manager consistently)
-- **Git**
+- Node.js LTS (recommended >= 20)
+- npm (project default)
+- Git
 
 ---
 
-## Environment Setup
+## Setup
 
 ```bash
 git clone <repository-url>
@@ -23,165 +23,160 @@ npm install
 npm run dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000).
+Open: [http://localhost:3000](http://localhost:3000)
 
-### Branch
+Active branch (main refactor line): `feature/next-gen-club-website`
+Current phase focus: `Phase 3 — 3D Performance & Futuristic Polish`
 
-Active development: `feature/next-gen-club-website` (or your team’s integration branch).
+For quality verification after setup:
+
+```bash
+npm run lint
+npm run typecheck
+npm run test
+npm run format:check
+npm run build
+```
 
 ---
 
-## Project Layout (Quick Reference)
+## Current Layout (Quick Reference)
 
-After **Phase 1**, canonical paths are under `src/`:
-
-| What | Where |
+| Area | Canonical path |
 |---|---|
-| Routes & layouts | `src/app/` |
-| Global styles | `src/app/globals.css` |
-| Hooks | `src/hooks/` |
-| Utils & content | `src/lib/` |
-| 3D (R3F) | `src/components/3d/` |
-| Page UI (legacy) | `components/` (root) |
+| Routes & layout | `src/app/` |
+| Page composition | `src/widgets/` |
+| Feature sections | `src/features/` |
+| Shared UI/hooks/utils | `src/shared/` |
+| Shared types | `src/types/` |
+| Shared hooks | `src/hooks/` |
+| Content & utilities | `src/lib/` |
+| 3D runtime (transitional) | `src/components/3d/` |
+| Legacy transitional modules | `components/` |
 
-Imports use `@/` → resolves to `src/*` first, then root fallback. See [`PROJECT_STRUCTURE.md`](./PROJECT_STRUCTURE.md).
-
-**Important:** Migrated modules live only under `src/` (`app`, `hooks`, `lib`, `components/3d`). Root `components/` remains legacy until Phase 2.
+Use `@/` alias for all imports.
 
 ---
 
 ## Available Scripts
 
-From `package.json`:
-
 | Command | Description |
 |---|---|
-| `npm run dev` | Start Next.js development server |
+| `npm run dev` | Start Next.js dev server |
 | `npm run build` | Production build |
-| `npm run start` | Run production server (after `build`) |
-| `npm run lint` | Run ESLint via `next lint` |
+| `npm run start` | Start production server |
+| `npm run lint` | ESLint check |
+| `npm run lint:fix` | ESLint auto-fix |
 | `npm run typecheck` | TypeScript check (`tsc --noEmit`) |
+| `npm run test` | Run unit tests with Vitest |
+| `npm run test:watch` | Run Vitest in watch mode |
+| `npm run format` | Format all files with Prettier |
+| `npm run format:check` | Prettier check mode |
+| `npm run prepare` | Initialize Husky hooks |
 
-### Recommended local checks
+### Git Hooks (Husky)
+
+- `pre-commit` -> `lint-staged`
+- `commit-msg` -> `commitlint`
+
+### CI Workflow
+
+- GitHub Actions workflow: `.github/workflows/quality-gates.yml`
+- Default gate order: `lint` -> `typecheck` -> `format:check` -> `test` -> `build`
+
+### Recommended Local Quality Gate
 
 ```bash
 npm run lint
 npm run typecheck
+npm run test
+npm run format:check
 npm run build
 ```
 
-**Planned scripts (Phase 2):**
-
-- `npm run test` / `npm run test:watch`
-
 ---
 
-## TypeScript Path Alias
+## TypeScript Alias
 
 ```json
 "@/*": ["./src/*", "./*"]
 ```
 
-Examples:
+Practical rule:
 
-```ts
-import { use3d } from "@/hooks/use3d";
-import { featuredNews } from "@/lib/content";
-import { HeroScene } from "@/components/3d/scenes/hero-scene";
-import { Hero } from "@/components/hero"; // legacy root components/
-```
+- Prefer `src/*` canonical modules in new code.
+- Legacy root modules are compatibility only.
 
 ---
 
-## Tooling Baseline
+## Tooling Baseline (Current)
 
-### Current
+- Next.js 14.2.x
+- React 18
+- TypeScript strict mode
+- Tailwind CSS 3.x
+- ESLint + Prettier
+- Husky + lint-staged + Commitlint
+- 3D stack: `three`, `@react-three/fiber`, `@react-three/drei`
 
-- **Next.js** 14.2.x (App Router; target upgrade: 15)
-- **React** 18
-- **TypeScript** strict mode
-- **Tailwind CSS** 3.x (`tailwind.config.ts` scans `./src/**/*` and legacy `./components/**/*`, `./app/**/*`)
-- **ESLint** (`eslint-config-next`)
-- **3D:** `@react-three/fiber`, `@react-three/drei`, `three`
+Config highlights:
 
-### Known config notes
-
-- `next.config.mjs`: `ignoreDuringBuilds` / `ignoreBuildErrors` are **enabled** (temporary — fix in Phase 2).
-- `components.json` (shadcn): may still reference `app/globals.css`; canonical CSS is `src/app/globals.css`.
-
-### Recommended (Phase 2)
-
-- Prettier
-- Husky + lint-staged
-- Commitlint (Conventional Commits)
-- CI: `lint` + `typecheck` + `test` + `build`
-
----
-
-## Working with 3D Components
-
-- Scene code: `src/components/3d/` (`canvas/`, `scenes/`, `effects/`, `models/`).
-- Shared 3D config: `src/lib/3d/` (`constants`, `materials`, `performance`).
-- Capability hook: `@/hooks/use3d` (WebGL check, reduced motion).
-- Use `CanvasShell` for consistent DPR, frameloop, and fallback UI.
-- Lazy-load heavy scenes on routes that need them.
-- Always respect `prefers-reduced-motion`.
-
----
-
-## Debugging Performance
-
-### UI (2D)
-
-- React DevTools: unnecessary re-renders in large sections (`hero`, `gallery`, `registration`).
-- Scroll: `SiteShell` scroll listener, Lenis in `components/lenis-provider.tsx`.
-- Images: avoid excessive `priority` flags; use responsive `sizes`.
-
-### Three.js / R3F
-
-- Monitor FPS and frame time under interaction.
-- Review particle counts via `getSafeParticleCount` (`src/lib/3d/performance.ts`).
-- Cap DPR; pause offscreen rendering when possible.
-
-### Debugging workflow
-
-1. Reproduce with minimal steps.
-2. Isolate layer: route (`src/app`) vs component vs hook vs 3D.
-3. Confirm you are editing the **`src/`** file, not a legacy duplicate.
-4. Fix, re-run `lint` + `tsc --noEmit` + `build`.
-5. Document impact in the PR.
+- `next.config.mjs` keeps lint/typecheck enabled during build (`ignore* = false`).
+- `components.json` aliases point to shared layer (`@/shared/ui`, `@/shared/utils`, `@/shared/hooks`).
 
 ---
 
 ## Onboarding Checklist
 
-- [ ] Clone repo and run `npm install` + `npm run dev`.
-- [ ] Read [`PROJECT_STRUCTURE.md`](./PROJECT_STRUCTURE.md) (Phase 1 layout + alias rules).
-- [ ] Read [`ARCHITECTURE.md`](./ARCHITECTURE.md) (current vs target).
-- [ ] Read [`CODE_STYLE.md`](./CODE_STYLE.md).
-- [ ] Read [`CONTRIBUTING.md`](./CONTRIBUTING.md).
-- [ ] Read [`DESIGN.md`](./DESIGN.md).
-- [ ] Locate routes in `src/app/(site)/`.
-- [ ] Locate content data in `src/lib/content/`.
-- [ ] Run `npm run lint` and `npx tsc --noEmit` locally.
-- [ ] Open a small PR (docs/chore/fix) using Conventional Commits.
+- [ ] Clone, install, run `npm run dev`
+- [ ] Read `PROJECT_STRUCTURE.md`
+- [ ] Read `ARCHITECTURE.md`
+- [ ] Read `CODE_STYLE.md`
+- [ ] Read `CONTRIBUTING.md`
+- [ ] Understand route composition flow: `app -> widgets -> features`
+- [ ] Locate content source in `src/lib/content/`
+- [ ] Run local quality gate (`lint`, `typecheck`, `test`, `format:check`, `build`)
+- [ ] Check CI workflow definition in `.github/workflows/quality-gates.yml`
+- [ ] Open a small Conventional Commit PR
+
+---
+
+## Daily Development Rules
+
+- Keep route files thin; compose through widgets/features.
+- Prefer `@/shared/ui` instead of `@/components/ui` in new code.
+- Avoid adding permanent modules under root `components/`.
+- Keep migration PRs behavior-safe (structure first, logic second).
+
+---
+
+## Debug & Performance Notes
+
+### UI
+
+- Check unnecessary re-renders in large sections.
+- Watch scroll behavior in `src/widgets/layout/site-shell.tsx`.
+
+### 3D
+
+- Keep heavy scene logic under `src/components/3d/` (until `src/3d` migration).
+- Respect reduced motion and DPR limits.
 
 ---
 
 ## Definition of Done
 
-- Changes respect architecture boundaries ([`ARCHITECTURE.md`](./ARCHITECTURE.md)).
-- New migrated code lives under `src/`; imports use `@/`.
-- Code style followed ([`CODE_STYLE.md`](./CODE_STYLE.md)).
-- Local checks pass (`lint`, `tsc --noEmit`, `build` when applicable).
-- Docs updated if structure, scripts, or conventions change.
-- PR includes verification notes and screenshots for UI/3D changes.
+- Correct layer placement (`app/widgets/features/shared`).
+- Dependency direction preserved (`app -> widgets -> features -> entities -> shared`, plus `app/widgets/features -> 3d`).
+- Imports use `@/` and canonical paths.
+- Quality gate passes locally.
+- Documentation updated if structure or workflow changed.
 
 ---
 
 ## Related Docs
 
-- [`ARCHITECTURE.md`](./ARCHITECTURE.md)
 - [`PROJECT_STRUCTURE.md`](./PROJECT_STRUCTURE.md)
+- [`ARCHITECTURE.md`](./ARCHITECTURE.md)
 - [`CODE_STYLE.md`](./CODE_STYLE.md)
 - [`CONTRIBUTING.md`](./CONTRIBUTING.md)

@@ -8,10 +8,7 @@ type FloatingLogoProps = {
   color?: string;
 };
 
-export function FloatingLogo({
-  text = "TT",
-  color = V2_COLORS.neonCyan,
-}: FloatingLogoProps) {
+export function FloatingLogo({ text = "TT", color = V2_COLORS.neonCyan }: FloatingLogoProps) {
   return (
     <Float floatIntensity={0.65} rotationIntensity={0.45} speed={1.4}>
       <group rotation={[0.08, -0.28, 0]}>
@@ -25,12 +22,7 @@ export function FloatingLogo({
             roughness={0.22}
           />
         </mesh>
-        <Text
-          anchorX="center"
-          anchorY="middle"
-          fontSize={0.54}
-          position={[-0.58, -0.28, 0]}
-        >
+        <Text anchorX="center" anchorY="middle" fontSize={0.54} position={[-0.58, -0.28, 0]}>
           {text}
           <meshStandardMaterial
             color={color}

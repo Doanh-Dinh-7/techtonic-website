@@ -35,15 +35,13 @@ export function RecruitmentProcessExtra() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
         >
-          <Badge className="mb-3 bg-indigo-100 text-indigo-800">
-            Quy trình tuyển chọn
-          </Badge>
+          <Badge className="mb-3 bg-indigo-100 text-indigo-800">Quy trình tuyển chọn</Badge>
           <h2 className="text-2xl lg:text-3xl font-bold text-gray-900 font-paris2024">
             Các vòng (tham khảo)
           </h2>
           <p className="text-sm text-gray-600 mt-2 max-w-xl mx-auto">
-            Mô tả mang nhãn <span className="text-amber-600">(mẫu)</span> — điều chỉnh
-            theo quy chế từng đợt tuyển của CLB.
+            Mô tả mang nhãn <span className="text-amber-600">(mẫu)</span> — điều chỉnh theo quy chế
+            từng đợt tuyển của CLB.
           </p>
         </motion.div>
         <div className="grid md:grid-cols-3 gap-6 max-w-4xl mx-auto">
@@ -61,9 +59,7 @@ export function RecruitmentProcessExtra() {
               </div>
               <h3 className="font-semibold text-gray-900 mb-2 flex items-center gap-2">
                 {r.title}
-                {r.sample && (
-                  <span className="text-xs font-normal text-amber-600">(mẫu)</span>
-                )}
+                {r.sample && <span className="text-xs font-normal text-amber-600">(mẫu)</span>}
               </h3>
               <p className="text-sm text-gray-600">{r.desc}</p>
             </motion.div>

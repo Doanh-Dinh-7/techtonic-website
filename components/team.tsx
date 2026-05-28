@@ -171,21 +171,14 @@ export function Team() {
           <Badge className="bg-red-100 text-red-700 hover:bg-red-700 hover:text-red-100">
             Đội ngũ
           </Badge>
-          <h2 className="text-3xl lg:text-4xl font-bold text-gray-900">
-            Ban điều hành & Mentor
-          </h2>
+          <h2 className="text-3xl lg:text-4xl font-bold text-gray-900">Ban điều hành & Mentor</h2>
           <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-            Đội ngũ lãnh đạo và mentor giàu kinh nghiệm, luôn sẵn sàng hỗ trợ
-            thành viên
+            Đội ngũ lãnh đạo và mentor giàu kinh nghiệm, luôn sẵn sàng hỗ trợ thành viên
           </p>
         </motion.div>
 
         <div className="max-w-7xl mx-auto">
-          <Tabs
-            value={selectedTerm}
-            onValueChange={setSelectedTerm}
-            className="w-full"
-          >
+          <Tabs value={selectedTerm} onValueChange={setSelectedTerm} className="w-full">
             <TabsList className="flex w-full mb-8 gap-2 bg-blue-200 rounded-lg p-7">
               {visibleTabs.map((tab) => (
                 <TabsTrigger
@@ -241,10 +234,7 @@ export function Team() {
                     >
                       <Card className="text-center border-0 shadow-lg shadow-blue-200 h-full">
                         <CardHeader>
-                          <motion.div
-                            whileHover={{ scale: 1.1 }}
-                            transition={{ duration: 0.3 }}
-                          >
+                          <motion.div whileHover={{ scale: 1.1 }} transition={{ duration: 0.3 }}>
                             <Image
                               src={member.image || "/placeholder.svg"}
                               alt={member.name}

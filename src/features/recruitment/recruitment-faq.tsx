@@ -1,0 +1,1 @@
+export { RecruitmentFaq } from "@/components/recruitment-faq";

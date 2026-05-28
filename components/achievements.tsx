@@ -8,10 +8,7 @@ import { Counter } from "@/components/ui/counter";
 import Image from "next/image";
 import { partnerLogos } from "@/lib/content/partners";
 
-const statStyles: Record<
-  string,
-  { bg: string; text: string }
-> = {
+const statStyles: Record<string, { bg: string; text: string }> = {
   yellow: { bg: "bg-yellow-100", text: "text-yellow-600" },
   blue: { bg: "bg-blue-100", text: "text-blue-600" },
   green: { bg: "bg-green-100", text: "text-green-600" },
@@ -48,8 +45,7 @@ export function Achievements() {
             Dấu ấn & Thành tựu
           </h2>
           <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-            Những thành tích đáng tự hào của TechTonic Club qua các năm hoạt
-            động
+            Những thành tích đáng tự hào của TechTonic Club qua các năm hoạt động
           </p>
         </motion.div>
         <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8 mb-12">

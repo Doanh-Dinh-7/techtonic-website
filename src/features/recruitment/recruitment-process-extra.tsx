@@ -1,0 +1,1 @@
+export { RecruitmentProcessExtra } from "@/components/recruitment-process-extra";

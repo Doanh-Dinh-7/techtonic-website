@@ -1,49 +1,35 @@
 "use client";
 
-import { useState } from "react";
-import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
+import { Badge } from "@/shared/ui/badge";
+import { Button } from "@/shared/ui/button";
+import { Input } from "@/shared/ui/input";
+import { Textarea } from "@/shared/ui/textarea";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/shared/ui/card";
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@/components/ui/select";
+} from "@/shared/ui/select";
 import { Code, Loader2 } from "lucide-react";
-import { toast } from "@/hooks/use-toast";
+import { useRegistrationForm } from "@/features/recruitment/hooks/use-registration-form";
 
+/**
+ * Two-step recruitment form that opens Google Form prefilled data.
+ */
 export function Registration() {
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const [currentStep, setCurrentStep] = useState(1);
-  const [formData, setFormData] = useState({
-    // Thông tin cơ bản
-    fullName: "",
-    email: "",
-    phone: "",
-    studentId: "",
-    class: "",
-    facebookLink: "",
-    gender: "",
-    selfDescription: "",
-
-    // Thông tin bổ sung
-    questions: "",
-    whyJoin: "",
-    knowAnyone: "",
-    skills: "",
-    whyChooseDepartment: "",
-    department: "",
-  });
+  const {
+    currentStep,
+    formData,
+    handleInputChange,
+    handleSubmit,
+    isFormComplete,
+    isStep1Valid,
+    isSubmitting,
+    nextStep,
+    prevStep,
+  } = useRegistrationForm();
 
   const steps = [
     {
@@ -62,132 +48,6 @@ export function Registration() {
       desc: "Tham gia các dự án và phát triển kỹ năng",
     },
   ];
-
-  const handleInputChange = (field: string, value: string) => {
-    setFormData((prev) => ({
-      ...prev,
-      [field]: value,
-    }));
-  };
-
-  // Validation cho step 1 (thông tin cơ bản)
-  const isStep1Valid = () => {
-    return (
-      formData.fullName.trim() !== "" &&
-      formData.studentId.trim() !== "" &&
-      formData.class.trim() !== "" &&
-      formData.phone.trim() !== "" &&
-      formData.email.trim() !== "" &&
-      formData.gender.trim() !== "" &&
-      formData.facebookLink.trim() !== "" &&
-      formData.selfDescription.trim() !== ""
-    );
-  };
-
-  // Validation cho step 2 (thông tin bổ sung)
-  const isStep2Valid = () => {
-    return (
-      formData.whyJoin.trim() !== "" &&
-      formData.skills.trim() !== "" &&
-      formData.department.trim() !== "" &&
-      formData.whyChooseDepartment.trim() !== ""
-    );
-  };
-
-  // Kiểm tra tất cả trường bắt buộc đã được điền
-  const isFormComplete = () => {
-    return isStep1Valid() && isStep2Valid();
-  };
-
-  const nextStep = () => {
-    if (currentStep === 1 && isStep1Valid()) {
-      setCurrentStep(2);
-    }
-  };
-
-  const prevStep = () => {
-    if (currentStep === 2) {
-      setCurrentStep(1);
-    }
-  };
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setIsSubmitting(true);
-
-    try {
-      const formId = process.env.NEXT_PUBLIC_FORM_ID;
-      if (!formId) {
-        throw new Error("Form ID không được cấu hình");
-      }
-
-      const baseUrl = `https://docs.google.com/forms/d/e/${formId}/viewform?usp=pp_url`;
-
-      // Tạo URL parameters cho pre-fill
-      const params = new URLSearchParams({
-        "entry.637618999": formData.class,
-        "entry.2089236837": formData.studentId,
-        "entry.51064004": formData.fullName,
-        "entry.411338864": formData.email,
-        "entry.1511169545": formData.facebookLink,
-        "entry.1869285708": formData.phone,
-        "entry.1473075964": formData.selfDescription,
-        "entry.1064324060": formData.gender,
-        "entry.643542381": formData.questions,
-        "entry.861219170": formData.whyJoin,
-        "entry.1806566794": formData.skills,
-        "entry.508226384": formData.whyChooseDepartment,
-        "entry.705796435": formData.department,
-        "entry.1701397463": formData.knowAnyone,
-      });
-
-      const formUrl = `${baseUrl}&${params.toString()}`;
-
-      // Mở form trong tab mới
-      window.open(formUrl, "_blank", "noopener,noreferrer");
-
-      // Hiển thị thông báo hướng dẫn
-      toast({
-        title: "Form đăng ký đã mở!",
-        description:
-          "Form đăng ký đã được mở trong tab mới. Vui lòng kiểm tra và hoàn tất đăng ký trong tab đó.",
-        variant: "success",
-      });
-
-      // Reset form sau khi mở
-      setTimeout(() => {
-        setFormData({
-          fullName: "",
-          email: "",
-          phone: "",
-          studentId: "",
-          class: "",
-          facebookLink: "",
-          gender: "",
-          selfDescription: "",
-          questions: "",
-          whyJoin: "",
-          knowAnyone: "",
-          skills: "",
-          whyChooseDepartment: "",
-          department: "",
-        });
-        setCurrentStep(1);
-      }, 2000);
-    } catch (error) {
-      console.error("Lỗi khi mở form:", error);
-      toast({
-        title: "Có lỗi xảy ra",
-        description:
-          error instanceof Error
-            ? error.message
-            : "Vui lòng thử lại sau hoặc liên hệ trực tiếp với chúng tôi.",
-        variant: "destructive",
-      });
-    } finally {
-      setIsSubmitting(false);
-    }
-  };
 
   return (
     <section
@@ -214,9 +74,7 @@ export function Registration() {
                 <div className="w-16 h-16 bg-white/20 rounded-full flex items-center justify-center mx-auto hover:bg-white/30 transition-colors duration-300">
                   <span className="text-2xl font-bold">{item.step}</span>
                 </div>
-                <h3 className="text-xl font-medium font-utm-akashi">
-                  {item.title}
-                </h3>
+                <h3 className="text-xl font-medium font-utm-akashi">{item.title}</h3>
                 <p className="text-blue-100">{item.desc}</p>
               </div>
             ))}
@@ -243,16 +101,14 @@ export function Registration() {
                     >
                       <div
                         className={`w-8 h-8 rounded-full flex items-center justify-center text-sm font-semibold ${
-                          currentStep >= 1
-                            ? "bg-white text-blue-600"
-                            : "bg-white/20 text-white/50"
+                          currentStep >= 1 ? "bg-white text-blue-600" : "bg-white/20 text-white/50"
                         }`}
                       >
                         1
                       </div>
                       <span className="text-sm">Thông tin cơ bản</span>
                     </div>
-                    <div className="w-8 h-0.5 bg-white/30"></div>
+                    <div className="w-8 h-0.5 bg-white/30" />
                     <div
                       className={`flex items-center space-x-2 ${
                         currentStep >= 2 ? "text-white" : "text-white/50"
@@ -260,9 +116,7 @@ export function Registration() {
                     >
                       <div
                         className={`w-8 h-8 rounded-full flex items-center justify-center text-sm font-semibold ${
-                          currentStep >= 2
-                            ? "bg-white text-blue-600"
-                            : "bg-white/20 text-white/50"
+                          currentStep >= 2 ? "bg-white text-blue-600" : "bg-white/20 text-white/50"
                         }`}
                       >
                         2
@@ -288,9 +142,7 @@ export function Registration() {
                             id="fullName"
                             placeholder="Nhập họ và tên của bạn"
                             value={formData.fullName}
-                            onChange={(e) =>
-                              handleInputChange("fullName", e.target.value)
-                            }
+                            onChange={(e) => handleInputChange("fullName", e.target.value)}
                             required
                             className="bg-white/10 border-white/20 text-white placeholder:text-blue-200 focus:border-white/50 transition-colors duration-200 group-hover:bg-white/15"
                           />
@@ -307,9 +159,7 @@ export function Registration() {
                             id="studentId"
                             placeholder="Nhập mã số sinh viên"
                             value={formData.studentId}
-                            onChange={(e) =>
-                              handleInputChange("studentId", e.target.value)
-                            }
+                            onChange={(e) => handleInputChange("studentId", e.target.value)}
                             required
                             className="bg-white/10 border-white/20 text-white placeholder:text-blue-200 focus:border-white/50 transition-colors duration-200 group-hover:bg-white/15"
                           />
@@ -327,9 +177,7 @@ export function Registration() {
                             id="class"
                             placeholder="Ví dụ: 48K14.2, 49K14.1..."
                             value={formData.class}
-                            onChange={(e) =>
-                              handleInputChange("class", e.target.value)
-                            }
+                            onChange={(e) => handleInputChange("class", e.target.value)}
                             required
                             className="bg-white/10 border-white/20 text-white placeholder:text-blue-200 focus:border-white/50 transition-colors duration-200 group-hover:bg-white/15"
                           />
@@ -346,9 +194,7 @@ export function Registration() {
                             id="phone"
                             placeholder="Nhập số điện thoại của bạn"
                             value={formData.phone}
-                            onChange={(e) =>
-                              handleInputChange("phone", e.target.value)
-                            }
+                            onChange={(e) => handleInputChange("phone", e.target.value)}
                             required
                             className="bg-white/10 border-white/20 text-white placeholder:text-blue-200 focus:border-white/50 transition-colors duration-200 group-hover:bg-white/15"
                           />
@@ -367,9 +213,7 @@ export function Registration() {
                             type="email"
                             placeholder="Nhập địa chỉ email của bạn"
                             value={formData.email}
-                            onChange={(e) =>
-                              handleInputChange("email", e.target.value)
-                            }
+                            onChange={(e) => handleInputChange("email", e.target.value)}
                             required
                             className="bg-white/10 border-white/20 text-white placeholder:text-blue-200 focus:border-white/50 transition-colors duration-200 group-hover:bg-white/15"
                           />
@@ -384,9 +228,7 @@ export function Registration() {
                           </label>
                           <Select
                             value={formData.gender}
-                            onValueChange={(value) =>
-                              handleInputChange("gender", value)
-                            }
+                            onValueChange={(value) => handleInputChange("gender", value)}
                             required
                           >
                             <SelectTrigger
@@ -413,9 +255,7 @@ export function Registration() {
                           id="facebookLink"
                           placeholder="https://facebook.com/your-profile"
                           value={formData.facebookLink}
-                          onChange={(e) =>
-                            handleInputChange("facebookLink", e.target.value)
-                          }
+                          onChange={(e) => handleInputChange("facebookLink", e.target.value)}
                           required
                           className="bg-white/10 border-white/20 text-white placeholder:text-blue-200 focus:border-white/50 transition-colors duration-200 group-hover:bg-white/15"
                         />
@@ -432,9 +272,7 @@ export function Registration() {
                           id="selfDescription"
                           placeholder="Hãy giới thiệu về bản thân, sở thích, mục tiêu..."
                           value={formData.selfDescription}
-                          onChange={(e) =>
-                            handleInputChange("selfDescription", e.target.value)
-                          }
+                          onChange={(e) => handleInputChange("selfDescription", e.target.value)}
                           required
                           className="bg-white/10 border-white/20 text-white placeholder:text-blue-200 focus:border-white/50 transition-colors duration-200 group-hover:bg-white/15"
                           rows={3}
@@ -456,9 +294,7 @@ export function Registration() {
                           </label>
                           <Select
                             value={formData.department}
-                            onValueChange={(value) =>
-                              handleInputChange("department", value)
-                            }
+                            onValueChange={(value) => handleInputChange("department", value)}
                           >
                             <SelectTrigger
                               id="department"
@@ -467,18 +303,10 @@ export function Registration() {
                               <SelectValue placeholder="Chọn ban bạn muốn tham gia" />
                             </SelectTrigger>
                             <SelectContent>
-                              <SelectItem value="Ban Sự kiện">
-                                Ban Sự kiện
-                              </SelectItem>
-                              <SelectItem value="Ban Truyền thông">
-                                Ban Truyền thông
-                              </SelectItem>
-                              <SelectItem value="Ban Nhân sự">
-                                Ban Nhân sự
-                              </SelectItem>
-                              <SelectItem value="Ban Chuyên môn">
-                                Ban Chuyên môn
-                              </SelectItem>
+                              <SelectItem value="Ban Sự kiện">Ban Sự kiện</SelectItem>
+                              <SelectItem value="Ban Truyền thông">Ban Truyền thông</SelectItem>
+                              <SelectItem value="Ban Nhân sự">Ban Nhân sự</SelectItem>
+                              <SelectItem value="Ban Chuyên môn">Ban Chuyên môn</SelectItem>
                             </SelectContent>
                           </Select>
                         </div>
@@ -495,10 +323,7 @@ export function Registration() {
                             placeholder="Hãy giải thích tại sao bạn chọn ban này và bạn có thể đóng góp gì?"
                             value={formData.whyChooseDepartment}
                             onChange={(e) =>
-                              handleInputChange(
-                                "whyChooseDepartment",
-                                e.target.value
-                              )
+                              handleInputChange("whyChooseDepartment", e.target.value)
                             }
                             required
                             className="bg-white/10 border-white/20 text-white placeholder:text-blue-200 focus:border-white/50 transition-colors duration-200 group-hover:bg-white/15"
@@ -512,16 +337,13 @@ export function Registration() {
                             htmlFor="skills"
                             className="block text-sm font-medium text-white mb-2"
                           >
-                            * Bạn nghĩ mình có kỹ năng/ tố chất gì phù hợp với
-                            ban trên
+                            * Bạn nghĩ mình có kỹ năng/ tố chất gì phù hợp với ban trên
                           </label>
                           <Textarea
                             id="skills"
                             placeholder="Hãy chia sẻ về kỹ năng, kinh nghiệm hoặc điểm mạnh của bạn"
                             value={formData.skills}
-                            onChange={(e) =>
-                              handleInputChange("skills", e.target.value)
-                            }
+                            onChange={(e) => handleInputChange("skills", e.target.value)}
                             required
                             className="bg-white/10 border-white/20 text-white placeholder:text-blue-200 focus:border-white/50 transition-colors duration-200 group-hover:bg-white/15"
                             rows={2}
@@ -533,16 +355,13 @@ export function Registration() {
                             htmlFor="whyJoin"
                             className="block text-sm font-medium text-white mb-2"
                           >
-                            * Tại sao bạn muốn trở thành thành viên của
-                            TECHTONIC
+                            * Tại sao bạn muốn trở thành thành viên của TECHTONIC
                           </label>
                           <Textarea
                             id="whyJoin"
                             placeholder="Hãy chia sẻ lý do bạn muốn trở thành thành viên của TechTonic Club"
                             value={formData.whyJoin}
-                            onChange={(e) =>
-                              handleInputChange("whyJoin", e.target.value)
-                            }
+                            onChange={(e) => handleInputChange("whyJoin", e.target.value)}
                             required
                             className="bg-white/10 border-white/20 text-white placeholder:text-blue-200 focus:border-white/50 transition-colors duration-200 group-hover:bg-white/15"
                             rows={2}
@@ -555,16 +374,13 @@ export function Registration() {
                             htmlFor="knowAnyone"
                             className="block text-sm font-medium text-white mb-2"
                           >
-                            Bạn có biết ai hay ấn tượng với ai trong TECHTONIC
-                            không
+                            Bạn có biết ai hay ấn tượng với ai trong TECHTONIC không
                           </label>
                           <Textarea
                             id="knowAnyone"
                             placeholder="Nếu có thì bạn có thể chia sẻ vì sao bạn biết hay ấn tượng với thành viên đó?"
                             value={formData.knowAnyone}
-                            onChange={(e) =>
-                              handleInputChange("knowAnyone", e.target.value)
-                            }
+                            onChange={(e) => handleInputChange("knowAnyone", e.target.value)}
                             className="bg-white/10 border-white/20 text-white placeholder:text-blue-200 focus:border-white/50 transition-colors duration-200 group-hover:bg-white/15"
                             rows={2}
                           />
@@ -581,9 +397,7 @@ export function Registration() {
                             id="questions"
                             placeholder="Bạn còn câu hỏi hay thắc mắc nào không?"
                             value={formData.questions}
-                            onChange={(e) =>
-                              handleInputChange("questions", e.target.value)
-                            }
+                            onChange={(e) => handleInputChange("questions", e.target.value)}
                             className="bg-white/10 border-white/20 text-white placeholder:text-blue-200 focus:border-white/50 transition-colors duration-200 group-hover:bg-white/15"
                             rows={2}
                           />
@@ -594,16 +408,14 @@ export function Registration() {
                           * Upload CV và Minh chứng
                         </label>
                         <p className="text-xs text-green-300">
-                          ✅<span className="font-semibold">Lưu ý:</span> Ngoài
-                          CV, các ứng viên có thể tự do tải lên những tài liệu
-                          về các bản thân nhằm giúp chúng mình hiểu rõ hơn về
-                          các bạn nhé
+                          ✅<span className="font-semibold">Lưu ý:</span> Ngoài CV, các ứng viên có
+                          thể tự do tải lên những tài liệu về các bản thân nhằm giúp chúng mình hiểu
+                          rõ hơn về các bạn nhé
                         </p>
 
                         <p className="text-xs text-yellow-300">
-                          ⚠️ <span className="font-semibold">Quan trọng:</span>{" "}
-                          File upload sẽ được ghi nhận trong form sau khi bạn
-                          gửi đăng ký.
+                          ⚠️ <span className="font-semibold">Quan trọng:</span> File upload sẽ được
+                          ghi nhận trong form sau khi bạn gửi đăng ký.
                         </p>
                       </div>
                     </div>
@@ -612,7 +424,7 @@ export function Registration() {
                   {/* Navigation Buttons */}
                   <div className="flex justify-between pt-6 border-t border-white/20">
                     {currentStep === 1 ? (
-                      <div></div>
+                      <div />
                     ) : (
                       <Button
                         type="button"
@@ -628,7 +440,7 @@ export function Registration() {
                       <Button
                         type="button"
                         onClick={nextStep}
-                        disabled={!isStep1Valid()}
+                        disabled={!isStep1Valid}
                         className="bg-white text-blue-600 hover:bg-blue-50 font-semibold disabled:opacity-50"
                       >
                         Tiếp theo
@@ -636,7 +448,7 @@ export function Registration() {
                     ) : (
                       <Button
                         type="submit"
-                        disabled={!isFormComplete() || isSubmitting}
+                        disabled={!isFormComplete || isSubmitting}
                         className="bg-white text-blue-600 hover:bg-blue-50 font-semibold disabled:opacity-50"
                       >
                         {isSubmitting ? (

@@ -2,116 +2,136 @@
 
 ## Objective
 
-This guide defines coding standards for long-term maintainability, scalability, and team consistency.
+Keep code maintainable, scalable, and consistent across the layered architecture.
+
+---
 
 ## General Engineering Rules
 
-- Apply SOLID, DRY, and KISS pragmatically.
-- Prefer readability over clever or condensed code.
-- Avoid premature optimization.
+- Apply SOLID, DRY, KISS pragmatically.
+- Prefer readability over clever abstractions.
 - Keep modules focused and composable.
-- Use explicit naming for intent.
+- Keep structural refactors behavior-safe by default.
+
+---
 
 ## TypeScript Rules
 
-- Keep TypeScript strict mode enabled.
-- Avoid `any`. If unavoidable, isolate and explain it.
-- Prefer interfaces for shared object contracts.
-- Keep shared contracts in a stable location (`src/types` or domain model folders).
-- Use typed API request/response/error models.
-- Avoid broad type assertions that hide uncertainty.
+- Keep strict mode enabled.
+- Avoid `any`; if unavoidable, isolate and document.
+- Prefer `interface` for shared contracts.
+- Shared contracts belong in `src/types` or feature model folders.
+- Use `import type` for type-only imports.
+
+---
 
 ## React and Next.js Rules
 
-- Use Server Components by default in App Router.
-- Use Client Components only when interaction or browser APIs are required.
-- Keep route components thin and composition-focused.
-- Move business logic into hooks/services.
-- Prefer composition over prop drilling.
-- Co-locate feature-specific hooks and models with their feature.
+- Server Components by default in App Router.
+- Use `"use client"` only when interaction/browser APIs are required.
+- Route files should stay thin and composition-focused.
+- Put section composition in `widgets`, section units in `features`.
+- Move reusable logic to hooks/services.
 
-### Project layout (post Phase 1)
+---
 
-- **Routes and global layout:** `src/app/` (not root `app/`).
-- **Shared hooks:** `src/hooks/` — import as `@/hooks/...`.
-- **Utilities and content:** `src/lib/` — import as `@/lib/...`.
-- **3D scenes:** `src/components/3d/` — import as `@/components/3d/...` (transitional; target: `src/3d/`).
-- **Page UI (legacy):** root `components/` — still valid via `@/components/...` fallback until Phase 2 migration.
-- Always use the `@/` alias; do not add new permanent modules outside `src/` except `public/` and config files.
-- If duplicate legacy files exist at repository root, edit only the `src/` copy.
+## Project Layout Rules (Current)
 
-## State Management Rules
+- `src/app/`: routing, metadata, top-level layout.
+- `src/widgets/`: page-level composition.
+- `src/features/`: feature/domain section modules.
+- `src/shared/`: shared UI/hooks/utils/constants.
+- `src/types/`: shared type contracts.
+- `src/hooks/`, `src/lib/`: cross-cutting hooks/data/utilities.
+- `src/components/3d/`: transitional 3D layer (target: `src/3d`).
 
-- Start with local state.
-- Introduce shared state only when multiple distant consumers need it.
-- Standardize async lifecycle states (`idle`, `loading`, `success`, `error`).
-- Keep side effects inside well-defined hooks with cleanup.
+Legacy:
 
-## API Layer Rules
+- Root `components/` is transitional compatibility only.
+- Do not add new permanent modules under root `components/`.
 
-- Centralize API calls in dedicated modules.
-- Do not scatter raw `fetch` calls across random UI components.
-- Normalize errors to typed, UI-friendly structures.
-- Separate transport concerns from presentation concerns.
+Import policy:
+
+- Always use `@/` alias.
+- Prefer `@/shared/ui/*` over `@/components/ui/*` in new code.
+
+---
 
 ## Naming Conventions
 
-### File and Folder Naming
+### Files and folders
 
-- Use `kebab-case` for files and folders.
+- Use `kebab-case`.
 - React component symbols use `PascalCase`.
-- Hook files and symbols start with `use` (prefer `use-timeline.ts` over `useTimeline.ts` for new files).
+- Hooks start with `use`.
 
-### Code Symbols
+### Symbols
 
 - Variables/functions: `camelCase`.
 - Types/interfaces/classes: `PascalCase`.
-- True constants: `UPPER_SNAKE_CASE`.
+- Constants: `UPPER_SNAKE_CASE`.
 
-## Folder and Dependency Rules
+---
 
-- Respect architecture boundaries in [`ARCHITECTURE.md`](./ARCHITECTURE.md) and paths in [`PROJECT_STRUCTURE.md`](./PROJECT_STRUCTURE.md).
-- Avoid cross-feature deep imports.
-- No circular dependencies.
-- Shared modules must stay dependency-light and generic.
-- `tsconfig` path order is `./src/*` then `./*` — prefer placing new code under `src/` so resolution stays unambiguous.
+## Dependency Direction Rules
+
+Allowed direction:
+
+`app -> widgets -> features -> entities -> shared`
+
+Also allowed:
+
+- `app/widgets/features -> 3d runtime layer` (currently `src/components/3d`, target `src/3d`)
+
+Not allowed:
+
+- `shared ->` upper layers
+- cross-feature deep imports
+- circular dependencies
+
+---
 
 ## Error Handling Standards
 
 - Handle expected failures explicitly.
 - Do not silently swallow errors.
-- Show user-friendly fallback states where relevant.
-- Preserve enough context for debugging in development.
+- Provide user-friendly fallback states when relevant.
+
+---
 
 ## Security Standards
 
-- Validate user inputs at boundaries.
-- External links with `_blank` must include `rel="noopener noreferrer"`.
-- Never expose secrets in client-side code.
-- Keep environment usage explicit and minimal.
+- Validate inputs at boundaries.
+- External links using `_blank` must include `rel="noopener noreferrer"`.
+- Never expose secrets in client code.
+
+---
 
 ## Performance Standards (UI + 3D)
 
 - Minimize unnecessary re-renders.
-- Use memoization when profiling justifies it.
+- Use memoization only when profiling justifies it.
 - Avoid uncontrolled infinite animations.
-- Use lazy loading for heavy modules and scenes.
-- Keep image loading strategy intentional (`priority` only when justified).
-- For 3D: control DPR, draw calls, texture sizes, and fallback behavior.
+- Lazy-load heavy modules/scenes.
+- For 3D: cap DPR, control draw calls, provide fallback behavior.
 
-## Commenting and Documentation Standards
+---
 
-- Comment intent and trade-offs, not obvious syntax.
-- Add rationale for non-obvious constraints.
-- Update docs when changing architecture or conventions.
-- Keep examples current and executable when possible.
+## Documentation Standards
+
+- Document intent/trade-offs, not obvious syntax.
+- Update docs when architecture or workflow changes.
+- Keep examples runnable and current.
+
+---
 
 ## Pull Request Quality Gates
 
-Before merge, contributors must ensure:
+Before merge:
 
 - Lint passes.
-- Type checks pass.
-- Relevant tests pass.
-- Build succeeds.
-- Docs are updated when required.
+- Typecheck passes.
+- Tests pass (`npm run test` baseline; expand by change risk).
+- Format check passes.
+- Build passes.
+- Docs updated if structure/standards changed.

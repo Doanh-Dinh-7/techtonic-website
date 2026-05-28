@@ -1,18 +1,11 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { Card, CardContent } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
+import { Card, CardContent } from "@/shared/ui/card";
+import { Badge } from "@/shared/ui/badge";
+import { Button } from "@/shared/ui/button";
 import { departments } from "@/lib/content/departments";
-import {
-  LayoutGrid,
-  Users,
-  Megaphone,
-  BookOpen,
-  Briefcase,
-  type LucideIcon,
-} from "lucide-react";
+import { LayoutGrid, Users, Megaphone, BookOpen, Briefcase, type LucideIcon } from "lucide-react";
 import Link from "next/link";
 import { toast } from "@/hooks/use-toast";
 
@@ -57,10 +50,7 @@ const colorMap = {
 
 type ColorKey = keyof typeof colorMap;
 
-const deptPresentation: Record<
-  string,
-  { icon: LucideIcon; color: ColorKey; members: string }
-> = {
+const deptPresentation: Record<string, { icon: LucideIcon; color: ColorKey; members: string }> = {
   tech: { icon: BookOpen, color: "orange", members: "15 thành viên" },
   media: { icon: Megaphone, color: "green", members: "12 thành viên" },
   hr: { icon: Users, color: "yellow", members: "10 thành viên" },
@@ -70,6 +60,9 @@ const deptPresentation: Record<
 /** Thứ tự hiển thị: Sự kiện → Truyền thông → Nhân sự → Chuyên môn */
 const displayOrder = ["events", "media", "hr", "tech"] as const;
 
+/**
+ * Department overview section with ordered presentation and CTA.
+ */
 export function DepartmentsContent() {
   const ordered = displayOrder
     .map((id) => departments.find((d) => d.id === id))
@@ -102,8 +95,7 @@ export function DepartmentsContent() {
             </h1>
             <p className="text-blue-50 text-sm md:text-base">
               Khám phá các lĩnh vực và chọn ban phù hợp. Mô tả mang nhãn{" "}
-              <span className="text-amber-200">(mẫu)</span> — chỉnh theo đặc thù
-              từng kỳ.
+              <span className="text-amber-200">(mẫu)</span> — chỉnh theo đặc thù từng kỳ.
             </p>
           </motion.div>
         </div>
@@ -133,16 +125,12 @@ export function DepartmentsContent() {
                       <div className="flex items-start justify-between gap-3">
                         <div className="space-y-2 min-w-0">
                           <div className="flex items-center gap-3 flex-wrap">
-                            <Icon
-                              className={`h-8 w-8 shrink-0 ${colors.icon}`}
-                            />
+                            <Icon className={`h-8 w-8 shrink-0 ${colors.icon}`} />
                             <h3 className="text-xl md:text-2xl font-bold text-gray-900">
                               {dept.name}
                             </h3>
                             {dept.isSample && (
-                              <span className="text-xs text-amber-600 font-normal">
-                                (mẫu)
-                              </span>
+                              <span className="text-xs text-amber-600 font-normal">(mẫu)</span>
                             )}
                           </div>
                           <p className="text-gray-600 text-sm md:text-base leading-relaxed">
@@ -152,23 +140,18 @@ export function DepartmentsContent() {
                       </div>
 
                       <Badge className={colors.badge}>
-                        {meta.members}{" "}
-                        <span className="opacity-80 font-normal">(mẫu)</span>
+                        {meta.members} <span className="opacity-80 font-normal">(mẫu)</span>
                       </Badge>
 
                       <div className="space-y-3">
-                        <h4 className="font-semibold text-gray-900">
-                          Nhiệm vụ chính:
-                        </h4>
+                        <h4 className="font-semibold text-gray-900">Nhiệm vụ chính:</h4>
                         <ul className="space-y-2">
                           {dept.highlights.map((resp) => (
                             <li key={resp} className="flex items-start gap-3">
                               <span
                                 className={`h-2 w-2 rounded-full mt-2 shrink-0 ${colors.dot}`}
                               />
-                              <span className="text-gray-700 text-sm md:text-base">
-                                {resp}
-                              </span>
+                              <span className="text-gray-700 text-sm md:text-base">{resp}</span>
                             </li>
                           ))}
                         </ul>

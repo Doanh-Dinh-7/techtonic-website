@@ -7,10 +7,9 @@ type TimelineFilterValue = string | "all";
 export function useTimeline<T>(
   items: T[],
   getFilterValues: (item: T) => string[],
-  defaultFilter: TimelineFilterValue = "all",
+  defaultFilter: TimelineFilterValue = "all"
 ) {
-  const [activeFilter, setActiveFilter] =
-    useState<TimelineFilterValue>(defaultFilter);
+  const [activeFilter, setActiveFilter] = useState<TimelineFilterValue>(defaultFilter);
 
   const filters = useMemo(() => {
     const values = new Set<string>();

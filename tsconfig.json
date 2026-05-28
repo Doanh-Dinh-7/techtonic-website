@@ -1,7 +1,9 @@
 {
   "compilerOptions": {
+    "baseUrl": ".",
     "lib": ["dom", "dom.iterable", "esnext"],
     "allowJs": true,
+    "forceConsistentCasingInFileNames": true,
     "target": "ES6",
     "skipLibCheck": true,
     "strict": true,
@@ -19,6 +21,9 @@
       }
     ],
     "paths": {
+      "@/components/ui/*": ["./src/shared/ui/*", "./components/ui/*"],
+      "@/shared/*": ["./src/shared/*"],
+      "@/types/*": ["./src/types/*"],
       "@/*": ["./src/*", "./*"]
     }
   },

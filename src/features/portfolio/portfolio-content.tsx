@@ -1,0 +1,1 @@
+export { PortfolioContent } from "@/components/portfolio-content";

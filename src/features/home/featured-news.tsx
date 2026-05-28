@@ -1,0 +1,1 @@
+export { FeaturedNews } from "@/components/featured-news";

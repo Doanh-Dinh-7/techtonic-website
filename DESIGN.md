@@ -12,6 +12,7 @@ The visual language is dark cyberpunk with disciplined motion and performance-aw
 - Motion with purpose, not decoration.
 - 3D as narrative enhancement, not constant noise.
 - Consistency across all sections and devices.
+- Accessibility parity across desktop, touch, and keyboard flows.
 
 ## UI/UX Guidelines
 
@@ -47,6 +48,12 @@ The visual language is dark cyberpunk with disciplined motion and performance-aw
 - Prefer clean geometric forms and intentional highlights.
 - Avoid over-detailed materials that reduce clarity on small screens.
 
+### Interaction and Accessibility
+
+- Hover-only affordances are not sufficient; provide equivalent focus and touch states.
+- Keep 3D canvas decorative, while critical headings/CTAs/forms stay real HTML.
+- Respect reduced-motion preferences without hiding critical information.
+
 ### Performance Constraints
 
 - Cap DPR adaptively by device capability.
@@ -56,17 +63,19 @@ The visual language is dark cyberpunk with disciplined motion and performance-aw
 
 ## Color System (Baseline)
 
-| Token | Intent |
-|---|---|
-| `bg/base` | Primary dark canvas |
-| `bg/elevated` | Layer depth and cards |
-| `text/primary` | High-contrast content |
-| `text/secondary` | Supportive content |
-| `accent/cyan` | Primary futuristic accent |
-| `accent/violet` | Secondary accent |
-| `state/success` | Positive status |
-| `state/warning` | Warning status |
-| `state/error` | Error status |
+| Token            | Intent                    |
+| ---------------- | ------------------------- |
+| `bg/base`        | Primary dark canvas       |
+| `bg/elevated`    | Layer depth and cards     |
+| `text/primary`   | High-contrast content     |
+| `text/secondary` | Supportive content        |
+| `accent/cyan`    | Primary futuristic accent |
+| `accent/violet`  | Secondary accent          |
+| `accent/magenta` | Tertiary neon accent      |
+| `accent/electric-blue` | Technical highlight accent |
+| `state/success`  | Positive status           |
+| `state/warning`  | Warning status            |
+| `state/error`    | Error status              |
 
 ## Typography
 

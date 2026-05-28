@@ -16,7 +16,7 @@ This project follows strict engineering standards to remain scalable, maintainab
 1. Sync your base branch.
 2. Create a branch with the naming convention below.
 3. Implement one focused change set.
-4. Run local checks (`lint`, `build`, and required tests).
+4. Run local checks (`lint`, `typecheck`, `test`, `format:check`, `build`).
 5. Open a PR with the required template fields.
 6. Address review comments and keep history clean.
 
@@ -101,6 +101,18 @@ Author responsibilities:
 - External links opening in new tabs must use `rel="noopener noreferrer"`.
 - Do not bypass lint/type safety in the final PR.
 - Never commit secrets or environment credentials.
+
+## Local Gate Before PR
+
+Run this exact sequence before opening or updating a PR:
+
+```bash
+npm run lint
+npm run typecheck
+npm run test
+npm run format:check
+npm run build
+```
 
 ## Communication
 

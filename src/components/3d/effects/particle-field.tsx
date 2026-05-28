@@ -2,7 +2,7 @@
 
 import * as React from "react";
 import { useFrame } from "@react-three/fiber";
-import { AdditiveBlending, Points } from "three";
+import { AdditiveBlending, type Points } from "three";
 import { V2_COLORS } from "@/lib/3d/constants";
 import { getSafeParticleCount } from "@/lib/3d/performance";
 import { useReducedMotionPreference } from "@/hooks/use3d";
@@ -46,10 +46,7 @@ export function ParticleField({
   return (
     <points ref={pointsRef}>
       <bufferGeometry>
-        <bufferAttribute
-          attach="attributes-position"
-          args={[positions, 3]}
-        />
+        <bufferAttribute attach="attributes-position" args={[positions, 3]} />
       </bufferGeometry>
       <pointsMaterial
         blending={AdditiveBlending}

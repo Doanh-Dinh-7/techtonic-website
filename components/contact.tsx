@@ -3,13 +3,7 @@
 import React from "react";
 import { motion } from "framer-motion";
 import { Badge } from "@/components/ui/badge";
-import {
-  Mail,
-  Phone,
-  MapPin,
-  Facebook,
-  Instagram,
-} from "lucide-react";
+import { Mail, Phone, MapPin, Facebook, Instagram } from "lucide-react";
 import { SiThreads as Threads } from "react-icons/si";
 import Link from "next/link";
 
@@ -57,10 +51,7 @@ export function Contact() {
   ];
 
   return (
-    <section
-      id="contact"
-      className="py-20 bg-gray-900 text-white relative overflow-hidden"
-    >
+    <section id="contact" className="py-20 bg-gray-900 text-white relative overflow-hidden">
       {/* Animated background */}
       <motion.div
         className="absolute inset-0 opacity-10"
@@ -138,9 +129,7 @@ export function Contact() {
               transition={{ delay: 0.6, duration: 0.6 }}
               viewport={{ once: true }}
             >
-              <h3 className="text-xl font-medium mb-4 font-utm-akashi">
-                Theo dõi chúng tôi
-              </h3>
+              <h3 className="text-xl font-medium mb-4 font-utm-akashi">Theo dõi chúng tôi</h3>
               <div className="flex gap-4 justify-center">
                 {socialLinks.map((social, index) => (
                   <motion.div

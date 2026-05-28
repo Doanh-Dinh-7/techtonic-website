@@ -15,8 +15,7 @@ export const featuredNews: NewsItem[] = [
   {
     id: "2",
     title: "Workshop: Làm quen với Git & GitHub",
-    excerpt:
-      "Buổi chia sẻ ngắn về quy trình làm việc nhóm và quản lý mã nguồn cho người mới.",
+    excerpt: "Buổi chia sẻ ngắn về quy trình làm việc nhóm và quản lý mã nguồn cho người mới.",
     date: "2025-02-15",
     href: "/events",
     badge: "Sự kiện",
@@ -25,8 +24,7 @@ export const featuredNews: NewsItem[] = [
   {
     id: "3",
     title: "Cập nhật website CLB",
-    excerpt:
-      "Giao diện mới, nhiều trang thông tin hơn để các bạn dễ tìm hiểu về TechTonic.",
+    excerpt: "Giao diện mới, nhiều trang thông tin hơn để các bạn dễ tìm hiểu về TechTonic.",
     date: "2025-03-20",
     href: "#",
     badge: "Thông báo",

@@ -25,12 +25,10 @@ export function RecruitmentFaq() {
             <HelpCircle className="h-3 w-3 mr-1 inline" />
             FAQ
           </Badge>
-          <h2 className="text-2xl font-bold text-gray-900 font-paris2024">
-            Câu hỏi thường gặp
-          </h2>
+          <h2 className="text-2xl font-bold text-gray-900 font-paris2024">Câu hỏi thường gặp</h2>
           <p className="text-sm text-gray-600 mt-2">
-            Nội dung <span className="text-amber-600">(mẫu)</span> — chỉnh theo quy định
-            tuyển thành viên thực tế.
+            Nội dung <span className="text-amber-600">(mẫu)</span> — chỉnh theo quy định tuyển thành
+            viên thực tế.
           </p>
         </motion.div>
         <Accordion type="single" collapsible className="w-full">

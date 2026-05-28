@@ -1,202 +1,155 @@
-# TechTonic Refactor Progress - Phase 1
-
-> **Purpose:** Single handoff document for developers and AI agents continuing the refactor.  
-> **Repository:** `Doanh-Dinh-7/techtonic-website`  
-> **Branch:** `feature/next-gen-club-website`  
-> **Last updated:** Phase 1 complete (cleanup, config, verification)
-
----
-
-## Current Phase
-
-**Phase 1 — Foundation & Structure Migration**  
-Status: **Complete**
-
-**Next:** Phase 2 — Core configuration & tooling + migrate root `components/`
-
----
-
-## Completed
-
-### Documentation pack (pre / during Phase 1)
-
-- [x] `ARCHITECTURE.md` — current vs target architecture, ADRs, scorecard
-- [x] `CONTRIBUTING.md` — git workflow, PR checklist, review guidelines
-- [x] `DESIGN.md` — futuristic / dark / 3D design direction
-- [x] `CODE_STYLE.md` — TypeScript, React/Next, naming, performance rules
-- [x] `PROJECT_STRUCTURE.md` — accurate tree after Phase 1, import map
-- [x] `DEVELOPMENT_GUIDE.md` — setup, scripts, onboarding, 3D debugging
-- [x] Docs synced with post–Phase 1 codebase
-
-### Foundation
-
-- [x] Created `src/` layered scaffold: `features/`, `widgets/`, `entities/`, `shared/`, `3d/`, `types/`, `config/`, `lib/*` placeholders
-- [x] Updated `tsconfig.json` path alias: `@/*` → `["./src/*", "./*"]` (backward-compatible)
-- [x] Updated `tailwind.config.ts` to scan `./src/**/*` (removed legacy `./app/**/*`)
-- [x] Updated `src/README.md` with Phase 1 status
-
-### Structure migration (Batches A–D)
-
-- [x] **Batch A:** `hooks/` → `src/hooks/` (4 files)
-- [x] **Batch B:** `lib/` → `src/lib/` (15 files: `utils`, `3d/*`, `content/*`)
-- [x] **Batch C:** `components/3d/` → `src/components/3d/` (9 files)
-- [x] **Batch D:** `app/` → `src/app/` (9 files: layouts, globals, all `(site)` routes)
-
-### Phase 1 cleanup & config (exit criteria)
-
-- [x] Removed duplicate root folders: `app/`, `hooks/`, `lib/`, `components/3d/`
-- [x] Next.js uses `src/app` only (no dual `app/` confusion)
-- [x] `components.json` → `src/app/globals.css`
-- [x] Hooks deduplicated: canonical `src/hooks/*`; `components/ui/use-toast.ts` & `use-mobile.tsx` re-export
-- [x] Added `npm run typecheck` (`tsc --noEmit`)
-- [x] Re-enabled ESLint + TypeScript in `next.config.mjs` (`ignoreDuringBuilds` / `ignoreBuildErrors` → `false`)
-
-### Verification (passed)
-
-```bash
-npm run lint        # ✔ No ESLint warnings or errors
-npm run typecheck   # ✔ tsc --noEmit
-npm run build       # ✔ 7 app routes: /, /about, /departments, /events, /portfolio, /recruitment
-```
-
----
-
-## Current Status
-
-### Batch tracker
-
-| Batch | Source | Destination | Status | Notes |
-|:---:|---|---|:---:|---|
-| **A** | `hooks/` | `src/hooks/` | **Done** | Root `hooks/` removed |
-| **B** | `lib/` | `src/lib/` | **Done** | Root `lib/` removed |
-| **C** | `components/3d/` | `src/components/3d/` | **Done** | Root `components/3d/` removed |
-| **D** | `app/` | `src/app/` | **Done** | Root `app/` removed |
-
-### What is canonical today
-
-`@/*` resolves **`./src/*` first**, then `./*` fallback.
-
-| Import example | Resolves to |
-|---|---|
-| `@/hooks/use3d` | `src/hooks/use3d.ts` |
-| `@/lib/content` | `src/lib/content/index.ts` |
-| `@/components/3d/scenes/hero-scene` | `src/components/3d/scenes/hero-scene.tsx` |
-| `@/components/hero` | `components/hero.tsx` (**legacy root**) |
-| `@/components/ui/button` | `components/ui/button.tsx` (**legacy root**) |
-
-### Layout after Phase 1
-
-```
-CANONICAL (edit these)          LEGACY (Phase 2 migration)
-─────────────────────          ───────────────────────────
-src/app/                         components/  (~90+ files)
-src/hooks/
-src/lib/
-src/components/3d/
-```
-
-**Not migrated in Phase 1:** entire root `components/` tree (page sections, `ui/`, `ui-v2/`, `site-shell`, etc.).
-
-**Scaffold only (empty except README):** `src/features/`, `src/widgets/`, `src/entities/`, `src/shared/*`, `src/types/`, `src/config/`, `src/3d/`.
-
-### Remaining technical debt (Phase 2+)
-
-- [ ] Migrate root `components/` → `src/features/`, `src/widgets/`, `src/shared/ui`
-- [ ] Prettier, Husky, lint-staged, Commitlint, CI pipeline
-- [ ] `npm run test` script
-- [ ] Target stack docs mention Next.js 15; runtime is **Next.js 14.2.16**
-- [ ] Consolidate `src/components/3d` → `src/3d/`
-
----
-
-## Decisions đã thống nhất (Agreed decisions)
-
-| Topic | Decision |
-|---|---|
-| **Path alias** | Use `@/*` with `tsconfig` order: `./src/*` then `./*` |
-| **Target architecture** | Layered + Feature-Sliced Design under `src/` |
-| **Migration strategy** | Incremental batches (A→D); no big-bang rewrite |
-| **Phase 1 scope** | Move `hooks`, `lib`, `components/3d`, `app` only; keep root `components/` until Phase 2 |
-| **3D location (transitional)** | `src/components/3d/` now; consolidate to `src/3d/` later |
-| **Logic changes** | Forbidden during structure moves (except lint-safe hook cleanup) |
-| **Documentation** | English, professional; cross-linked root MD files |
-| **Commits** | Conventional Commits (`refactor(scope): ...`) |
-| **Quality gates** | Lint + typecheck block production build (enabled end of Phase 1) |
-
----
-
-## Architecture snapshot (quick)
-
-```text
-src/app          → routes (canonical)
-src/hooks        → shared hooks (canonical)
-src/lib          → utils + content + 3d helpers (canonical)
-src/components/3d → R3F scenes (canonical)
-
-components/      → legacy page UI + shadcn (Phase 2 migration)
-```
-
-See [`ARCHITECTURE.md`](./ARCHITECTURE.md) and [`PROJECT_STRUCTURE.md`](./PROJECT_STRUCTURE.md).
-
----
-
-## Next Steps
-
-### Phase 2 — Core configuration & tooling
-
-- Prettier, Husky, lint-staged, Commitlint
-- CI: lint + typecheck + build
-- `.cursor/rules` from `CODE_STYLE.md`
-- `npm run test`
-
-### Phase 2 — Core refactor (structure)
-
-- Migrate root `components/` → `src/features/`, `src/widgets/`, `src/shared/ui`
-- Split large files (`registration.tsx`, `gallery.tsx`, `team.tsx`, `hero.tsx`)
-- Introduce `src/types/` shared contracts
-
-### Phase 3+
-
-- 3D performance budget, lazy-load scenes
-- Consolidate `src/components/3d` → `src/3d`
-- Next.js 15 upgrade (planned)
-
----
-
-## For AI agents / new developers — how to continue
-
-1. Read this file first, then [`PROJECT_STRUCTURE.md`](./PROJECT_STRUCTURE.md) and [`ARCHITECTURE.md`](./ARCHITECTURE.md).
-2. **Edit `src/`** for migrated modules (`app`, `hooks`, `lib`, `components/3d`).
-3. **Root `components/`** is legacy until Phase 2 — do not add long-term modules there.
-4. **New code** → prefer `src/`; use `@/` imports.
-5. Run `npm run lint`, `npm run typecheck`, `npm run build` after structural changes.
-6. Update **this file** when completing a batch or phase.
-
----
-
-## Related files
-
-| File | Role |
-|---|---|
-| [`PROJECT_STRUCTURE.md`](./PROJECT_STRUCTURE.md) | Folder tree & import rules |
-| [`ARCHITECTURE.md`](./ARCHITECTURE.md) | Layers, ADRs, scorecard |
-| [`DEVELOPMENT_GUIDE.md`](./DEVELOPMENT_GUIDE.md) | Setup & scripts |
-| [`CODE_STYLE.md`](./CODE_STYLE.md) | Coding standards |
-| [`CONTRIBUTING.md`](./CONTRIBUTING.md) | PR & branch workflow |
-| [`src/README.md`](./src/README.md) | Short `src/` overview |
-
----
-
-## Changelog (progress log)
-
-| Date | Change |
-|---|---|
-| Phase 1 start | Scaffold `src/`, docs pack, `tsconfig` alias |
-| Batch A | `hooks/` → `src/hooks/` |
-| Batch B | `lib/` → `src/lib/` |
-| Batch C | `components/3d/` → `src/components/3d/` |
-| Batch D | `app/` → `src/app/` |
-| Docs sync | Updated ARCHITECTURE, PROJECT_STRUCTURE, DEVELOPMENT_GUIDE, CODE_STYLE |
-| — | Created `REFACTOR_PROGRESS.md` (this file) |
-| Phase 1 exit | Removed duplicate root folders; `components.json`; hooks re-exports; `typecheck` script; lint/TS gates in `next.config.mjs`; build verified (7 routes) |
-
+# TechTonic Refactor Progress
+
+> Repository: `Doanh-Dinh-7/techtonic-website`  
+> Branch: `feature/next-gen-club-website`  
+> Last updated: `2026-05-28`
+
+## Current Phase
+**Phase 3 — 3D & Performance Hardening** | Status: **In Progress**
+
+---
+
+## Completed (Summary)
+
+- **Phase 1:** Foundation & structure migration to `src/` completed.
+- **Phase 2.1:** Tooling baseline completed (`lint`, `typecheck`, `format`, Husky, lint-staged, Commitlint).
+- **Phase 2.2:** Shared layer + UI primitive mapping + shared contracts completed.
+- **Phase 2.3:** Route composition migration to `widgets` + `features` completed.
+- **Phase 2.4:** Behavior-safe quality refactor completed (hook extraction, client-boundary optimization, 3D reduced-motion/DPR tuning, JSDoc).
+- **Post-2.4 initial hardening:** CI quality gates + Vitest baseline + first unit test completed.
+
+---
+
+## Current Status & Next Steps (Detailed)
+
+### Phase 3.1 — 3D Runtime Consolidation (`src/components/3d` -> `src/3d`)
+- [x] Define full migration map for canvas/scenes/effects/models/helpers.
+- [ ] Migrate by safe batches with temporary compatibility re-exports.
+- [ ] Keep import contracts stable during transition.
+- [ ] Replace internal transitional imports with canonical target paths.
+- [ ] Remove temporary re-exports only after reference validation.
+- [ ] Sync `PROJECT_STRUCTURE.md` and `ARCHITECTURE.md` after completion.
+
+#### Phase 3.1 Migration Map (Draft v1)
+
+Source modules (`src/components/3d/*`):
+- `canvas/canvas-shell.tsx`
+- `canvas/webgl-fallback.tsx`
+- `effects/camera-rig.tsx`
+- `effects/particle-field.tsx`
+- `models/cat-mascot.tsx`
+- `models/floating-logo.tsx`
+- `scenes/background-scene.tsx`
+- `scenes/hero-scene.tsx`
+- `index.ts`
+
+Target structure (`src/3d/*`):
+- `src/3d/canvas/*`
+- `src/3d/effects/*`
+- `src/3d/models/*`
+- `src/3d/scenes/*`
+- `src/3d/index.ts`
+
+Behavior-safe execution batches:
+1. **Batch A (Scaffold + compatibility):** create target folders and add re-export bridge from old paths.
+2. **Batch B (Low-risk leaf modules):** migrate `effects/*` and `models/*`.
+3. **Batch C (Scene modules):** migrate `scenes/*` and verify runtime behavior under reduced motion.
+4. **Batch D (Canvas boundary):** migrate `canvas/*`, preserve fallback and hydration behavior.
+5. **Batch E (Import cleanup):** switch canonical imports to `@/3d/*` and remove obsolete bridges.
+
+### Phase 3.2 — 3D Performance Guardrails
+- [ ] Define explicit runtime budgets (DPR, particles/stars caps, frameloop policy).
+- [ ] Verify reduced-motion behavior across all active scenes.
+- [ ] Ensure heavy 3D entrypoints are intentionally lazy-loaded.
+- [ ] Add concise 3D performance runbook for maintainers.
+
+#### Phase 3.2 Runtime Budget Baseline (Draft v1)
+
+- DPR budget: keep adaptive cap at `1 -> 1.5` by default.
+- Motion policy: enforce `"demand"` frameloop in reduced-motion mode.
+- Particle/star budgets:
+  - default: `particles 700`, `stars 650`
+  - reduced motion: `particles 120`, `stars 180`
+- Device awareness: maintain capability gate via `use3d` (`supportsWebGL`, `reducedMotion`).
+- Action item: codify these values in docs/runbook and guard against accidental regressions with tests.
+
+### Phase 3.3 — Testing Expansion
+- [ ] Add unit tests for critical shared utilities (`src/lib/3d/*`, deterministic mappers/formatters).
+- [ ] Add tests for extracted hooks:
+  - [ ] `use-registration-form`
+  - [ ] `use-site-shell-visibility`
+  - [ ] `use-header-navigation`
+  - [ ] `use-hero-section`
+- [ ] Add smoke tests for critical routes (`/`, `/recruitment`, `/events`).
+- [ ] Define minimum coverage target by layer (`shared`, `features`, `widgets`).
+
+### Phase 3.4 — Legacy Bridge Reduction
+- [x] Inventory root `components/*` modules still used by active flows.
+- [ ] Prioritize migration by user impact and regression risk.
+- [x] Convert remaining safe `@/components/ui/*` imports to `@/shared/ui/*`.
+- [ ] Keep bridge files only where still needed for incremental rollout.
+- [ ] Remove dead legacy modules after dependency/reference checks.
+
+### Phase 3.5 — Next.js 15 Readiness
+- [ ] Build compatibility checklist for dependencies/plugins.
+- [ ] Create trial upgrade branch.
+- [ ] Run full quality gates and compare with baseline behavior/performance.
+- [ ] Capture breakpoints + mitigation actions.
+- [ ] Prepare rollback notes + ADR update.
+
+### Known Technical Debt
+- [ ] Root `components/` still contains transitional implementation modules.
+- [ ] Some `src/features/*` files remain bridge-style wrappers.
+- [ ] 3D runtime consolidation to `src/3d` is pending.
+- [ ] Test coverage is still baseline-level only.
+- [ ] CI smoke tests for critical routes are not integrated yet.
+- [ ] Phase 3 execution plan details for 3D migration batches are not finalized yet.
+- [ ] Legacy `src/features/*` re-export bridges still block full removal of many root `components/*` files.
+
+---
+
+## Session Handoff (For AI/Developer)
+
+### Current Codebase Snapshot
+- Phase 1, 2.1, 2.2, 2.3, 2.4 are complete.
+- Post-2.4 baseline hardening is active:
+  - `.github/workflows/quality-gates.yml`
+  - `vitest.config.ts`
+  - `src/lib/3d/performance.test.ts`
+- Architecture direction:
+  - `app -> widgets -> features -> entities -> shared`
+  - `app/widgets/features -> 3d` (transitional)
+
+### Important Constraints
+- Keep all refactors behavior-safe by default.
+- Prefer canonical imports: `@/widgets/*`, `@/features/*`, `@/shared/ui/*`.
+- Treat root `components/*` as transitional compatibility only.
+- Preserve reduced-motion/fallback behavior for 3D updates.
+- Sync docs whenever architecture/workflow contracts change.
+
+### Mandatory Quality Gates Per Meaningful Batch
+```bash
+npm run lint
+npm run typecheck
+npm run test
+npm run format:check
+npm run build
+```
+
+### Recommended Immediate Execution Order
+1. Execute first safe batch for 3D folder consolidation.
+2. Expand tests for extracted hooks and critical routes.
+3. Continue legacy bridge reduction in root `components/`.
+4. Start Next.js 15 readiness branch and compatibility validation.
+
+---
+
+## Changelog (Concise)
+
+| Date | Phase/Batch | Summary |
+|---|---|---|
+| 2026-05-28 | Phase 2.4 Complete | Hook extraction + client-boundary optimization + 3D reduced-motion/DPR tuning + JSDoc |
+| 2026-05-28 | Post-Phase 2.4 Hardening (Init) | Added CI quality gates + Vitest baseline + initial unit test |
+| 2026-05-28 | Documentation Sync | Synced architecture/structure/development/code-style docs with current codebase |
+| 2026-05-28 | Documentation Consistency Pass (Phase 3 kickoff) | Harmonized PROJECT_STRUCTURE/ARCHITECTURE/DEVELOPMENT_GUIDE/CODE_STYLE/CONTRIBUTING/DESIGN and aligned dependency + quality gate terminology |
+| 2026-05-28 | Safe Cleanup Batch | Removed unused legacy files (`components/ui-v2/*`, obsolete shell/theme files), migrated site-shell dependencies to `src/widgets/layout/*`, migrated `src` UI imports to `@/shared/ui/*`, and archived outdated `docs/techtonic-v2/*` |

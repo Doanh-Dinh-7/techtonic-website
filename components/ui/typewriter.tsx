@@ -9,12 +9,7 @@ interface TypewriterProps {
   onComplete?: () => void;
 }
 
-export function Typewriter({
-  text,
-  delay = 50,
-  pause = false,
-  onComplete,
-}: TypewriterProps) {
+export function Typewriter({ text, delay = 50, pause = false, onComplete }: TypewriterProps) {
   const [displayText, setDisplayText] = useState("");
   const [currentIndex, setCurrentIndex] = useState(0);
 

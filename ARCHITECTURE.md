@@ -2,182 +2,174 @@
 
 ## Purpose
 
-This document defines the architecture baseline and direction for TechTonic Website V2.0: a maintainable, multi-developer Next.js platform with a dark futuristic identity and performance-aware 3D experiences.
+This document describes the architecture at the start of Phase 3, after completing Phase 2 refactor and establishing the post-Phase 2.4 hardening baseline.
 
 ---
 
-## Current Architecture (After Phase 1)
+## Current Architecture (After Phase 2.4)
 
 ### Style
 
-**Hybrid App Router + layered `src/` foundation**, with legacy UI modules still at repository root.
+**App Router + Feature-Sliced composition on top of layered `src/` modules**, with incremental compatibility bridges to legacy root `components/`.
 
-- **Routing & layouts:** `src/app/` (App Router, route group `(site)`).
-- **Shared hooks:** `src/hooks/`.
-- **Content & utilities:** `src/lib/` (including `lib/content/*` and `lib/3d/*` helpers).
-- **3D scenes (R3F):** `src/components/3d/`.
-- **Page UI & primitives:** still primarily `components/` at root (resolved via `@/*` fallback).
-- **Path alias:** `@/*` → `./src/*` first, then `./*`.
+Current canonical layers:
 
-### Request / render flow (simplified)
+- `src/app` -> route entrypoints and metadata
+- `src/widgets` -> page-level composition
+- `src/features` -> domain section modules
+- `src/shared` -> UI primitives, hooks, utils
+- `src/types` -> shared contracts
+- `src/hooks` + `src/lib` -> cross-cutting capability/data modules
+- `src/components/3d` -> transitional 3D runtime layer
+- `.github/workflows` -> CI quality gates automation
+
+### Request / Render Flow (Current)
 
 ```text
 Browser
-  -> src/app/(site)/layout.tsx (SiteShell: header, footer, Lenis, scroll)
-  -> src/app/(site)/*/page.tsx (thin route composition)
-  -> @/components/* (sections: hero, registration, events-content, ...)
-  -> @/lib/content/* (typed static data)
-  -> @/components/3d/* (optional R3F scenes via CanvasShell)
+  -> src/app/(site)/layout.tsx
+  -> src/widgets/layout/site-shell.tsx
+  -> src/app/(site)/*/page.tsx
+  -> src/widgets/<route>/*
+  -> src/features/<domain>/*
+  -> src/shared/ui/* + src/lib/content/*
+  -> src/components/3d/* (when needed)
+
+Developer change
+  -> local gates (lint/typecheck/test/format:check/build)
+  -> .github/workflows/quality-gates.yml
+  -> PR merge gate
 ```
 
-### Strengths (post Phase 1)
+### Practical Status
 
-| Area | Detail |
-|---|---|
-| Clear entry points | `src/app/layout.tsx`, `src/app/(site)/layout.tsx`, `components/site-shell.tsx` |
-| Content separation | Domain content in `src/lib/content/*` with shared types |
-| 3D boundary started | Canvas, scenes, effects under `src/components/3d/` |
-| Migration-safe imports | `@/` alias prioritizes `src/` without breaking legacy `components/` |
-| Strict TypeScript | `strict: true` in `tsconfig.json` |
-
-### Weaknesses & technical debt (still open)
-
-| Issue | Impact | Planned phase |
-|---|---|---|
-| Duplicate root copies of migrated folders (`app/`, `hooks/`, `lib/`, `components/3d/`) | Confusion, risk of editing wrong file | Cleanup PR |
-| Flat `components/` at root | Weak feature boundaries, large files | Phase 2 |
-| Duplicate hooks (`src/hooks/use-toast` vs `components/ui/use-toast`) | Inconsistent behavior risk | Phase 2 |
-| Build gates disabled in `next.config.mjs` | False-green builds | Phase 2 |
-| Next.js 14.x (target: 15) | Docs/tooling drift | Phase 2+ |
-| `src/features`, `widgets`, `entities` are scaffolds only | Target architecture not fully realized | Phase 2 |
-
-### Architecture scorecard (updated)
-
-| Dimension | Score (1–10) | Notes |
-|---|---:|---|
-| Maintainability | **6.5** | Improved layout; legacy `components/` and duplicates remain |
-| Scalability | **6.0** | `src/` foundation ready; feature slices not implemented yet |
-| Readability | **7.0** | Clearer paths for app/hooks/lib/3d |
-| Team collaboration readiness | **5.5** | Docs + structure improved; tooling/CI still pending |
+- Route composition has moved from direct `components/*` imports to `widgets/features` entrypoints.
+- Site shell layout primitives (`Header`, `Footer`, `LenisProvider`) have been moved into `src/widgets/layout/*`.
+- Shared UI is centralized under `src/shared/ui` with transitional bridges kept for safe rollout.
+- Large interactive sections have extracted hooks (`Hero`, `SiteShell`, `Header`, `Registration`) to reduce component complexity.
+- Reduced-motion and DPR constraints are applied in shared 3D runtime wrappers/scenes.
+- CI quality gates and baseline unit test runner (Vitest) are wired.
+- Phase 3 has started with documentation consistency and 3D/performance hardening focus.
 
 ---
 
-## Target Architecture (Version 2.0)
+## Architecture Strengths (Now)
 
-- **Next.js 15** App Router (server-first by default).
-- **Feature-sliced + domain-oriented** modules under `src/`.
-- **Dedicated 3D layer** (`src/3d`) for R3F/Three.js runtime and performance policy.
-- **Explicit dependency direction** and no cross-feature deep imports.
-- **Quality gates enforced** (lint, typecheck, test, build).
+- Clear separation between routing (`app`), composition (`widgets`), and feature units (`features`).
+- Shared UI and utilities have canonical entrypoints under `src/shared`.
+- Incremental migration path preserved without behavior-breaking rewrites.
+- Strong local quality gates and conventional-commit workflow.
 
-### Target diagram
+---
+
+## Remaining Technical Debt
+
+- Root `components/` still contains legacy implementation source.
+- Some `features/*` files are currently bridges to legacy modules (planned deep split in next phase).
+- 3D runtime still in `src/components/3d` (target remains `src/3d`).
+- Test coverage is still minimal (baseline only); needs expansion for critical features/widgets.
+
+---
+
+## Target Architecture (Next)
 
 ```text
-src/app (routing, metadata)
-  -> src/widgets (page composition)
-    -> src/features (use-cases)
-      -> src/entities (domain units)
-        -> src/shared (ui, hooks, utils, types, config)
+src/app
+  -> src/widgets
+    -> src/features
+      -> src/entities
+        -> src/shared
 
-src/app / src/widgets / src/features
-  -> src/3d (R3F runtime: canvas, scenes, effects, loaders, perf guards)
+src/app/widgets/features -> 3d runtime layer (`src/components/3d` now, `src/3d` target)
 ```
+
+Short-term target (Phase 2.4+):
+
+- Expand test coverage for feature/widget behavior and 3D guard utilities.
+- Continue reducing legacy bridges (`components/*` -> `src/features|widgets`).
+- Consolidate 3D folder into dedicated runtime layer (`src/3d`).
+- Validate and execute Next.js 15 upgrade plan.
 
 ---
 
 ## Layer Responsibilities
 
 ### `src/app`
-- Route segments, layouts, metadata, global CSS.
-- Thin pages; delegate to widgets/features/components.
+- Routes, metadata, layout boundaries.
 
-### `src/widgets` (target)
-- Compose multiple features/entities for a page section.
+### `src/widgets`
+- Compose page sections from multiple features.
 
-### `src/features` (target)
-- Business flows: recruitment, events, departments, portfolio, about, home.
+### `src/features`
+- Feature/domain behavior units (`home`, `about`, `events`, `recruitment`, etc.).
 
-### `src/entities` (target)
-- Reusable domain models and UI: member, event, project, partner.
+### `src/entities`
+- Reusable domain entities (planned).
 
-### `src/shared` (target)
-- Generic UI primitives, hooks, utils, constants — no feature coupling.
+### `src/shared`
+- Generic and dependency-light UI/hooks/utils/types.
 
-### `src/components/3d` (current) → `src/3d` (target)
-- R3F canvas shell, scenes, effects, models.
-- Performance guards (`use3d`, reduced motion, DPR caps) via `src/hooks` and `src/lib/3d`.
-
-### `components/` (legacy, transitional)
-- Page sections and shadcn `ui/` until Phase 2 migration completes.
+### `src/components/3d` (transitional)
+- Existing 3D implementation location until promoted to `src/3d`.
 
 ---
 
 ## Dependency Direction Rules
 
-**Allowed:**
-- `app -> widgets -> features -> entities -> shared`
-- Upper layers may import `src/3d` or transitional `src/components/3d`
-- `app` may import `@/components/*` during migration
+Allowed:
 
-**Not allowed:**
+- `app -> widgets -> features -> entities -> shared`
+- `app/widgets/features -> 3d runtime layer` (transitional)
+
+Disallowed:
+
 - `shared ->` upper layers
-- Feature-to-feature internal imports
-- Circular dependencies
-- Permanent new modules in legacy root folders (except `public/` and config)
+- cross-feature deep imports
+- circular dependencies
 
 ---
 
 ## ADR Summary
 
-### ADR-001: Adopt App Router as default architecture
-- **Decision:** Use Next.js App Router with server-first pages.
-- **Why:** Layout composition, metadata API, long-term framework alignment.
+### ADR-001: App Router as system backbone
+- **Decision:** Keep Next.js App Router with thin route files.
+- **Why:** Better layout/data boundaries and long-term maintainability.
 
-### ADR-002: Introduce feature-sliced boundaries
-- **Decision:** Organize by feature/domain under `src/features`, `src/entities`, `src/widgets`.
-- **Why:** Parallel ownership and clearer onboarding as the team grows.
+### ADR-002: Feature-sliced composition rollout
+- **Decision:** Introduce `widgets` and `features` as first-class route composition layers.
+- **Why:** Scale ownership and isolate change impact.
 
-### ADR-003: Keep 3D in a dedicated layer
-- **Decision:** Isolate R3F/Three.js in `src/components/3d` (transitional), then `src/3d`.
-- **Why:** Protect core app code from render-heavy concerns and enforce performance budgets.
+### ADR-003: Shared UI canonicalization
+- **Decision:** Standardize primitives under `src/shared/ui` and preserve compatibility bridges.
+- **Why:** Avoid breakage while converging to stable import contracts.
 
-### ADR-004: Enforce strict quality gates
-- **Decision:** Lint and TypeScript must block bad builds (currently disabled — revert in Phase 2).
-- **Why:** Reduce regressions and improve release confidence.
+### ADR-004: Phase 2 feature migration strategy
+- **Decision:** Migrate by impact-first route composition, then progressively internalize legacy sections.
+- **Why:** Ship-safe refactor with measurable progress and low regression risk.
 
-### ADR-005: Phase 1 — Migrate core folders into `src/` with alias-first resolution
-- **Decision:** Move `hooks/`, `lib/`, `components/3d/`, and `app/` into `src/`; configure `@/*` as `["./src/*", "./*"]`.
-- **Why:** Establish a single canonical source tree without a big-bang rewrite of all UI components.
-- **Consequences:**
-  - Imports like `@/hooks/use3d` and `@/lib/content` resolve to `src/` automatically.
-  - Legacy `components/` remains at root until Phase 2.
-  - Duplicate root folders must be deleted after verification.
-- **Status:** Implemented (Phase 1 complete).
+### ADR-005: Phase 2.4 behavior-safe quality refactor
+- **Decision:** Extract stateful logic from large UI sections into custom hooks, reduce unnecessary client boundaries via client islands, and apply reduced-motion-aware 3D defaults.
+- **Why:** Improve maintainability and performance while minimizing regression risk by avoiding business logic rewrites.
 
----
-
-## Architecture Risks to Track
-
-- Editing duplicate legacy files instead of `src/` copies.
-- Regression while splitting large components in Phase 2.
-- Performance drift from uncontrolled animations and 3D.
-- Docs/tooling falling behind code during fast migration.
+### ADR-006: Post-Phase 2.4 quality gate automation
+- **Decision:** Establish CI workflow with `lint`, `typecheck`, `format:check`, `test`, and `build`, plus Vitest baseline for unit tests.
+- **Why:** Keep refactor outcomes stable and make quality checks mandatory for merge readiness.
 
 ---
 
-## Definition of Architecture Done
+## Definition of Architecture Done (Current)
 
-- New code follows layer boundaries and lives under `src/` when applicable.
-- No new circular dependencies.
-- Legacy duplicate folders removed.
-- Quality gates pass locally and in CI.
-- Docs updated when structure or conventions change.
+- Route composition entrypoints live under `src/app` + `src/widgets`.
+- Feature entrypoints live under `src/features`.
+- Shared primitives and helpers live under `src/shared` and `src/types`.
+- Local and CI quality gates are defined (`lint`, `typecheck`, `test`, `format:check`, `build`).
+- Documentation reflects current code state.
 
 ---
 
 ## Related Docs
 
 - [`PROJECT_STRUCTURE.md`](./PROJECT_STRUCTURE.md)
-- [`CODE_STYLE.md`](./CODE_STYLE.md)
 - [`DEVELOPMENT_GUIDE.md`](./DEVELOPMENT_GUIDE.md)
+- [`CODE_STYLE.md`](./CODE_STYLE.md)
 - [`DESIGN.md`](./DESIGN.md)

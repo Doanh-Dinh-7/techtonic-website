@@ -1,3 +1,6 @@
 # Shared Hooks
 
-Reusable generic hooks with no feature-specific coupling.
+Shared hook entrypoints.
+
+- `use-mobile` and `use-toast` are bridged from `src/hooks/*`.
+- Prefer `@/shared/hooks/*` for new shared UI-facing hooks.
