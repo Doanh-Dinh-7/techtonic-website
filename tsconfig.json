@@ -1,9 +1,7 @@
 {
   "compilerOptions": {
-    "baseUrl": ".",
     "lib": ["dom", "dom.iterable", "esnext"],
     "allowJs": true,
-    "forceConsistentCasingInFileNames": true,
     "target": "ES6",
     "skipLibCheck": true,
     "strict": true,
@@ -21,12 +19,12 @@
       }
     ],
     "paths": {
-      "@/components/ui/*": ["./src/shared/ui/*", "./components/ui/*"],
+      "@/components/ui/*": ["./src/shared/ui/*"],
       "@/shared/*": ["./src/shared/*"],
       "@/types/*": ["./src/types/*"],
-      "@/*": ["./src/*", "./*"]
+      "@/*": ["./src/*"]
     }
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],
-  "exclude": ["node_modules"]
+  "exclude": ["node_modules", "**/*.test.ts", "**/*.test.tsx"]
 }

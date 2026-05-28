@@ -15,9 +15,6 @@ type CanvasShellProps = Omit<CanvasProps, "children"> & {
   fallbackClassName?: string;
 };
 
-/**
- * Shared R3F canvas wrapper with safe defaults and graceful fallback.
- */
 export function CanvasShell({
   children,
   className,
@@ -39,7 +36,7 @@ export function CanvasShell({
     <div aria-hidden="true" className={cn("relative h-full w-full", className)}>
       <Canvas
         camera={camera ?? CAMERA_DEFAULTS}
-        dpr={dpr ?? (reducedMotion ? ([1, 1.25] as [number, number]) : R3F_PERFORMANCE.dpr)}
+        dpr={dpr ?? R3F_PERFORMANCE.dpr}
         frameloop={
           frameloop ??
           (reducedMotion ? R3F_PERFORMANCE.reducedMotionFrameloop : R3F_PERFORMANCE.frameloop)

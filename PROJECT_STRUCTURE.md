@@ -2,20 +2,24 @@
 
 ## Purpose
 
-This document is the source of truth for repository layout at the start of Phase 3, after completing Phase 2 refactor and the post-Phase 2.4 hardening baseline.
+This document is the source of truth for repository layout after **Phase 2 refactor completion** and the start of **Phase 3** (3D consolidation, testing expansion, performance hardening).
 
-Use this for onboarding, code review, and deciding where new files should be created.
+Use it for onboarding, code review, and deciding where new files should be created.
 
 ---
 
 ## Current Status
 
-- **Phase 1:** complete (core modules moved under `src/`)
-- **Phase 2.2:** complete (shared layer + UI primitive mapping)
-- **Phase 2.3:** complete (route composition moved to `widgets` + `features`)
-- **Phase 2.4:** complete (code quality improvements: hook extraction, client-boundary reduction, 3D pass, JSDoc)
-- **Post-Phase 2.4 hardening:** in progress (CI quality gates + baseline test setup added)
-- **Phase 3 kickoff:** active (documentation consistency + 3D runtime/performance polish)
+| Milestone                                                 | Status          |
+| --------------------------------------------------------- | --------------- |
+| Phase 1 — Foundation under `src/`                         | **Complete**    |
+| Phase 2.1 — Tooling baseline                              | **Complete**    |
+| Phase 2.2 — Shared layer + UI primitives                  | **Complete**    |
+| Phase 2.3 — `widgets` + `features` route composition      | **Complete**    |
+| Phase 2.4 — Hook extraction, client boundaries, 3D guards | **Complete**    |
+| Post-2.4 — CI quality gates, Vitest, Prettier baseline    | **Complete**    |
+| Phase 2 closure — Legacy `components/` decommission       | **Complete**    |
+| Phase 3 — 3D runtime (`src/3d`), tests, performance       | **In progress** |
 
 ---
 
@@ -23,91 +27,99 @@ Use this for onboarding, code review, and deciding where new files should be cre
 
 ```text
 techtonic-website/
-+-- src/
-|   +-- app/                                # App Router entrypoints
-|   |   +-- layout.tsx
-|   |   +-- globals.css
-|   |   +-- (site)/
-|   |       +-- layout.tsx
-|   |       +-- page.tsx
-|   |       +-- about/page.tsx
-|   |       +-- departments/page.tsx
-|   |       +-- events/page.tsx
-|   |       +-- portfolio/page.tsx
-|   |       +-- recruitment/page.tsx
-|   |
-|   +-- widgets/                            # Page-level composition
-|   |   +-- layout/
-|   |   |   +-- site-shell.tsx
-|   |   |   +-- header.tsx
-|   |   |   +-- footer.tsx
-|   |   |   +-- lenis-provider.tsx
-|   |   |   +-- hooks/
-|   |   |       +-- use-site-shell-visibility.ts
-|   |   |       +-- use-header-navigation.ts
-|   |   +-- home/
-|   |   |   +-- home-page-sections.tsx
-|   |   |   +-- hash-scroll-handler.tsx
-|   |   +-- about/about-page-sections.tsx
-|   |   +-- departments/departments-page-content.tsx
-|   |   +-- events/events-page-content.tsx
-|   |   +-- portfolio/portfolio-page-content.tsx
-|   |   +-- recruitment/recruitment-page-sections.tsx
-|   |
-|   +-- features/                           # Feature/domain section entrypoints
-|   |   +-- home/
-|   |   |   +-- hero.tsx
-|   |   |   +-- hooks/use-hero-section.ts
-|   |   +-- recruitment/
-|   |   |   +-- registration.tsx
-|   |   |   +-- hooks/use-registration-form.ts
-|   |   +-- about/*
-|   |   +-- departments/*
-|   |   +-- events/*
-|   |   +-- portfolio/*
-|   |
-|   +-- shared/
-|   |   +-- ui/                             # Canonical shared UI primitives
-|   |   +-- hooks/                          # Shared hook entrypoints
-|   |   +-- utils/                          # Shared utils (`cn`)
-|   |   +-- constants/
-|   |   +-- config/
-|   |   +-- styles/
-|   |
-|   +-- types/                              # Shared type contracts
-|   |   +-- common.ts
-|   |   +-- ui.ts
-|   |   +-- index.ts
-|   |
-|   +-- hooks/                              # Cross-cutting hooks (`use3d`, etc.)
-|   +-- lib/                                # Content + utilities + 3D helpers
-|   |   +-- 3d/
-|   |       +-- performance.ts
-|   |       +-- performance.test.ts
-|   +-- components/3d/                      # Transitional 3D runtime (target: `src/3d`)
-|   +-- entities/                           # Reserved for Phase 3+
-|   +-- config/                             # Reserved for Phase 3+
-|   +-- 3d/                                 # Reserved target runtime folder
-|
-+-- components/                             # Legacy section/components (transitional)
-|   +-- ui/                                 # Legacy UI files mapped/proxied to shared layer
-|   +-- ...
-+-- .github/
-|   +-- workflows/
-|       +-- quality-gates.yml               # CI: lint/typecheck/format/test/build
-+-- public/
-+-- docs/archive/techtonic-v2/              # Archived early V2 proposal docs
-+-- vitest.config.ts                        # Unit test baseline config
-+-- ARCHITECTURE.md
-+-- PROJECT_STRUCTURE.md
-+-- DEVELOPMENT_GUIDE.md
-+-- CODE_STYLE.md
-+-- package.json
-+-- tsconfig.json
-+-- tailwind.config.ts
-+-- next.config.mjs
-+-- components.json
+├── src/
+│   ├── app/                              # App Router (routes, layouts, global CSS)
+│   │   ├── layout.tsx
+│   │   ├── globals.css
+│   │   └── (site)/
+│   │       ├── layout.tsx                # SiteShell wrapper
+│   │       ├── page.tsx                  # Home
+│   │       ├── about/page.tsx
+│   │       ├── departments/page.tsx
+│   │       ├── events/page.tsx
+│   │       ├── portfolio/page.tsx
+│   │       └── recruitment/page.tsx
+│   │
+│   ├── widgets/                          # Page-level composition (thin orchestration)
+│   │   ├── layout/
+│   │   │   ├── site-shell.tsx
+│   │   │   ├── header.tsx
+│   │   │   ├── footer.tsx
+│   │   │   ├── lenis-provider.tsx
+│   │   │   └── hooks/
+│   │   │       ├── use-site-shell-visibility.ts
+│   │   │       └── use-header-navigation.ts
+│   │   ├── home/
+│   │   │   ├── home-page-sections.tsx
+│   │   │   └── hash-scroll-handler.tsx
+│   │   ├── about/about-page-sections.tsx
+│   │   ├── departments/departments-page-content.tsx
+│   │   ├── events/events-page-content.tsx
+│   │   ├── portfolio/portfolio-page-content.tsx
+│   │   └── recruitment/recruitment-page-sections.tsx
+│   │
+│   ├── features/                         # Domain section UI + feature hooks
+│   │   ├── home/
+│   │   │   ├── hero.tsx
+│   │   │   ├── core-values.tsx, benefits.tsx, activities.tsx
+│   │   │   ├── achievements.tsx, featured-news.tsx, testimonials.tsx
+│   │   │   ├── contact.tsx, video.tsx
+│   │   │   └── hooks/use-hero-section.ts
+│   │   ├── about/
+│   │   │   ├── about.tsx, about-timeline.tsx, gallery.tsx, team.tsx
+│   │   ├── departments/departments-content.tsx
+│   │   ├── events/events-content.tsx
+│   │   ├── portfolio/portfolio-content.tsx
+│   │   └── recruitment/
+│   │       ├── registration.tsx, recruitment-faq.tsx
+│   │       ├── recruitment-process-extra.tsx
+│   │       └── hooks/use-registration-form.ts
+│   │
+│   ├── shared/                           # Reusable, low-coupling building blocks
+│   │   ├── ui/                           # shadcn/Radix primitives (canonical)
+│   │   ├── ui-v2/                         # V2 design system (glass, neon, 3D cards)
+│   │   ├── hooks/                        # Shared hook re-exports
+│   │   ├── utils/                        # `cn` and shared helpers
+│   │   ├── providers/theme-provider.tsx
+│   │   ├── constants/, config/, styles/   # Reserved / placeholders
+│   │
+│   ├── types/                            # Shared TS contracts
+│   │   ├── common.ts, ui.ts, index.ts
+│   │
+│   ├── hooks/                            # Cross-cutting hooks
+│   │   ├── use3d.ts, useTimeline.ts
+│   │   ├── use-toast.ts, use-mobile.tsx
+│   │
+│   ├── lib/                              # Content, utilities, 3D helpers
+│   │   ├── content/                      # Static content modules
+│   │   ├── 3d/                           # Testable performance/constants
+│   │   ├── utils.ts
+│   │   └── analytics/, api-client/, security/  # Reserved placeholders
+│   │
+│   ├── components/3d/                    # R3F runtime (transitional → `src/3d`)
+│   │   ├── canvas/, scenes/, effects/, models/
+│   │   └── index.ts
+│   │
+│   ├── 3d/                               # Reserved target for 3D consolidation
+│   ├── entities/                         # Reserved (Phase 3+)
+│   └── config/                           # Reserved (Phase 3+)
+│
+├── public/                               # Static assets
+├── docs/techtonic-v2/                    # Product/phase planning docs
+├── .github/workflows/quality-gates.yml   # CI pipeline
+├── .husky/                               # Git hooks
+├── vitest.config.ts
+├── components.json                       # shadcn CLI → `@/shared/ui`
+├── tailwind.config.ts
+├── tsconfig.json
+├── next.config.mjs
+├── ARCHITECTURE.md
+├── PROJECT_STRUCTURE.md
+├── DEVELOPMENT_GUIDE.md
+└── CODE_STYLE.md
 ```
+
+> **Note:** Root `components/` no longer exists. All UI and section code lives under `src/`.
 
 ---
 
@@ -115,93 +127,116 @@ techtonic-website/
 
 ### `src/app`
 
-- Routing, metadata, top-level layout boundaries.
-- Keep route files thin; delegate section composition to `src/widgets`.
+- Routing, metadata, root and site layouts.
+- Route files stay thin; delegate to `src/widgets/*`.
 
 ### `src/widgets`
 
-- Route-level composition and orchestration of features.
-- Contains small route-scoped hooks/islands for composition behavior (for example hash-scroll and shell visibility hooks).
+- Per-route composition: which features render, in what order.
+- Site chrome: `layout/` (header, footer, shell, smooth scroll).
+- Small composition hooks (hash scroll, shell visibility, header nav).
 
 ### `src/features`
 
-- Feature/domain section entrypoints (`home`, `about`, `events`, `recruitment`, etc.).
-- Holds reusable feature-scoped hooks extracted from large components.
+- Self-contained section components per domain (`home`, `about`, `recruitment`, …).
+- Feature-scoped hooks co-located under `features/<domain>/hooks/`.
 
 ### `src/shared`
 
-- Reusable, dependency-light primitives and utilities.
-- `src/shared/ui` is the canonical UI import target.
+- **ui** — Canonical shadcn/Radix primitives; import via `@/shared/ui` or `@/shared/ui/<file>`.
+- **ui-v2** — V2 visual components (`GlassCard`, `NeonButton`, `SectionShell`, …).
+- **hooks / utils / providers** — Shared utilities without domain knowledge.
 
 ### `src/types`
 
-- Shared contracts used across app/widgets/features/shared.
+- Cross-cutting TypeScript contracts (`common`, `ui`, barrel `index`).
 
 ### `src/hooks` and `src/lib`
 
-- Cross-cutting hooks and utility/content modules.
-- `src/lib/3d/*` also contains testable 3D performance helpers.
+- **hooks** — App-wide hooks (`use3d`, `useTimeline`, toast, mobile).
+- **lib/content** — Static copy/data for sections.
+- **lib/3d** — Pure 3D helpers (performance guards, constants); unit-tested.
 
 ### `src/components/3d` (transitional)
 
-- Current R3F implementation location.
-- Planned consolidation to `src/3d` in next phase.
+- React Three Fiber scenes, canvas shell, effects, models.
+- **Target:** migrate to `src/3d/` (Phase 3.1).
 
-### Root `components/` (legacy transitional)
+### `src/entities`, `src/config`, `src/3d`
 
-- Maintained for safe incremental compatibility.
-- Do not add new long-term modules here.
+- Reserved placeholders for upcoming phases.
 
 ### `.github/workflows`
 
-- CI automation and quality gates for pull requests and branch pushes.
+- Automated quality gates on PR/push.
 
 ---
 
-## Import Conventions (Current)
+## Import Conventions
 
-`tsconfig` keeps `@/*` as `./src/*` first, then `./*` fallback.
+`tsconfig` maps `@/*` → `./src/*` only (no root fallback).
 
-### Recommended imports
+| Alias               | Resolves to           | Usage                                              |
+| ------------------- | --------------------- | -------------------------------------------------- |
+| `@/widgets/*`       | `src/widgets/*`       | Page composition                                   |
+| `@/features/*`      | `src/features/*`      | Section modules                                    |
+| `@/shared/ui/*`     | `src/shared/ui/*`     | UI primitives (**preferred**)                      |
+| `@/shared/ui-v2/*`  | `src/shared/ui-v2/*`  | V2 design components                               |
+| `@/shared/utils`    | `src/shared/utils`    | `cn`, helpers                                      |
+| `@/shared/hooks/*`  | `src/shared/hooks/*`  | Shared hooks                                       |
+| `@/types/*`         | `src/types/*`         | Shared types                                       |
+| `@/lib/*`           | `src/lib/*`           | Content & utilities                                |
+| `@/hooks/*`         | `src/hooks/*`         | Cross-cutting hooks                                |
+| `@/components/ui/*` | `src/shared/ui/*`     | **Compatibility alias only** (shadcn legacy paths) |
+| `@/components/3d/*` | `src/components/3d/*` | 3D runtime (via `@/*` + path segment)              |
 
-- `@/app/...` (when needed from framework boundaries)
-- `@/widgets/...`
-- `@/features/...`
-- `@/shared/ui/...`
-- `@/shared/hooks/...`
-- `@/shared/utils/...`
-- `@/types/...`
-- `@/lib/...`
+### Recommended imports (new code)
 
-### Transitional compatibility imports
+```ts
+import { Button } from "@/shared/ui/button";
+import { Hero } from "@/features/home/hero";
+import { SiteShell } from "@/widgets/layout/site-shell";
+import { clubTimeline } from "@/lib/content/timeline";
+```
 
-- `@/components/...` still resolves for legacy modules.
-- `@/components/ui/*` resolves to shared layer first via path mapping, then legacy fallback.
+### Avoid
+
+- New modules outside `src/` (except config, `public`, `docs`, `.github`).
+- Deep imports across unrelated features.
+- Re-introducing a root `components/` folder.
 
 ---
 
 ## Dependency Direction
 
-Allowed:
+**Allowed:**
 
-- `app -> widgets -> features -> entities -> shared`
-- `app/widgets/features -> 3d runtime layer` (currently `src/components/3d`, target `src/3d`)
+```text
+app → widgets → features → entities → shared
+app | widgets | features → src/components/3d (or future src/3d)
+features → lib/content, hooks, types, shared
+```
 
-Disallowed:
+**Disallowed:**
 
-- `shared -> features/widgets/app`
-- Cross-feature deep internal imports
+- `shared → features | widgets | app`
+- Cross-feature internal imports (import via widget composition or shared contracts)
 - Circular dependencies
-- New permanent modules outside `src/` (except `.github`, config, public, docs, and root tool configs)
 
 ---
 
-## Migration Notes for Developers
+## Where to Put New Code
 
-- Prefer creating new logic under `src/features` and `src/widgets`.
-- Prefer `@/shared/ui` over `@/components/ui` in new code.
-- Keep behavior unchanged in structural migration PRs.
-- If touching legacy files, add or maintain bridge entrypoints in `src/`.
+| You are building…           | Put it in…                                      |
+| --------------------------- | ----------------------------------------------- |
+| New route / page metadata   | `src/app/(site)/<route>/page.tsx`               |
+| Page section ordering       | `src/widgets/<route>/`                          |
+| Section UI + section logic  | `src/features/<domain>/`                        |
+| Reusable button/card/dialog | `src/shared/ui/` (shadcn CLI)                   |
+| V2 glass/neon/3D card       | `src/shared/ui-v2/`                             |
+| Static copy / lists         | `src/lib/content/`                              |
+| R3F scene or model          | `src/components/3d/` (until `src/3d` migration) |
+| Shared type                 | `src/types/`                                    |
 
 ---
 
@@ -210,3 +245,5 @@ Disallowed:
 - [`ARCHITECTURE.md`](./ARCHITECTURE.md)
 - [`DEVELOPMENT_GUIDE.md`](./DEVELOPMENT_GUIDE.md)
 - [`CODE_STYLE.md`](./CODE_STYLE.md)
+- [`REFACTOR_PROGRESS.md`](./REFACTOR_PROGRESS.md)
+- [`docs/techtonic-v2/`](./docs/techtonic-v2/)

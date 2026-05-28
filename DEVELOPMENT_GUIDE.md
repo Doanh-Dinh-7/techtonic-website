@@ -2,15 +2,15 @@
 
 ## Purpose
 
-This guide helps contributors set up the project, follow daily workflows, and work correctly with the current Phase 3-ready architecture baseline.
+Guide for setting up the project, running quality gates, and working within the **post–Phase 2** codebase (all code under `src/`).
 
 ---
 
 ## Requirements
 
-- Node.js LTS (recommended >= 20)
-- npm (project default)
-- Git
+- **Node.js** LTS (recommended ≥ 20)
+- **npm** (project default package manager)
+- **Git**
 
 ---
 
@@ -25,10 +25,10 @@ npm run dev
 
 Open: [http://localhost:3000](http://localhost:3000)
 
-Active branch (main refactor line): `feature/next-gen-club-website`
-Current phase focus: `Phase 3 — 3D Performance & Futuristic Polish`
+**Active refactor branch:** `feature/next-gen-club-website`  
+**Current phase focus:** Phase 3 — 3D consolidation, testing expansion, performance hardening
 
-For quality verification after setup:
+### Verify setup (recommended)
 
 ```bash
 npm run lint
@@ -37,140 +37,179 @@ npm run test
 npm run format:check
 npm run build
 ```
+
+All commands should pass on a clean checkout.
 
 ---
 
 ## Current Layout (Quick Reference)
 
-| Area | Canonical path |
-|---|---|
-| Routes & layout | `src/app/` |
-| Page composition | `src/widgets/` |
-| Feature sections | `src/features/` |
-| Shared UI/hooks/utils | `src/shared/` |
-| Shared types | `src/types/` |
-| Shared hooks | `src/hooks/` |
-| Content & utilities | `src/lib/` |
-| 3D runtime (transitional) | `src/components/3d/` |
-| Legacy transitional modules | `components/` |
+| Area                      | Path                                     | Notes                                      |
+| ------------------------- | ---------------------------------------- | ------------------------------------------ |
+| Routes & layouts          | `src/app/`                               | Thin `page.tsx` files                      |
+| Page composition          | `src/widgets/`                           | Includes `layout/` (shell, header, footer) |
+| Section UI                | `src/features/`                          | Per-domain sections + hooks                |
+| Shared UI                 | `src/shared/ui/`                         | shadcn/Radix primitives                    |
+| V2 design UI              | `src/shared/ui-v2/`                      | Glass, neon, section shell                 |
+| Shared hooks/utils        | `src/shared/hooks/`, `src/shared/utils/` |                                            |
+| Theme provider            | `src/shared/providers/`                  | `next-themes` wrapper                      |
+| Types                     | `src/types/`                             |                                            |
+| Cross-cutting hooks       | `src/hooks/`                             | `use3d`, toast, timeline, …                |
+| Content & helpers         | `src/lib/content/`, `src/lib/3d/`        |                                            |
+| 3D runtime (transitional) | `src/components/3d/`                     | Target: `src/3d/`                          |
 
-Use `@/` alias for all imports.
+Use the `@/` alias for imports (resolves to `src/`).
 
 ---
 
 ## Available Scripts
 
-| Command | Description |
-|---|---|
-| `npm run dev` | Start Next.js dev server |
-| `npm run build` | Production build |
-| `npm run start` | Start production server |
-| `npm run lint` | ESLint check |
-| `npm run lint:fix` | ESLint auto-fix |
-| `npm run typecheck` | TypeScript check (`tsc --noEmit`) |
-| `npm run test` | Run unit tests with Vitest |
-| `npm run test:watch` | Run Vitest in watch mode |
-| `npm run format` | Format all files with Prettier |
-| `npm run format:check` | Prettier check mode |
-| `npm run prepare` | Initialize Husky hooks |
+| Command                | Description                         |
+| ---------------------- | ----------------------------------- |
+| `npm run dev`          | Start Next.js dev server            |
+| `npm run build`        | Production build                    |
+| `npm run start`        | Run production server (after build) |
+| `npm run lint`         | ESLint (`next lint`)                |
+| `npm run lint:fix`     | ESLint with auto-fix                |
+| `npm run typecheck`    | TypeScript (`tsc --noEmit`)         |
+| `npm run test`         | Vitest single run                   |
+| `npm run test:watch`   | Vitest watch mode                   |
+| `npm run format`       | Prettier write (all tracked files)  |
+| `npm run format:check` | Prettier check (CI)                 |
+| `npm run prepare`      | Install Husky git hooks             |
 
 ### Git Hooks (Husky)
 
-- `pre-commit` -> `lint-staged`
-- `commit-msg` -> `commitlint`
+| Hook         | Action                                            |
+| ------------ | ------------------------------------------------- |
+| `pre-commit` | `lint-staged` (ESLint + Prettier on staged files) |
+| `commit-msg` | `commitlint` (Conventional Commits)               |
 
 ### CI Workflow
 
-- GitHub Actions workflow: `.github/workflows/quality-gates.yml`
-- Default gate order: `lint` -> `typecheck` -> `format:check` -> `test` -> `build`
+- File: `.github/workflows/quality-gates.yml`
+- Triggers: `pull_request`, `push` to `feature/next-gen-club-website`
+- Gate order: **lint → typecheck → format:check → test → build**
 
-### Recommended Local Quality Gate
+### Recommended local gate (before PR)
 
 ```bash
-npm run lint
-npm run typecheck
-npm run test
-npm run format:check
-npm run build
+npm run lint && npm run typecheck && npm run test && npm run format:check && npm run build
 ```
 
 ---
 
-## TypeScript Alias
+## TypeScript Paths
+
+From `tsconfig.json`:
 
 ```json
-"@/*": ["./src/*", "./*"]
+{
+  "@/*": ["./src/*"],
+  "@/shared/*": ["./src/shared/*"],
+  "@/types/*": ["./src/types/*"],
+  "@/components/ui/*": ["./src/shared/ui/*"]
+}
 ```
 
-Practical rule:
+**Rules for new code:**
 
-- Prefer `src/*` canonical modules in new code.
-- Legacy root modules are compatibility only.
+- Import UI from `@/shared/ui/...` (not legacy path names).
+- `@/components/ui/*` still works (alias) for shadcn-generated snippets only.
+- Do not add files outside `src/` except config, `public`, `docs`.
+
+**Typecheck note:** `*.test.ts` / `*.test.tsx` are excluded from `tsc` (Vitest provides globals at test runtime). Run `npm run test` for test type/runtime validation.
 
 ---
 
-## Tooling Baseline (Current)
+## Tooling Baseline
 
-- Next.js 14.2.x
-- React 18
-- TypeScript strict mode
-- Tailwind CSS 3.x
-- ESLint + Prettier
-- Husky + lint-staged + Commitlint
-- 3D stack: `three`, `@react-three/fiber`, `@react-three/drei`
+| Tool                             | Version / notes                                    |
+| -------------------------------- | -------------------------------------------------- |
+| Next.js                          | 14.2.x                                             |
+| React                            | 18                                                 |
+| TypeScript                       | strict                                             |
+| Tailwind CSS                     | 3.x (`tailwind.config.ts` scans `./src/**`)        |
+| ESLint + Prettier                | Enforced in CI and pre-commit                      |
+| Husky + lint-staged + Commitlint | Conventional Commits                               |
+| Vitest                           | `src/**/*.test.{ts,tsx}`                           |
+| 3D                               | `three`, `@react-three/fiber`, `@react-three/drei` |
+| Motion / scroll                  | `framer-motion`, `lenis`, `gsap`                   |
 
-Config highlights:
+**shadcn CLI** (`components.json`):
 
-- `next.config.mjs` keeps lint/typecheck enabled during build (`ignore* = false`).
-- `components.json` aliases point to shared layer (`@/shared/ui`, `@/shared/utils`, `@/shared/hooks`).
+- `ui` → `@/shared/ui`
+- `utils` → `@/shared/utils`
+- `hooks` → `@/shared/hooks`
+- `components` → `@/widgets` (composition target for generated layouts)
+
+---
+
+## Adding UI with shadcn
+
+```bash
+npx shadcn@latest add <component>
+```
+
+New files are created under `src/shared/ui/`. Prefer importing:
+
+```ts
+import { Button } from "@/shared/ui/button";
+```
 
 ---
 
 ## Onboarding Checklist
 
-- [ ] Clone, install, run `npm run dev`
-- [ ] Read `PROJECT_STRUCTURE.md`
-- [ ] Read `ARCHITECTURE.md`
-- [ ] Read `CODE_STYLE.md`
-- [ ] Read `CONTRIBUTING.md`
-- [ ] Understand route composition flow: `app -> widgets -> features`
-- [ ] Locate content source in `src/lib/content/`
-- [ ] Run local quality gate (`lint`, `typecheck`, `test`, `format:check`, `build`)
-- [ ] Check CI workflow definition in `.github/workflows/quality-gates.yml`
-- [ ] Open a small Conventional Commit PR
+- [ ] Clone repo, `npm install`, `npm run dev`
+- [ ] Read [`PROJECT_STRUCTURE.md`](./PROJECT_STRUCTURE.md) — folder map
+- [ ] Read [`ARCHITECTURE.md`](./ARCHITECTURE.md) — layers & ADRs
+- [ ] Read [`CODE_STYLE.md`](./CODE_STYLE.md) — conventions
+- [ ] Read [`CONTRIBUTING.md`](./CONTRIBUTING.md) — PR & commit rules
+- [ ] Trace home flow: `src/app/(site)/page.tsx` → `widgets/home` → `features/home`
+- [ ] Find content data in `src/lib/content/`
+- [ ] Run full local quality gate (see above)
+- [ ] Skim `.github/workflows/quality-gates.yml`
+- [ ] Open a small PR with Conventional Commit message
 
 ---
 
 ## Daily Development Rules
 
-- Keep route files thin; compose through widgets/features.
-- Prefer `@/shared/ui` instead of `@/components/ui` in new code.
-- Avoid adding permanent modules under root `components/`.
-- Keep migration PRs behavior-safe (structure first, logic second).
+1. **Thin routes** — compose via `widgets`, implement UI in `features`.
+2. **Shared UI** — use `@/shared/ui`; add V2 visuals via `@/shared/ui-v2`.
+3. **No root `components/`** — all modules go under `src/`.
+4. **Behavior-safe migrations** — structure first; avoid drive-by logic changes.
+5. **Update docs** when paths, scripts, or layer contracts change.
 
 ---
 
-## Debug & Performance Notes
+## Debug & Performance
 
-### UI
+### UI / layout
 
-- Check unnecessary re-renders in large sections.
-- Watch scroll behavior in `src/widgets/layout/site-shell.tsx`.
+- Large sections: check re-renders in `features/home/*`.
+- Scroll/shell: `widgets/layout/site-shell.tsx`, `lenis-provider.tsx`.
 
 ### 3D
 
-- Keep heavy scene logic under `src/components/3d/` (until `src/3d` migration).
-- Respect reduced motion and DPR limits.
+- Scenes: `src/components/3d/scenes/`
+- Performance guards: `src/lib/3d/performance.ts` (+ unit tests)
+- Respect `use3d` / reduced-motion; avoid raising particle counts without review.
+
+### Content
+
+- Edit copy/lists in `src/lib/content/` before hardcoding in components.
 
 ---
 
-## Definition of Done
+## Definition of Done (per change)
 
-- Correct layer placement (`app/widgets/features/shared`).
-- Dependency direction preserved (`app -> widgets -> features -> entities -> shared`, plus `app/widgets/features -> 3d`).
-- Imports use `@/` and canonical paths.
-- Quality gate passes locally.
-- Documentation updated if structure or workflow changed.
+- [ ] Correct layer (`app` / `widgets` / `features` / `shared` / `lib`)
+- [ ] Dependency direction preserved
+- [ ] Imports use `@/` canonical paths
+- [ ] `lint`, `typecheck`, `test`, `format:check`, `build` pass
+- [ ] Docs updated if structure, scripts, or conventions changed
 
 ---
 
@@ -180,3 +219,4 @@ Config highlights:
 - [`ARCHITECTURE.md`](./ARCHITECTURE.md)
 - [`CODE_STYLE.md`](./CODE_STYLE.md)
 - [`CONTRIBUTING.md`](./CONTRIBUTING.md)
+- [`REFACTOR_PROGRESS.md`](./REFACTOR_PROGRESS.md)

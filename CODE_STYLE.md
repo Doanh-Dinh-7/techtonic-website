@@ -2,7 +2,7 @@
 
 ## Objective
 
-Keep code maintainable, scalable, and consistent across the layered architecture.
+Keep code maintainable, scalable, and consistent across the layered `src/` architecture.
 
 ---
 
@@ -11,49 +11,64 @@ Keep code maintainable, scalable, and consistent across the layered architecture
 - Apply SOLID, DRY, KISS pragmatically.
 - Prefer readability over clever abstractions.
 - Keep modules focused and composable.
-- Keep structural refactors behavior-safe by default.
+- Keep structural refactors **behavior-safe** by default.
 
 ---
 
 ## TypeScript Rules
 
-- Keep strict mode enabled.
+- Strict mode stays enabled.
 - Avoid `any`; if unavoidable, isolate and document.
-- Prefer `interface` for shared contracts.
-- Shared contracts belong in `src/types` or feature model folders.
+- Prefer `interface` for shared object shapes.
+- Shared contracts: `src/types/` or feature-local `types.ts`.
 - Use `import type` for type-only imports.
 
 ---
 
 ## React and Next.js Rules
 
-- Server Components by default in App Router.
-- Use `"use client"` only when interaction/browser APIs are required.
-- Route files should stay thin and composition-focused.
-- Put section composition in `widgets`, section units in `features`.
-- Move reusable logic to hooks/services.
+- **Server Components** by default in App Router.
+- Add `"use client"` only when browser APIs, state, or effects are required.
+- Keep `src/app/**/page.tsx` thin — delegate to `widgets`.
+- Section UI lives in `features`; composition in `widgets`.
+- Extract reusable stateful logic into hooks (`features/.../hooks`, `widgets/.../hooks`, `src/hooks`).
 
 ---
 
 ## Project Layout Rules (Current)
 
-- `src/app/`: routing, metadata, top-level layout.
-- `src/widgets/`: page-level composition.
-- `src/features/`: feature/domain section modules.
-- `src/shared/`: shared UI/hooks/utils/constants.
-- `src/types/`: shared type contracts.
-- `src/hooks/`, `src/lib/`: cross-cutting hooks/data/utilities.
-- `src/components/3d/`: transitional 3D layer (target: `src/3d`).
+| Path                    | Responsibility                               |
+| ----------------------- | -------------------------------------------- |
+| `src/app/`              | Routes, metadata, layouts, `globals.css`     |
+| `src/widgets/`          | Page composition, site chrome (`layout/`)    |
+| `src/features/`         | Domain section components + feature hooks    |
+| `src/shared/ui/`        | shadcn/Radix primitives (**canonical UI**)   |
+| `src/shared/ui-v2/`     | V2 design components (glass, neon, 3D cards) |
+| `src/shared/utils/`     | `cn`, shared helpers                         |
+| `src/shared/hooks/`     | Shared hook barrels                          |
+| `src/shared/providers/` | App-wide providers (e.g. theme)              |
+| `src/types/`            | Shared type contracts                        |
+| `src/hooks/`            | Cross-cutting hooks (`use3d`, toast, …)      |
+| `src/lib/`              | Content modules, pure utilities, `lib/3d`    |
+| `src/components/3d/`    | R3F runtime (**transitional** → `src/3d`)    |
 
-Legacy:
+**There is no root `components/` folder.** Do not recreate it.
 
-- Root `components/` is transitional compatibility only.
-- Do not add new permanent modules under root `components/`.
+### Import policy
 
-Import policy:
+- Always use `@/` alias (maps to `src/`).
+- **Prefer** `@/shared/ui/*` for primitives.
+- `@/components/ui/*` is a **compatibility alias** only (same as `shared/ui`); do not use in new hand-written code.
+- 3D internals: `@/components/3d/*` until migration to `@/3d/*`.
 
-- Always use `@/` alias.
-- Prefer `@/shared/ui/*` over `@/components/ui/*` in new code.
+```ts
+// Preferred
+import { Button } from "@/shared/ui/button";
+import { cn } from "@/shared/utils";
+
+// Avoid in new code
+import { Button } from "@/components/ui/button";
+```
 
 ---
 
@@ -61,33 +76,33 @@ Import policy:
 
 ### Files and folders
 
-- Use `kebab-case`.
-- React component symbols use `PascalCase`.
-- Hooks start with `use`.
+- `kebab-case` for files and directories.
+- React components: `PascalCase` export names.
+- Hooks: `use` prefix (`use-hero-section.ts`).
 
 ### Symbols
 
-- Variables/functions: `camelCase`.
-- Types/interfaces/classes: `PascalCase`.
-- Constants: `UPPER_SNAKE_CASE`.
+- Variables / functions: `camelCase`
+- Types / interfaces / components: `PascalCase`
+- Constants: `UPPER_SNAKE_CASE`
 
 ---
 
 ## Dependency Direction Rules
 
-Allowed direction:
+**Allowed:**
 
-`app -> widgets -> features -> entities -> shared`
+```text
+app → widgets → features → entities → shared
+app | widgets | features → 3d runtime (src/components/3d → src/3d)
+```
 
-Also allowed:
+**Not allowed:**
 
-- `app/widgets/features -> 3d runtime layer` (currently `src/components/3d`, target `src/3d`)
-
-Not allowed:
-
-- `shared ->` upper layers
-- cross-feature deep imports
-- circular dependencies
+- `shared → features | widgets | app`
+- Cross-feature deep imports
+- Circular dependencies
+- Permanent modules outside `src/` (except config, `public`, `docs`, `.github`)
 
 ---
 
@@ -95,33 +110,33 @@ Not allowed:
 
 - Handle expected failures explicitly.
 - Do not silently swallow errors.
-- Provide user-friendly fallback states when relevant.
+- Provide user-friendly fallback UI when relevant (e.g. WebGL fallback).
 
 ---
 
 ## Security Standards
 
-- Validate inputs at boundaries.
-- External links using `_blank` must include `rel="noopener noreferrer"`.
-- Never expose secrets in client code.
+- Validate inputs at boundaries (forms, external data).
+- `target="_blank"` links must include `rel="noopener noreferrer"`.
+- Never commit secrets; use environment variables for client-safe public keys only.
 
 ---
 
 ## Performance Standards (UI + 3D)
 
-- Minimize unnecessary re-renders.
-- Use memoization only when profiling justifies it.
-- Avoid uncontrolled infinite animations.
-- Lazy-load heavy modules/scenes.
-- For 3D: cap DPR, control draw calls, provide fallback behavior.
+- Avoid unnecessary re-renders in large client sections.
+- Memoize only when profiling justifies it.
+- Lazy-load heavy 3D entrypoints where possible.
+- 3D: respect DPR caps and reduced-motion paths (`src/lib/3d/performance.ts`).
+- Do not raise particle/star counts without updating performance docs/tests.
 
 ---
 
 ## Documentation Standards
 
-- Document intent/trade-offs, not obvious syntax.
-- Update docs when architecture or workflow changes.
-- Keep examples runnable and current.
+- Document intent and trade-offs, not obvious syntax.
+- Update `PROJECT_STRUCTURE.md`, `ARCHITECTURE.md`, or this file when conventions change.
+- Keep examples aligned with current paths under `src/`.
 
 ---
 
@@ -129,9 +144,20 @@ Not allowed:
 
 Before merge:
 
-- Lint passes.
-- Typecheck passes.
-- Tests pass (`npm run test` baseline; expand by change risk).
-- Format check passes.
-- Build passes.
-- Docs updated if structure/standards changed.
+| Check  | Command                |
+| ------ | ---------------------- |
+| Lint   | `npm run lint`         |
+| Types  | `npm run typecheck`    |
+| Tests  | `npm run test`         |
+| Format | `npm run format:check` |
+| Build  | `npm run build`        |
+
+Update docs when structure, scripts, or import contracts change.
+
+---
+
+## Related Docs
+
+- [`PROJECT_STRUCTURE.md`](./PROJECT_STRUCTURE.md)
+- [`ARCHITECTURE.md`](./ARCHITECTURE.md)
+- [`DEVELOPMENT_GUIDE.md`](./DEVELOPMENT_GUIDE.md)

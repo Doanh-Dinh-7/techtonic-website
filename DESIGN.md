@@ -63,19 +63,19 @@ The visual language is dark cyberpunk with disciplined motion and performance-aw
 
 ## Color System (Baseline)
 
-| Token            | Intent                    |
-| ---------------- | ------------------------- |
-| `bg/base`        | Primary dark canvas       |
-| `bg/elevated`    | Layer depth and cards     |
-| `text/primary`   | High-contrast content     |
-| `text/secondary` | Supportive content        |
-| `accent/cyan`    | Primary futuristic accent |
-| `accent/violet`  | Secondary accent          |
-| `accent/magenta` | Tertiary neon accent      |
+| Token                  | Intent                     |
+| ---------------------- | -------------------------- |
+| `bg/base`              | Primary dark canvas        |
+| `bg/elevated`          | Layer depth and cards      |
+| `text/primary`         | High-contrast content      |
+| `text/secondary`       | Supportive content         |
+| `accent/cyan`          | Primary futuristic accent  |
+| `accent/violet`        | Secondary accent           |
+| `accent/magenta`       | Tertiary neon accent       |
 | `accent/electric-blue` | Technical highlight accent |
-| `state/success`  | Positive status           |
-| `state/warning`  | Warning status            |
-| `state/error`    | Error status              |
+| `state/success`        | Positive status            |
+| `state/warning`        | Warning status             |
+| `state/error`          | Error status               |
 
 ## Typography
 

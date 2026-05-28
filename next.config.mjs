@@ -1,10 +1,7 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  reactStrictMode: true,
-  poweredByHeader: false,
   eslint: {
     ignoreDuringBuilds: false,
-    dirs: ["src", "components"],
   },
   typescript: {
     ignoreBuildErrors: false,
@@ -14,15 +11,10 @@ const nextConfig = {
     remotePatterns: [
       {
         protocol: "https",
-        hostname: "res.cloudinary.com",
+        hostname: "res.cloudinary.com", // Cloudinary
         pathname: "/**",
       },
     ],
-  },
-  modularizeImports: {
-    "lucide-react": {
-      transform: "lucide-react/dist/esm/icons/{{kebabCase member}}",
-    },
   },
 };
 
