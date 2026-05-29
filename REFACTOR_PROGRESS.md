@@ -17,88 +17,58 @@
 - **Phase 2.2:** Shared layer + UI primitive mapping + shared contracts completed.
 - **Phase 2.3:** Route composition migration to `widgets` + `features` completed.
 - **Phase 2.4:** Behavior-safe quality refactor completed (hook extraction, client-boundary optimization, 3D reduced-motion/DPR tuning, JSDoc).
-- **Post-2.4 initial hardening:** CI quality gates + Vitest baseline + first unit test completed.
-- **Phase 2 closure:** Root `components/` decommissioned; implementations consolidated under `src/shared`, `src/features`, `src/widgets`.
+- **Post-2.4 hardening:** CI quality gates + Vitest + Prettier baseline — **complete**.
+- **Phase 2 closure:** Root `components/` decommissioned; implementations under `src/shared`, `src/features`, `src/widgets`.
+- **Phase 3.1:** Canonical `src/3d` runtime + `src/components/3d` deprecated bridge — **complete**.
+- **Phase 3.2:** Performance guardrails (`getSafeStarCount`, runbook, expanded tests) — **complete**.
+- **Documentation consistency pass (Phase 3):** Root docs + README synced — **complete**.
 
 ---
 
 ## Current Status & Next Steps (Detailed)
 
-### Phase 3.1 — 3D Runtime Consolidation (`src/components/3d` -> `src/3d`)
+### Phase 3.1 — 3D Runtime Consolidation (`src/components/3d` → `src/3d`)
 
 - [x] Define full migration map for canvas/scenes/effects/models/helpers.
-- [ ] Migrate by safe batches with temporary compatibility re-exports.
-- [ ] Keep import contracts stable during transition.
-- [ ] Replace internal transitional imports with canonical target paths.
-- [ ] Remove temporary re-exports only after reference validation.
-- [ ] Sync `PROJECT_STRUCTURE.md` and `ARCHITECTURE.md` after completion.
-
-#### Phase 3.1 Migration Map (Draft v1)
-
-Source modules (`src/components/3d/*`):
-
-- `canvas/canvas-shell.tsx`
-- `canvas/webgl-fallback.tsx`
-- `effects/camera-rig.tsx`
-- `effects/particle-field.tsx`
-- `models/cat-mascot.tsx`
-- `models/floating-logo.tsx`
-- `scenes/background-scene.tsx`
-- `scenes/hero-scene.tsx`
-- `index.ts`
-
-Target structure (`src/3d/*`):
-
-- `src/3d/canvas/*`
-- `src/3d/effects/*`
-- `src/3d/models/*`
-- `src/3d/scenes/*`
-- `src/3d/index.ts`
-
-Behavior-safe execution batches:
-
-1. **Batch A (Scaffold + compatibility):** create target folders and add re-export bridge from old paths.
-2. **Batch B (Low-risk leaf modules):** migrate `effects/*` and `models/*`.
-3. **Batch C (Scene modules):** migrate `scenes/*` and verify runtime behavior under reduced motion.
-4. **Batch D (Canvas boundary):** migrate `canvas/*`, preserve fallback and hydration behavior.
-5. **Batch E (Import cleanup):** switch canonical imports to `@/3d/*` and remove obsolete bridges.
+- [x] Migrate implementations to `src/3d/*`.
+- [x] Add deprecated re-export bridge under `src/components/3d/*`.
+- [x] Add `@/3d/*` tsconfig path.
+- [x] Add lazy scene entrypoints (`HeroSceneLazy`, `BackgroundSceneLazy`).
+- [x] Sync `PROJECT_STRUCTURE.md` and `ARCHITECTURE.md` (ADR-008).
+- [ ] Remove `src/components/3d` bridge after all imports use `@/3d`.
 
 ### Phase 3.2 — 3D Performance Guardrails
 
-- [ ] Define explicit runtime budgets (DPR, particles/stars caps, frameloop policy).
-- [ ] Verify reduced-motion behavior across all active scenes.
-- [ ] Ensure heavy 3D entrypoints are intentionally lazy-loaded.
-- [ ] Add concise 3D performance runbook for maintainers.
+- [x] Codify runtime budgets in `src/lib/3d/performance.ts`.
+- [x] Apply star/particle guards in scenes (`BackgroundScene`, `ParticleField`).
+- [x] Lazy-load scene entrypoints via `src/3d/scene-lazy.tsx`.
+- [x] Add maintainer runbook: `docs/techtonic-v2/3d-performance.md`.
+- [x] Expand unit tests for star count/speed guards.
+- [ ] Integrate 3D into home hero when design sign-off (optional polish batch).
 
-#### Phase 3.2 Runtime Budget Baseline (Draft v1)
+#### Runtime Budget Baseline (Enforced)
 
-- DPR budget: keep adaptive cap at `1 -> 1.5` by default.
-- Motion policy: enforce `"demand"` frameloop in reduced-motion mode.
-- Particle/star budgets:
-  - default: `particles 700`, `stars 650`
-  - reduced motion: `particles 120`, `stars 180`
-- Device awareness: maintain capability gate via `use3d` (`supportsWebGL`, `reducedMotion`).
-- Action item: codify these values in docs/runbook and guard against accidental regressions with tests.
+| Setting    | Default    | Reduced motion |
+| ---------- | ---------- | -------------- |
+| DPR        | `[1, 1.5]` | `[1, 1.5]`     |
+| Frameloop  | `always`   | `demand`       |
+| Particles  | 700        | 120            |
+| Stars      | 650        | 180            |
+| Star speed | 0.28       | 0.08           |
 
 ### Phase 3.3 — Testing Expansion
 
-- [ ] Add unit tests for critical shared utilities (`src/lib/3d/*`, deterministic mappers/formatters).
-- [ ] Add tests for extracted hooks:
-  - [ ] `use-registration-form`
-  - [ ] `use-site-shell-visibility`
-  - [ ] `use-header-navigation`
-  - [ ] `use-hero-section`
+- [x] Star/particle guard tests in `src/lib/3d/performance.test.ts`.
+- [ ] Add tests for extracted hooks (`use-registration-form`, `use-site-shell-visibility`, `use-header-navigation`, `use-hero-section`).
 - [ ] Add smoke tests for critical routes (`/`, `/recruitment`, `/events`).
-- [ ] Define minimum coverage target by layer (`shared`, `features`, `widgets`).
+- [ ] Define minimum coverage target by layer.
 
 ### Phase 3.4 — Legacy Bridge Reduction
 
-- [x] Remove root `components/` directory; consolidate under `src/`.
-- [x] Migrate section modules to `src/features/*` (full implementations, no re-export bridges).
-- [x] Migrate UI primitives to `src/shared/ui`; V2 components to `src/shared/ui-v2`.
-- [x] Migrate layout chrome to `src/widgets/layout/*`.
-- [ ] Audit remaining `@/components/ui/*` imports in docs/snippets; prefer `@/shared/ui/*` in new code.
-- [ ] Remove `@/components/ui/*` tsconfig alias after shadcn/snippets fully migrated (optional).
+- [x] Remove root `components/` directory.
+- [x] Full implementations in `src/features/*` (no re-export bridges).
+- [ ] Remove `src/components/3d` bridge after import audit.
+- [ ] Optional: remove `@/components/ui/*` tsconfig alias after shadcn migration.
 
 ### Phase 3.5 — Next.js 15 Readiness
 
@@ -110,11 +80,11 @@ Behavior-safe execution batches:
 
 ### Known Technical Debt
 
-- [ ] `@/components/ui/*` alias still exists for shadcn compatibility (maps to `src/shared/ui`).
-- [ ] 3D runtime consolidation to `src/3d` is pending.
-- [ ] Test coverage is still baseline-level only.
-- [ ] CI smoke tests for critical routes are not integrated yet.
-- [ ] Phase 3 execution plan details for 3D migration batches are not finalized yet.
+- [ ] `src/components/3d` deprecated bridge still present.
+- [ ] `@/components/ui/*` alias for shadcn compatibility.
+- [ ] Home hero not yet wired to `HeroSceneLazy` (3D-ready but optional).
+- [ ] CI route smoke tests not integrated.
+- [ ] `src/entities` layer unused.
 
 ---
 
@@ -122,22 +92,18 @@ Behavior-safe execution batches:
 
 ### Current Codebase Snapshot
 
-- Phase 1, 2.1, 2.2, 2.3, 2.4 are complete.
-- Post-2.4 baseline hardening is active:
-  - `.github/workflows/quality-gates.yml`
-  - `vitest.config.ts`
-  - `src/lib/3d/performance.test.ts`
-- Architecture direction:
-  - `app -> widgets -> features -> entities -> shared`
-  - `app/widgets/features -> 3d` (transitional)
+- Phase 1, 2.x, Post-2.4 hardening: **complete**.
+- Phase 3.1–3.2: **complete** (`src/3d`, performance runbook, lazy loaders).
+- Architecture: `app → widgets → features → entities → shared` and `app/widgets/features → src/3d`.
+- Canonical imports: `@/widgets/*`, `@/features/*`, `@/shared/ui/*`, `@/3d/*`.
+- No root `components/` folder.
 
 ### Important Constraints
 
-- Keep all refactors behavior-safe by default.
-- Prefer canonical imports: `@/widgets/*`, `@/features/*`, `@/shared/ui/*`.
-- All application code lives under `src/`; no root `components/` folder.
-- Preserve reduced-motion/fallback behavior for 3D updates.
-- Sync docs whenever architecture/workflow contracts change.
+- Behavior-safe refactors by default.
+- Preserve reduced-motion and WebGL fallback behavior.
+- Do not raise 3D budgets without updating tests + `docs/techtonic-v2/3d-performance.md`.
+- Sync docs when paths or layer contracts change.
 
 ### Mandatory Quality Gates Per Meaningful Batch
 
@@ -151,19 +117,18 @@ npm run build
 
 ### Recommended Immediate Execution Order
 
-1. Execute first safe batch for 3D folder consolidation.
-2. Expand tests for extracted hooks and critical routes.
-3. Continue 3D consolidation (`src/components/3d` → `src/3d`).
-4. Start Next.js 15 readiness branch and compatibility validation.
+1. Wire `HeroSceneLazy` into `features/home/hero` behind `use3d().shouldRenderMotion` (design-approved).
+2. Expand hook/route tests (Phase 3.3).
+3. Audit and remove `src/components/3d` bridge.
+4. Start Next.js 15 readiness branch.
 
 ---
 
 ## Changelog (Concise)
 
-| Date       | Phase/Batch                                      | Summary                                                                                                                                      |
-| ---------- | ------------------------------------------------ | -------------------------------------------------------------------------------------------------------------------------------------------- |
-| 2026-05-28 | Phase 2.4 Complete                               | Hook extraction + client-boundary optimization + 3D reduced-motion/DPR tuning + JSDoc                                                        |
-| 2026-05-28 | Post-Phase 2.4 Hardening (Init)                  | Added CI quality gates + Vitest baseline + initial unit test                                                                                 |
-| 2026-05-28 | Documentation Sync                               | Synced architecture/structure/development/code-style docs with current codebase                                                              |
-| 2026-05-28 | Documentation Consistency Pass (Phase 3 kickoff) | Harmonized PROJECT_STRUCTURE/ARCHITECTURE/DEVELOPMENT_GUIDE/CODE_STYLE/CONTRIBUTING/DESIGN and aligned dependency + quality gate terminology |
-| 2026-05-28 | Phase 2 closure + docs sync                      | Removed root `components/`; updated PROJECT_STRUCTURE, ARCHITECTURE, DEVELOPMENT_GUIDE, CODE_STYLE; ADR-007                                  |
+| Date       | Phase/Batch                        | Summary                                                                                   |
+| ---------- | ---------------------------------- | ----------------------------------------------------------------------------------------- |
+| 2026-05-28 | Phase 2.4 Complete                 | Hook extraction + client-boundary optimization + 3D reduced-motion/DPR tuning + JSDoc     |
+| 2026-05-28 | Post-Phase 2.4 Hardening           | CI quality gates + Vitest baseline + initial unit test                                    |
+| 2026-05-28 | Phase 2 closure + docs sync        | Removed root `components/`; ADR-007; updated core docs                                    |
+| 2026-05-28 | Phase 3.1–3.2 + documentation pass | `src/3d` canonical runtime, lazy loaders, star guards, runbook, ADR-008, README/docs sync |

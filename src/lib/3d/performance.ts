@@ -27,3 +27,16 @@ export function getSafeParticleCount(count?: number, reducedMotion?: boolean) {
     ? R3F_PERFORMANCE.particleCount.reduced
     : R3F_PERFORMANCE.particleCount.default;
 }
+
+export function getSafeStarCount(count?: number, reducedMotion?: boolean) {
+  if (typeof count === "number") {
+    return reducedMotion ? Math.min(count, R3F_PERFORMANCE.stars.count.reduced) : count;
+  }
+
+  return reducedMotion ? R3F_PERFORMANCE.stars.count.reduced : R3F_PERFORMANCE.stars.count.default;
+}
+
+export function getSafeStarSpeed(speed?: number, reducedMotion?: boolean) {
+  if (reducedMotion) return R3F_PERFORMANCE.stars.speed.reduced;
+  return speed ?? R3F_PERFORMANCE.stars.speed.default;
+}

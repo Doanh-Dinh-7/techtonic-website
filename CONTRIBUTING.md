@@ -10,6 +10,8 @@ This project follows strict engineering standards to remain scalable, maintainab
 - Project layout: [`PROJECT_STRUCTURE.md`](./PROJECT_STRUCTURE.md)
 - Setup and workflow: [`DEVELOPMENT_GUIDE.md`](./DEVELOPMENT_GUIDE.md)
 - Design direction: [`DESIGN.md`](./DESIGN.md)
+- 3D performance runbook: [`docs/techtonic-v2/3d-performance.md`](./docs/techtonic-v2/3d-performance.md)
+- Refactor status: [`REFACTOR_PROGRESS.md`](./REFACTOR_PROGRESS.md)
 
 ## Contribution Workflow
 
@@ -82,7 +84,7 @@ Reviewers prioritize:
 2. Architecture and dependency boundaries.
 3. Readability and maintainability.
 4. Type safety and error handling.
-5. Performance implications, especially animation/3D.
+5. Performance implications, especially animation/3D (see 3D runbook for budget changes).
 
 Author responsibilities:
 

@@ -19,7 +19,9 @@ Use it for onboarding, code review, and deciding where new files should be creat
 | Phase 2.4 — Hook extraction, client boundaries, 3D guards | **Complete**    |
 | Post-2.4 — CI quality gates, Vitest, Prettier baseline    | **Complete**    |
 | Phase 2 closure — Legacy `components/` decommission       | **Complete**    |
-| Phase 3 — 3D runtime (`src/3d`), tests, performance       | **In progress** |
+| Phase 3.1 — 3D runtime (`src/3d`) + compatibility bridge  | **Complete**    |
+| Phase 3.2 — Performance guardrails + runbook              | **Complete**    |
+| Phase 3.3 — Testing expansion                             | **In progress** |
 
 ---
 
@@ -96,11 +98,12 @@ techtonic-website/
 │   │   ├── utils.ts
 │   │   └── analytics/, api-client/, security/  # Reserved placeholders
 │   │
-│   ├── components/3d/                    # R3F runtime (transitional → `src/3d`)
+│   ├── 3d/                               # Canonical R3F runtime (canvas, scenes, effects, models)
 │   │   ├── canvas/, scenes/, effects/, models/
+│   │   ├── scene-lazy.tsx                # next/dynamic entrypoints
 │   │   └── index.ts
 │   │
-│   ├── 3d/                               # Reserved target for 3D consolidation
+│   ├── components/3d/                    # Deprecated bridge → re-exports `@/3d`
 │   ├── entities/                         # Reserved (Phase 3+)
 │   └── config/                           # Reserved (Phase 3+)
 │
@@ -157,12 +160,18 @@ techtonic-website/
 - **lib/content** — Static copy/data for sections.
 - **lib/3d** — Pure 3D helpers (performance guards, constants); unit-tested.
 
-### `src/components/3d` (transitional)
+### `src/3d` (canonical 3D runtime)
 
-- React Three Fiber scenes, canvas shell, effects, models.
-- **Target:** migrate to `src/3d/` (Phase 3.1).
+- R3F canvas shell, scenes, effects, models, lazy loaders.
+- Import via `@/3d` or `@/3d/<module>`.
+- Performance budgets enforced via `src/lib/3d/performance.ts` (see `docs/techtonic-v2/3d-performance.md`).
 
-### `src/entities`, `src/config`, `src/3d`
+### `src/components/3d` (deprecated bridge)
+
+- Re-exports `@/3d` for backward compatibility only.
+- Do not add new implementations here.
+
+### `src/entities`, `src/config`
 
 - Reserved placeholders for upcoming phases.
 
@@ -188,7 +197,8 @@ techtonic-website/
 | `@/lib/*`           | `src/lib/*`           | Content & utilities                                |
 | `@/hooks/*`         | `src/hooks/*`         | Cross-cutting hooks                                |
 | `@/components/ui/*` | `src/shared/ui/*`     | **Compatibility alias only** (shadcn legacy paths) |
-| `@/components/3d/*` | `src/components/3d/*` | 3D runtime (via `@/*` + path segment)              |
+| `@/3d/*`            | `src/3d/*`            | **Canonical** 3D runtime                           |
+| `@/components/3d/*` | `src/components/3d/*` | Deprecated bridge (re-exports `@/3d`)              |
 
 ### Recommended imports (new code)
 
@@ -213,7 +223,7 @@ import { clubTimeline } from "@/lib/content/timeline";
 
 ```text
 app → widgets → features → entities → shared
-app | widgets | features → src/components/3d (or future src/3d)
+app | widgets | features → src/3d
 features → lib/content, hooks, types, shared
 ```
 
@@ -227,16 +237,16 @@ features → lib/content, hooks, types, shared
 
 ## Where to Put New Code
 
-| You are building…           | Put it in…                                      |
-| --------------------------- | ----------------------------------------------- |
-| New route / page metadata   | `src/app/(site)/<route>/page.tsx`               |
-| Page section ordering       | `src/widgets/<route>/`                          |
-| Section UI + section logic  | `src/features/<domain>/`                        |
-| Reusable button/card/dialog | `src/shared/ui/` (shadcn CLI)                   |
-| V2 glass/neon/3D card       | `src/shared/ui-v2/`                             |
-| Static copy / lists         | `src/lib/content/`                              |
-| R3F scene or model          | `src/components/3d/` (until `src/3d` migration) |
-| Shared type                 | `src/types/`                                    |
+| You are building…           | Put it in…                                    |
+| --------------------------- | --------------------------------------------- |
+| New route / page metadata   | `src/app/(site)/<route>/page.tsx`             |
+| Page section ordering       | `src/widgets/<route>/`                        |
+| Section UI + section logic  | `src/features/<domain>/`                      |
+| Reusable button/card/dialog | `src/shared/ui/` (shadcn CLI)                 |
+| V2 glass/neon/3D card       | `src/shared/ui-v2/`                           |
+| Static copy / lists         | `src/lib/content/`                            |
+| R3F scene or model          | `src/3d/` (use `scene-lazy` for route heroes) |
+| Shared type                 | `src/types/`                                  |
 
 ---
 

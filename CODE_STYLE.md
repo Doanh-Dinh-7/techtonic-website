@@ -50,7 +50,8 @@ Keep code maintainable, scalable, and consistent across the layered `src/` archi
 | `src/types/`            | Shared type contracts                        |
 | `src/hooks/`            | Cross-cutting hooks (`use3d`, toast, …)      |
 | `src/lib/`              | Content modules, pure utilities, `lib/3d`    |
-| `src/components/3d/`    | R3F runtime (**transitional** → `src/3d`)    |
+| `src/3d/`               | Canonical R3F runtime                        |
+| `src/components/3d/`    | Deprecated bridge (re-exports `@/3d`)        |
 
 **There is no root `components/` folder.** Do not recreate it.
 
@@ -59,7 +60,7 @@ Keep code maintainable, scalable, and consistent across the layered `src/` archi
 - Always use `@/` alias (maps to `src/`).
 - **Prefer** `@/shared/ui/*` for primitives.
 - `@/components/ui/*` is a **compatibility alias** only (same as `shared/ui`); do not use in new hand-written code.
-- 3D internals: `@/components/3d/*` until migration to `@/3d/*`.
+- 3D: `@/3d` or `@/3d/*` (avoid `@/components/3d/*` in new code).
 
 ```ts
 // Preferred
@@ -94,7 +95,7 @@ import { Button } from "@/components/ui/button";
 
 ```text
 app → widgets → features → entities → shared
-app | widgets | features → 3d runtime (src/components/3d → src/3d)
+app | widgets | features → 3d runtime (`src/3d`)
 ```
 
 **Not allowed:**

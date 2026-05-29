@@ -1,3 +1,9 @@
-# Components 3D (Transitional)
+# Deprecated: `src/components/3d`
 
-3D components are being reorganized toward the dedicated `src/3d` runtime layer.
+This folder is a **compatibility bridge** only. Implementations live in [`src/3d`](../../3d/README.md).
+
+**Use in new code:**
+
+```ts
+import { CanvasShell, HeroSceneLazy } from "@/3d";
+```

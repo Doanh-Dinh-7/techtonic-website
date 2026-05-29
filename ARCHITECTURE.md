@@ -6,7 +6,7 @@ This document describes the **current** architecture after Phase 2 completion: a
 
 ---
 
-## Current Architecture (Post Phase 2)
+## Current Architecture (Phase 3 Baseline)
 
 ### Style
 
@@ -26,7 +26,8 @@ This document describes the **current** architecture after Phase 2 completion: a
 ├─────────────────────────────────────────────────────────┤
 │  src/types · src/hooks · src/lib   Cross-cutting        │
 ├─────────────────────────────────────────────────────────┤
-│  src/components/3d  R3F runtime (→ src/3d in Phase 3)   │
+│  src/3d             Canonical R3F runtime layer           │
+│  src/components/3d  Deprecated bridge → @/3d            │
 └─────────────────────────────────────────────────────────┘
 ```
 
@@ -43,7 +44,8 @@ There is **no** root `components/` directory. Legacy shadcn paths are preserved 
 | `src/types`         | Shared contracts                                                |
 | `src/hooks`         | Cross-cutting React hooks (`use3d`, toast, timeline)            |
 | `src/lib`           | Content modules, pure utilities, 3D performance helpers         |
-| `src/components/3d` | Transitional Three.js / R3F implementation                      |
+| `src/3d`            | Canonical Three.js / R3F runtime (scenes, canvas, lazy loaders) |
+| `src/components/3d` | Deprecated re-export bridge only                                |
 
 ### Request / Render Flow
 
@@ -56,7 +58,7 @@ Browser
   → src/widgets/<route>/*                 (section list / page content)
   → src/features/<domain>/*               (section UI)
   → src/shared/ui/* · src/lib/content/*
-  → src/components/3d/*                   (hero/background scenes when enabled)
+  → src/3d/*                              (hero/background scenes when enabled)
 
 Developer change
   → local gates: lint · typecheck · test · format:check · build
@@ -90,13 +92,13 @@ page.tsx
 
 ## Remaining Technical Debt (Phase 3)
 
-| Item               | Notes                                                      |
-| ------------------ | ---------------------------------------------------------- |
-| 3D folder location | Consolidate `src/components/3d` → `src/3d`                 |
-| Test coverage      | Baseline only (`performance.test.ts`); expand hooks/routes |
-| `src/entities`     | Not yet used for domain models                             |
-| `ui-v2` adoption   | Components exist; integrate into more sections             |
-| Next.js 15         | Planned compatibility pass                                 |
+| Item                       | Notes                                                   |
+| -------------------------- | ------------------------------------------------------- |
+| `src/components/3d` bridge | Remove after all consumers use `@/3d`                   |
+| Test coverage              | Particle/star guards covered; expand hooks/routes       |
+| `src/entities`             | Not yet used for domain models                          |
+| `ui-v2` + 3D integration   | Wire lazy scenes into hero/background when design-ready |
+| Next.js 15                 | Planned compatibility pass                              |
 
 ---
 
@@ -138,9 +140,13 @@ Dependency-light UI and utilities. Must not import from `features` or `widgets`.
 
 Static content, formatters, pure 3D helpers. Safe for unit tests without React.
 
-### `src/components/3d` (transitional)
+### `src/3d`
 
-Canvas shell, scenes, particle effects, models. Consumed by features/widgets when 3D is enabled.
+Canonical canvas shell, scenes, effects, models, and lazy loaders. Consumed by features/widgets when 3D is enabled.
+
+### `src/components/3d` (deprecated bridge)
+
+Re-exports `@/3d` only — do not add implementations here.
 
 ---
 
@@ -209,6 +215,16 @@ Canvas shell, scenes, particle effects, models. Consumed by features/widgets whe
   - Feature files are full implementations (no re-export bridges).
   - Documentation and onboarding reference `src/` only.
 
+### ADR-008: Canonical 3D runtime under `src/3d` (Phase 3.1)
+
+- **Decision:** Move R3F implementation to `src/3d`; keep `src/components/3d` as a thin deprecated re-export bridge during transition.
+- **Status:** Accepted (2026-05-28)
+- **Rationale:** Align dependency direction (`app/widgets/features → 3d`); separate runtime from generic `components` naming.
+- **Consequences:**
+  - New imports use `@/3d` and `@/3d/*`.
+  - Lazy scene exports (`HeroSceneLazy`, `BackgroundSceneLazy`) standardize SSR-safe loading.
+  - Performance budgets codified in `src/lib/3d/performance.ts` + `docs/techtonic-v2/3d-performance.md`.
+
 ---
 
 ## Definition of Architecture Done (Current Baseline)
@@ -218,6 +234,7 @@ Canvas shell, scenes, particle effects, models. Consumed by features/widgets whe
 - [x] Shared UI under `src/shared/ui` (+ `ui-v2` for V2 design)
 - [x] No root `components/` directory
 - [x] Local + CI quality gates defined and passing
+- [x] Canonical 3D runtime under `src/3d` with performance runbook
 - [x] Architecture docs reflect codebase
 
 ---

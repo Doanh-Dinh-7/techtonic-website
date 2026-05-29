@@ -63,19 +63,23 @@ The visual language is dark cyberpunk with disciplined motion and performance-aw
 
 ## Color System (Baseline)
 
-| Token                  | Intent                     |
-| ---------------------- | -------------------------- |
-| `bg/base`              | Primary dark canvas        |
-| `bg/elevated`          | Layer depth and cards      |
-| `text/primary`         | High-contrast content      |
-| `text/secondary`       | Supportive content         |
-| `accent/cyan`          | Primary futuristic accent  |
-| `accent/violet`        | Secondary accent           |
-| `accent/magenta`       | Tertiary neon accent       |
-| `accent/electric-blue` | Technical highlight accent |
-| `state/success`        | Positive status            |
-| `state/warning`        | Warning status             |
-| `state/error`          | Error status               |
+Design tokens map to Tailwind/theme and `src/lib/3d/constants.ts` where relevant.
+
+| Token                  | Tailwind / code reference   | Intent                     |
+| ---------------------- | --------------------------- | -------------------------- |
+| `bg/base`              | `v2-dark` / `#0a0a0a`       | Primary dark canvas        |
+| `bg/elevated`          | glass surfaces (`ui-v2`)    | Layer depth and cards      |
+| `text/primary`         | `foreground`                | High-contrast content      |
+| `text/secondary`       | `muted-foreground`          | Supportive content         |
+| `accent/cyan`          | `neon-cyan` / `#00f5ff`     | Primary futuristic accent  |
+| `accent/violet`        | `neon-purple` / `#a855f7`   | Secondary accent           |
+| `accent/magenta`       | `neon-magenta` / `#ff2bd6`  | Tertiary neon accent       |
+| `accent/electric-blue` | `electric-blue` / `#3b82f6` | Technical highlight accent |
+| `state/success`        | semantic success            | Positive status            |
+| `state/warning`        | semantic warning            | Warning status             |
+| `state/error`          | `destructive`               | Error status               |
+
+V2 UI primitives: `src/shared/ui-v2/` (`GlassCard`, `NeonButton`, `SectionShell`, `Card3D`).
 
 ## Typography
 

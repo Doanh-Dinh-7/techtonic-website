@@ -26,7 +26,7 @@ npm run dev
 Open: [http://localhost:3000](http://localhost:3000)
 
 **Active refactor branch:** `feature/next-gen-club-website`  
-**Current phase focus:** Phase 3 — 3D consolidation, testing expansion, performance hardening
+**Current phase focus:** Phase 3 — 3D runtime (`src/3d`), performance guardrails, testing expansion
 
 ### Verify setup (recommended)
 
@@ -44,19 +44,20 @@ All commands should pass on a clean checkout.
 
 ## Current Layout (Quick Reference)
 
-| Area                      | Path                                     | Notes                                      |
-| ------------------------- | ---------------------------------------- | ------------------------------------------ |
-| Routes & layouts          | `src/app/`                               | Thin `page.tsx` files                      |
-| Page composition          | `src/widgets/`                           | Includes `layout/` (shell, header, footer) |
-| Section UI                | `src/features/`                          | Per-domain sections + hooks                |
-| Shared UI                 | `src/shared/ui/`                         | shadcn/Radix primitives                    |
-| V2 design UI              | `src/shared/ui-v2/`                      | Glass, neon, section shell                 |
-| Shared hooks/utils        | `src/shared/hooks/`, `src/shared/utils/` |                                            |
-| Theme provider            | `src/shared/providers/`                  | `next-themes` wrapper                      |
-| Types                     | `src/types/`                             |                                            |
-| Cross-cutting hooks       | `src/hooks/`                             | `use3d`, toast, timeline, …                |
-| Content & helpers         | `src/lib/content/`, `src/lib/3d/`        |                                            |
-| 3D runtime (transitional) | `src/components/3d/`                     | Target: `src/3d/`                          |
+| Area                   | Path                                     | Notes                                      |
+| ---------------------- | ---------------------------------------- | ------------------------------------------ |
+| Routes & layouts       | `src/app/`                               | Thin `page.tsx` files                      |
+| Page composition       | `src/widgets/`                           | Includes `layout/` (shell, header, footer) |
+| Section UI             | `src/features/`                          | Per-domain sections + hooks                |
+| Shared UI              | `src/shared/ui/`                         | shadcn/Radix primitives                    |
+| V2 design UI           | `src/shared/ui-v2/`                      | Glass, neon, section shell                 |
+| Shared hooks/utils     | `src/shared/hooks/`, `src/shared/utils/` |                                            |
+| Theme provider         | `src/shared/providers/`                  | `next-themes` wrapper                      |
+| Types                  | `src/types/`                             |                                            |
+| Cross-cutting hooks    | `src/hooks/`                             | `use3d`, toast, timeline, …                |
+| Content & helpers      | `src/lib/content/`, `src/lib/3d/`        |                                            |
+| 3D runtime (canonical) | `src/3d/`                                | Use `@/3d`; see 3D runbook                 |
+| Deprecated 3D bridge   | `src/components/3d/`                     | Re-exports `@/3d` only                     |
 
 Use the `@/` alias for imports (resolves to `src/`).
 
@@ -106,6 +107,7 @@ From `tsconfig.json`:
 ```json
 {
   "@/*": ["./src/*"],
+  "@/3d/*": ["./src/3d/*"],
   "@/shared/*": ["./src/shared/*"],
   "@/types/*": ["./src/types/*"],
   "@/components/ui/*": ["./src/shared/ui/*"]
@@ -193,9 +195,11 @@ import { Button } from "@/shared/ui/button";
 
 ### 3D
 
-- Scenes: `src/components/3d/scenes/`
-- Performance guards: `src/lib/3d/performance.ts` (+ unit tests)
-- Respect `use3d` / reduced-motion; avoid raising particle counts without review.
+- Runtime: `src/3d/` — import `@/3d` or lazy loaders (`HeroSceneLazy`, `BackgroundSceneLazy`).
+- Runbook: `docs/techtonic-v2/3d-performance.md`
+- Guards: `src/lib/3d/performance.ts` (+ `npm run test -- src/lib/3d/performance.test.ts`)
+- Capability: `use3d()` from `@/hooks/use3d`
+- Do not raise particle/star budgets without updating tests and runbook.
 
 ### Content
 

@@ -1,8 +1,13 @@
-export { CanvasShell } from "./canvas/canvas-shell";
-export { WebGLFallback } from "./canvas/webgl-fallback";
-export { CameraRig } from "./effects/camera-rig";
-export { ParticleField } from "./effects/particle-field";
-export { CatMascot } from "./models/cat-mascot";
-export { FloatingLogo } from "./models/floating-logo";
-export { BackgroundScene } from "./scenes/background-scene";
-export { HeroScene } from "./scenes/hero-scene";
+/** @deprecated Import from `@/3d` — transitional re-export bridge (Phase 3.1). */
+export {
+  CanvasShell,
+  WebGLFallback,
+  CameraRig,
+  ParticleField,
+  CatMascot,
+  FloatingLogo,
+  BackgroundScene,
+  HeroScene,
+  HeroSceneLazy,
+  BackgroundSceneLazy,
+} from "@/3d";
