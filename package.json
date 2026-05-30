@@ -118,6 +118,6 @@
     "prettier": "^3.8.3",
     "tailwindcss": "^3.4.17",
     "typescript": "^5",
-    "vitest": "latest"
+    "vitest": "^4.1.7"
   }
 }
