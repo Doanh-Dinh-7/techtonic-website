@@ -5,7 +5,7 @@ import { ChevronDown, ChevronRight, Code, Users } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 
-import { HeroCanvasShell, HeroSceneLazy } from "@/3d/hero-media";
+import { HeroCanvasWithScene } from "@/3d/hero-media";
 import { useHeroSection } from "@/features/home/hooks/use-hero-section";
 import { use3d } from "@/hooks/use3d";
 import { Badge, Button } from "@/shared/ui";
@@ -133,12 +133,10 @@ export function Hero() {
           >
             <div className="aspect-square h-[300px] max-w-[500px] w-full overflow-hidden rounded-2xl shadow-2xl sm:h-[400px] md:h-[450px] lg:h-[500px]">
               {shouldRenderMotion ? (
-                <HeroCanvasShell
+                <HeroCanvasWithScene
                   className="absolute inset-0 h-full w-full"
                   fallbackClassName="min-h-full"
-                >
-                  <HeroSceneLazy />
-                </HeroCanvasShell>
+                />
               ) : (
                 <AnimatePresence mode="sync">
                   <motion.div

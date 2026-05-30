@@ -13,10 +13,7 @@ vi.mock("@/hooks/use3d", () => ({
 }));
 
 vi.mock("@/3d/hero-media", () => ({
-  HeroCanvasShell: ({ children }: { children: React.ReactNode }) => (
-    <div data-testid="hero-3d-canvas">{children}</div>
-  ),
-  HeroSceneLazy: () => null,
+  HeroCanvasWithScene: () => <div data-testid="hero-3d-canvas" />,
 }));
 
 vi.mock("@/features/home/hooks/use-hero-section", () => ({
@@ -31,26 +28,6 @@ vi.mock("@/features/home/hooks/use-hero-section", () => ({
   }),
 }));
 
-vi.mock("framer-motion", () => {
-  const motion = new Proxy(
-    {},
-    {
-      get: (_target, tag: string) =>
-        function MotionStub({
-          children,
-          ...props
-        }: React.PropsWithChildren<Record<string, unknown>>) {
-          return (
-            <div data-motion={tag} {...props}>
-              {children}
-            </div>
-          );
-        },
-    }
-  );
-  return { motion, AnimatePresence: ({ children }: { children: React.ReactNode }) => children };
-});
-
 describe("Hero", () => {
   beforeEach(() => {
     mockUse3d.mockReturnValue({
@@ -63,8 +40,8 @@ describe("Hero", () => {
 
   it("renders image carousel when 3D motion is disabled", () => {
     render(<Hero />);
-    expect(screen.getByRole("img", { name: /TechTonic Club Activities/i })).toBeInTheDocument();
-    expect(screen.queryByTestId("hero-3d-canvas")).not.toBeInTheDocument();
+    expect(screen.getByRole("img", { name: /TechTonic Club Activities/i })).toBeTruthy();
+    expect(screen.queryByTestId("hero-3d-canvas")).toBeNull();
   });
 
   it("renders 3D canvas when shouldRenderMotion is true", () => {
@@ -77,9 +54,7 @@ describe("Hero", () => {
 
     render(<Hero />);
 
-    expect(
-      screen.queryByRole("img", { name: /TechTonic Club Activities/i })
-    ).not.toBeInTheDocument();
-    expect(screen.getByTestId("hero-3d-canvas")).toBeInTheDocument();
+    expect(screen.queryByRole("img", { name: /TechTonic Club Activities/i })).toBeNull();
+    expect(screen.getByTestId("hero-3d-canvas")).toBeTruthy();
   });
 });

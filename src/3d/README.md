@@ -4,15 +4,16 @@ Canonical React Three Fiber runtime for TechTonic V2.0.
 
 ## Structure
 
-| Path             | Responsibility                                     |
-| ---------------- | -------------------------------------------------- |
-| `canvas/`        | `CanvasShell`, `WebGLFallback`                     |
-| `effects/`       | `CameraRig`, `ParticleField`                       |
-| `models/`        | `FloatingLogo`, `CatMascot`                        |
-| `scenes/`        | `HeroScene`, `BackgroundScene`                     |
-| `scene-lazy.tsx` | `next/dynamic` entrypoints (SSR off)               |
-| `hero-media.tsx` | Home hero: dynamic `CanvasShell` + `HeroSceneLazy` |
-| `index.ts`       | Public barrel exports                              |
+| Path                         | Responsibility                                  |
+| ---------------------------- | ----------------------------------------------- |
+| `canvas/`                    | `CanvasShell`, `WebGLFallback`                  |
+| `effects/`                   | `CameraRig`, `ParticleField`                    |
+| `models/`                    | `FloatingLogo`, `CatMascot`                     |
+| `scenes/`                    | `HeroScene`, `BackgroundScene`                  |
+| `scene-lazy.tsx`             | `BackgroundSceneLazy` (`next/dynamic`, SSR off) |
+| `hero-canvas-with-scene.tsx` | `CanvasShell` + `HeroScene` (one client chunk)  |
+| `hero-media.tsx`             | Home hero: dynamic `HeroCanvasWithScene`        |
+| `index.ts`                   | Public barrel exports                           |
 
 Pure performance budgets and guards live in `src/lib/3d/*` (unit-tested).
 
@@ -20,10 +21,10 @@ Pure performance budgets and guards live in `src/lib/3d/*` (unit-tested).
 
 ```ts
 // Home hero (recommended — avoids R3F in SSR/prerender)
-import { HeroCanvasShell, HeroSceneLazy } from "@/3d/hero-media";
+import { HeroCanvasWithScene } from "@/3d/hero-media";
 
 // Other routes / advanced
-import { CanvasShell, HeroSceneLazy } from "@/3d";
+import { CanvasShell, BackgroundSceneLazy } from "@/3d";
 ```
 
 ## Related Docs
@@ -49,16 +50,14 @@ Full details: [`docs/techtonic-v2/3d-performance.md`](../../docs/techtonic-v2/3d
 ## Integration Pattern
 
 ```tsx
-import { HeroCanvasShell, HeroSceneLazy } from "@/3d/hero-media";
+import { HeroCanvasWithScene } from "@/3d/hero-media";
 import { use3d } from "@/hooks/use3d";
 
 const { shouldRenderMotion } = use3d();
 
 {
   shouldRenderMotion ? (
-    <HeroCanvasShell className="absolute inset-0 -z-10">
-      <HeroSceneLazy />
-    </HeroCanvasShell>
+    <HeroCanvasWithScene className="absolute inset-0 -z-10" />
   ) : (
     /* static fallback */
   );
