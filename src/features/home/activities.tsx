@@ -31,7 +31,7 @@ export function Activities() {
     {
       title: (
         <>
-          Mentor-Mentee <span className="text-sm text-gray-500"> &ldquo;From Us To You&rdquo;</span>
+          Mentor-Mentee <span className="text-sm text-gray-600"> &ldquo;From Us To You&rdquo;</span>
         </>
       ),
       description: (
@@ -56,7 +56,7 @@ export function Activities() {
       title: (
         <>
           ICPC-OLP, NCKH
-          <span className="text-sm text-gray-500"> & Contest</span>
+          <span className="text-sm text-gray-600"> & Contest</span>
         </>
       ),
       description: (
@@ -163,11 +163,11 @@ export function Activities() {
                           className: "h-6 w-6 text-purple-600",
                         })}
                       </div>
-                      <h3 className="text-3xl font-thin text-gray-900 font-utm-akashi">
+                      <h3 className="font-utm-akashi text-3xl font-bold text-gray-950">
                         {activities[currentActivity].title}
                       </h3>
                     </div>
-                    <p className="text-gray-600 leading-relaxed text-justify">
+                    <p className="text-gray-700 leading-relaxed text-justify">
                       {activities[currentActivity].description}
                     </p>
                   </div>
@@ -181,11 +181,18 @@ export function Activities() {
             {activities.map((_, index) => (
               <button
                 key={index}
+                type="button"
+                aria-label={`Xem hoạt động ${index + 1}`}
+                aria-current={index === currentActivity ? "true" : undefined}
                 onClick={() => setCurrentActivity(index)}
-                className={`w-3 h-3 rounded-full transition-colors ${
-                  index === currentActivity ? "bg-purple-600" : "bg-gray-300"
-                }`}
-              />
+                className="inline-flex h-11 w-11 items-center justify-center rounded-full"
+              >
+                <span
+                  className={`h-3 w-3 rounded-full transition-colors ${
+                    index === currentActivity ? "bg-purple-600" : "bg-gray-300"
+                  }`}
+                />
+              </button>
             ))}
           </div>
         </div>

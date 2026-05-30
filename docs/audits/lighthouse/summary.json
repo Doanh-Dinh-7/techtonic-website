@@ -1,0 +1,33 @@
+{
+  "baseUrl": "http://127.0.0.1:51458",
+  "auditedAt": "2026-05-29T09:03:34.575Z",
+  "summary": {
+    "home": {
+      "url": "http://127.0.0.1:51458",
+      "scores": {
+        "performance": 50,
+        "accessibility": 54,
+        "best-practices": 92,
+        "seo": 80
+      }
+    },
+    "recruitment": {
+      "url": "http://127.0.0.1:51458/recruitment",
+      "scores": {
+        "performance": 100,
+        "accessibility": 100,
+        "best-practices": 96,
+        "seo": 100
+      }
+    },
+    "events": {
+      "url": "http://127.0.0.1:51458/events",
+      "scores": {
+        "performance": 100,
+        "accessibility": 100,
+        "best-practices": 96,
+        "seo": 100
+      }
+    }
+  }
+}

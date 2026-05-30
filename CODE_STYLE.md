@@ -2,7 +2,7 @@
 
 ## Objective
 
-Keep code maintainable, scalable, and consistent across the layered `src/` architecture.
+Keep code maintainable, scalable, and consistent across the layered `src/` architecture **after V2.0** (canonical `src/3d`, SEO module, Next.js 15 + React 19, performance and a11y guardrails).
 
 ---
 
@@ -29,63 +29,91 @@ Keep code maintainable, scalable, and consistent across the layered `src/` archi
 
 - **Server Components** by default in App Router.
 - Add `"use client"` only when browser APIs, state, or effects are required.
-- Keep `src/app/**/page.tsx` thin — delegate to `widgets`.
-- Section UI lives in `features`; composition in `widgets`.
+- Keep `src/app/**/page.tsx` thin — `createPageMetadata`, `<PageSeo />`, delegate UI to `widgets`.
+- Section UI in `features`; composition in `widgets`.
 - Extract reusable stateful logic into hooks (`features/.../hooks`, `widgets/.../hooks`, `src/hooks`).
 
 ---
 
-## Project Layout Rules (Current)
+## Project Layout Rules (V2.0)
 
-| Path                    | Responsibility                               |
-| ----------------------- | -------------------------------------------- |
-| `src/app/`              | Routes, metadata, layouts, `globals.css`     |
-| `src/widgets/`          | Page composition, site chrome (`layout/`)    |
-| `src/features/`         | Domain section components + feature hooks    |
-| `src/shared/ui/`        | shadcn/Radix primitives (**canonical UI**)   |
-| `src/shared/ui-v2/`     | V2 design components (glass, neon, 3D cards) |
-| `src/shared/utils/`     | `cn`, shared helpers                         |
-| `src/shared/hooks/`     | Shared hook barrels                          |
-| `src/shared/providers/` | App-wide providers (e.g. theme)              |
-| `src/types/`            | Shared type contracts                        |
-| `src/hooks/`            | Cross-cutting hooks (`use3d`, toast, …)      |
-| `src/lib/`              | Content modules, pure utilities, `lib/3d`    |
-| `src/3d/`               | Canonical R3F runtime                        |
-| `src/components/3d/`    | Deprecated bridge (re-exports `@/3d`)        |
+| Path                    | Responsibility                             |
+| ----------------------- | ------------------------------------------ |
+| `src/app/`              | Routes, metadata, sitemap, robots, layouts |
+| `src/widgets/`          | Page composition, site chrome              |
+| `src/features/`         | Domain sections + feature hooks            |
+| `src/shared/ui/`        | shadcn/Radix (**canonical UI**)            |
+| `src/shared/ui-v2/`     | V2 design system                           |
+| `src/shared/seo/`       | JSON-LD presentation components            |
+| `src/shared/a11y/`      | Shared a11y helpers (e.g. sample labels)   |
+| `src/shared/utils/`     | `cn`, helpers                              |
+| `src/lib/seo/`          | Metadata + Schema.org builders             |
+| `src/lib/content/`      | Static content                             |
+| `src/lib/3d/`           | Pure 3D budgets (tested)                   |
+| `src/3d/`               | Canonical R3F runtime                      |
+| `src/3d/hero-media.tsx` | Home hero canvas (SSR-safe dynamic import) |
 
-**There is no root `components/` folder.** Do not recreate it.
+**No `@/components/*` imports.** Orphan `src/components/` on disk is not part of the active architecture.
 
 ### Import policy
 
-- Always use `@/` alias (maps to `src/`).
-- **Prefer** `@/shared/ui/*` for primitives.
-- `@/components/ui/*` is a **compatibility alias** only (same as `shared/ui`); do not use in new hand-written code.
-- 3D: `@/3d` or `@/3d/*` (avoid `@/components/3d/*` in new code).
+| Use case      | Import                          |
+| ------------- | ------------------------------- |
+| UI primitive  | `@/shared/ui/...`               |
+| V2 component  | `@/shared/ui-v2/...`            |
+| Page SEO      | `@/lib/seo`, `@/shared/seo/...` |
+| Utils         | `@/shared/utils`                |
+| Home hero 3D  | `@/3d/hero-media`               |
+| Other 3D      | `@/3d` or `@/3d/...`            |
+| 3D policy     | `@/lib/3d/performance`          |
+| 3D capability | `@/hooks/use3d`                 |
 
 ```ts
-// Preferred
 import { Button } from "@/shared/ui/button";
-import { cn } from "@/shared/utils";
-
-// Avoid in new code
-import { Button } from "@/components/ui/button";
+import { SectionShell } from "@/shared/ui-v2";
+import { createPageMetadata, PAGE_SEO } from "@/lib/seo";
+import { HeroCanvasShell, HeroSceneLazy } from "@/3d/hero-media";
+import { getSafeParticleCount } from "@/lib/3d/performance";
+import { use3d } from "@/hooks/use3d";
 ```
+
+---
+
+## 3D Conventions
+
+- Home hero: **`HeroCanvasShell`** from `@/3d/hero-media` (not static barrel import on `/`).
+- Other scenes: `CanvasShell` + lazy loaders from `@/3d`.
+- Gate with `use3d()` — respect `shouldRenderMotion` and `reducedMotion`.
+- Particle/star counts via `getSafeParticleCount` / `getSafeStarCount` only.
+- Headings, CTAs, forms stay real HTML outside the canvas (`aria-hidden` on decorative canvas).
+
+---
+
+## SEO Conventions
+
+- Per-route copy in `PAGE_SEO` (`src/lib/seo/page-config.ts`).
+- `export const metadata = createPageMetadata(PAGE_SEO.x)` in `page.tsx`.
+- `<PageSeo config={PAGE_SEO.x} />` for WebPage + Breadcrumb JSON-LD.
+- Production deploy must set `NEXT_PUBLIC_SITE_URL`.
+
+---
+
+## Accessibility Conventions
+
+- Site shell: skip link, `<main id="main-content">`, labeled `<nav>`.
+- Interactive controls: visible focus, `aria-label` where icon-only.
+- Sample content labels: `text-amber-800` via `@/shared/a11y/sample-label` or equivalent.
+- Dialog triggers: use `<button>`, not `div` with `role="button"`.
 
 ---
 
 ## Naming Conventions
 
-### Files and folders
-
-- `kebab-case` for files and directories.
-- React components: `PascalCase` export names.
-- Hooks: `use` prefix (`use-hero-section.ts`).
-
-### Symbols
-
-- Variables / functions: `camelCase`
-- Types / interfaces / components: `PascalCase`
-- Constants: `UPPER_SNAKE_CASE`
+- **Files/folders:** `kebab-case`
+- **Components:** `PascalCase`
+- **Hooks:** `use` prefix (`use-hero-section.ts`)
+- **Variables/functions:** `camelCase`
+- **Constants:** `UPPER_SNAKE_CASE`
 
 ---
 
@@ -95,55 +123,60 @@ import { Button } from "@/components/ui/button";
 
 ```text
 app → widgets → features → entities → shared
-app | widgets | features → 3d runtime (`src/3d`)
+app | widgets | features → src/3d
+features → lib, hooks, types, shared
+src/3d → lib/3d, hooks, shared/utils
 ```
 
 **Not allowed:**
 
-- `shared → features | widgets | app`
+- `shared →` upper layers
+- `lib/3d →` React in `src/3d` (keep policy pure)
 - Cross-feature deep imports
-- Circular dependencies
-- Permanent modules outside `src/` (except config, `public`, `docs`, `.github`)
+- `@/components/*`
 
 ---
 
 ## Error Handling Standards
 
 - Handle expected failures explicitly.
-- Do not silently swallow errors.
-- Provide user-friendly fallback UI when relevant (e.g. WebGL fallback).
+- User-friendly fallbacks (`WebGLFallback`, form toasts).
 
 ---
 
 ## Security Standards
 
-- Validate inputs at boundaries (forms, external data).
-- `target="_blank"` links must include `rel="noopener noreferrer"`.
-- Never commit secrets; use environment variables for client-safe public keys only.
+- Validate inputs at boundaries.
+- `target="_blank"` → `rel="noopener noreferrer"`.
+- Never commit secrets (`.env` gitignored).
 
 ---
 
-## Performance Standards (UI + 3D)
+## Performance Standards
 
-- Avoid unnecessary re-renders in large client sections.
-- Memoize only when profiling justifies it.
-- Lazy-load heavy 3D entrypoints where possible.
-- 3D: respect DPR caps and reduced-motion paths (`src/lib/3d/performance.ts`).
-- Do not raise particle/star counts without updating performance docs/tests.
+- Lazy-load 3D (`scene-lazy`, `hero-media`).
+- Respect `src/lib/3d/performance.ts` budgets.
+- Run `npm run build:check` when changing large client bundles.
+
+---
+
+## Testing Standards
+
+- Colocate `*.test.ts(x)` with hooks/components or under `__tests__/`.
+- Pure policy: `lib/3d`, `lib/seo` — Vitest `node`.
+- UI/hooks: Vitest + RTL + `src/test/setup-browser-mocks.ts`.
+- Run `npm run test` before PR.
 
 ---
 
 ## Documentation Standards
 
-- Document intent and trade-offs, not obvious syntax.
 - Update `PROJECT_STRUCTURE.md`, `ARCHITECTURE.md`, or this file when conventions change.
-- Keep examples aligned with current paths under `src/`.
+- Update `docs/techtonic-v2/seo.md` or `3d-performance.md` when those contracts change.
 
 ---
 
 ## Pull Request Quality Gates
-
-Before merge:
 
 | Check  | Command                |
 | ------ | ---------------------- |
@@ -152,8 +185,7 @@ Before merge:
 | Tests  | `npm run test`         |
 | Format | `npm run format:check` |
 | Build  | `npm run build`        |
-
-Update docs when structure, scripts, or import contracts change.
+| Full   | `npm run ci:build`     |
 
 ---
 
@@ -162,3 +194,9 @@ Update docs when structure, scripts, or import contracts change.
 - [`PROJECT_STRUCTURE.md`](./PROJECT_STRUCTURE.md)
 - [`ARCHITECTURE.md`](./ARCHITECTURE.md)
 - [`DEVELOPMENT_GUIDE.md`](./DEVELOPMENT_GUIDE.md)
+- [`DESIGN.md`](./DESIGN.md)
+- [`CONTRIBUTING.md`](./CONTRIBUTING.md)
+- [`REFACTOR_PROGRESS.md`](./REFACTOR_PROGRESS.md)
+- [`docs/techtonic-v2/README.md`](./docs/techtonic-v2/README.md)
+- [`docs/techtonic-v2/seo.md`](./docs/techtonic-v2/seo.md)
+- [`docs/techtonic-v2/3d-performance.md`](./docs/techtonic-v2/3d-performance.md)

@@ -1,11 +1,14 @@
-import type { Metadata } from "next";
+import { createPageMetadata, PAGE_SEO } from "@/lib/seo";
+import { PageSeo } from "@/shared/seo/page-seo";
 import { AboutPageSections } from "@/widgets/about/about-page-sections";
 
-export const metadata: Metadata = {
-  title: "Giới thiệu",
-  description: "Lịch sử, tầm nhìn, sứ mệnh, thư viện ảnh và Ban chủ nhiệm TechTonic Club.",
-};
+export const metadata = createPageMetadata(PAGE_SEO.about);
 
 export default function AboutPage() {
-  return <AboutPageSections />;
+  return (
+    <>
+      <PageSeo config={PAGE_SEO.about} />
+      <AboutPageSections />
+    </>
+  );
 }

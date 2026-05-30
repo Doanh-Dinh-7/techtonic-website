@@ -19,8 +19,20 @@ export function SiteShell({ children }: { children: React.ReactNode }) {
   return (
     <LenisProvider>
       <div className="flex min-h-screen flex-col bg-[#0a0a0a]">
+        <a
+          href="#main-content"
+          className="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:z-[100] focus:rounded-md focus:bg-white focus:px-4 focus:py-2 focus:text-sm focus:font-semibold focus:text-gray-900 focus:shadow-lg focus:outline-none focus:ring-2 focus:ring-cyan-400"
+        >
+          Bỏ qua đến nội dung chính
+        </a>
         <Header show={showHeader} onLogoClick={scrollToTop} />
-        <main className={isHome ? "flex-1" : "flex-1 pt-16"}>{children}</main>
+        <main
+          id="main-content"
+          tabIndex={-1}
+          className={isHome ? "flex-1 outline-none" : "flex-1 pt-16 outline-none"}
+        >
+          {children}
+        </main>
         <Footer />
         <BackToTop show={showBackToTop} onClick={scrollToTop} />
       </div>

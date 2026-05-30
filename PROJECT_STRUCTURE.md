@@ -2,26 +2,28 @@
 
 ## Purpose
 
-This document is the source of truth for repository layout after **Phase 2 refactor completion** and the start of **Phase 3** (3D consolidation, testing expansion, performance hardening).
+This document is the **source of truth** for repository layout after **V2.0 refactor completion** (Phases 1–4): FSD under `src/`, canonical `src/3d`, CI/testing, SEO, and Next.js 15.
 
-Use it for onboarding, code review, and deciding where new files should be created.
+Use it for onboarding, code review, and deciding where new files belong.
 
 ---
 
 ## Current Status
 
-| Milestone                                                 | Status          |
-| --------------------------------------------------------- | --------------- |
-| Phase 1 — Foundation under `src/`                         | **Complete**    |
-| Phase 2.1 — Tooling baseline                              | **Complete**    |
-| Phase 2.2 — Shared layer + UI primitives                  | **Complete**    |
-| Phase 2.3 — `widgets` + `features` route composition      | **Complete**    |
-| Phase 2.4 — Hook extraction, client boundaries, 3D guards | **Complete**    |
-| Post-2.4 — CI quality gates, Vitest, Prettier baseline    | **Complete**    |
-| Phase 2 closure — Legacy `components/` decommission       | **Complete**    |
-| Phase 3.1 — 3D runtime (`src/3d`) + compatibility bridge  | **Complete**    |
-| Phase 3.2 — Performance guardrails + runbook              | **Complete**    |
-| Phase 3.3 — Testing expansion                             | **In progress** |
+| Milestone                                         | Status       |
+| ------------------------------------------------- | ------------ |
+| Phase 1 — Foundation under `src/`                 | **Complete** |
+| Phase 2.1–2.4 — Tooling, layers, hooks, 3D motion | **Complete** |
+| Phase 2 closure — Root `components/` decommission | **Complete** |
+| Phase 3 — 3D runtime + performance hardening      | **Complete** |
+| Phase 4.1 — Documentation polish                  | **Complete** |
+| Phase 4.2 — Vitest / RTL (38 tests)               | **Complete** |
+| Phase 4.3 — CI/CD (verify → build, bundle budget) | **Complete** |
+| Phase 4.4 — SEO, a11y, Next.js 15, release prep   | **Complete** |
+
+**Version:** `2.0.0` · **Stack:** Next.js 15.5 · React 19 · App Router
+
+Details: [`REFACTOR_PROGRESS.md`](./REFACTOR_PROGRESS.md) · [`CHANGELOG.md`](./CHANGELOG.md)
 
 ---
 
@@ -30,27 +32,29 @@ Use it for onboarding, code review, and deciding where new files should be creat
 ```text
 techtonic-website/
 ├── src/
-│   ├── app/                              # App Router (routes, layouts, global CSS)
-│   │   ├── layout.tsx
+│   ├── app/                                    # App Router
+│   │   ├── layout.tsx                          # Root: metadataBase, fonts, Analytics
 │   │   ├── globals.css
+│   │   ├── robots.ts                           # /robots.txt
+│   │   ├── sitemap.ts                          # /sitemap.xml
 │   │   └── (site)/
-│   │       ├── layout.tsx                # SiteShell wrapper
-│   │       ├── page.tsx                  # Home
+│   │       ├── layout.tsx                      # SiteShell + site JSON-LD
+│   │       ├── page.tsx                        # Home (+ PageSeo)
 │   │       ├── about/page.tsx
 │   │       ├── departments/page.tsx
 │   │       ├── events/page.tsx
 │   │       ├── portfolio/page.tsx
 │   │       └── recruitment/page.tsx
 │   │
-│   ├── widgets/                          # Page-level composition (thin orchestration)
+│   ├── widgets/                                # Page-level composition
 │   │   ├── layout/
-│   │   │   ├── site-shell.tsx
-│   │   │   ├── header.tsx
-│   │   │   ├── footer.tsx
+│   │   │   ├── site-shell.tsx                  # Skip link, main landmark
+│   │   │   ├── header.tsx, footer.tsx
 │   │   │   ├── lenis-provider.tsx
 │   │   │   └── hooks/
-│   │   │       ├── use-site-shell-visibility.ts
-│   │   │       └── use-header-navigation.ts
+│   │   │       ├── use-site-shell-visibility.ts (+ .test.ts)
+│   │   │       └── use-header-navigation.ts (+ .test.ts)
+│   │   │   └── header.test.tsx
 │   │   ├── home/
 │   │   │   ├── home-page-sections.tsx
 │   │   │   └── hash-scroll-handler.tsx
@@ -58,71 +62,94 @@ techtonic-website/
 │   │   ├── departments/departments-page-content.tsx
 │   │   ├── events/events-page-content.tsx
 │   │   ├── portfolio/portfolio-page-content.tsx
-│   │   └── recruitment/recruitment-page-sections.tsx
+│   │   ├── recruitment/recruitment-page-sections.tsx
+│   │   └── __tests__/page-sections.smoke.test.tsx
 │   │
-│   ├── features/                         # Domain section UI + feature hooks
+│   ├── features/                               # Domain sections + hooks
 │   │   ├── home/
-│   │   │   ├── hero.tsx
+│   │   │   ├── hero.tsx (+ hero.test.tsx)      # HeroCanvasShell via @/3d/hero-media
 │   │   │   ├── core-values.tsx, benefits.tsx, activities.tsx
 │   │   │   ├── achievements.tsx, featured-news.tsx, testimonials.tsx
 │   │   │   ├── contact.tsx, video.tsx
-│   │   │   └── hooks/use-hero-section.ts
-│   │   ├── about/
-│   │   │   ├── about.tsx, about-timeline.tsx, gallery.tsx, team.tsx
+│   │   │   └── hooks/use-hero-section.ts (+ .test.ts)
+│   │   ├── about/                              # about, timeline, gallery, team
 │   │   ├── departments/departments-content.tsx
 │   │   ├── events/events-content.tsx
 │   │   ├── portfolio/portfolio-content.tsx
 │   │   └── recruitment/
 │   │       ├── registration.tsx, recruitment-faq.tsx
 │   │       ├── recruitment-process-extra.tsx
-│   │       └── hooks/use-registration-form.ts
+│   │       └── hooks/use-registration-form.ts (+ .test.ts)
 │   │
-│   ├── shared/                           # Reusable, low-coupling building blocks
-│   │   ├── ui/                           # shadcn/Radix primitives (canonical)
-│   │   ├── ui-v2/                         # V2 design system (glass, neon, 3D cards)
-│   │   ├── hooks/                        # Shared hook re-exports
-│   │   ├── utils/                        # `cn` and shared helpers
-│   │   ├── providers/theme-provider.tsx
-│   │   ├── constants/, config/, styles/   # Reserved / placeholders
+│   ├── shared/
+│   │   ├── ui/                                 # shadcn/Radix (canonical)
+│   │   ├── ui-v2/                              # V2: GlassCard, NeonButton, SectionShell, Card3D, GradientOrb
+│   │   ├── seo/                                # JsonLd, PageSeo
+│   │   ├── a11y/                               # sample-label contrast helper
+│   │   ├── hooks/, utils/, providers/
+│   │   └── constants/, config/, styles/        # Reserved placeholders
 │   │
-│   ├── types/                            # Shared TS contracts
-│   │   ├── common.ts, ui.ts, index.ts
+│   ├── types/                                  # common.ts, ui.ts, index.ts
 │   │
-│   ├── hooks/                            # Cross-cutting hooks
-│   │   ├── use3d.ts, useTimeline.ts
-│   │   ├── use-toast.ts, use-mobile.tsx
+│   ├── hooks/                                  # Cross-cutting
+│   │   └── use3d.ts, useTimeline.ts, use-toast.ts, use-mobile.tsx
 │   │
-│   ├── lib/                              # Content, utilities, 3D helpers
-│   │   ├── content/                      # Static content modules
-│   │   ├── 3d/                           # Testable performance/constants
+│   ├── lib/
+│   │   ├── content/                            # Static data (see list below)
+│   │   ├── seo/                                # site, page-config, metadata, json-ld
+│   │   ├── 3d/                                 # Pure 3D policy (tested)
+│   │   │   ├── performance.ts, constants.ts, materials.ts
+│   │   │   └── performance.test.ts
 │   │   ├── utils.ts
-│   │   └── analytics/, api-client/, security/  # Reserved placeholders
+│   │   └── analytics/, api-client/, security/   # Reserved
 │   │
-│   ├── 3d/                               # Canonical R3F runtime (canvas, scenes, effects, models)
-│   │   ├── canvas/, scenes/, effects/, models/
-│   │   ├── scene-lazy.tsx                # next/dynamic entrypoints
-│   │   └── index.ts
+│   ├── 3d/                                     # Canonical R3F runtime
+│   │   ├── canvas/                             # canvas-shell, webgl-fallback
+│   │   ├── effects/                            # camera-rig, particle-field
+│   │   ├── models/                             # floating-logo, cat-mascot
+│   │   ├── scenes/                             # hero-scene, background-scene
+│   │   ├── scene-lazy.tsx                      # HeroSceneLazy, BackgroundSceneLazy
+│   │   ├── hero-media.tsx                      # HeroCanvasShell (dynamic, ssr: false)
+│   │   ├── index.ts
+│   │   └── README.md
 │   │
-│   ├── components/3d/                    # Deprecated bridge → re-exports `@/3d`
-│   ├── entities/                         # Reserved (Phase 3+)
-│   └── config/                           # Reserved (Phase 3+)
+│   ├── test/                                   # Vitest shared mocks
+│   │   ├── setup-browser-mocks.ts
+│   │   └── mocks.ts
+│   │
+│   ├── entities/                               # Reserved (post–V2.0)
+│   └── config/                                 # Reserved (post–V2.0)
 │
-├── public/                               # Static assets
-├── docs/techtonic-v2/                    # Product/phase planning docs
-├── .github/workflows/quality-gates.yml   # CI pipeline
-├── .husky/                               # Git hooks
-├── vitest.config.ts
-├── components.json                       # shadcn CLI → `@/shared/ui`
-├── tailwind.config.ts
-├── tsconfig.json
-├── next.config.mjs
-├── ARCHITECTURE.md
-├── PROJECT_STRUCTURE.md
-├── DEVELOPMENT_GUIDE.md
-└── CODE_STYLE.md
+├── public/                                     # Static assets (logo, fonts, images)
+├── docs/
+│   ├── techtonic-v2/                             # Product + engineering hub
+│   ├── audits/lighthouse/                        # Lighthouse reports + README
+│   ├── audits/accessibility/                     # Critical-flow a11y checklist
+│   └── releases/v2.0.0.md
+├── scripts/
+│   ├── build-with-log.mjs, check-bundle-budget.mjs
+│   ├── lighthouse-ci.mjs, run-lighthouse.mjs
+│   ├── lighthouse-env-run.mjs, lighthouse-audit-local.mjs
+├── .github/workflows/quality-gates.yml
+├── bundle-budgets.json, lighthouse-budgets.json
+├── vitest.config.ts, vitest.setup.ts
+├── components.json, tailwind.config.ts, tsconfig.json, next.config.mjs
+├── .env.example
+└── README.md, ARCHITECTURE.md, PROJECT_STRUCTURE.md, DEVELOPMENT_GUIDE.md, …
 ```
 
-> **Note:** Root `components/` no longer exists. All UI and section code lives under `src/`.
+### Legacy note
+
+- **Do not use** `src/components/` — orphan bridge copies may still exist on disk; **zero imports** in app code. Canonical 3D is `@/3d` only.
+- **No** repository-root `components/` folder.
+
+### `src/lib/content/` modules
+
+`awards.ts`, `blog-posts.ts`, `departments.ts`, `events.ts`, `faq.ts`, `news.ts`, `partners.ts`, `projects.ts`, `timeline.ts`, `types.ts`, `index.ts`
+
+### `src/lib/seo/` modules
+
+`site.ts`, `page-config.ts`, `metadata.ts`, `json-ld.ts`, `metadata.test.ts`, `index.ts`
 
 ---
 
@@ -130,90 +157,78 @@ techtonic-website/
 
 ### `src/app`
 
-- Routing, metadata, root and site layouts.
-- Route files stay thin; delegate to `src/widgets/*`.
+Routing, `metadata` / `createPageMetadata`, `sitemap.ts`, `robots.ts`. Route `page.tsx` files stay thin; delegate UI to `widgets` + `PageSeo` JSON-LD.
 
 ### `src/widgets`
 
-- Per-route composition: which features render, in what order.
-- Site chrome: `layout/` (header, footer, shell, smooth scroll).
-- Small composition hooks (hash scroll, shell visibility, header nav).
+Per-route section ordering; site chrome (header, footer, shell, Lenis); composition hooks and smoke tests.
 
 ### `src/features`
 
-- Self-contained section components per domain (`home`, `about`, `recruitment`, …).
-- Feature-scoped hooks co-located under `features/<domain>/hooks/`.
+Domain section UI and feature-local hooks. No cross-feature imports.
 
 ### `src/shared`
 
-- **ui** — Canonical shadcn/Radix primitives; import via `@/shared/ui` or `@/shared/ui/<file>`.
-- **ui-v2** — V2 visual components (`GlassCard`, `NeonButton`, `SectionShell`, …).
-- **hooks / utils / providers** — Shared utilities without domain knowledge.
+- **ui** — shadcn/Radix (`@/shared/ui`).
+- **ui-v2** — V2 visuals (`SectionShell` with `tone`, `GlassCard`, …).
+- **seo** — `JsonLd`, `PageSeo` wrappers.
+- **a11y** — shared a11y tokens/helpers.
+- **hooks / utils / providers** — dependency-light shared code.
 
 ### `src/types`
 
-- Cross-cutting TypeScript contracts (`common`, `ui`, barrel `index`).
+Shared TypeScript contracts.
 
 ### `src/hooks` and `src/lib`
 
-- **hooks** — App-wide hooks (`use3d`, `useTimeline`, toast, mobile).
-- **lib/content** — Static copy/data for sections.
-- **lib/3d** — Pure 3D helpers (performance guards, constants); unit-tested.
+- **hooks** — `use3d`, `useTimeline`, toast, mobile.
+- **lib/content** — static copy and structured lists.
+- **lib/seo** — metadata builders and Schema.org JSON-LD.
+- **lib/3d** — testable performance budgets (no React).
 
-### `src/3d` (canonical 3D runtime)
+### `src/3d`
 
-- R3F canvas shell, scenes, effects, models, lazy loaders.
-- Import via `@/3d` or `@/3d/<module>`.
-- Performance budgets enforced via `src/lib/3d/performance.ts` (see `docs/techtonic-v2/3d-performance.md`).
+R3F canvas, scenes, effects, models, lazy loaders. Home hero uses `@/3d/hero-media` (`HeroCanvasShell`) for SSR-safe dynamic import.
 
-### `src/components/3d` (deprecated bridge)
+### `src/test`
 
-- Re-exports `@/3d` for backward compatibility only.
-- Do not add new implementations here.
+Vitest browser mocks (Next.js navigation, framer-motion, `matchMedia`, image).
 
 ### `src/entities`, `src/config`
 
-- Reserved placeholders for upcoming phases.
-
-### `.github/workflows`
-
-- Automated quality gates on PR/push.
+Reserved for future domain modeling and app configuration.
 
 ---
 
 ## Import Conventions
 
-`tsconfig` maps `@/*` → `./src/*` only (no root fallback).
+`tsconfig` maps `@/*` → `./src/*`.
 
-| Alias               | Resolves to           | Usage                                              |
-| ------------------- | --------------------- | -------------------------------------------------- |
-| `@/widgets/*`       | `src/widgets/*`       | Page composition                                   |
-| `@/features/*`      | `src/features/*`      | Section modules                                    |
-| `@/shared/ui/*`     | `src/shared/ui/*`     | UI primitives (**preferred**)                      |
-| `@/shared/ui-v2/*`  | `src/shared/ui-v2/*`  | V2 design components                               |
-| `@/shared/utils`    | `src/shared/utils`    | `cn`, helpers                                      |
-| `@/shared/hooks/*`  | `src/shared/hooks/*`  | Shared hooks                                       |
-| `@/types/*`         | `src/types/*`         | Shared types                                       |
-| `@/lib/*`           | `src/lib/*`           | Content & utilities                                |
-| `@/hooks/*`         | `src/hooks/*`         | Cross-cutting hooks                                |
-| `@/components/ui/*` | `src/shared/ui/*`     | **Compatibility alias only** (shadcn legacy paths) |
-| `@/3d/*`            | `src/3d/*`            | **Canonical** 3D runtime                           |
-| `@/components/3d/*` | `src/components/3d/*` | Deprecated bridge (re-exports `@/3d`)              |
+| Alias              | Resolves to          | Usage                         |
+| ------------------ | -------------------- | ----------------------------- |
+| `@/widgets/*`      | `src/widgets/*`      | Page composition              |
+| `@/features/*`     | `src/features/*`     | Section modules               |
+| `@/shared/ui/*`    | `src/shared/ui/*`    | UI primitives (**preferred**) |
+| `@/shared/ui-v2/*` | `src/shared/ui-v2/*` | V2 design components          |
+| `@/shared/seo/*`   | `src/shared/seo/*`   | JSON-LD components            |
+| `@/shared/utils`   | `src/shared/utils`   | `cn`, helpers                 |
+| `@/3d` / `@/3d/*`  | `src/3d`             | Canonical 3D runtime          |
+| `@/3d/hero-media`  | `src/3d/hero-media`  | **Home hero** 3D (SSR-safe)   |
+| `@/lib/seo`        | `src/lib/seo`        | Metadata & structured data    |
+| `@/lib/*`          | `src/lib/*`          | Content and pure helpers      |
+| `@/hooks/*`        | `src/hooks/*`        | Cross-cutting hooks           |
+| `@/types/*`        | `src/types/*`        | Shared types                  |
 
-### Recommended imports (new code)
+### Recommended imports
 
 ```ts
 import { Button } from "@/shared/ui/button";
-import { Hero } from "@/features/home/hero";
-import { SiteShell } from "@/widgets/layout/site-shell";
+import { SectionShell } from "@/shared/ui-v2";
+import { createPageMetadata, PAGE_SEO } from "@/lib/seo";
+import { HeroCanvasShell, HeroSceneLazy } from "@/3d/hero-media";
+import { use3d } from "@/hooks/use3d";
 import { clubTimeline } from "@/lib/content/timeline";
 ```
-
-### Avoid
-
-- New modules outside `src/` (except config, `public`, `docs`, `.github`).
-- Deep imports across unrelated features.
-- Re-introducing a root `components/` folder.
 
 ---
 
@@ -224,29 +239,35 @@ import { clubTimeline } from "@/lib/content/timeline";
 ```text
 app → widgets → features → entities → shared
 app | widgets | features → src/3d
-features → lib/content, hooks, types, shared
+features → lib, hooks, types, shared
+src/3d → lib/3d, hooks, shared/utils
 ```
 
 **Disallowed:**
 
 - `shared → features | widgets | app`
-- Cross-feature internal imports (import via widget composition or shared contracts)
+- Cross-feature deep imports
 - Circular dependencies
+- `@/components/*` or new permanent modules outside `src/` (except tooling, `public`, `docs`, `.github`)
 
 ---
 
 ## Where to Put New Code
 
-| You are building…           | Put it in…                                    |
-| --------------------------- | --------------------------------------------- |
-| New route / page metadata   | `src/app/(site)/<route>/page.tsx`             |
-| Page section ordering       | `src/widgets/<route>/`                        |
-| Section UI + section logic  | `src/features/<domain>/`                      |
-| Reusable button/card/dialog | `src/shared/ui/` (shadcn CLI)                 |
-| V2 glass/neon/3D card       | `src/shared/ui-v2/`                           |
-| Static copy / lists         | `src/lib/content/`                            |
-| R3F scene or model          | `src/3d/` (use `scene-lazy` for route heroes) |
-| Shared type                 | `src/types/`                                  |
+| You are building…         | Put it in…                                      |
+| ------------------------- | ----------------------------------------------- |
+| Route / SEO metadata      | `src/lib/seo/page-config.ts` + `page.tsx`       |
+| JSON-LD per route         | `<PageSeo config={PAGE_SEO.x} />` in `page.tsx` |
+| Section ordering          | `src/widgets/<route>/`                          |
+| Section UI + logic        | `src/features/<domain>/`                        |
+| shadcn primitive          | `src/shared/ui/`                                |
+| V2 glass / neon / section | `src/shared/ui-v2/`                             |
+| Static copy / data        | `src/lib/content/`                              |
+| R3F scene / model         | `src/3d/` (+ `scene-lazy.tsx` for lazy routes)  |
+| Home hero 3D shell        | `src/3d/hero-media.tsx`                         |
+| 3D budget / guard         | `src/lib/3d/performance.ts` (+ tests)           |
+| Shared type               | `src/types/`                                    |
+| Colocated test            | `*.test.ts(x)` next to module or `__tests__/`   |
 
 ---
 
@@ -255,5 +276,10 @@ features → lib/content, hooks, types, shared
 - [`ARCHITECTURE.md`](./ARCHITECTURE.md)
 - [`DEVELOPMENT_GUIDE.md`](./DEVELOPMENT_GUIDE.md)
 - [`CODE_STYLE.md`](./CODE_STYLE.md)
+- [`CONTRIBUTING.md`](./CONTRIBUTING.md)
+- [`DESIGN.md`](./DESIGN.md)
 - [`REFACTOR_PROGRESS.md`](./REFACTOR_PROGRESS.md)
-- [`docs/techtonic-v2/`](./docs/techtonic-v2/)
+- [`docs/techtonic-v2/README.md`](./docs/techtonic-v2/README.md)
+- [`docs/techtonic-v2/seo.md`](./docs/techtonic-v2/seo.md)
+- [`docs/techtonic-v2/3d-performance.md`](./docs/techtonic-v2/3d-performance.md)
+- [`docs/techtonic-v2/nextjs-15-checklist.md`](./docs/techtonic-v2/nextjs-15-checklist.md)

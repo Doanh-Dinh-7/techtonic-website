@@ -2,28 +2,24 @@
 
 Primary application code for TechTonic Website V2.0.
 
-## Phase 1 (complete)
+## Layout (current)
 
-Migrated into `src/`:
+| Path                   | Role                                            |
+| ---------------------- | ----------------------------------------------- |
+| `app/`                 | App Router routes and layouts                   |
+| `widgets/`             | Page composition, site shell                    |
+| `features/`            | Domain section UI + hooks                       |
+| `shared/`              | UI primitives (`ui`, `ui-v2`), utils, providers |
+| `3d/`                  | Canonical React Three Fiber runtime             |
+| `lib/`                 | Content, pure 3D policy (`lib/3d`)              |
+| `hooks/`               | Cross-cutting hooks (`use3d`, …)                |
+| `types/`               | Shared contracts                                |
+| `entities/`, `config/` | Reserved                                        |
 
-- `app/` — App Router routes and layouts
-
-- `hooks/` — shared React hooks (canonical; `components/ui/use-*` re-exports)
-
-- `lib/` — utilities, content, 3D helpers
-
-- `components/3d/` — React Three Fiber scenes
-
-Duplicate root copies of the above were removed. Root `components/` (page UI) remains until Phase 2.
-
-## Phase 2 (next)
-
-- Migrate root `components/` → `features/` / `widgets/` / `shared/ui`
-
-- Scaffold folders: `features/`, `widgets/`, `entities/`, `shared/`, `types/`, `config/`, `3d/`
+There is **no** `src/components/` folder. 3D imports use `@/3d` only.
 
 ## Imports
 
-Use `@/` alias (`tsconfig`: `./src/*` first, then `./*`).
+Use `@/` alias (`tsconfig`: `./src/*`).
 
 See [`PROJECT_STRUCTURE.md`](../PROJECT_STRUCTURE.md) and [`ARCHITECTURE.md`](../ARCHITECTURE.md).

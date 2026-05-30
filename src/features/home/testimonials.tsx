@@ -1,10 +1,11 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
-import { motion, AnimatePresence } from "framer-motion";
-import { Badge } from "@/shared/ui/badge";
+import { AnimatePresence, motion } from "framer-motion";
 import { Star } from "lucide-react";
 import Image from "next/image";
+import { useEffect, useState } from "react";
+
+import { Card3D, GlassCard, GradientOrb, SectionShell } from "@/shared/ui-v2";
 import { Typewriter } from "@/shared/ui/typewriter";
 
 export function Testimonials() {
@@ -35,40 +36,37 @@ export function Testimonials() {
     }
   };
 
-  // Text for testimonials is max 55 words
   const testimonials = [
     {
       name: "Nguyễn Văn Quang",
       role: "Founder/Chủ nhiệm CLB TechTonic nhiệm kỳ 2024 - 2025",
-      year: 2022, // Nhập học năm 2022
+      year: 2022,
       text: "Với mình, TechTonic không chỉ là một CLB học thuật về công nghệ thông tin, mà còn là một môi trường năng động, sáng tạo và gắn kết, nơi mỗi thành viên đều có cơ hội rèn luyện, phát triển bản thân và cùng nhau tạo nên những kỷ niệm đáng nhớ!",
       image: "/placeholder.svg?height=60&width=60",
     },
     {
       name: "Nguyễn Thị Ngọc Nhi",
       role: "Phó chủ nhiệm CLB TechTonic nhiệm kỳ 2025 - 2026",
-      year: 2024, // Nhập học năm 2024
+      year: 2024,
       text: "Nhờ tham gia CLB, mình vừa học hỏi, rèn luyện kỹ năng, vừa gắn kết như một gia đình nhỏ. Ở vai trò Phó chủ nhiệm, mình tự hào đồng hành cùng mọi người tạo ra hoạt động ý nghĩa, kỷ niệm đẹp. CLB là môi trường tuyệt vời để khám phá bản thân, phát triển năng lực và lan tỏa giá trị tích cực.",
       image: "/placeholder.svg?height=60&width=60",
     },
     {
       name: "Lê Văn Hùng",
       role: "hiện là Developer",
-      year: 2025, // Nhập học 2025
+      year: 2025,
       text: "TechTonic Club đã định hướng con đường sự nghiệp của tôi. Những kiến thức và kỹ năng học được ở đây rất hữu ích cho công việc.",
       image: "/placeholder.svg?height=60&width=60",
     },
   ];
 
-  // Auto-rotate testimonials based on typewriter completion
   useEffect(() => {
-    if (isHovered) return; // Pause when hovered
+    if (isHovered) return;
 
     if (isTypewriterComplete) {
-      // Wait 3 seconds after typewriter completes, then move to next testimonial
       const timeout = setTimeout(() => {
         setCurrentTestimonial((prev) => (prev + 1) % testimonials.length);
-        setIsTypewriterComplete(false); // Reset for next testimonial
+        setIsTypewriterComplete(false);
       }, 3000);
 
       setTimeoutId(timeout);
@@ -76,49 +74,41 @@ export function Testimonials() {
     }
   }, [isTypewriterComplete, isHovered, testimonials.length]);
 
-  // Clear timeout when component unmounts or hover state changes
   useEffect(() => {
     return () => {
       if (timeoutId) clearTimeout(timeoutId);
     };
   }, [timeoutId]);
 
-  // Reset typewriter completion when testimonial changes
   useEffect(() => {
     setIsTypewriterComplete(false);
   }, [currentTestimonial]);
 
-  return (
-    <section id="testimonials" className="py-20 bg-gray-50">
-      <div className="container mx-auto px-4">
-        <motion.div
-          className="text-center space-y-4 mb-16"
-          initial={{ opacity: 0, y: 50 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8 }}
-          viewport={{ once: true }}
-        >
-          <Badge className="bg-indigo-100 text-indigo-700 hover:bg-indigo-700 hover:text-indigo-100">
-            Cảm nhận
-          </Badge>
-          <h2 className="text-3xl lg:text-5xl font-bold text-gray-900 font-paris2024">
-            Thành viên nói gì về chúng tôi
-          </h2>
-        </motion.div>
+  const active = testimonials[currentTestimonial];
 
-        <div className="max-w-4xl mx-auto">
-          <AnimatePresence mode="wait">
-            <motion.div
-              key={currentTestimonial}
-              initial={{ opacity: 0, x: 100 }}
-              animate={{ opacity: 1, x: 0 }}
-              exit={{ opacity: 0, x: -100 }}
-              transition={{ duration: 0.5 }}
-              className={`bg-white rounded-2xl shadow-lg p-8 transition-all duration-300 ${
-                isHovered ? "shadow-xl scale-[1.02]" : ""
-              }`}
-              onMouseEnter={() => setIsHovered(true)}
-              onMouseLeave={() => setIsHovered(false)}
+  return (
+    <SectionShell
+      id="testimonials"
+      badge="Cảm nhận"
+      title="Thành viên nói gì về chúng tôi"
+      contentClassName="max-w-4xl"
+    >
+      <GradientOrb className="left-1/2 top-8 -translate-x-1/2" color="magenta" />
+
+      <AnimatePresence mode="wait">
+        <motion.div
+          key={currentTestimonial}
+          initial={{ opacity: 0, x: 100 }}
+          animate={{ opacity: 1, x: 0 }}
+          exit={{ opacity: 0, x: -100 }}
+          transition={{ duration: 0.5 }}
+          onMouseEnter={() => setIsHovered(true)}
+          onMouseLeave={() => setIsHovered(false)}
+        >
+          <Card3D>
+            <GlassCard
+              glow="purple"
+              className={`p-8 transition-all duration-300 ${isHovered ? "scale-[1.01]" : ""}`}
             >
               <div className="text-center">
                 <motion.div
@@ -127,15 +117,15 @@ export function Testimonials() {
                   transition={{ delay: 0.2, type: "spring", bounce: 0.5 }}
                 >
                   <Image
-                    src={testimonials[currentTestimonial].image || "/placeholder.svg"}
-                    alt={testimonials[currentTestimonial].name}
+                    src={active.image || "/placeholder.svg"}
+                    alt={active.name}
                     width={80}
                     height={80}
-                    className="rounded-full mx-auto mb-6"
+                    className="mx-auto mb-6 rounded-full"
                   />
                 </motion.div>
 
-                <div className="flex justify-center mb-6">
+                <div className="mb-6 flex justify-center">
                   {[...Array(5)].map((_, i) => (
                     <motion.div
                       key={i}
@@ -148,10 +138,10 @@ export function Testimonials() {
                   ))}
                 </div>
 
-                <blockquote className="text-xl text-gray-600 italic mb-6 leading-relaxed min-h-[8rem] md:min-h-[6rem]">
+                <blockquote className="mb-6 min-h-[8rem] text-xl italic leading-relaxed text-white/75 md:min-h-[6rem]">
                   &ldquo;
                   <Typewriter
-                    text={testimonials[currentTestimonial].text}
+                    text={active.text}
                     delay={20}
                     pause={isHovered}
                     onComplete={() => setIsTypewriterComplete(true)}
@@ -164,33 +154,35 @@ export function Testimonials() {
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: 0.5 }}
                 >
-                  <h4 className="text-xl font-medium text-gray-900 font-utm-akashi">
-                    {testimonials[currentTestimonial].name}
-                  </h4>
-                  <p className="text-gray-600">
-                    {`${getDynamicRole(
-                      testimonials[currentTestimonial].year
-                    )} - ${testimonials[currentTestimonial].role}`}
+                  <p className="font-utm-akashi text-xl font-semibold">{active.name}</p>
+                  <p className="text-white/65">
+                    {`${getDynamicRole(active.year)} - ${active.role}`}
                   </p>
                 </motion.div>
               </div>
-            </motion.div>
-          </AnimatePresence>
+            </GlassCard>
+          </Card3D>
+        </motion.div>
+      </AnimatePresence>
 
-          {/* Testimonial Indicators */}
-          <div className="flex justify-center mt-8 gap-2">
-            {testimonials.map((_, index) => (
-              <button
-                key={index}
-                onClick={() => setCurrentTestimonial(index)}
-                className={`w-3 h-3 rounded-full transition-colors ${
-                  index === currentTestimonial ? "bg-indigo-600" : "bg-gray-300"
-                }`}
-              />
-            ))}
-          </div>
-        </div>
+      <div className="mt-8 flex justify-center gap-2">
+        {testimonials.map((_, index) => (
+          <button
+            key={index}
+            type="button"
+            aria-label={`Xem cảm nhận ${index + 1}`}
+            aria-current={index === currentTestimonial ? "true" : undefined}
+            onClick={() => setCurrentTestimonial(index)}
+            className="inline-flex h-11 w-11 items-center justify-center rounded-full"
+          >
+            <span
+              className={`h-3 w-3 rounded-full transition-colors ${
+                index === currentTestimonial ? "bg-cyan-300" : "bg-white/30"
+              }`}
+            />
+          </button>
+        ))}
       </div>
-    </section>
+    </SectionShell>
   );
 }

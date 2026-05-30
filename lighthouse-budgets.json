@@ -1,0 +1,22 @@
+{
+  "description": "Lighthouse mobile score floors (0–100). Home is JS-heavy; tune only with audit report update.",
+  "categories": {
+    "performance": 50,
+    "accessibility": 85,
+    "best-practices": 85,
+    "seo": 90
+  },
+  "routes": ["/", "/recruitment", "/events"],
+  "routeOverrides": {
+    "/": {
+      "performance": 40,
+      "accessibility": 85
+    },
+    "/recruitment": {
+      "performance": 60
+    },
+    "/events": {
+      "performance": 60
+    }
+  }
+}

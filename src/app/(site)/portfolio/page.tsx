@@ -1,11 +1,14 @@
-import type { Metadata } from "next";
+import { createPageMetadata, PAGE_SEO } from "@/lib/seo";
+import { PageSeo } from "@/shared/seo/page-seo";
 import { PortfolioPageContent } from "@/widgets/portfolio/portfolio-page-content";
 
-export const metadata: Metadata = {
-  title: "Dự án & thành tích",
-  description: "Sản phẩm nổi bật, giải thưởng và liên kết mã nguồn GitHub của TechTonic Club.",
-};
+export const metadata = createPageMetadata(PAGE_SEO.portfolio);
 
 export default function PortfolioPage() {
-  return <PortfolioPageContent />;
+  return (
+    <>
+      <PageSeo config={PAGE_SEO.portfolio} />
+      <PortfolioPageContent />
+    </>
+  );
 }

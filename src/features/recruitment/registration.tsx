@@ -220,12 +220,17 @@ export function Registration() {
               </CardHeader>
               <CardContent>
                 {/* Step Indicator */}
-                <div className="flex items-center justify-center mb-8">
+                <div
+                  className="mb-8 flex items-center justify-center"
+                  role="group"
+                  aria-label="Tiến trình đăng ký"
+                >
                   <div className="flex items-center space-x-4">
                     <div
                       className={`flex items-center space-x-2 ${
                         currentStep >= 1 ? "text-white" : "text-white/50"
                       }`}
+                      aria-current={currentStep === 1 ? "step" : undefined}
                     >
                       <div
                         className={`w-8 h-8 rounded-full flex items-center justify-center text-sm font-semibold ${
@@ -241,6 +246,7 @@ export function Registration() {
                       className={`flex items-center space-x-2 ${
                         currentStep >= 2 ? "text-white" : "text-white/50"
                       }`}
+                      aria-current={currentStep === 2 ? "step" : undefined}
                     >
                       <div
                         className={`w-8 h-8 rounded-full flex items-center justify-center text-sm font-semibold ${
@@ -254,7 +260,15 @@ export function Registration() {
                   </div>
                 </div>
 
-                <form onSubmit={handleSubmit} className="space-y-6">
+                <p className="sr-only" aria-live="polite" aria-atomic="true">
+                  {currentStep === 1 ? "Bước 1: Thông tin cơ bản" : "Bước 2: Thông tin bổ sung"}
+                </p>
+
+                <form
+                  onSubmit={handleSubmit}
+                  className="space-y-6"
+                  aria-label="Form đăng ký tham gia TechTonic Club"
+                >
                   {/* Step 1: Thông tin cơ bản */}
                   {currentStep === 1 && (
                     <div className="space-y-4 text-left">

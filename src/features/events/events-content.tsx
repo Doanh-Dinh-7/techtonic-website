@@ -70,7 +70,7 @@ export function EventsContent() {
                   <CardHeader>
                     <div className="flex justify-between gap-2">
                       <CardTitle className="text-lg">{e.title}</CardTitle>
-                      {e.isSample && <span className="text-xs text-amber-600 shrink-0">(mẫu)</span>}
+                      {e.isSample && <span className="text-xs text-amber-800 shrink-0">(mẫu)</span>}
                     </div>
                     <p className="text-sm text-blue-600 font-medium">{formatDate(e.date)}</p>
                   </CardHeader>
@@ -117,7 +117,7 @@ export function EventsContent() {
                   <CardHeader>
                     <div className="flex justify-between gap-2">
                       <CardTitle className="text-base leading-snug">{b.title}</CardTitle>
-                      {b.isSample && <span className="text-xs text-amber-600 shrink-0">(mẫu)</span>}
+                      {b.isSample && <span className="text-xs text-amber-800 shrink-0">(mẫu)</span>}
                     </div>
                     {b.date && <p className="text-xs text-gray-500">{b.date}</p>}
                   </CardHeader>

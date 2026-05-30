@@ -1,0 +1,14 @@
+{
+  "description": "First Load JS budgets (kB) from Next.js build output. Update when intentionally changing bundles.",
+  "sharedFirstLoadJSKb": 105,
+  "routes": {
+    "/": 320,
+    "/about": 200,
+    "/departments": 175,
+    "/events": 175,
+    "/portfolio": 175,
+    "/recruitment": 200,
+    "/_not-found": 100
+  },
+  "defaultRouteKb": 200
+}

@@ -67,7 +67,10 @@ export function Header({ show, onLogoClick }: HeaderProps) {
                 </motion.div>
               </Link>
 
-              <nav className="hidden lg:flex items-center gap-4 xl:gap-6 flex-wrap justify-end max-w-[60%]">
+              <nav
+                aria-label="Điều hướng chính"
+                className="hidden lg:flex items-center gap-4 xl:gap-6 flex-wrap justify-end max-w-[60%]"
+              >
                 {mainNav.map((item) => {
                   const active = isNavActive(item.href);
                   return (
@@ -109,10 +112,12 @@ export function Header({ show, onLogoClick }: HeaderProps) {
               </div>
 
               <button
-                className="lg:hidden p-2"
+                className="lg:hidden min-h-11 min-w-11 p-2"
                 type="button"
                 onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-                aria-label="Menu"
+                aria-label={mobileMenuOpen ? "Đóng menu điều hướng" : "Mở menu điều hướng"}
+                aria-expanded={mobileMenuOpen}
+                aria-controls="mobile-primary-nav"
               >
                 {mobileMenuOpen ? (
                   <X className="h-6 w-6 text-gray-600" />
@@ -124,7 +129,9 @@ export function Header({ show, onLogoClick }: HeaderProps) {
 
             <AnimatePresence>
               {mobileMenuOpen && (
-                <motion.div
+                <motion.nav
+                  id="mobile-primary-nav"
+                  aria-label="Điều hướng chính"
                   initial={{ height: 0, opacity: 0 }}
                   animate={{ height: "auto", opacity: 1 }}
                   exit={{ height: 0, opacity: 0 }}
@@ -174,7 +181,7 @@ export function Header({ show, onLogoClick }: HeaderProps) {
                       )}
                     </div>
                   </div>
-                </motion.div>
+                </motion.nav>
               )}
             </AnimatePresence>
           </div>

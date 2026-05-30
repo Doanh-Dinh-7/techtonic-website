@@ -1,15 +1,14 @@
-import type { Metadata } from "next";
+import { createSiteLayoutMetadata, siteStructuredData } from "@/lib/seo";
+import { JsonLd } from "@/shared/seo/json-ld";
 import { SiteShell } from "@/widgets/layout/site-shell";
 
-export const metadata: Metadata = {
-  title: {
-    default: "TechTonic - Câu lạc bộ Công nghệ",
-    template: "%s | TechTonic Club",
-  },
-  description:
-    "Câu lạc bộ công nghệ thông tin — nuôi dưỡng đam mê và kỹ năng chuyên môn tại Đại học Kinh tế Đà Nẵng.",
-};
+export const metadata = createSiteLayoutMetadata();
 
 export default function SiteLayout({ children }: { children: React.ReactNode }) {
-  return <SiteShell>{children}</SiteShell>;
+  return (
+    <>
+      <JsonLd data={siteStructuredData()} />
+      <SiteShell>{children}</SiteShell>
+    </>
+  );
 }

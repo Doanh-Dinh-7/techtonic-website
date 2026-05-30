@@ -1,12 +1,14 @@
-import type { Metadata } from "next";
+import { createPageMetadata, PAGE_SEO } from "@/lib/seo";
+import { PageSeo } from "@/shared/seo/page-seo";
 import { DepartmentsPageContent } from "@/widgets/departments/departments-page-content";
 
-export const metadata: Metadata = {
-  title: "Các ban",
-  description:
-    "Ban Sự kiện, Truyền thông, Nhân sự và Chuyên môn — hoạt động và định hướng từng ban.",
-};
+export const metadata = createPageMetadata(PAGE_SEO.departments);
 
 export default function DepartmentsPage() {
-  return <DepartmentsPageContent />;
+  return (
+    <>
+      <PageSeo config={PAGE_SEO.departments} />
+      <DepartmentsPageContent />
+    </>
+  );
 }

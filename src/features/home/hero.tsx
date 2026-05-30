@@ -5,13 +5,16 @@ import { ChevronDown, ChevronRight, Code, Users } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 
-import { Badge, Button } from "@/shared/ui";
+import { HeroCanvasShell, HeroSceneLazy } from "@/3d/hero-media";
 import { useHeroSection } from "@/features/home/hooks/use-hero-section";
+import { use3d } from "@/hooks/use3d";
+import { Badge, Button } from "@/shared/ui";
 
 /**
  * Main hero section for homepage with animated CTA and rotating media.
  */
 export function Hero() {
+  const { shouldRenderMotion } = use3d();
   const { currentHeroImage, heroImages, heroRef, heroScale, heroY, isLoaded, scrollToNext } =
     useHeroSection();
 
@@ -129,23 +132,34 @@ export function Hero() {
             transition={{ delay: 0.5, duration: 1 }}
           >
             <div className="aspect-square h-[300px] max-w-[500px] w-full overflow-hidden rounded-2xl shadow-2xl sm:h-[400px] md:h-[450px] lg:h-[500px]">
-              <AnimatePresence mode="sync">
-                <motion.div
-                  key={currentHeroImage}
-                  initial={{ opacity: 0, scale: 1.1 }}
-                  animate={{ opacity: 1, scale: 1 }}
-                  exit={{ opacity: 0, scale: 0.9 }}
-                  transition={{ duration: 0.8 }}
-                  className="absolute inset-0"
+              {shouldRenderMotion ? (
+                <HeroCanvasShell
+                  className="absolute inset-0 h-full w-full"
+                  fallbackClassName="min-h-full"
                 >
-                  <Image
-                    src={heroImages[currentHeroImage] || "/placeholder.svg"}
-                    alt="TechTonic Club Activities"
-                    fill
-                    className="rounded-2xl object-cover"
-                  />
-                </motion.div>
-              </AnimatePresence>
+                  <HeroSceneLazy />
+                </HeroCanvasShell>
+              ) : (
+                <AnimatePresence mode="sync">
+                  <motion.div
+                    key={currentHeroImage}
+                    initial={{ opacity: 0, scale: 1.1 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    exit={{ opacity: 0, scale: 0.9 }}
+                    transition={{ duration: 0.8 }}
+                    className="absolute inset-0"
+                  >
+                    <Image
+                      src={heroImages[currentHeroImage] || "/placeholder.svg"}
+                      alt="TechTonic Club Activities"
+                      fill
+                      sizes="(max-width: 1024px) 100vw, 500px"
+                      priority={currentHeroImage === 0}
+                      className="rounded-2xl object-cover"
+                    />
+                  </motion.div>
+                </AnimatePresence>
+              )}
             </div>
             <motion.div
               className="absolute -bottom-3 -left-3 max-w-[200px] rounded-xl bg-white p-3 text-gray-800 shadow-lg sm:-bottom-4 sm:-left-4 sm:max-w-none sm:p-4 lg:-bottom-6 lg:-left-6"
@@ -165,7 +179,9 @@ export function Hero() {
         </div>
       </div>
       <button
+        type="button"
         onClick={scrollToNext}
+        aria-label="Cuộn xuống phần giá trị cốt lõi"
         className={`absolute bottom-1 left-1/2 -translate-x-1/2 transform text-white/70 transition-all delay-700 duration-1000 hover:text-white ${
           isLoaded ? "translate-y-0 opacity-100" : "translate-y-10 opacity-0"
         }`}

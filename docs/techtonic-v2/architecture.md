@@ -1,4 +1,10 @@
-# TechTonic V2.0 Architecture
+# TechTonic V2.0 Architecture (Legacy Proposal)
+
+> **Superseded.** Canonical architecture for the current codebase: **[`ARCHITECTURE.md`](../../ARCHITECTURE.md)**.  
+> Folder map: **[`PROJECT_STRUCTURE.md`](../../PROJECT_STRUCTURE.md)**.  
+> Kept for historical product planning context only.
+
+---
 
 ## Folder Structure De Xuat
 

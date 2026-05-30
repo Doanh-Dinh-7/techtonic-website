@@ -1,17 +1,26 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import { Analytics } from "@vercel/analytics/next";
+import { SITE } from "@/lib/seo";
 import { Toaster } from "@/shared/ui/toaster";
 import "./globals.css";
 
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "TechTonic - Câu lạc bộ Công nghệ",
-  description:
-    "Câu lạc bộ công nghệ thông tin hàng đầu, nơi nuôi dưỡng đam mê và phát triển kỹ năng chuyên môn.",
-  generator: "TechTonic",
-  icons: "/logo.png",
+  metadataBase: new URL(SITE.url),
+  applicationName: SITE.name,
+  authors: [{ name: SITE.organization.legalName }],
+  creator: SITE.shortName,
+  icons: {
+    icon: "/logo.png",
+    apple: "/logo.png",
+  },
+  formatDetection: {
+    email: false,
+    address: false,
+    telephone: false,
+  },
 };
 
 export default function RootLayout({
@@ -20,7 +29,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="vi" className="scroll-smooth">
+    <html lang={SITE.language} className="scroll-smooth">
       <body className={inter.className}>
         {children}
         <Toaster />

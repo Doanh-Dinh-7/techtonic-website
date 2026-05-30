@@ -11,7 +11,8 @@ This project follows strict engineering standards to remain scalable, maintainab
 - Setup and workflow: [`DEVELOPMENT_GUIDE.md`](./DEVELOPMENT_GUIDE.md)
 - Design direction: [`DESIGN.md`](./DESIGN.md)
 - 3D performance runbook: [`docs/techtonic-v2/3d-performance.md`](./docs/techtonic-v2/3d-performance.md)
-- Refactor status: [`REFACTOR_PROGRESS.md`](./REFACTOR_PROGRESS.md)
+- Refactor status: [`REFACTOR_PROGRESS.md`](./REFACTOR_PROGRESS.md) (Phase 4 active)
+- Doc hub: [`docs/techtonic-v2/README.md`](./docs/techtonic-v2/README.md)
 
 ## Contribution Workflow
 
@@ -109,12 +110,10 @@ Author responsibilities:
 Run this exact sequence before opening or updating a PR:
 
 ```bash
-npm run lint
-npm run typecheck
-npm run test
-npm run format:check
-npm run build
+npm run ci:build
 ```
+
+(`ci:build` = lint → typecheck → format → test → build → bundle budget)
 
 ## Communication
 

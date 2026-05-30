@@ -14,7 +14,7 @@ Rule nay ap dung cho moi cong viec phat trien TechTonic Website V2.0.
 - Noi dung official phai nam trong `lib/content/*`; khong hardcode text dai tu docx trong component.
 - Huong thiet ke mac dinh: cyber-futuristic, premium dark mode, glassmorphism, neon cyan/purple/magenta/electric blue.
 - Component moi phai mobile-first, semantic va accessible.
-- Moi 3D scene dat trong `components/3d/*`.
+- Moi 3D scene dat trong `src/3d/*`; import `@/3d` (khong con `src/components/3d`).
 - Canvas 3D chi trang tri; heading, CTA, form va noi dung quan trong phai la HTML that.
 - Lazy-load 3D nang, cap DPR, co fallback static va ton trong `prefers-reduced-motion`.
 - Dung `components/timeline/*` cho 2 timeline: Yearly Journey Timeline va Recurring Activities Timeline.

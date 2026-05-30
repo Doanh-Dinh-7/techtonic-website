@@ -7,3 +7,4 @@ export { FloatingLogo } from "./models/floating-logo";
 export { BackgroundScene } from "./scenes/background-scene";
 export { HeroScene } from "./scenes/hero-scene";
 export { HeroSceneLazy, BackgroundSceneLazy } from "./scene-lazy";
+export { HeroCanvasShell } from "./hero-media";

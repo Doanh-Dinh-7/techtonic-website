@@ -11,6 +11,10 @@
 # next.js
 /.next/
 /out/
+build-output.log
+docs/audits/lighthouse/*.report.html
+docs/audits/lighthouse/*.report.json
+!docs/audits/lighthouse/summary.json
 
 # production
 /build

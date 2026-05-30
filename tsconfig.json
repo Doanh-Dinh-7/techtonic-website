@@ -19,7 +19,6 @@
       }
     ],
     "paths": {
-      "@/components/ui/*": ["./src/shared/ui/*"],
       "@/3d/*": ["./src/3d/*"],
       "@/shared/*": ["./src/shared/*"],
       "@/types/*": ["./src/types/*"],

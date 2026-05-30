@@ -3,8 +3,14 @@
 import React from "react";
 import { motion } from "framer-motion";
 import { Badge } from "@/shared/ui/badge";
-import { Card, CardContent, CardHeader, CardTitle } from "@/shared/ui/card";
-import { Dialog, DialogContent, DialogTrigger } from "@/shared/ui/dialog";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/shared/ui/dialog";
+import { cn } from "@/shared/utils";
 import { Code, Network, Lightbulb, Trophy, GraduationCap, Handshake } from "lucide-react";
 import Image from "next/image";
 
@@ -114,12 +120,18 @@ export function Benefits() {
             >
               <Dialog>
                 <DialogTrigger asChild>
-                  <Card
-                    className={`border-0 shadow-lg hover:shadow-xl transition-shadow h-full cursor-pointer ${benefit.shadowColor} ${benefit.hoverShadowColor}`}
+                  <button
+                    type="button"
+                    aria-label={`Xem chi tiết: ${benefit.title}`}
+                    className={cn(
+                      "h-full w-full cursor-pointer rounded-xl border-0 bg-white text-left shadow-lg transition-shadow hover:shadow-xl focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-500 focus-visible:ring-offset-2",
+                      benefit.shadowColor,
+                      benefit.hoverShadowColor
+                    )}
                   >
-                    <CardHeader className="flex-row items-center gap-4">
+                    <div className="flex flex-row items-center gap-4 p-6">
                       <motion.div
-                        className={`w-12 h-12 ${benefit.bgColor} rounded-lg flex items-center justify-center`}
+                        className={`flex h-12 w-12 items-center justify-center rounded-lg ${benefit.bgColor}`}
                         whileHover={{
                           rotate: [0, -5, 5, -5, 0],
                           transition: { duration: 0.5 },
@@ -129,35 +141,37 @@ export function Benefits() {
                           className: `h-6 w-6 ${benefit.textColor}`,
                         })}
                       </motion.div>
-                      <CardTitle className="font-utm-akashi text-2xl font-normal">
+                      <span className="font-utm-akashi text-2xl font-normal text-gray-900">
                         {benefit.title}
-                      </CardTitle>
-                    </CardHeader>
-                    <CardContent>
-                      <p className="text-gray-600">{benefit.desc}</p>
-                    </CardContent>
-                  </Card>
+                      </span>
+                    </div>
+                    <p className="px-6 pb-6 text-gray-700">{benefit.desc}</p>
+                  </button>
                 </DialogTrigger>
                 <DialogContent>
+                  <DialogHeader>
+                    <DialogTitle className="font-utm-akashi text-2xl font-normal">
+                      {benefit.title}
+                    </DialogTitle>
+                  </DialogHeader>
                   <div className="space-y-4">
                     <div className="flex items-center gap-3">
                       <div
-                        className={`w-12 h-12 ${benefit.bgColor} rounded-lg flex items-center justify-center`}
+                        className={`flex h-12 w-12 items-center justify-center rounded-lg ${benefit.bgColor}`}
                       >
                         {React.createElement(benefit.icon, {
                           className: `h-6 w-6 ${benefit.textColor}`,
                         })}
                       </div>
-                      <h3 className="text-2xl font-normal font-utm-akashi">{benefit.title}</h3>
                     </div>
                     <Image
                       src={benefit.image || "/placeholder.svg"}
                       alt={benefit.title}
                       width={600}
                       height={300}
-                      className="rounded-lg w-full"
+                      className="w-full rounded-lg"
                     />
-                    <p className="text-gray-600 leading-relaxed">{benefit.desc}</p>
+                    <p className="leading-relaxed text-gray-700">{benefit.desc}</p>
                   </div>
                 </DialogContent>
               </Dialog>

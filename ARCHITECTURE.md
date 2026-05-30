@@ -2,66 +2,90 @@
 
 ## Purpose
 
-This document describes the **current** architecture after Phase 2 completion: all application code lives under `src/`, organized by App Router + Feature-Sliced Design (FSD)-inspired layers.
+This document describes the **current** architecture after **V2.0 refactor completion**: FSD layers under `src/`, canonical `src/3d`, CI/testing hardening, SEO module, and **Next.js 15 + React 19**.
 
 ---
 
-## Current Architecture (Phase 3 Baseline)
+## Current Architecture (Post V2.0)
 
 ### Style
 
-**Next.js App Router + layered `src/` modules** with explicit dependency direction.
+**Next.js 15 App Router + layered `src/` modules** with explicit dependency direction, first-class **3D runtime**, and centralized **SEO / structured data**.
 
 ```text
-┌─────────────────────────────────────────────────────────┐
-│  src/app          Routes, layouts, metadata             │
-├─────────────────────────────────────────────────────────┤
-│  src/widgets      Page composition + site chrome        │
-├─────────────────────────────────────────────────────────┤
-│  src/features     Domain sections (home, about, …)      │
-├─────────────────────────────────────────────────────────┤
-│  src/entities     (reserved)                            │
-├─────────────────────────────────────────────────────────┤
-│  src/shared       UI primitives, utils, providers       │
-├─────────────────────────────────────────────────────────┤
-│  src/types · src/hooks · src/lib   Cross-cutting        │
-├─────────────────────────────────────────────────────────┤
-│  src/3d             Canonical R3F runtime layer           │
-│  src/components/3d  Deprecated bridge → @/3d            │
-└─────────────────────────────────────────────────────────┘
+┌──────────────────────────────────────────────────────────────┐
+│  src/app           Routes, layouts, sitemap, robots, SEO base│
+├──────────────────────────────────────────────────────────────┤
+│  src/widgets       Page composition + site chrome (a11y)     │
+├──────────────────────────────────────────────────────────────┤
+│  src/features      Domain sections + feature hooks + tests   │
+├──────────────────────────────────────────────────────────────┤
+│  src/entities      (reserved — post–V2.0)                    │
+├──────────────────────────────────────────────────────────────┤
+│  src/shared        ui, ui-v2, seo, a11y, utils, providers    │
+├──────────────────────────────────────────────────────────────┤
+│  src/types · src/hooks · src/lib                             │
+│       lib/seo = metadata + JSON-LD                           │
+│       lib/3d  = pure budgets, constants (unit-tested)        │
+├──────────────────────────────────────────────────────────────┤
+│  src/3d            Canonical R3F runtime (React)             │
+│       hero-media = SSR-safe dynamic CanvasShell (home)       │
+└──────────────────────────────────────────────────────────────┘
 ```
 
-There is **no** root `components/` directory. Legacy shadcn paths are preserved only as a TypeScript alias: `@/components/ui/*` → `src/shared/ui/*`.
+There is **no** active `src/components/` import path. UI: `@/shared/ui/*` only.
+
+### 3D Layer Split
+
+| Concern                              | Location                | Why                            |
+| ------------------------------------ | ----------------------- | ------------------------------ |
+| Budgets, caps, DPR policy            | `src/lib/3d/`           | Pure functions — unit tested   |
+| Capability (`WebGL`, reduced motion) | `src/hooks/use3d.ts`    | Shared React hook              |
+| Canvas, scenes, models               | `src/3d/`               | R3F implementation             |
+| Lazy route entry                     | `src/3d/scene-lazy.tsx` | `next/dynamic`, `ssr: false`   |
+| Home hero canvas                     | `src/3d/hero-media.tsx` | Avoid R3F in SSR bundle on `/` |
+
+### SEO Layer
+
+| Concern              | Location                          |
+| -------------------- | --------------------------------- |
+| Site URL & org facts | `src/lib/seo/site.ts`             |
+| Per-route copy       | `src/lib/seo/page-config.ts`      |
+| Next Metadata API    | `src/lib/seo/metadata.ts`         |
+| Schema.org           | `src/lib/seo/json-ld.ts`          |
+| Script injection     | `src/shared/seo/json-ld.tsx`      |
+| Sitemap / robots     | `src/app/sitemap.ts`, `robots.ts` |
+
+Requires `NEXT_PUBLIC_SITE_URL` in production.
 
 ### Canonical Layers
 
-| Layer               | Role                                                            |
-| ------------------- | --------------------------------------------------------------- |
-| `src/app`           | Route entrypoints, metadata, layout boundaries                  |
-| `src/widgets`       | Orchestrate features per page; site shell (header/footer/Lenis) |
-| `src/features`      | Domain section components and feature hooks                     |
-| `src/shared`        | UI (`ui`, `ui-v2`), utils, providers, shared hooks              |
-| `src/types`         | Shared contracts                                                |
-| `src/hooks`         | Cross-cutting React hooks (`use3d`, toast, timeline)            |
-| `src/lib`           | Content modules, pure utilities, 3D performance helpers         |
-| `src/3d`            | Canonical Three.js / R3F runtime (scenes, canvas, lazy loaders) |
-| `src/components/3d` | Deprecated re-export bridge only                                |
+| Layer          | Role                                              |
+| -------------- | ------------------------------------------------- |
+| `src/app`      | Routes, metadata, sitemap, robots, global styles  |
+| `src/widgets`  | Orchestrate features; site shell (skip link, nav) |
+| `src/features` | Domain sections and feature hooks                 |
+| `src/shared`   | UI, V2 design, SEO helpers, utils, providers      |
+| `src/lib/seo`  | Metadata and structured data builders             |
+| `src/lib/3d`   | Performance policy (pure)                         |
+| `src/3d`       | Three.js / R3F runtime                            |
 
 ### Request / Render Flow
 
 ```text
 Browser
-  → src/app/layout.tsx                    (fonts, toaster, analytics)
-  → src/app/(site)/layout.tsx             (SiteShell)
-  → src/widgets/layout/site-shell.tsx     (header, footer, Lenis, back-to-top)
-  → src/app/(site)/<route>/page.tsx       (thin route file)
-  → src/widgets/<route>/*                 (section list / page content)
-  → src/features/<domain>/*               (section UI)
+  → src/app/layout.tsx                    (metadataBase, lang=vi)
+  → src/app/(site)/layout.tsx               (SiteShell, Organization JSON-LD)
+  → src/widgets/layout/site-shell.tsx
+  → src/app/(site)/<route>/page.tsx         (createPageMetadata + PageSeo)
+  → src/widgets/<route>/*
+  → src/features/<domain>/*
   → src/shared/ui/* · src/lib/content/*
-  → src/3d/*                              (hero/background scenes when enabled)
+  → src/3d/hero-media (home, when use3d allows)
 
-Developer change
-  → local gates: lint · typecheck · test · format:check · build
+Developer workflow
+  → npm run ci          (lint, typecheck, format, test — 38 tests)
+  → npm run ci:build    (+ production build + bundle budget)
   → .github/workflows/quality-gates.yml
   → PR merge
 ```
@@ -69,12 +93,11 @@ Developer change
 ### Home Page Composition (Example)
 
 ```text
-page.tsx
+page.tsx (metadata + PageSeo JSON-LD)
   └── widgets/home/home-page-sections.tsx
-        ├── features/home/hero.tsx
-        ├── features/home/core-values.tsx
-        ├── features/home/benefits.tsx
-        ├── … (other home sections)
+        ├── features/home/hero.tsx          (HeroCanvasShell + HeroSceneLazy | carousel)
+        ├── features/home/core-values.tsx   (ui-v2 SectionShell)
+        ├── …
         └── widgets/home/hash-scroll-handler.tsx
 ```
 
@@ -82,36 +105,30 @@ page.tsx
 
 ## Architecture Strengths
 
-- **Clear boundaries:** routing vs composition vs feature UI vs shared primitives.
-- **Single source tree:** everything under `src/`; no dual `components/` + `src/` drift.
-- **Testable pure logic:** `src/lib/3d/performance.ts` covered by Vitest.
-- **Quality gates:** local scripts mirror CI (lint, typecheck, format, test, build).
-- **Accessible 3D defaults:** reduced-motion and DPR caps in shared runtime wrappers.
+- Clear separation: routing → composition → features → shared.
+- Single `src/` tree; documented import map.
+- Testable 3D policy (`src/lib/3d`) and SEO builders (`src/lib/seo`).
+- CI: split verify/build, bundle budgets, optional Lighthouse scripts.
+- Accessible defaults: skip link, landmarks, reduced motion, WebGL fallback.
 
 ---
 
-## Remaining Technical Debt (Phase 3)
+## Remaining Technical Debt (Post V2.0)
 
-| Item                       | Notes                                                   |
-| -------------------------- | ------------------------------------------------------- |
-| `src/components/3d` bridge | Remove after all consumers use `@/3d`                   |
-| Test coverage              | Particle/star guards covered; expand hooks/routes       |
-| `src/entities`             | Not yet used for domain models                          |
-| `ui-v2` + 3D integration   | Wire lazy scenes into hero/background when design-ready |
-| Next.js 15                 | Planned compatibility pass                              |
+| Item                        | Notes                                                                |
+| --------------------------- | -------------------------------------------------------------------- |
+| `src/entities` layer        | Reserved — introduce when domain models grow                         |
+| `src/components/3d` on disk | Orphan copies — safe to delete; not imported                         |
+| Playwright E2E              | Optional (deferred)                                                  |
+| Registration hook parity    | `use-registration-form` tested; UI still uses inline state in places |
 
 ---
 
-## Target Architecture (Phase 3+)
+## Target Architecture (Future)
 
 ```text
-src/app
-  → src/widgets
-    → src/features
-      → src/entities          (domain models / mappers)
-        → src/shared
-
-src/app | widgets | features → src/3d/*
+src/app → src/widgets → src/features → src/entities → src/shared
+src/app | widgets | features → src/3d
 ```
 
 ---
@@ -120,50 +137,43 @@ src/app | widgets | features → src/3d/*
 
 ### `src/app`
 
-Routes, metadata, global styles. No business UI beyond layout wiring.
+Routes, `metadataBase`, `sitemap`, `robots`. Thin `page.tsx` — metadata + optional `PageSeo`.
 
 ### `src/widgets`
 
-- Compose ordered feature sections per route.
-- Own site chrome (`header`, `footer`, `site-shell`, `lenis-provider`).
-- Host small composition-only hooks.
+Compose sections per route; own site chrome and shell hooks/tests.
 
 ### `src/features`
 
-Domain sections: presentation + feature-local state/hooks. No cross-feature imports.
+Domain UI and hooks. No cross-feature imports.
 
 ### `src/shared`
 
-Dependency-light UI and utilities. Must not import from `features` or `widgets`.
+Dependency-light primitives. Must not import from `features` or `widgets`.
 
 ### `src/lib`
 
-Static content, formatters, pure 3D helpers. Safe for unit tests without React.
+Static content, **SEO** builders, **pure** 3D policy.
 
 ### `src/3d`
 
-Canonical canvas shell, scenes, effects, models, and lazy loaders. Consumed by features/widgets when 3D is enabled.
-
-### `src/components/3d` (deprecated bridge)
-
-Re-exports `@/3d` only — do not add implementations here.
-
----
+Canvas, scenes, models, lazy loaders. Home uses `hero-media` for SSR safety.
 
 ## Dependency Direction Rules
 
 **Allowed:**
 
 - `app → widgets → features → entities → shared`
-- `app | widgets | features → 3d runtime`
+- `app | widgets | features → src/3d`
 - `features → lib, hooks, types, shared`
+- `src/3d → lib/3d, hooks, shared/utils`
 
 **Disallowed:**
 
 - `shared →` upper layers
 - Cross-feature deep imports
-- Circular dependencies
-- New permanent code outside `src/` (except tooling, `public`, `docs`)
+- `@/components/*` imports
+- Permanent app code outside `src/`
 
 ---
 
@@ -173,69 +183,77 @@ Re-exports `@/3d` only — do not add implementations here.
 
 - **Decision:** Next.js App Router with thin route files.
 - **Status:** Accepted
-- **Rationale:** Layout boundaries, static generation, long-term Next alignment.
 
 ### ADR-002: Feature-sliced composition
 
-- **Decision:** Introduce `widgets` (composition) and `features` (sections) as first-class layers.
+- **Decision:** `widgets` + `features` as first-class layers.
 - **Status:** Accepted
-- **Rationale:** Scale ownership; isolate change per route/domain.
 
 ### ADR-003: Shared UI canonicalization
 
-- **Decision:** All shadcn/Radix primitives live in `src/shared/ui`.
+- **Decision:** shadcn/Radix under `src/shared/ui`.
 - **Status:** Accepted
-- **Rationale:** One import contract; shadcn CLI targets `@/shared/ui`.
 
 ### ADR-004: Impact-first Phase 2 migration
 
-- **Decision:** Migrate route composition first, then internalize section implementations.
+- **Decision:** Route composition first, then internalize sections.
 - **Status:** Accepted
-- **Rationale:** Ship-safe refactors with measurable progress.
 
 ### ADR-005: Behavior-safe quality refactor (Phase 2.4)
 
-- **Decision:** Extract hooks from large sections; reduce client boundaries; 3D reduced-motion defaults.
+- **Decision:** Hook extraction, client boundaries, 3D motion defaults.
 - **Status:** Accepted
-- **Rationale:** Maintainability and performance without business-logic rewrites.
 
 ### ADR-006: Mandatory quality gates
 
-- **Decision:** CI runs `lint`, `typecheck`, `format:check`, `test`, `build`; Husky + lint-staged locally.
+- **Decision:** CI + Husky: lint, typecheck, format, test, build.
 - **Status:** Accepted
-- **Rationale:** Prevent regressions during structural changes.
 
 ### ADR-007: Decommission root `components/` (Phase 2 closure)
 
-- **Decision:** Remove root `components/`; relocate UI to `src/shared/ui`, sections to `src/features/*`, layout to `src/widgets/layout/*`, V2 UI to `src/shared/ui-v2`.
+- **Decision:** Remove root `components/`; consolidate under `src/`.
 - **Status:** Accepted (2026-05-28)
-- **Rationale:** Eliminate dual-tree confusion; `@/*` maps only to `src/*`.
-- **Consequences:**
-  - `@/components/ui/*` retained as alias → `src/shared/ui/*` for shadcn compatibility.
-  - Feature files are full implementations (no re-export bridges).
-  - Documentation and onboarding reference `src/` only.
 
-### ADR-008: Canonical 3D runtime under `src/3d` (Phase 3.1)
+### ADR-008: Canonical 3D runtime under `src/3d` (Phase 3)
 
-- **Decision:** Move R3F implementation to `src/3d`; keep `src/components/3d` as a thin deprecated re-export bridge during transition.
-- **Status:** Accepted (2026-05-28)
-- **Rationale:** Align dependency direction (`app/widgets/features → 3d`); separate runtime from generic `components` naming.
-- **Consequences:**
-  - New imports use `@/3d` and `@/3d/*`.
-  - Lazy scene exports (`HeroSceneLazy`, `BackgroundSceneLazy`) standardize SSR-safe loading.
-  - Performance budgets codified in `src/lib/3d/performance.ts` + `docs/techtonic-v2/3d-performance.md`.
+- **Decision:** R3F at `src/3d`; no `src/components/3d` import path.
+- **Status:** Accepted; bridge removed Phase 4.4
+
+### ADR-009: 3D performance policy as code + docs (Phase 3)
+
+- **Decision:** Budgets in `src/lib/3d/performance.ts`; Vitest + runbook.
+- **Status:** Accepted
+
+### ADR-010: Centralized SEO module (Phase 4.4)
+
+- **Decision:** `src/lib/seo` for metadata, Open Graph, Twitter, canonical URLs, JSON-LD; `sitemap.ts` + `robots.ts`; `NEXT_PUBLIC_SITE_URL` for production.
+- **Status:** Accepted (2026-05-29)
+- **Consequences:** New routes must extend `PAGE_SEO` and `SITE_ROUTES`; use `<PageSeo />` on each page.
+
+### ADR-011: Next.js 15 + React 19 (Phase 4.4)
+
+- **Decision:** Upgrade to Next.js 15.5 and React 19; R3F v9 / drei v10; remove webpack React alias.
+- **Status:** Accepted (2026-05-29)
+- **Rationale:** Next 15 client runtime requires React 19 `use()` — React 18 caused production runtime errors.
+- **Consequences:** See `docs/techtonic-v2/nextjs-15-checklist.md`.
+
+### ADR-012: Home hero 3D via `hero-media` (Phase 4.4)
+
+- **Decision:** Dynamic `CanvasShell` in `src/3d/hero-media.tsx` (`ssr: false`) instead of static `@/3d` barrel import on home.
+- **Status:** Accepted (2026-05-29)
+- **Rationale:** Prevents R3F from breaking Next.js prerender / Lighthouse traces on `/`.
 
 ---
 
-## Definition of Architecture Done (Current Baseline)
+## Definition of Architecture Done (V2.0 Baseline)
 
-- [x] Route + composition entrypoints under `src/app` + `src/widgets`
-- [x] Feature sections under `src/features` with real implementations
-- [x] Shared UI under `src/shared/ui` (+ `ui-v2` for V2 design)
-- [x] No root `components/` directory
-- [x] Local + CI quality gates defined and passing
-- [x] Canonical 3D runtime under `src/3d` with performance runbook
-- [x] Architecture docs reflect codebase
+- [x] FSD layers under `src/` with documented dependency direction
+- [x] Canonical 3D at `src/3d` with lazy loaders + hero-media SSR pattern
+- [x] Performance guardrails tested and documented
+- [x] SEO module, sitemap, robots, structured data
+- [x] CI verify + build + bundle budget
+- [x] Vitest baseline (38 tests)
+- [x] Architecture documentation matches codebase
 
 ---
 
@@ -244,6 +262,10 @@ Re-exports `@/3d` only — do not add implementations here.
 - [`PROJECT_STRUCTURE.md`](./PROJECT_STRUCTURE.md)
 - [`DEVELOPMENT_GUIDE.md`](./DEVELOPMENT_GUIDE.md)
 - [`CODE_STYLE.md`](./CODE_STYLE.md)
+- [`CONTRIBUTING.md`](./CONTRIBUTING.md)
 - [`REFACTOR_PROGRESS.md`](./REFACTOR_PROGRESS.md)
 - [`DESIGN.md`](./DESIGN.md)
-- [`docs/techtonic-v2/`](./docs/techtonic-v2/)
+- [`docs/techtonic-v2/README.md`](./docs/techtonic-v2/README.md)
+- [`docs/techtonic-v2/seo.md`](./docs/techtonic-v2/seo.md)
+- [`docs/techtonic-v2/3d-performance.md`](./docs/techtonic-v2/3d-performance.md)
+- [`docs/techtonic-v2/nextjs-15-checklist.md`](./docs/techtonic-v2/nextjs-15-checklist.md)

@@ -40,7 +40,7 @@ export function RecruitmentProcessExtra() {
             Các vòng (tham khảo)
           </h2>
           <p className="text-sm text-gray-600 mt-2 max-w-xl mx-auto">
-            Mô tả mang nhãn <span className="text-amber-600">(mẫu)</span> — điều chỉnh theo quy chế
+            Mô tả mang nhãn <span className="text-amber-800">(mẫu)</span> — điều chỉnh theo quy chế
             từng đợt tuyển của CLB.
           </p>
         </motion.div>
@@ -59,7 +59,7 @@ export function RecruitmentProcessExtra() {
               </div>
               <h3 className="font-semibold text-gray-900 mb-2 flex items-center gap-2">
                 {r.title}
-                {r.sample && <span className="text-xs font-normal text-amber-600">(mẫu)</span>}
+                {r.sample && <span className="text-xs font-normal text-amber-800">(mẫu)</span>}
               </h3>
               <p className="text-sm text-gray-600">{r.desc}</p>
             </motion.div>

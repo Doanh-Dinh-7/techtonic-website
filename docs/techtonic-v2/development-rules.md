@@ -18,7 +18,7 @@
 
 ## 3D Rules
 
-- Moi 3D scene dat trong `components/3d`.
+- Moi 3D scene dat trong `src/3d` (import `@/3d`).
 - Canvas chi trang tri, khong chua noi dung SEO/heading/form quan trong.
 - Lazy-load scene nang bang dynamic import khi can.
 - Gioi han DPR va co fallback static.

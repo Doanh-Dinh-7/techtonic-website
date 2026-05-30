@@ -66,7 +66,7 @@ export function AboutTimeline() {
                         <span className="text-lg font-bold bg-gradient-to-r from-violet-700 to-teal-600 bg-clip-text text-transparent font-utm-akashi">
                           {entry.year}
                         </span>
-                        {entry.isSample && <span className="text-xs text-amber-600">(mẫu)</span>}
+                        {entry.isSample && <span className="text-xs text-amber-800">(mẫu)</span>}
                       </div>
                       <h3 className="text-lg font-semibold text-gray-900 mb-2">{entry.title}</h3>
                       <p className="text-gray-600 leading-relaxed text-sm md:text-base">

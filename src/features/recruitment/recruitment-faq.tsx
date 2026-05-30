@@ -27,7 +27,7 @@ export function RecruitmentFaq() {
           </Badge>
           <h2 className="text-2xl font-bold text-gray-900 font-paris2024">Câu hỏi thường gặp</h2>
           <p className="text-sm text-gray-600 mt-2">
-            Nội dung <span className="text-amber-600">(mẫu)</span> — chỉnh theo quy định tuyển thành
+            Nội dung <span className="text-amber-800">(mẫu)</span> — chỉnh theo quy định tuyển thành
             viên thực tế.
           </p>
         </motion.div>
@@ -37,7 +37,7 @@ export function RecruitmentFaq() {
               <AccordionTrigger className="text-left text-gray-900">
                 {item.q}
                 {item.isSample && (
-                  <span className="ml-2 text-xs text-amber-600 font-normal">(mẫu)</span>
+                  <span className="ml-2 text-xs text-amber-800 font-normal">(mẫu)</span>
                 )}
               </AccordionTrigger>
               <AccordionContent className="text-gray-600 text-sm leading-relaxed">

@@ -108,3 +108,27 @@ V2 UI primitives: `src/shared/ui-v2/` (`GlassCard`, `NeonButton`, `SectionShell`
 - [ ] Motion supports meaning.
 - [ ] 3D fallback works correctly.
 - [ ] Performance is acceptable on mid-tier devices.
+
+---
+
+## Implementation References
+
+| Topic               | Location                                    |
+| ------------------- | ------------------------------------------- |
+| V2 UI primitives    | `src/shared/ui-v2/`                         |
+| shadcn primitives   | `src/shared/ui/`                            |
+| 3D runtime          | `src/3d/`                                   |
+| 3D budgets & guards | `src/lib/3d/performance.ts`                 |
+| Capability hook     | `src/hooks/use3d.ts`                        |
+| Color tokens (3D)   | `src/lib/3d/constants.ts`                   |
+| Tailwind theme      | `tailwind.config.ts`, `src/app/globals.css` |
+
+---
+
+## Related Docs
+
+- [`ARCHITECTURE.md`](./ARCHITECTURE.md) — layers and 3D integration flow
+- [`PROJECT_STRUCTURE.md`](./PROJECT_STRUCTURE.md) — where to add UI and scenes
+- [`docs/techtonic-v2/3d-performance.md`](./docs/techtonic-v2/3d-performance.md) — performance runbook
+- [`REFACTOR_PROGRESS.md`](./REFACTOR_PROGRESS.md) — phase status
+- [`docs/techtonic-v2/README.md`](./docs/techtonic-v2/README.md) — documentation hub

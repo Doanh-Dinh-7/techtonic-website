@@ -52,7 +52,7 @@ export function PortfolioContent() {
                   <CardHeader>
                     <div className="flex justify-between items-start gap-2">
                       <CardTitle className="text-lg">{p.title}</CardTitle>
-                      {p.isSample && <span className="text-xs text-amber-600 shrink-0">(mẫu)</span>}
+                      {p.isSample && <span className="text-xs text-amber-800 shrink-0">(mẫu)</span>}
                     </div>
                     <CardDescription>{p.description}</CardDescription>
                   </CardHeader>
@@ -106,7 +106,7 @@ export function PortfolioContent() {
                 <div className="flex flex-wrap items-baseline gap-2 mb-1">
                   <span className="font-semibold text-gray-900">{a.name}</span>
                   <span className="text-sm text-blue-600">{a.year}</span>
-                  {a.isSample && <span className="text-xs text-amber-600">(mẫu)</span>}
+                  {a.isSample && <span className="text-xs text-amber-800">(mẫu)</span>}
                 </div>
                 {a.detail && <p className="text-gray-600 text-sm">{a.detail}</p>}
               </motion.li>

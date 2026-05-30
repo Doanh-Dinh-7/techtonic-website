@@ -1,5 +1,11 @@
 # TechTonic V2.0 Phase Plan
 
+> **Disclaimer:** This document describes **product/page delivery phases** from early V2 planning (Vietnamese).  
+> **Engineering refactor phases** (Foundation → Tooling → 3D → Release) are tracked in **[`REFACTOR_PROGRESS.md`](../../REFACTOR_PROGRESS.md)**.  
+> Current codebase layout: **[`PROJECT_STRUCTURE.md`](../../PROJECT_STRUCTURE.md)** and **[`ARCHITECTURE.md`](../../ARCHITECTURE.md)**.
+
+---
+
 ## Phase 1: Foundation & 3D Setup
 
 Muc tieu: xay nen tang 3D va Design System moi cho toan bo V2.0 truoc khi refactor tung page.

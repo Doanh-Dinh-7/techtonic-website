@@ -127,7 +127,7 @@ export function DepartmentsContent() {
                               {dept.name}
                             </h3>
                             {dept.isSample && (
-                              <span className="text-xs text-amber-600 font-normal">(mẫu)</span>
+                              <span className="text-xs text-amber-800 font-normal">(mẫu)</span>
                             )}
                           </div>
                           <p className="text-gray-600 text-sm md:text-base leading-relaxed">
