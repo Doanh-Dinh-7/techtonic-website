@@ -28,7 +28,10 @@ describe("Route section smoke", () => {
   it("events: renders page hero title", () => {
     render(<EventsPageContent />);
 
-    expect(screen.getByRole("heading", { name: /Lịch trình & cộng đồng/i })).toBeInTheDocument();
-    expect(screen.getByText(/Sự kiện & Hoạt động/i)).toBeInTheDocument();
+    expect(screen.getByRole("heading", { name: /Hoạt động/i, level: 1 })).toBeInTheDocument();
+    expect(
+      screen.getByRole("heading", { name: /Hoạt động học thuật hằng tuần/i })
+    ).toBeInTheDocument();
+    expect(screen.getByRole("heading", { name: /Hoạt động & sự kiện/i })).toBeInTheDocument();
   });
 });

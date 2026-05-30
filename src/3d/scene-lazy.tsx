@@ -13,3 +13,11 @@ export const BackgroundSceneLazy = dynamic(
     })),
   { ssr: false, loading: () => fallback }
 );
+
+export const EventsHeroSceneLazy = dynamic(
+  () =>
+    import("@/3d/scenes/events-hero-scene").then((module) => ({
+      default: module.EventsHeroScene,
+    })),
+  { ssr: false, loading: () => fallback }
+);

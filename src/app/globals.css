@@ -168,6 +168,87 @@
       linear-gradient(90deg, rgba(0, 245, 255, 0.08) 1px, transparent 1px);
     background-size: 48px 48px;
   }
+
+  .events-timeline-line {
+    width: 2px;
+    background-color: #111827;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+
+  .events-hover-reveal {
+    position: relative;
+    overflow: hidden;
+  }
+
+  .events-hover-reveal-img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    opacity: 0;
+    transition: opacity 0.5s ease;
+    z-index: 0;
+    pointer-events: none;
+  }
+
+  .events-hover-reveal:hover .events-hover-reveal-img,
+  .events-hover-reveal:focus-within .events-hover-reveal-img {
+    opacity: 0.2;
+  }
+
+  .events-hover-reveal-content {
+    position: relative;
+    z-index: 1;
+  }
+
+  .events-masonry-item {
+    transition:
+      transform 0.5s cubic-bezier(0.4, 0, 0.2, 1),
+      filter 0.5s ease,
+      opacity 0.5s ease,
+      box-shadow 0.5s ease;
+    cursor: pointer;
+  }
+
+  .events-masonry-container:hover .events-masonry-item:not(:hover):not(:focus-within) {
+    opacity: 0.4;
+    filter: grayscale(0.5) blur(2px);
+  }
+
+  .events-masonry-item:hover,
+  .events-masonry-item:focus-within {
+    transform: scale(1.05) translateY(-10px);
+    z-index: 20;
+    box-shadow: 0 0 30px rgba(0, 245, 255, 0.3);
+  }
+
+  .events-masonry-item:hover .events-moment-glow,
+  .events-masonry-item:focus-within .events-moment-glow {
+    opacity: 1;
+  }
+
+  .events-masonry-item:hover .events-moment-label,
+  .events-masonry-item:focus-within .events-moment-label {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .events-masonry-container:hover .events-masonry-item:not(:hover):not(:focus-within) {
+    opacity: 1;
+    filter: none;
+  }
+
+  .events-masonry-item:hover,
+  .events-masonry-item:focus-within {
+    transform: none;
+  }
 }
 
 /* Smooth scrolling for the entire page */

@@ -34,10 +34,17 @@ export const PAGE_SEO = {
   },
   events: {
     path: "/events",
-    title: "Sự kiện & hoạt động",
+    title: "Hoạt động & sự kiện",
     description:
-      "Lịch workshop, hoạt động nội bộ và tin công nghệ từ TechTonic Club — UEH Đà Nẵng.",
-    keywords: ["sự kiện", "workshop", "hoạt động CLB", "TechTonic"],
+      "Hoạt động học thuật hằng tuần, sinh hoạt Happy Hour, chuỗi sự kiện cố định mỗi nhiệm kỳ (Mentor-Mentee, TechXplore, Tech Threads, TechWare) — TechTonic Club UEH Đà Nẵng.",
+    keywords: [
+      "hoạt động CLB",
+      "Happy Hour",
+      "TechXplore",
+      "Mentor Mentee",
+      "TechTonic",
+      "UEH Đà Nẵng",
+    ],
   },
   portfolio: {
     path: "/portfolio",

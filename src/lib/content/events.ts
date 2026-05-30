@@ -1,7 +1,9 @@
-/** Lịch workshop / sự kiện — mẫu. */
-import type { WorkshopEvent } from "./types";
+/** Hoạt động & sự kiện — nội dung trang /events */
+import type { AcademicActivity, TermEvent, TermEventGalleryItem } from "./types";
 
-export const upcomingWorkshops: WorkshopEvent[] = [
+export const PLACEHOLDER_IMAGE = "/placeholder.svg";
+
+export const upcomingWorkshops = [
   {
     id: "e1",
     title: "Git & GitHub cho người mới",
@@ -19,3 +21,373 @@ export const upcomingWorkshops: WorkshopEvent[] = [
     isSample: true,
   },
 ];
+
+export const weeklyAcademicIntroShort =
+  "Học tập, chia sẻ và thực hành chuyên môn qua các buổi học thuật định kỳ hằng tuần.";
+
+/** Bản đầy đủ — dùng khi mở rộng (tùy chọn) */
+export const weeklyAcademicIntro =
+  "Các hoạt động học thuật được tổ chức định kỳ hằng tuần nhằm tạo môi trường học tập, chia sẻ và phát triển kiến thức cho thành viên câu lạc bộ. Đây là nơi các bạn có thể cùng nhau học hỏi, trao đổi kinh nghiệm, thực hành kỹ năng và xây dựng nền tảng chuyên môn thông qua những nội dung mang tính ứng dụng và thực tiễn.";
+
+export const academicActivities: AcademicActivity[] = [
+  {
+    id: "fe",
+    icon: "web",
+    title: "Chuyên môn FE",
+    summary: "Xây dựng giao diện và trải nghiệm người dùng với công nghệ Front-end phổ biến.",
+    description:
+      "Nhóm chuyên môn Front-end tập trung vào việc xây dựng giao diện và trải nghiệm người dùng cho website và ứng dụng. Thành viên sẽ được học tập, thực hành các công nghệ Front-end phổ biến, phát triển tư duy thiết kế giao diện và nâng cao khả năng xây dựng các sản phẩm trực quan, hiện đại và thân thiện với người dùng.",
+    tags: ["Front-end", "Hằng tuần"],
+    accent: "violet",
+  },
+  {
+    id: "be",
+    icon: "dns",
+    title: "Chuyên môn BE",
+    summary: "Hệ thống, API và cơ sở dữ liệu phía máy chủ qua học tập và dự án thực tế.",
+    description:
+      "Nhóm chuyên môn Back-end tập trung vào xử lý hệ thống, cơ sở dữ liệu và logic vận hành phía máy chủ. Thông qua các hoạt động học tập và dự án thực tế, thành viên sẽ được tiếp cận với quy trình xây dựng hệ thống, API, quản lý dữ liệu và các kiến thức nền tảng quan trọng trong phát triển phần mềm.",
+    tags: ["Back-end", "Hằng tuần"],
+    accent: "blue",
+  },
+  {
+    id: "ai-data",
+    icon: "psychology",
+    title: "Chuyên môn AI&Data",
+    summary: "Dữ liệu, phân tích và Machine Learning — ứng dụng AI vào thực tế.",
+    description:
+      "Nhóm chuyên môn AI & Data hướng đến việc tìm hiểu và ứng dụng các công nghệ liên quan đến dữ liệu và trí tuệ nhân tạo. Thành viên sẽ được tiếp cận với các kiến thức về xử lý dữ liệu, phân tích dữ liệu, Machine Learning và các xu hướng công nghệ mới, từ đó phát triển tư duy nghiên cứu và khả năng ứng dụng AI vào thực tế.",
+    tags: ["AI & Data", "Hằng tuần"],
+    accent: "emerald",
+  },
+  {
+    id: "cslt-csdl",
+    icon: "database",
+    title: "Khóa chia sẻ hướng dẫn CSLT và CSDL",
+    summary: "Hỗ trợ sinh viên củng cố CSLT & CSDL qua buổi chia sẻ thực hành.",
+    description:
+      "Chuỗi hoạt động học thuật được tổ chức nhằm hỗ trợ sinh viên tiếp cận và củng cố kiến thức về Cơ sở lập trình (CSLT) và Cơ sở dữ liệu (CSDL). Nội dung được xây dựng theo hướng dễ hiểu, thực tiễn và bám sát quá trình học tập, giúp các bạn phát triển tư duy lập trình, kỹ năng xử lý dữ liệu và xây dựng nền tảng cần thiết cho các định hướng chuyên sâu trong lĩnh vực công nghệ thông tin.",
+    tags: ["Học thuật", "Hằng tuần"],
+    accent: "cyan",
+  },
+  {
+    id: "product-team",
+    icon: "groups",
+    title: "Báo cáo đội dự án - Product Team",
+    summary: "Báo cáo tiến độ đội dự án, góp ý chuyên môn và rèn kỹ năng thuyết trình.",
+    description:
+      "Hoạt động báo cáo của Product Team được tổ chức định kỳ nhằm cập nhật tiến độ, kết quả thực hiện và quá trình phát triển của các đội dự án trong câu lạc bộ. Đây là cơ hội để các thành viên trình bày ý tưởng, chia sẻ quá trình xây dựng sản phẩm, nhận góp ý chuyên môn và cải thiện kỹ năng làm việc nhóm, tư duy sản phẩm cũng như khả năng thuyết trình. Thông qua các buổi báo cáo, thành viên không chỉ được học hỏi từ trải nghiệm thực tế mà còn từng bước tiếp cận môi trường làm việc và quy trình phát triển sản phẩm chuyên nghiệp.",
+    tags: ["Product Team", "Báo cáo"],
+    accent: "amber",
+    colSpan: "wide",
+  },
+];
+
+export const happyHourCopy = {
+  title: "Sinh hoạt hằng tháng Happy Hour",
+  backgroundImage:
+    "https://scontent.fsgn2-4.fna.fbcdn.net/v/t39.30808-6/571012057_122192539820523479_7438619101816799519_n.jpg?_nc_cat=101&ccb=1-7&_nc_sid=127cfc&_nc_eui2=AeE-8SSfNJRliEayrwCFUwgnuGd2bERNpny4Z3ZsRE2mfMzqDQrbm5KCbykRxFrogE9F0A7KZUrlmBkhoLr1MpMA&_nc_ohc=PRXONWiW22cQ7kNvwG06uEO&_nc_oc=Adq8xSWnnqk4J_E9EkUKqw94cs8naYksWHQ6xGJc6VEV2t9M7derWDcQmGqYB0M0SIl7aZmIu3t7Jct0IqVJ9tnL&_nc_pt=1&_nc_zt=23&_nc_ht=scontent.fsgn2-4.fna&_nc_gid=d_DcB92M8sp3b4EBIcGzfQ&_nc_ss=7b2a8&oh=00_Af6s67UMKK1L8c8U4UmYOqkAIyO-D3fEJGU_Co7malVmgQ&oe=6A20F1B8",
+  backgroundImageAlt: "Thành viên TechTonic trong buổi sinh hoạt Happy Hour.",
+  summary: "Sinh hoạt tháng — giao lưu, chia sẻ và gắn kết đội ngũ sau giờ học và làm việc.",
+  description:
+    "Happy Hour là hoạt động sinh hoạt hằng tháng nhằm tạo không gian kết nối, giao lưu và gắn kết giữa các thành viên trong câu lạc bộ. Đây là dịp để mọi người cùng nhìn lại hành trình hoạt động, chia sẻ những câu chuyện, trải nghiệm và thư giãn sau khoảng thời gian học tập, làm việc. Không chỉ mang đến bầu không khí thoải mái và gần gũi, Happy Hour còn góp phần xây dựng tinh thần đồng đội và tạo nên những kỷ niệm đáng nhớ trong hành trình đồng hành cùng câu lạc bộ.",
+};
+
+export const termEvents: TermEvent[] = [
+  {
+    id: "mentor-mentee",
+    order: 1,
+    label: "Sự kiện mở đầu",
+    title: "Mentor - Mentee",
+    summary: "From Us To You — định hướng sinh viên và giới thiệu TechTonic.",
+    tagline:
+      "From Us To You — Giúp định hướng phát triển cho sinh viên và giới thiệu câu lạc bộ TechTonic.",
+    description:
+      "From Us To You — Giúp định hướng phát triển cho sinh viên và giới thiệu câu lạc bộ TechTonic.",
+    detailSections: [
+      {
+        id: "mentor-goals",
+        title: "🎯 Mục tiêu",
+        items: [
+          "📍 Nâng cao hình ảnh CLB đối với tân sinh viên nói riêng và với sinh viên Trường Đại học Kinh Tế - Đại học Đà Nẵng nói chung.",
+          "📍Hỗ trợ sinh viên Trường Đại học Kinh Tế - Đại học Đà Nẵng có một định hướng phát triển cá nhân tốt hơn trong môi trường đại học, đặc biệt tân sinh viên và sinh viên các ngành liên quan đến CNTT.",
+          "📍Giúp sinh viên biết đến câu lạc bộ TechTonic trước khi tổ chức chương trình tuyển thành viên.",
+        ],
+      },
+      {
+        id: "mentor-audience",
+        title: "👥 Đối tượng",
+        items: [
+          "📍 Sinh viên năm 1 và năm 2 Trường Đại học Kinh Tế - Đại học Đà Nẵng, ưu tiên sinh viên các ngành có yếu tố CNTT.",
+        ],
+      },
+      {
+        id: "mentor-content",
+        title: "📚 Nội dung",
+        items: [
+          "📍 Chuỗi chương trình mang tính chất chào đón tân sinh viên ngắn nhưng tập trung vào giá trị thật.",
+          "📍 Các nội dung tổ chức phải gần gũi và tạo điều kiện để sinh viên ngoài CLB và thành viên CLB tham gia cùng nhau.",
+          "📍 Nội dung chương trình phải đẩy được tinh thần tuổi trẻ, muốn trải nghiệm, muốn khám phá của sinh viên.",
+          "📍 Nâng cao hình ảnh câu lạc bộ.",
+        ],
+      },
+    ],
+    side: "left",
+    accent: "blue",
+    imageSrc:
+      "https://scontent.fsgn2-9.fna.fbcdn.net/v/t39.30808-6/544608447_122181711236523479_7948592787458728470_n.jpg?_nc_cat=106&ccb=1-7&_nc_sid=f727a1&_nc_eui2=AeEtKqaZ8znQ5v2WxbLDKRdKbf3WGDeAneJt_dYYN4Cd4mpIS7O0_LYdgMqaGw1mdnOIHkiG5GIt40fl2LZuXgeR&_nc_ohc=hjfgqyxxGfoQ7kNvwHuxEwg&_nc_oc=AdopGCN4jgadlMANtmwdilL97OtOX6J5ym6wG_6gUev6y721f0ez-8FB4bjLzg6rhbn_3ThkLer3Jn6ITLbQfjZU&_nc_pt=1&_nc_zt=23&_nc_ht=scontent.fsgn2-9.fna&_nc_gid=XamUPwEJihe8NuD2Y4iKNA&_nc_ss=7b2a8&oh=00_Af7qg-cN5DV2TAdDNvzCPZynazoIO4XPnkeZFbBNx3z8ZA&oe=6A20F291",
+    imageAlt: "Chương trình Mentor - Mentee, From Us To You.",
+  },
+  {
+    id: "techxplore",
+    order: 2,
+    label: "Tuyển thành viên",
+    title: "TechXplore",
+    summary: "Tuyển thành viên tự do & Ban chủ nhiệm qua các vòng đơn, PV, training.",
+    tagline:
+      "Giúp tuyển thành viên câu lạc bộ TechTonic (Tự do và Ban chủ nhiệm) cho mỗi nhiệm kỳ, bao gồm tuyển chọn và đào tạo qua các vòng.",
+    description:
+      "Giúp tuyển thành viên câu lạc bộ TechTonic (Tự do và Ban chủ nhiệm) cho mỗi nhiệm kỳ, bao gồm tuyển chọn và đào tạo qua các vòng.",
+    detailSections: [
+      {
+        id: "techxplore-free",
+        title: "📌 Thành viên tự do",
+        items: [
+          "🎯 Mục tiêu: Xây dựng đội ngũ thành viên cho câu lạc bộ.",
+          "👥 Định hướng đối tượng tham gia: Sinh viên năm 1 và năm 2 Trường Đại học Kinh Tế - Đại học Đà Nẵng, ưu tiên sinh viên các ngành có yếu tố CNTT.",
+          "📚 Nội dung: Vòng đơn và vòng phỏng vấn.",
+        ],
+      },
+      {
+        id: "techxplore-bcn",
+        title: "📌 Thành viên Ban chủ nhiệm",
+        items: [
+          "🎯 Mục tiêu: Xây dựng đội ngũ thành viên BCN câu lạc bộ.",
+          "👥 Đối tượng tham gia: Sinh viên năm 1 và năm 2 Trường Đại học Kinh Tế - Đại học Đà Nẵng, ưu tiên sinh viên các ngành có yếu tố CNTT (có thể là thành viên hoặc chưa là thành viên CLB).",
+          "📚 Nội dung: Vòng đơn, vòng phỏng vấn, vòng training và vòng thực tập.",
+        ],
+        note: "Tuyển thành viên tự do và thành viên ban chủ nhiệm phải được tuyển cùng lúc để tận dụng tối đa nguồn sinh viên của trường Đại học Kinh Tế - Đại học Đà Nẵng. Nên tuyển trước các câu lạc bộ, liên chi đoàn có cùng tệp thành viên mục tiêu như CLB I-Design, LCĐ Khoa Thương Mại Điện Tử, LCĐ Khoa Thống kê - Tin học.",
+      },
+    ],
+    side: "right",
+    accent: "emerald",
+    imageSrc:
+      "https://scontent.fsgn2-7.fna.fbcdn.net/v/t39.30808-6/555929771_122188846910523479_689079824838183191_n.jpg?_nc_cat=108&ccb=1-7&_nc_sid=f727a1&_nc_eui2=AeGN4RpcMegl-V7ogssqDXWRpO6sGVZgB3Ck7qwZVmAHcCEsuURakkjiC3P61yRoN0vFTBSIlS2z2Fh10YdF0m4y&_nc_ohc=fEdLVmIleeIQ7kNvwGSAo9O&_nc_oc=AdpjXNOldpgKiGXz6wI31U0vpg5fzvkr76zfbXcytuGvG5xpJjxESfH3cjEy3J0s8koKHcHjSO4RVMprCMOgvxDD&_nc_pt=1&_nc_zt=23&_nc_ht=scontent.fsgn2-7.fna&_nc_gid=GbBJOenPhJEqZIDuQOCDAQ&_nc_ss=7b2a8&oh=00_Af5ydtRX9t3v62Je0UHBMn3InJR5V5KT382JxtU8hnNJcA&oe=6A210570",
+    imageAlt: "Chương trình tuyển thành viên TechXplore.",
+  },
+  {
+    id: "tech-threads",
+    order: 3,
+    label: "Kết nối nội bộ 1",
+    title: "Tech Threads",
+    summary: "Chào đón tân thành viên — kết nối nội bộ lần 1.",
+    tagline: "Chào đón thành viên mới — hoạt động kết nối nội bộ lần 1.",
+    description: "Chào đón thành viên mới — hoạt động kết nối nội bộ lần 1.",
+    detailSections: [
+      {
+        id: "threads-goals",
+        title: "🎯 Mục tiêu",
+        items: ["📍 Kết nối thành viên câu lạc bộ, được xem là hoạt động kết nối nội bộ lần 1."],
+      },
+      {
+        id: "threads-audience",
+        title: "👥 Đối tượng tham gia",
+        items: ["Thành viên câu lạc bộ.", "Trọng tâm đặt vào tân thành viên."],
+      },
+      {
+        id: "threads-content",
+        title: "📚 Nội dung",
+        items: [
+          "📍 Các thành viên CLB có chương trình đầu tiên tham gia cùng nhau sau khi trở thành thành viên câu lạc bộ.",
+        ],
+      },
+    ],
+    side: "left",
+    accent: "amber",
+    imageSrc:
+      "https://scontent.fsgn2-9.fna.fbcdn.net/v/t39.30808-6/603902636_122205225266523479_8892293032107889277_n.jpg?_nc_cat=103&ccb=1-7&_nc_sid=127cfc&_nc_eui2=AeFkgoLw1ceVa4uLUnTiCeiOcuwh6J1qqYly7CHonWqpifX1cbz9qm9ECdOgb0Q8O41svEPg32je8ChlIbaKMlQr&_nc_ohc=fzb6s2WFSkUQ7kNvwEZoXBD&_nc_oc=AdoQY-3BW7ZgDTPfJIiKL-rUpvW4kYFO9cTno7n9Q39_BcalYO2iRvMrc9W8hwPgvx3sRF0p4mjJPVhGtwJt0AO9&_nc_pt=1&_nc_zt=23&_nc_ht=scontent.fsgn2-9.fna&_nc_gid=XOGyocvs3MfP01W0wo5mhQ&_nc_ss=7b2a8&oh=00_Af71gD8zJ4QQlZqnH9BG4eoPKRAbDKw8_KLoKJSEBB7zBg&oe=6A20F008",
+    imageAlt: "Chương trình Tech Threads chào đón thành viên mới.",
+  },
+  {
+    id: "volunteer",
+    order: 4,
+    label: "Kết nối nội bộ 2",
+    title: "Tình nguyện Đông - Xuân",
+    summary: "Thiện nguyện và gắn kết sâu — kết nối nội bộ lần 2.",
+    tagline:
+      "Chương trình kết nối thành viên câu lạc bộ TechTonic thông qua hoạt động thiện nguyện.",
+    description:
+      "Chương trình kết nối thành viên câu lạc bộ TechTonic thông qua hoạt động thiện nguyện.",
+    detailSections: [
+      {
+        id: "volunteer-goals",
+        title: "🎯 Mục tiêu",
+        items: [
+          '📍 Tiếp bước tinh thần thanh niên, "Nơi cần thanh niên có, nơi khó có thanh niên".',
+          '📍 Giữ vững truyền thống tốt đẹp "Lá lành đùm lá rách" của dân tộc.',
+          "📍 Chương trình kết nối thành viên có chiều sâu nhất, được xem là hoạt động kết nối nội bộ lần 2.",
+        ],
+      },
+      {
+        id: "volunteer-audience",
+        title: "👥 Đối tượng tham gia",
+        items: [
+          "📍 Ưu tiên thành viên câu lạc bộ TechTonic.",
+          "📍 Sinh viên trường Đại học Kinh Tế - Đại học Đà Nẵng.",
+        ],
+      },
+      {
+        id: "volunteer-content",
+        title: "📚 Nội dung",
+        items: [
+          "📍 Gây quỹ (thuộc hoạt động gây quỹ).",
+          "📍 Đóng quân tại địa phương tổ chức thiện nguyện.",
+        ],
+      },
+    ],
+    side: "right",
+    accent: "pink",
+    imageSrc:
+      "https://scontent.fsgn2-6.fna.fbcdn.net/v/t39.30808-6/557984991_122189707874523479_8246930334105696631_n.jpg?_nc_cat=111&ccb=1-7&_nc_sid=f727a1&_nc_eui2=AeGFdv5jYkkoVE3iIFzbHEDMojkG60porveiOQbrSmiu92ZUzhpECH7HRHJskxTXg-kIbZZb0eTmkOiuhls3IBMy&_nc_ohc=wQgURTzHHvsQ7kNvwH5LJTR&_nc_oc=Adp5xujsqFPISS4aFHGPXojlvp5Dr_4aXQAuNnY9E_aVdv8joe_4b5pCwEY_V5IHHUNVKl84X7mjb0NQCc4wkblQ&_nc_pt=1&_nc_zt=23&_nc_ht=scontent.fsgn2-6.fna&_nc_gid=__wb0kVHIZ2bE6H2HW9Y9w&_nc_ss=7b2a8&oh=00_Af66LenXImF35FK2sJFSGG4kgGV6uZ1Tiwlxpslqt1JkEA&oe=6A21112E",
+    imageAlt: "Chương trình thiện nguyện Đông - Xuân.",
+  },
+  {
+    id: "techware",
+    order: 5,
+    label: "Kết nối nội bộ 3",
+    title: "Team Bonding - TechWare",
+    summary: "Team bonding ganh đua trực tiếp — kết nối nội bộ lần 3.",
+    tagline: "Chương trình Team Bonding gắn kết gần gũi giữa các thành viên câu lạc bộ TechTonic.",
+    description:
+      "Chương trình Team Bonding gắn kết gần gũi giữa các thành viên câu lạc bộ TechTonic.",
+    detailSections: [
+      {
+        id: "techware-goals",
+        title: "🎯 Mục tiêu",
+        items: ["📍 Kết nối thành viên câu lạc bộ, được xem là hoạt động kết nối nội bộ lần 3."],
+      },
+      {
+        id: "techware-audience",
+        title: "👥 Đối tượng tham gia",
+        items: ["📍 Thành viên câu lạc bộ.", "📍 Cựu thành viên trước một nhiệm kỳ."],
+      },
+      {
+        id: "techware-content",
+        title: "📚 Nội dung",
+        items: [
+          "📍 Các thành viên CLB phải có khoảng thời gian đủ dài tham gia hoạt động cùng nhau và các hoạt động phải có tính chất ganh đua trực tiếp để tạo sự gắn kết giữa các thành viên.",
+        ],
+      },
+    ],
+    side: "left",
+    accent: "violet",
+    imageSrc:
+      "https://scontent.fsgn2-7.fna.fbcdn.net/v/t39.30808-6/659710996_122221397852523479_1250077106361322544_n.jpg?_nc_cat=100&ccb=1-7&_nc_sid=127cfc&_nc_eui2=AeEI-uVvudSYXEr86z9xMnBBZtLxoyfkQsdm0vGjJ-RCx_qdskdtSnwS1ylrzOHbESl3PG5OL973RVJLB9kWNQEf&_nc_ohc=pg2ubiff6gYQ7kNvwFSO0wg&_nc_oc=AdpprjfF9lxd2C-kg5KInLBBFp8byDObvNDSPFkbo4mmi_jI2NN9CWdUNXFzkdBECzqzoeeyXmbPfNc49voc_Jgw&_nc_pt=1&_nc_zt=23&_nc_ht=scontent.fsgn2-7.fna&_nc_gid=06_sDNNl-crRQCqZ63KK8A&_nc_ss=7b2a8&oh=00_Af5dAggQlkbRfDciydg37JYm3udEflEQLd02aA3-To9o-g&oe=6A20FE2D",
+    imageAlt: "Hoạt động Team Bonding TechWare.",
+  },
+  {
+    id: "closing",
+    order: 6,
+    label: "Tổng kết",
+    title: "Kiện toàn Câu lạc bộ TechTonic",
+    summary: "Tổng kết nhiệm kỳ và công bố Ban chủ nhiệm mới.",
+    tagline: "Chương trình công bố Ban chủ nhiệm nhiệm kỳ mới.",
+    description: "Chương trình công bố Ban chủ nhiệm nhiệm kỳ mới.",
+    detailSections: [
+      {
+        id: "closing-goals",
+        title: "🎯 Mục tiêu",
+        items: ["📍 Tổng kết nhiệm kỳ.", "📍 Công bố ban chủ nhiệm nhiệm kỳ mới của câu lạc bộ."],
+      },
+      {
+        id: "closing-audience",
+        title: "👥 Đối tượng tham gia",
+        items: ["📍 Toàn thể thành viên ban chủ nhiệm.", "📍 Đại diện hội sinh viên."],
+      },
+      {
+        id: "closing-content",
+        title: "📚 Nội dung",
+        items: [
+          "📍 Tổng kết nhiệm kỳ — những gì đã làm tốt và những gì chưa tốt.",
+          "📍 Chọn ra ban chủ nhiệm nhiệm kỳ mới của câu lạc bộ.",
+        ],
+      },
+    ],
+    side: "right",
+    accent: "orange",
+    imageSrc:
+      "https://res.cloudinary.com/dggsvq2tw/image/upload/v1780167010/KI%E1%BB%86N_TO%C3%80N_xloz9y.jpg",
+    imageAlt: "Lễ kiện toàn câu lạc bộ TechTonic.",
+  },
+];
+
+/** Ảnh riêng cho section Thư viện ảnh — không dùng chung `imageSrc` timeline */
+const termEventGalleryMedia: Record<
+  TermEvent["id"],
+  Pick<TermEventGalleryItem, "imageSrc" | "imageAlt">
+> = {
+  "mentor-mentee": {
+    imageSrc:
+      "https://scontent.fsgn2-3.fna.fbcdn.net/v/t39.30808-6/547500289_122184880988523479_6073714068090239004_n.jpg?_nc_cat=107&ccb=1-7&_nc_sid=f727a1&_nc_eui2=AeHsbCHC0iV0KXQxhaz_eGu_zEj7Tx7waOLMSPtPHvBo4oLex1xPizKptBR5c_tXiwLzhhPptogamulr_MSE17xu&_nc_ohc=gq9FDXjLwfcQ7kNvwEPhv5U&_nc_oc=AdoN1T2Df5yuCxdlANZ994t0rdFinE3O-w15iZD06qp6SqA3w72Xlhc78GSOl30UBAUtgLul8u-XUGGTuGIIpN9L&_nc_pt=1&_nc_zt=23&_nc_ht=scontent.fsgn2-3.fna&_nc_gid=ZxUNShLRSmg0vYk4xAjKpw&_nc_ss=7b2a8&oh=00_Af7Os9n-tTT5kzNXb2ppkeJA8VPxrQ_cuGss9gJypG4fqA&oe=6A20EF19",
+    imageAlt: "Khoảnh khắc chương trình Mentor - Mentee.",
+  },
+  techxplore: {
+    imageSrc:
+      "https://scontent.fsgn2-10.fna.fbcdn.net/v/t39.30808-6/561178800_122191134416523479_84984601107235912_n.jpg?_nc_cat=109&ccb=1-7&_nc_sid=127cfc&_nc_eui2=AeFB84sW57cHAK9wdlJxzZnNcGEpvg7vDhlwYSm-Du8OGdWaeZPyOWBo6SBitkspAvxS3B1zcumgSJ-FkAmLZBws&_nc_ohc=PCf4XDfZVDcQ7kNvwGRZOy3&_nc_oc=AdrUGQBP5_bk8NDhtf0uaFj53qCPifMR4SQ3pcywoLV3wRvgGqKosNqxy-bdhawgtIee4yl9AbTwdGVghSEr3pQj&_nc_pt=1&_nc_zt=23&_nc_ht=scontent.fsgn2-10.fna&_nc_gid=sAXf8-XILgyr_1cnPXtwtg&_nc_ss=7b2a8&oh=00_Af4BhK3kQDXuOiIAPRKPxJMOu8C1XiHJo6fmKoimyycpcA&oe=6A20ED9F",
+    imageAlt: "Hoạt động tuyển thành viên TechXplore.",
+  },
+  "tech-threads": {
+    imageSrc:
+      "https://scontent.fsgn2-7.fna.fbcdn.net/v/t39.30808-6/608972096_122207047274523479_3685682196447257985_n.jpg?_nc_cat=100&ccb=1-7&_nc_sid=127cfc&_nc_eui2=AeFuIHJmBr-o18dTO7531sMvmuKZZ0I_wtSa4plnQj_C1GbSDGk8cEk2jgOAa_6N88j-eTorlwq6CEv3zCZWhCIb&_nc_ohc=0D-ganUmyHoQ7kNvwEnGO83&_nc_oc=Adorzosn2l3RkwohVBFDvn6riGaZ5bBHDsOKKbYeApiUOudw-ppZtfjX0vDEPC6DuNr-tfcDlNAGmQWy58OOad38&_nc_pt=1&_nc_zt=23&_nc_ht=scontent.fsgn2-7.fna&_nc_gid=3Qh_BYy1iTomFjj9b9Rmug&_nc_ss=7b2a8&oh=00_Af7iH3TOlMTBMvvjUHdLVHBtoLkZIyXnqYmQ0WLs9fWy0A&oe=6A20FF33",
+    imageAlt: "Tech Threads — chào đón thành viên mới.",
+  },
+  volunteer: {
+    imageSrc:
+      "https://scontent.fsgn2-8.fna.fbcdn.net/v/t39.30808-6/558159593_122190077282523479_5187171086897198994_n.jpg?_nc_cat=102&ccb=1-7&_nc_sid=f727a1&_nc_eui2=AeEwOB4HtZtgZvtzBu0OQkHrknW7sPhCeWOSdbuw-EJ5Y-rLRs7uX4-opyJTotw0LuetVECLiEzYF3gwBvWN_lPF&_nc_ohc=lWZegAqSaZ8Q7kNvwGnjpre&_nc_oc=Adrv_grEBPOxYO-waJyAqZX6wZTERJKMcWmnSoaBpIbYXMgERB_P2im7KX1rILKpyEJ7DafOgzFVl8R8Q8mvwRXP&_nc_pt=1&_nc_zt=23&_nc_ht=scontent.fsgn2-8.fna&_nc_gid=Yg5pceVJ4bdpeGqyVyasKg&_nc_ss=7b2a8&oh=00_Af4lkEWXJtx7JdiuK4cvFT6uajeYmHlPob1lMkCuacGa2A&oe=6A21157C",
+    imageAlt: "Tình nguyện Đông - Xuân — kết nối thành viên.",
+  },
+  techware: {
+    imageSrc:
+      "https://scontent.fsgn2-5.fna.fbcdn.net/v/t39.30808-6/670732084_122223599762523479_8261431714282277834_n.jpg?_nc_cat=104&ccb=1-7&_nc_sid=127cfc&_nc_eui2=AeHzq21ndwfk1-UxwqnkANnq0lH0JH44DFzSUfQkfjgMXJsh8kEdDIh272_3cNYC4Jb46E1mwisAYLuqwp-3wle0&_nc_ohc=vUvtkNSGk3UQ7kNvwEXn2HL&_nc_oc=AdoXQdwgJMhVnsHE_uBIx4fogwaNfdTsyEaKFUBXzAYtViyUn76kU0Wc6jXfCjGcdxhNLYwx5ufNPB58eaDesy8b&_nc_pt=1&_nc_zt=23&_nc_ht=scontent.fsgn2-5.fna&_nc_gid=buPHUs4F7v8zK870AOxFCA&_nc_ss=7b2a8&oh=00_Af5xHpRCcO0oWfX9D99PyjGx53CjIrVbyXJ0GJLTJJeU2g&oe=6A20ED49",
+    imageAlt: "Team Bonding TechWare.",
+  },
+  closing: {
+    imageSrc: "https://res.cloudinary.com/dggsvq2tw/image/upload/v1780167022/DSC07863_lhevse.jpg",
+    imageAlt: "Lễ kiện toàn câu lạc bộ TechTonic.",
+  },
+};
+
+export const termEventGallery: TermEventGalleryItem[] = termEvents.map((event, index) => {
+  const media = termEventGalleryMedia[event.id];
+  return {
+    id: event.id,
+    order: event.order,
+    title: event.title,
+    imageSrc: media.imageSrc,
+    imageAlt: media.imageAlt,
+    glow: index % 2 === 0 ? "cyan" : "purple",
+    imageClassName:
+      index === 1 ? "h-[500px]" : index === 2 ? "h-[350px]" : index === 3 ? "h-[400px]" : undefined,
+  };
+});
+
+/** Masonry layout: 3 columns from term events */
+export const termEventGalleryColumns: TermEventGalleryItem[][] = [
+  [termEventGallery[0], termEventGallery[3]],
+  [termEventGallery[1], termEventGallery[4]],
+  [termEventGallery[2], termEventGallery[5]],
+];
+
+export const eventsHeroCopy = {
+  badge: "Hệ sinh thái TechTonic",
+  title: "Hoạt động",
+  description: "Học thuật hằng tuần, Happy Hour và 6 sự kiện cố định mỗi nhiệm kỳ.",
+  ctaSchedule: "Khám phá lịch trình",
+  ctaTimeline: "Chuỗi sự kiện nhiệm kỳ",
+};
+
+export const termGallerySectionCopy = {
+  title: "Thư viện ảnh",
+  description: "Khoảnh khắc từ các chương trình — ảnh gallery độc lập với timeline phía trên.",
+  cta: "Xem timeline đầy đủ",
+};
