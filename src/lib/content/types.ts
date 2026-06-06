@@ -59,6 +59,57 @@ export type WorkshopEvent = {
   isSample?: boolean;
 };
 
+export type ActivityAccent = "cyan" | "violet" | "blue" | "emerald" | "amber" | "pink" | "orange";
+
+export type AcademicActivityIcon = "database" | "web" | "dns" | "psychology" | "groups";
+
+export type AcademicActivity = {
+  id: string;
+  icon: AcademicActivityIcon;
+  title: string;
+  summary: string;
+  description: string;
+  tags: string[];
+  accent: ActivityAccent;
+  colSpan?: "wide";
+};
+
+export type TermEventSide = "left" | "right";
+
+export type ContentDetailSection = {
+  id: string;
+  title: string;
+  items: string[];
+  note?: string;
+};
+
+export type TermEvent = {
+  id: string;
+  order: number;
+  label: string;
+  title: string;
+  summary: string;
+  tagline: string;
+  description: string;
+  detailSections: ContentDetailSection[];
+  side: TermEventSide;
+  accent: ActivityAccent;
+  imageSrc: string;
+  imageAlt: string;
+};
+
+export type MomentGlow = "cyan" | "purple";
+
+export type TermEventGalleryItem = {
+  id: string;
+  order: number;
+  title: string;
+  imageSrc: string;
+  imageAlt: string;
+  glow: MomentGlow;
+  imageClassName?: string;
+};
+
 export type BlogTeaser = {
   id: string;
   title: string;

@@ -19,7 +19,7 @@ describe("Header", () => {
       screen.getAllByRole("navigation", { name: "Điều hướng chính" }).length
     ).toBeGreaterThanOrEqual(1);
     expect(screen.getByRole("link", { name: "Trang chủ" })).toHaveAttribute("href", "/");
-    expect(screen.getByRole("link", { name: "Sự kiện" })).toHaveAttribute("href", "/events");
+    expect(screen.getByRole("link", { name: "Hoạt động" })).toHaveAttribute("href", "/events");
     expect(screen.getByRole("link", { name: "Tuyển thành viên" })).toHaveAttribute(
       "href",
       "/recruitment"
@@ -29,7 +29,7 @@ describe("Header", () => {
   it("highlights active route", () => {
     render(<Header show onLogoClick={vi.fn()} />);
 
-    const eventsLink = screen.getByRole("link", { name: "Sự kiện" });
+    const eventsLink = screen.getByRole("link", { name: "Hoạt động" });
     expect(eventsLink.className).toMatch(/text-blue-600/);
   });
 
