@@ -48,9 +48,13 @@ export type AboutCoreValue = {
   layout?: "default" | "tall" | "wide" | "featured";
 };
 
+/** Cấp trong sơ đồ tổ chức: 1 = lãnh đạo, 2 = phó/trợ lý, 3 = thành viên. */
+export type AboutTeamLevel = 1 | 2 | 3;
+
 export type AboutTeamMember = {
   name: string;
   role: string;
+  level: AboutTeamLevel;
   image?: string;
   isPlaceholder?: boolean;
 };

@@ -2,7 +2,7 @@
 
 import { motion } from "framer-motion";
 
-import { TeamOrgLevel } from "@/features/about/components/team-org-level";
+import { TeamOrgChart } from "@/features/about/components/team-org-chart";
 import { useAboutTeamTabs } from "@/features/about/hooks/use-about-team-tabs";
 import { aboutTeamSectionCopy } from "@/lib/content/about";
 import { SectionShell } from "@/shared/ui-v2";
@@ -67,26 +67,11 @@ export function Team() {
                 className={termId === term.id && boardId === board.id ? "block" : "hidden"}
               >
                 <motion.div
-                  className="flex flex-col items-center"
                   initial={{ opacity: 0, y: 12 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.35 }}
                 >
-                  {board.hierarchy.map((level, levelIndex) => (
-                    <div key={levelIndex} className="flex w-full flex-col items-center">
-                      <TeamOrgLevel
-                        members={level}
-                        accent={levelIndex === 0 ? "cyan" : "violet"}
-                        size={levelIndex === 0 ? "lg" : "md"}
-                      />
-                      {levelIndex < board.hierarchy.length - 1 && (
-                        <div
-                          className="my-2 h-8 w-px bg-gradient-to-b from-neon-cyan/50 to-neon-purple/50"
-                          aria-hidden
-                        />
-                      )}
-                    </div>
-                  ))}
+                  <TeamOrgChart hierarchy={board.hierarchy} />
                 </motion.div>
               </div>
             ))}

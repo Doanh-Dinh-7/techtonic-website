@@ -4,9 +4,12 @@ import { motion } from "framer-motion";
 
 import { TimelineMilestoneCard } from "@/features/about/components/timeline-milestone-card";
 import { clubTimeline, clubTimelineFooter } from "@/lib/content/timeline";
+import { useShiftWheelHorizontalScroll } from "@/shared/hooks/use-shift-wheel-horizontal-scroll";
 import { cn } from "@/shared/utils";
 
 export function AboutTimeline() {
+  const scrollRef = useShiftWheelHorizontalScroll<HTMLDivElement>();
+
   return (
     <section
       id="about-timeline"
@@ -19,6 +22,7 @@ export function AboutTimeline() {
       </div>
 
       <motion.div
+        ref={scrollRef}
         className="about-timeline-scroll w-full overflow-x-auto"
         initial={{ opacity: 0 }}
         whileInView={{ opacity: 1 }}

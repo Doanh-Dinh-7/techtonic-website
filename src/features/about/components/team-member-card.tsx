@@ -1,6 +1,11 @@
 "use client";
 
 import type { AboutTeamMember } from "@/lib/content/types";
+import {
+  getAboutTeamCardSize,
+  getAboutTeamLevelAccent,
+  type AboutTeamLevelAccent,
+} from "@/features/about/lib/team-level";
 import { GlassCard } from "@/shared/ui-v2";
 import { cn } from "@/shared/utils";
 import { User } from "lucide-react";
@@ -8,19 +13,25 @@ import Image from "next/image";
 
 type TeamMemberCardProps = {
   member: AboutTeamMember;
-  accent?: "cyan" | "violet";
-  size?: "lg" | "md";
 };
 
-export function TeamMemberCard({ member, accent = "cyan", size = "lg" }: TeamMemberCardProps) {
-  const isCyan = accent === "cyan";
+const accentStyles: Record<
+  AboutTeamLevelAccent,
+  { glow: "cyan" | "purple" | "magenta"; text: string }
+> = {
+  cyan: { glow: "cyan", text: "text-neon-cyan" },
+  violet: { glow: "purple", text: "text-neon-purple" },
+  magenta: { glow: "magenta", text: "text-neon-magenta" },
+};
+
+export function TeamMemberCard({ member }: TeamMemberCardProps) {
+  const accent = getAboutTeamLevelAccent(member.level);
+  const size = getAboutTeamCardSize(member.level);
+  const { glow, text } = accentStyles[accent];
   const widthClass = size === "lg" ? "w-56" : "w-48";
 
   return (
-    <GlassCard
-      glow={isCyan ? "cyan" : "purple"}
-      className={cn("group flex flex-col overflow-hidden", widthClass)}
-    >
+    <GlassCard glow={glow} className={cn("group flex flex-col overflow-hidden", widthClass)}>
       <div className="relative aspect-square w-full overflow-hidden">
         {member.image && !member.isPlaceholder ? (
           <Image
@@ -41,7 +52,7 @@ export function TeamMemberCard({ member, accent = "cyan", size = "lg" }: TeamMem
         <h4
           className={cn(
             "font-utm-akashi text-base font-normal",
-            member.isPlaceholder ? "text-white/70" : isCyan ? "text-neon-cyan" : "text-neon-purple"
+            member.isPlaceholder ? "text-white/70" : text
           )}
         >
           {member.name}

@@ -4,13 +4,15 @@
 import { act, renderHook } from "@testing-library/react";
 import { describe, expect, it } from "vitest";
 
+import { resolveDefaultAboutTeamTermId } from "@/lib/content/about-team";
+
 import { useAboutTeamTabs } from "./use-about-team-tabs";
 
 describe("useAboutTeamTabs", () => {
-  it("defaults to 2024-2025 term and ban chu nhiem board", () => {
+  it("defaults to current academic term and ban chu nhiem board", () => {
     const { result } = renderHook(() => useAboutTeamTabs());
 
-    expect(result.current.termId).toBe("2024-2025");
+    expect(result.current.termId).toBe(resolveDefaultAboutTeamTermId());
     expect(result.current.boardId).toBe("ban-chu-nhiem");
     expect(result.current.activeBoard?.label).toBe("Ban Chủ nhiệm");
   });

@@ -259,6 +259,21 @@
     background: rgba(0, 245, 255, 0.35);
   }
 
+  .about-team-org-scroll {
+    scrollbar-width: thin;
+    scrollbar-color: rgba(0, 245, 255, 0.35) transparent;
+  }
+
+  .about-team-org-scroll::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
+
+  .about-team-org-scroll::-webkit-scrollbar-thumb {
+    border-radius: 9999px;
+    background: rgba(0, 245, 255, 0.35);
+  }
+
   .about-hero-mesh {
     background-color: #0a0a0a;
     background-image:
