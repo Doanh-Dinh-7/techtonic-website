@@ -3,7 +3,7 @@
 import { EventTimelineSection } from "./event-timeline-section";
 import { EventsHero } from "./events-hero";
 import { HappyHourSection } from "./happy-hour-section";
-import { MomentsGallerySection } from "./moments-gallery-section";
+import { StellarGallerySection } from "./stellar-gallery-section";
 import { WeeklyAcademicSection } from "./weekly-academic-section";
 
 export function EventsContent() {
@@ -13,7 +13,7 @@ export function EventsContent() {
       <WeeklyAcademicSection />
       <HappyHourSection />
       <EventTimelineSection />
-      <MomentsGallerySection />
+      <StellarGallerySection />
     </div>
   );
 }
