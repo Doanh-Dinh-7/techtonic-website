@@ -1,11 +1,13 @@
 "use client";
 
-import { AnimatePresence, motion } from "framer-motion";
-import { ChevronDown, ChevronRight, Code, Users } from "lucide-react";
+import { useState } from "react";
+import { motion } from "framer-motion";
+import { ChevronDown, ChevronRight, Users } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 
-import { HeroCanvasWithScene } from "@/3d/hero-media";
+import { WebGLFallback } from "@/3d/canvas/webgl-fallback";
+import { HeroRubiksCube } from "@/3d/hero-media";
 import { useHeroSection } from "@/features/home/hooks/use-hero-section";
 import { use3d } from "@/hooks/use3d";
 import { Badge, Button } from "@/shared/ui";
@@ -15,13 +17,13 @@ import { Badge, Button } from "@/shared/ui";
  */
 export function Hero() {
   const { shouldRenderMotion } = use3d();
-  const { currentHeroImage, heroImages, heroRef, heroScale, heroY, isLoaded, scrollToNext } =
-    useHeroSection();
+  const { heroRef, heroScale, heroY, isLoaded, shouldMountRubik, scrollToNext } = useHeroSection();
+  const [isRubikLoaded, setIsRubikLoaded] = useState(false);
 
   return (
     <section
       ref={heroRef}
-      className="relative flex min-h-screen items-center overflow-hidden bg-gradient-to-br from-[#3654a5] via-[#3db4e7] to-[#3ca2d8] text-white"
+      className="relative flex min-h-screen items-center overflow-hidden bg-gradient-to-br from-[#312e81] via-[#3756a6] to-[#0a0a0a] text-white"
     >
       <div className="absolute inset-0 bg-[url('/thumbnail.jpg')] bg-cover bg-center opacity-20" />
       <motion.div className="absolute inset-0 bg-black/20" style={{ y: heroY, scale: heroScale }} />
@@ -126,53 +128,24 @@ export function Hero() {
             </motion.div>
           </div>
           <motion.div
-            className="relative mx-auto w-full max-w-lg items-center justify-center lg:max-w-none"
-            initial={{ opacity: 0, x: 100 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ delay: 0.5, duration: 1 }}
+            className="relative mx-auto flex w-full max-w-[460px] items-center justify-center sm:max-w-[600px] md:max-w-[730px] lg:max-w-[860px] xl:max-w-[930px]"
+            initial={{ opacity: 0, scale: 1, y: 100 }}
+            animate={
+              isRubikLoaded ? { opacity: 1, scale: 1, y: 0 } : { opacity: 0, scale: 1, y: 100 }
+            }
+            transition={{ duration: 1.2, type: "spring", bounce: 0.3 }}
           >
-            <div className="aspect-square h-[300px] max-w-[500px] w-full overflow-hidden rounded-2xl shadow-2xl sm:h-[400px] md:h-[450px] lg:h-[500px]">
-              {shouldRenderMotion ? (
-                <HeroCanvasWithScene
+            <div className="relative aspect-square w-full">
+              {shouldRenderMotion && shouldMountRubik ? (
+                <HeroRubiksCube
                   className="absolute inset-0 h-full w-full"
                   fallbackClassName="min-h-full"
+                  onLoaded={() => setIsRubikLoaded(true)}
                 />
               ) : (
-                <AnimatePresence mode="sync">
-                  <motion.div
-                    key={currentHeroImage}
-                    initial={{ opacity: 0, scale: 1.1 }}
-                    animate={{ opacity: 1, scale: 1 }}
-                    exit={{ opacity: 0, scale: 0.9 }}
-                    transition={{ duration: 0.8 }}
-                    className="absolute inset-0"
-                  >
-                    <Image
-                      src={heroImages[currentHeroImage] || "/placeholder.svg"}
-                      alt="TechTonic Club Activities"
-                      fill
-                      sizes="(max-width: 1024px) 100vw, 500px"
-                      priority={currentHeroImage === 0}
-                      className="rounded-2xl object-cover"
-                    />
-                  </motion.div>
-                </AnimatePresence>
+                <WebGLFallback className="min-h-full" />
               )}
             </div>
-            <motion.div
-              className="absolute -bottom-3 -left-3 max-w-[200px] rounded-xl bg-white p-3 text-gray-800 shadow-lg sm:-bottom-4 sm:-left-4 sm:max-w-none sm:p-4 lg:-bottom-6 lg:-left-6"
-              initial={{ opacity: 0, scale: 0 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ delay: 1.5, duration: 0.6, type: "spring" }}
-            >
-              <div className="flex items-center gap-2">
-                <Code className="h-5 w-5 flex-shrink-0 text-blue-500 sm:h-6 sm:w-6" />
-                <div className="min-w-0">
-                  <p className="text-sm font-semibold sm:text-base">100+ thành viên</p>
-                  <p className="text-xs text-gray-600 sm:text-sm">Đam mê công nghệ</p>
-                </div>
-              </div>
-            </motion.div>
           </motion.div>
         </div>
       </div>

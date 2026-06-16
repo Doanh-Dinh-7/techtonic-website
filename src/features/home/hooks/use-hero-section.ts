@@ -17,6 +17,7 @@ const HERO_IMAGES = [
  */
 export function useHeroSection() {
   const [isLoaded, setIsLoaded] = useState(false);
+  const [shouldMountRubik, setShouldMountRubik] = useState(false);
   const [currentHeroImage, setCurrentHeroImage] = useState(0);
   const heroRef = useRef<HTMLElement | null>(null);
   const { scrollY } = useScroll();
@@ -27,6 +28,10 @@ export function useHeroSection() {
 
   useEffect(() => {
     setIsLoaded(true);
+    const timeout = setTimeout(() => {
+      setShouldMountRubik(true);
+    }, 800);
+    return () => clearTimeout(timeout);
   }, []);
 
   useEffect(() => {
@@ -52,8 +57,9 @@ export function useHeroSection() {
       heroScale,
       heroY,
       isLoaded,
+      shouldMountRubik,
       scrollToNext,
     }),
-    [currentHeroImage, heroScale, heroY, isLoaded, scrollToNext]
+    [currentHeroImage, heroScale, heroY, isLoaded, shouldMountRubik, scrollToNext]
   );
 }
