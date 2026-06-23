@@ -13,7 +13,7 @@ vi.mock("@/hooks/use3d", () => ({
 }));
 
 vi.mock("@/3d/hero-media", () => ({
-  HeroCanvasWithScene: () => <div data-testid="hero-3d-canvas" />,
+  HeroRubiksCube: () => <div data-testid="hero-rubiks-cube" />,
 }));
 
 vi.mock("@/features/home/hooks/use-hero-section", () => ({
@@ -24,6 +24,7 @@ vi.mock("@/features/home/hooks/use-hero-section", () => ({
     heroScale: 0,
     heroY: 0,
     isLoaded: true,
+    shouldMountRubik: true,
     scrollToNext: vi.fn(),
   }),
 }));
@@ -38,13 +39,13 @@ describe("Hero", () => {
     });
   });
 
-  it("renders image carousel when 3D motion is disabled", () => {
+  it("renders WebGL fallback when 3D motion is disabled", () => {
     render(<Hero />);
-    expect(screen.getByRole("img", { name: /TechTonic Club Activities/i })).toBeTruthy();
-    expect(screen.queryByTestId("hero-3d-canvas")).toBeNull();
+    expect(screen.getByLabelText(/TechTonic 3D experience fallback/i)).toBeTruthy();
+    expect(screen.queryByTestId("hero-rubiks-cube")).toBeNull();
   });
 
-  it("renders 3D canvas when shouldRenderMotion is true", () => {
+  it("renders Rubik's cube when shouldRenderMotion is true", () => {
     mockUse3d.mockReturnValue({
       reducedMotion: false,
       supportsWebGL: true,
@@ -54,7 +55,7 @@ describe("Hero", () => {
 
     render(<Hero />);
 
-    expect(screen.queryByRole("img", { name: /TechTonic Club Activities/i })).toBeNull();
-    expect(screen.getByTestId("hero-3d-canvas")).toBeTruthy();
+    expect(screen.queryByLabelText(/TechTonic 3D experience fallback/i)).toBeNull();
+    expect(screen.getByTestId("hero-rubiks-cube")).toBeTruthy();
   });
 });
