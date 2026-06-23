@@ -391,3 +391,140 @@ export const termGallerySectionCopy = {
   description: "Khoảnh khắc từ các chương trình — ảnh gallery độc lập với timeline phía trên.",
   cta: "Xem timeline đầy đủ",
 };
+
+export type StellarGalleryCard = {
+  id: string;
+  imageUrl: string;
+  alt: string;
+  title: string;
+};
+
+export const stellarGallerySectionCopy = {
+  badge: "Trải nghiệm 3D",
+  title: "Thư viện ảnh không gian",
+  description: "Khám phá khoảnh khắc TechTonic trong không gian 3D",
+  hint: "Kéo để xoay • Cuộn để zoom • Bấm thẻ để xem chi tiết",
+};
+
+export const stellarGalleryCards: StellarGalleryCard[] = [
+  {
+    id: "1",
+    imageUrl: "https://res.cloudinary.com/dggsvq2tw/image/upload/v1758206576/CSLT7_1_e6mce3.webp",
+    alt: "CSLT 1",
+    title: "CSLT",
+  },
+  {
+    id: "2",
+    imageUrl: "https://res.cloudinary.com/dggsvq2tw/image/upload/v1758206580/tx1_ukiv2f.webp",
+    alt: "TechXplore 1",
+    title: "TechXplore",
+  },
+  {
+    id: "3",
+    imageUrl: "https://res.cloudinary.com/dggsvq2tw/image/upload/v1758206559/CSLT3_3_al7vxr.webp",
+    alt: "CSLT 2",
+    title: "CSLT",
+  },
+  {
+    id: "4",
+    imageUrl: "https://res.cloudinary.com/dggsvq2tw/image/upload/v1758206575/tx2_mtobag.webp",
+    alt: "TechXplore 2",
+    title: "TechXplore",
+  },
+  {
+    id: "5",
+    imageUrl: "https://res.cloudinary.com/dggsvq2tw/image/upload/v1758206559/CSLT3_1_wlf7dl.webp",
+    alt: "CSLT 3",
+    title: "CSLT",
+  },
+  {
+    id: "6",
+    imageUrl: "https://res.cloudinary.com/dggsvq2tw/image/upload/v1758206576/tx3_fcyobt.webp",
+    alt: "TechXplore 3",
+    title: "TechXplore",
+  },
+  {
+    id: "7",
+    imageUrl: "https://res.cloudinary.com/dggsvq2tw/image/upload/v1758206556/CSLT7_3_voldl1.webp",
+    alt: "CSLT 4",
+    title: "CSLT",
+  },
+  {
+    id: "8",
+    imageUrl: "https://res.cloudinary.com/dggsvq2tw/image/upload/v1758206560/tx4_vgbytt.webp",
+    alt: "TechXplore 4",
+    title: "TechXplore",
+  },
+  {
+    id: "9",
+    imageUrl: "https://res.cloudinary.com/dggsvq2tw/image/upload/v1758206560/mm1_bk4o4u.webp",
+    alt: "Mentor-Mentee 1",
+    title: "Mentor-Mentee",
+  },
+  {
+    id: "10",
+    imageUrl: "https://res.cloudinary.com/dggsvq2tw/image/upload/v1758206577/mm2_gewykm.webp",
+    alt: "Mentor-Mentee 2",
+    title: "Mentor-Mentee",
+  },
+  {
+    id: "11",
+    imageUrl: "https://res.cloudinary.com/dggsvq2tw/image/upload/v1758206578/mm6_nvs60b.webp",
+    alt: "Mentor-Mentee 3",
+    title: "Mentor-Mentee",
+  },
+  {
+    id: "12",
+    imageUrl: "https://res.cloudinary.com/dggsvq2tw/image/upload/v1758206574/ntnm1_p4uehk.webp",
+    alt: "Người trong ngành MIS 1",
+    title: "Người trong ngành MIS",
+  },
+  {
+    id: "13",
+    imageUrl: "https://res.cloudinary.com/dggsvq2tw/image/upload/v1758206580/ntnm2_pj15jw.webp",
+    alt: "Người trong ngành MIS 2",
+    title: "Người trong ngành MIS",
+  },
+  {
+    id: "14",
+    imageUrl: "https://res.cloudinary.com/dggsvq2tw/image/upload/v1758206578/tw1_egckia.webp",
+    alt: "TechWare 1",
+    title: "TechWare",
+  },
+  {
+    id: "15",
+    imageUrl: "https://res.cloudinary.com/dggsvq2tw/image/upload/v1758206561/tw2_plxjv3.webp",
+    alt: "TechWare 2",
+    title: "TechWare",
+  },
+  {
+    id: "16",
+    imageUrl: "https://res.cloudinary.com/dggsvq2tw/image/upload/v1758206581/tw3_vjo45k.webp",
+    alt: "TechWare 3",
+    title: "TechWare",
+  },
+  {
+    id: "17",
+    imageUrl: "https://res.cloudinary.com/dggsvq2tw/image/upload/v1758206585/tw4_edkcqy.webp",
+    alt: "TechWare 4",
+    title: "TechWare",
+  },
+  {
+    id: "18",
+    imageUrl: "https://res.cloudinary.com/dggsvq2tw/image/upload/v1758206582/tw5_wceecw.webp",
+    alt: "TechWare 5",
+    title: "TechWare",
+  },
+  {
+    id: "19",
+    imageUrl: "https://res.cloudinary.com/dggsvq2tw/image/upload/v1758206583/tw6_mjz94x.webp",
+    alt: "TechWare 6",
+    title: "TechWare",
+  },
+  {
+    id: "20",
+    imageUrl: "https://res.cloudinary.com/dggsvq2tw/image/upload/v1758206581/tw10_e2pf3b.webp",
+    alt: "TechWare 7",
+    title: "TechWare",
+  },
+];

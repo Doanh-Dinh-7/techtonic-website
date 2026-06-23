@@ -1,11 +1,13 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { Badge } from "@/shared/ui/badge";
 import Image from "next/image";
 import { useEffect, useMemo, useState } from "react";
 
-// Tạo dữ liệu gallery với nhiều hình ảnh hơn để tạo hiệu ứng scroll
+import { aboutGalleryCopy } from "@/lib/content/about";
+import { SectionShell } from "@/shared/ui-v2";
+import { cn } from "@/shared/utils";
+
 const galleryItems = {
   row_1: [
     {
@@ -170,6 +172,42 @@ const galleryItems = {
   ],
 };
 
+type GalleryTileProps = {
+  item: { id: string; src: string; alt: string };
+  staggerClass: string;
+};
+
+function GalleryTile({ item, staggerClass }: GalleryTileProps) {
+  return (
+    <motion.div
+      className={cn(
+        "relative w-56 shrink-0 overflow-hidden rounded-xl md:w-64 lg:w-72",
+        staggerClass
+      )}
+      whileHover={{ scale: 1.05 }}
+      transition={{ duration: 0.3 }}
+    >
+      <div
+        className={cn(
+          "v2-glass rounded-xl p-1 transition-shadow duration-300",
+          "hover:shadow-[0_0_24px_rgba(0,245,255,0.22)]"
+        )}
+      >
+        <div className="relative h-64 w-full overflow-hidden rounded-lg">
+          <Image
+            src={item.src}
+            alt={item.alt}
+            fill
+            priority
+            className="object-cover opacity-80 transition-opacity duration-300 hover:opacity-100"
+            sizes="(max-width: 768px) 224px, (max-width: 1024px) 256px, 288px"
+          />
+        </div>
+      </div>
+    </motion.div>
+  );
+}
+
 export function Gallery() {
   const [animationConfig, setAnimationConfig] = useState<{
     durations: number[];
@@ -179,144 +217,92 @@ export function Gallery() {
 
   const rows = useMemo(() => Object.values(galleryItems), []);
 
-  // Tính toán thời gian animation dựa trên kích thước thực tế
   useEffect(() => {
     const calculateAnimationDuration = () => {
       const viewportWidth = window.innerWidth;
-
-      // Kích thước ảnh theo breakpoint (w-56 md:w-64 lg:w-72)
       let itemWidth: number;
-      const spacing: number = 16; // space-x-4 = 16px
+      const spacing = 16;
 
       if (viewportWidth >= 1024) {
-        // lg
-        itemWidth = 288; // w-72 = 72 * 4 = 288px
+        itemWidth = 288;
       } else if (viewportWidth >= 768) {
-        // md
-        itemWidth = 256; // w-64 = 64 * 4 = 256px
+        itemWidth = 256;
       } else {
-        // mobile
-        itemWidth = 224; // w-56 = 56 * 4 = 224px
+        itemWidth = 224;
       }
 
       const durations: number[] = [];
       const widths: number[] = [];
 
       rows.forEach((row) => {
-        // Tổng chiều rộng của một set (items + spacing)
         const totalWidth = row.length * itemWidth + (row.length - 1) * spacing;
-
-        // Tốc độ scroll (pixel per second) - có thể điều chỉnh
-        const scrollSpeed = 100; // 100px/s
-
-        // Thời gian = khoảng cách / tốc độ
+        const scrollSpeed = 100;
         const duration = totalWidth / scrollSpeed;
-
-        // Đảm bảo thời gian tối thiểu là 10s và tối đa là 60s
         durations.push(Math.max(10, Math.min(60, duration)));
         widths.push(totalWidth);
       });
-      setAnimationConfig({
-        durations,
-        widths,
-        loaded: true,
-      });
+
+      setAnimationConfig({ durations, widths, loaded: true });
     };
 
     calculateAnimationDuration();
-
     window.addEventListener("resize", calculateAnimationDuration);
-    return () => {
-      window.removeEventListener("resize", calculateAnimationDuration);
-    };
+    return () => window.removeEventListener("resize", calculateAnimationDuration);
   }, [rows]);
 
   return (
-    <section id="gallery" className="py-20 bg-gray-50">
-      <div className="container mx-auto px-4">
-        <motion.div
-          className="text-center space-y-4 mb-16"
-          initial={{ opacity: 0, y: 50 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8 }}
-          viewport={{ once: true }}
-        >
-          <Badge className="bg-orange-100 text-orange-700 hover:bg-orange-700 hover:text-orange-100">
-            Thư viện ảnh
-          </Badge>
-          <h2 className="text-3xl lg:text-5xl font-bold text-gray-900 font-paris2024">
-            Khoảnh khắc đáng nhớ
-          </h2>
-          <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-            Những hình ảnh sinh động về các hoạt động của TechTonic Club
-          </p>
-        </motion.div>
-      </div>
-
-      {/* Animated Gallery Rows */}
-      <div className="w-[100%] relative left-1/2 right-1/2 -mx-[50vw]">
+    <SectionShell
+      id="gallery"
+      tone="dark"
+      align="center"
+      className="overflow-hidden border-t border-white/10 bg-transparent py-16 lg:py-24"
+      contentClassName="max-w-7xl"
+      badge={aboutGalleryCopy.badge}
+      title={aboutGalleryCopy.title}
+      description={aboutGalleryCopy.description}
+    >
+      <div className="relative left-1/2 w-screen -translate-x-1/2">
         {!animationConfig.loaded ? (
-          <div className="flex justify-center items-center h-64">
-            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-orange-600"></div>
+          <div className="flex h-64 items-center justify-center">
+            <div
+              className="h-12 w-12 animate-spin rounded-full border-2 border-white/10 border-t-neon-cyan"
+              role="status"
+              aria-label="Đang tải thư viện ảnh"
+            />
           </div>
         ) : (
           <div className="space-y-8">
             {rows.map((row, rowIndex) => (
               <div key={rowIndex} className="relative overflow-hidden">
                 <motion.div
-                  className={`flex space-x-4 hover:pause-animation ${
+                  className={cn(
+                    "flex space-x-4 hover:pause-animation",
                     rowIndex % 2 === 0 ? "scroll-left-dynamic" : "scroll-right-dynamic"
-                  }`}
+                  )}
                   style={
                     {
                       "--animation-duration": `${animationConfig.durations[rowIndex]}s`,
                       "--total-width": `${animationConfig.widths[rowIndex]}px`,
                     } as React.CSSProperties
                   }
-                  initial={{ opacity: 0, y: 30 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.6 }}
+                  initial={{ opacity: 0, y: 24 }}
+                  whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
+                  transition={{ duration: 0.5 }}
                 >
-                  {/* First set */}
                   {row.map((item, itemIndex) => (
-                    <motion.div
+                    <GalleryTile
                       key={`first-${item.id}`}
-                      className={`relative w-56 md:w-64 lg:w-72 rounded-lg overflow-hidden shrink-0 
-                        ${itemIndex % 2 === 0 ? "mt-0" : "mt-5"}`}
-                      whileHover={{ scale: 1.05 }}
-                      transition={{ duration: 0.3 }}
-                    >
-                      <div className="relative h-64 w-full shadow-lg">
-                        <Image
-                          src={item.src}
-                          alt={item.alt}
-                          fill
-                          priority
-                          className="object-cover"
-                        />
-                      </div>
-                    </motion.div>
+                      item={item}
+                      staggerClass={itemIndex % 2 === 0 ? "mt-0" : "mt-5"}
+                    />
                   ))}
-                  {/* Duplicate set for seamless loop */}
                   {row.map((item, itemIndex) => (
-                    <motion.div
+                    <GalleryTile
                       key={`second-${item.id}`}
-                      className={`relative w-56 md:w-64 lg:w-72 rounded-lg overflow-hidden shrink-0 
-                        ${itemIndex % 2 === 0 ? "mt-5" : "mt-0"}`}
-                      whileHover={{ scale: 1.05 }}
-                      transition={{ duration: 0.3 }}
-                    >
-                      <div className="relative h-64 w-full shadow-lg">
-                        <Image
-                          src={item.src}
-                          alt={item.alt}
-                          fill
-                          priority
-                          className="object-cover"
-                        />
-                      </div>
-                    </motion.div>
+                      item={item}
+                      staggerClass={itemIndex % 2 === 0 ? "mt-5" : "mt-0"}
+                    />
                   ))}
                 </motion.div>
               </div>
@@ -324,6 +310,6 @@ export function Gallery() {
           </div>
         )}
       </div>
-    </section>
+    </SectionShell>
   );
 }

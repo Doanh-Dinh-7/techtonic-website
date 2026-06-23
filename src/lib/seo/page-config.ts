@@ -22,7 +22,7 @@ export const PAGE_SEO = {
     path: "/about",
     title: "Giới thiệu",
     description:
-      "Lịch sử, tầm nhìn, sứ mệnh, thư viện ảnh và Ban chủ nhiệm TechTonic Club tại UEH Đà Nẵng.",
+      "Tầm nhìn, sứ mệnh, giá trị cốt lõi, hành trình phát triển, thư viện ảnh và Ban chủ nhiệm TechTonic Club tại UEH Đà Nẵng.",
     keywords: ["giới thiệu", "TechTonic", "ban chủ nhiệm", "UEH"],
   },
   departments: {

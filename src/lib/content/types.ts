@@ -18,9 +18,57 @@ export type PartnerLogo = {
 
 export type TimelineEntry = {
   year: string;
+  dateLabel: string;
   title: string;
   description: string;
+  /** Card offset for horizontal timeline: high = card sits higher above the line */
+  offset?: "high" | "low";
+  accent?: "cyan" | "violet";
   isSample?: boolean;
+};
+
+export type AboutAccent = "cyan" | "violet";
+
+export type AboutCoreValueIcon =
+  | "share"
+  | "support"
+  | "heart"
+  | "handshake"
+  | "shield"
+  | "sparkles"
+  | "party";
+
+export type AboutCoreValue = {
+  id: string;
+  title: string;
+  subtitle?: string;
+  description: string;
+  icon: AboutCoreValueIcon;
+  accent: AboutAccent;
+  layout?: "default" | "tall" | "wide" | "featured";
+};
+
+/** Cấp trong sơ đồ tổ chức: 1 = lãnh đạo, 2 = phó/trợ lý, 3 = thành viên. */
+export type AboutTeamLevel = 1 | 2 | 3;
+
+export type AboutTeamMember = {
+  name: string;
+  role: string;
+  level: AboutTeamLevel;
+  image?: string;
+  isPlaceholder?: boolean;
+};
+
+export type AboutTeamBoard = {
+  id: string;
+  label: string;
+  hierarchy: AboutTeamMember[][];
+};
+
+export type AboutTeamTerm = {
+  id: string;
+  label: string;
+  boards: AboutTeamBoard[];
 };
 
 export type Department = {

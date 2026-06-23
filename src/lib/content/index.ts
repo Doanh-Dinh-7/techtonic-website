@@ -1,4 +1,6 @@
 export * from "./types";
+export * from "./about";
+export * from "./about-team";
 export * from "./news";
 export * from "./partners";
 export * from "./timeline";

@@ -3,6 +3,7 @@
  */
 import { render, screen } from "@testing-library/react";
 import { describe, expect, it } from "vitest";
+import { AboutPageSections } from "@/widgets/about/about-page-sections";
 import { EventsPageContent } from "@/widgets/events/events-page-content";
 import { HomePageSections } from "@/widgets/home/home-page-sections";
 import { RecruitmentPageSections } from "@/widgets/recruitment/recruitment-page-sections";
@@ -23,6 +24,19 @@ describe("Route section smoke", () => {
       screen.getByRole("heading", { name: /Sẵn sàng bắt đầu hành trình công nghệ/i })
     ).toBeInTheDocument();
     expect(screen.getByRole("heading", { name: /Điền form đăng ký/i })).toBeInTheDocument();
+  });
+
+  it("about: renders hero, timeline and team sections", () => {
+    render(<AboutPageSections />);
+
+    expect(
+      screen.getByRole("heading", { name: /Về TechTonic Club/i, level: 1 })
+    ).toBeInTheDocument();
+    expect(screen.getByRole("heading", { name: /Hành trình phát triển/i })).toBeInTheDocument();
+    expect(
+      screen.getByRole("heading", { name: /Ban chủ nhiệm qua từng nhiệm kỳ/i })
+    ).toBeInTheDocument();
+    expect(document.getElementById("gallery")).toBeTruthy();
   });
 
   it("events: renders page hero title", () => {
