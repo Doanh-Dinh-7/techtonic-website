@@ -19,6 +19,7 @@ This document describes the **current** architecture after **V2.0 refactor compl
 │  src/widgets       Page composition + site chrome (a11y)     │
 ├──────────────────────────────────────────────────────────────┤
 │  src/features      Domain sections + feature hooks + tests   │
+│                    (feature-local components/ + lib/)        │
 ├──────────────────────────────────────────────────────────────┤
 │  src/entities      (reserved — post–V2.0)                    │
 ├──────────────────────────────────────────────────────────────┤
@@ -27,23 +28,28 @@ This document describes the **current** architecture after **V2.0 refactor compl
 │  src/types · src/hooks · src/lib                             │
 │       lib/seo = metadata + JSON-LD                           │
 │       lib/3d  = pure budgets, constants (unit-tested)        │
+│       lib/content = static data (incl. about-team)           │
 ├──────────────────────────────────────────────────────────────┤
 │  src/3d            Canonical R3F runtime (React)             │
-│       hero-media = SSR-safe dynamic CanvasShell (home)       │
+│       hero-media        → Home (/)                           │
+│       events-hero-canvas → Events (/events)                  │
+│       models/rubiks-cube → shared 3D asset                   │
 └──────────────────────────────────────────────────────────────┘
 ```
 
-There is **no** active `src/components/` import path. UI: `@/shared/ui/*` only.
+There is **no** `src/components/` import path. UI: `@/shared/ui/*` only.
 
 ### 3D Layer Split
 
-| Concern                              | Location                | Why                            |
-| ------------------------------------ | ----------------------- | ------------------------------ |
-| Budgets, caps, DPR policy            | `src/lib/3d/`           | Pure functions — unit tested   |
-| Capability (`WebGL`, reduced motion) | `src/hooks/use3d.ts`    | Shared React hook              |
-| Canvas, scenes, models               | `src/3d/`               | R3F implementation             |
-| Lazy route entry                     | `src/3d/scene-lazy.tsx` | `next/dynamic`, `ssr: false`   |
-| Home hero canvas                     | `src/3d/hero-media.tsx` | Avoid R3F in SSR bundle on `/` |
+| Concern                              | Location                        | Why                                             |
+| ------------------------------------ | ------------------------------- | ----------------------------------------------- |
+| Budgets, caps, DPR policy            | `src/lib/3d/`                   | Pure functions — unit tested                    |
+| Capability (`WebGL`, reduced motion) | `src/hooks/use3d.ts`            | Shared React hook                               |
+| Canvas, scenes, models               | `src/3d/`                       | R3F implementation                              |
+| Lazy route entry                     | `src/3d/scene-lazy.tsx`         | `next/dynamic`, `ssr: false`                    |
+| Home hero canvas                     | `src/3d/hero-media.tsx`         | Avoid R3F in SSR bundle on `/`                  |
+| Events hero canvas                   | `src/3d/events-hero-canvas.tsx` | Same SSR-safe dynamic pattern                   |
+| Rubik cube model                     | `src/3d/models/rubiks-cube/`    | Isolated model + `public/rubik-faces/` textures |
 
 ### SEO Layer
 
@@ -64,7 +70,7 @@ Requires `NEXT_PUBLIC_SITE_URL` in production.
 | -------------- | ------------------------------------------------- |
 | `src/app`      | Routes, metadata, sitemap, robots, global styles  |
 | `src/widgets`  | Orchestrate features; site shell (skip link, nav) |
-| `src/features` | Domain sections and feature hooks                 |
+| `src/features` | Domain sections, feature hooks, local components  |
 | `src/shared`   | UI, V2 design, SEO helpers, utils, providers      |
 | `src/lib/seo`  | Metadata and structured data builders             |
 | `src/lib/3d`   | Performance policy (pure)                         |
@@ -81,11 +87,11 @@ Browser
   → src/widgets/<route>/*
   → src/features/<domain>/*
   → src/shared/ui/* · src/lib/content/*
-  → src/3d/hero-media (home, when use3d allows)
+  → src/3d/hero-media (home) | events-hero-canvas (/events) when use3d allows
 
 Developer workflow
-  → npm run ci          (lint, typecheck, format, test — 38 tests)
-  → npm run ci:build    (+ production build + bundle budget)
+  → pnpm run ci          (lint, typecheck, format, test — 48 tests)
+  → pnpm run ci:build    (+ production build + bundle budget)
   → .github/workflows/quality-gates.yml
   → PR merge
 ```
@@ -101,6 +107,32 @@ page.tsx (metadata + PageSeo JSON-LD)
         └── widgets/home/hash-scroll-handler.tsx
 ```
 
+### Events Page Composition (Example)
+
+```text
+page.tsx (metadata + PageSeo JSON-LD)
+  └── widgets/events/events-page-content.tsx
+        └── features/events/events-content.tsx
+              ├── features/events/events-hero.tsx   (EventsHeroCanvas)
+              ├── weekly-academic-section.tsx
+              ├── happy-hour-section.tsx
+              ├── event-timeline-section.tsx
+              └── stellar-gallery-section.tsx
+```
+
+### About Page Composition (Example)
+
+```text
+page.tsx (metadata + PageSeo JSON-LD)
+  └── widgets/about/about-page-sections.tsx
+        └── features/about/about-content.tsx
+              ├── about-hero.tsx, about-intro.tsx, about-identity-section.tsx
+              ├── about-timeline.tsx, gallery.tsx
+              └── team.tsx
+                    └── components/team-org-chart.tsx (+ connector, member-card)
+                          data from lib/content/about-team.ts
+```
+
 ---
 
 ## Architecture Strengths
@@ -110,17 +142,18 @@ page.tsx (metadata + PageSeo JSON-LD)
 - Testable 3D policy (`src/lib/3d`) and SEO builders (`src/lib/seo`).
 - CI: split verify/build, bundle budgets, optional Lighthouse scripts.
 - Accessible defaults: skip link, landmarks, reduced motion, WebGL fallback.
+- Complex pages scale via feature-local `components/` and `lib/` without polluting `shared/`.
 
 ---
 
 ## Remaining Technical Debt (Post V2.0)
 
-| Item                        | Notes                                                                |
-| --------------------------- | -------------------------------------------------------------------- |
-| `src/entities` layer        | Reserved — introduce when domain models grow                         |
-| `src/components/3d` on disk | Orphan copies — safe to delete; not imported                         |
-| Playwright E2E              | Optional (deferred)                                                  |
-| Registration hook parity    | `use-registration-form` tested; UI still uses inline state in places |
+| Item                     | Notes                                                                |
+| ------------------------ | -------------------------------------------------------------------- |
+| `src/entities` layer     | Reserved — introduce when domain models grow                         |
+| Chatbot env vars         | `GEMINI_*`, `SUPABASE_*` in `.env.example`; no `src/app/api/` yet    |
+| Playwright E2E           | Optional (deferred)                                                  |
+| Registration hook parity | `use-registration-form` tested; UI still uses inline state in places |
 
 ---
 
@@ -145,7 +178,7 @@ Compose sections per route; own site chrome and shell hooks/tests.
 
 ### `src/features`
 
-Domain UI and hooks. No cross-feature imports.
+Domain UI and hooks. No cross-feature imports. Use `components/` and `lib/` subfolders for feature-scoped code.
 
 ### `src/shared`
 
@@ -157,7 +190,7 @@ Static content, **SEO** builders, **pure** 3D policy.
 
 ### `src/3d`
 
-Canvas, scenes, models, lazy loaders. Home uses `hero-media` for SSR safety.
+Canvas, scenes, models, lazy loaders. Home uses `hero-media`; Events uses `events-hero-canvas` for SSR safety.
 
 ## Dependency Direction Rules
 
@@ -243,16 +276,35 @@ Canvas, scenes, models, lazy loaders. Home uses `hero-media` for SSR safety.
 - **Status:** Accepted (2026-05-29)
 - **Rationale:** Prevents R3F from breaking Next.js prerender / Lighthouse traces on `/`.
 
+### ADR-013: V2.0 refactor — consolidated baseline
+
+- **Decision:** Migrate to FSD under `src/`, canonical `@/3d`, centralized `@/lib/seo`, Vitest + CI gates, Next.js 15 + React 19, **pnpm** as package manager.
+- **Status:** Accepted (2026-05-29)
+- **Consequences:** All app code in `src/`; no `@/components/*`; thin routes compose via widgets/features; quality gates run via `pnpm run ci:build`.
+
+### ADR-014: Post-V2.0 domain expansion pattern
+
+- **Decision:** Complex pages (About, Events) use feature-local `components/` + `lib/` subfolders; team data in `lib/content/about-team.ts`; org chart as layout components colocated in `features/about/components/`.
+- **Status:** Accepted (2026-06)
+- **Consequences:** Do not promote feature-only UI to `shared/` prematurely; colocate tests (`about-team.test.ts`, `use-about-team-tabs.test.ts`).
+
+### ADR-015: Events 3D + Rubik model
+
+- **Decision:** Events hero uses dedicated `events-hero-canvas.tsx` (dynamic, `ssr: false`); Rubik cube model isolated under `src/3d/models/rubiks-cube/` with textures in `public/rubik-faces/`.
+- **Status:** Accepted (2026-06)
+- **Consequences:** Each route with 3D gets its own SSR-safe canvas entry point; 3D textures live in `public/` by model namespace.
+
 ---
 
 ## Definition of Architecture Done (V2.0 Baseline)
 
 - [x] FSD layers under `src/` with documented dependency direction
 - [x] Canonical 3D at `src/3d` with lazy loaders + hero-media SSR pattern
+- [x] Events 3D via `events-hero-canvas` + Rubik model under `models/rubiks-cube/`
 - [x] Performance guardrails tested and documented
 - [x] SEO module, sitemap, robots, structured data
-- [x] CI verify + build + bundle budget
-- [x] Vitest baseline (38 tests)
+- [x] CI verify + build + bundle budget (pnpm)
+- [x] Vitest baseline (48 tests, 13 files)
 - [x] Architecture documentation matches codebase
 
 ---
@@ -263,7 +315,8 @@ Canvas, scenes, models, lazy loaders. Home uses `hero-media` for SSR safety.
 - [`DEVELOPMENT_GUIDE.md`](./DEVELOPMENT_GUIDE.md)
 - [`CODE_STYLE.md`](./CODE_STYLE.md)
 - [`CONTRIBUTING.md`](./CONTRIBUTING.md)
-- [`REFACTOR_PROGRESS.md`](./REFACTOR_PROGRESS.md)
+- [`CHANGELOG.md`](./CHANGELOG.md)
+- [`docs/techtonic-v2/phase-plan.md`](./docs/techtonic-v2/phase-plan.md)
 - [`DESIGN.md`](./DESIGN.md)
 - [`docs/techtonic-v2/README.md`](./docs/techtonic-v2/README.md)
 - [`docs/techtonic-v2/seo.md`](./docs/techtonic-v2/seo.md)

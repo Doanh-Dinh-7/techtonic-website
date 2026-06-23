@@ -17,13 +17,13 @@ Use it for onboarding, code review, and deciding where new files belong.
 | Phase 2 closure — Root `components/` decommission | **Complete** |
 | Phase 3 — 3D runtime + performance hardening      | **Complete** |
 | Phase 4.1 — Documentation polish                  | **Complete** |
-| Phase 4.2 — Vitest / RTL (38 tests)               | **Complete** |
+| Phase 4.2 — Vitest / RTL (48 tests, 13 files)     | **Complete** |
 | Phase 4.3 — CI/CD (verify → build, bundle budget) | **Complete** |
 | Phase 4.4 — SEO, a11y, Next.js 15, release prep   | **Complete** |
 
-**Version:** `2.0.0` · **Stack:** Next.js 15.5 · React 19 · App Router
+**Version:** `2.0.0` · **Stack:** Next.js 15.5 · React 19 · App Router · **pnpm**
 
-Details: [`REFACTOR_PROGRESS.md`](./REFACTOR_PROGRESS.md) · [`CHANGELOG.md`](./CHANGELOG.md)
+Details: [`CHANGELOG.md`](./CHANGELOG.md) · [`docs/techtonic-v2/phase-plan.md`](./docs/techtonic-v2/phase-plan.md)
 
 ---
 
@@ -34,7 +34,7 @@ techtonic-website/
 ├── src/
 │   ├── app/                                    # App Router
 │   │   ├── layout.tsx                          # Root: metadataBase, fonts, Analytics
-│   │   ├── globals.css
+│   │   ├── globals.css                         # Canonical global styles
 │   │   ├── robots.ts                           # /robots.txt
 │   │   ├── sitemap.ts                          # /sitemap.xml
 │   │   └── (site)/
@@ -51,10 +51,10 @@ techtonic-website/
 │   │   │   ├── site-shell.tsx                  # Skip link, main landmark
 │   │   │   ├── header.tsx, footer.tsx
 │   │   │   ├── lenis-provider.tsx
+│   │   │   ├── header.test.tsx
 │   │   │   └── hooks/
 │   │   │       ├── use-site-shell-visibility.ts (+ .test.ts)
 │   │   │       └── use-header-navigation.ts (+ .test.ts)
-│   │   │   └── header.test.tsx
 │   │   ├── home/
 │   │   │   ├── home-page-sections.tsx
 │   │   │   └── hash-scroll-handler.tsx
@@ -72,9 +72,22 @@ techtonic-website/
 │   │   │   ├── achievements.tsx, featured-news.tsx, testimonials.tsx
 │   │   │   ├── contact.tsx, video.tsx
 │   │   │   └── hooks/use-hero-section.ts (+ .test.ts)
-│   │   ├── about/                              # about, timeline, gallery, team
+│   │   ├── about/
+│   │   │   ├── about-content.tsx, about-hero.tsx, about-intro.tsx
+│   │   │   ├── about-identity-section.tsx, about-timeline.tsx
+│   │   │   ├── about-culture.tsx, about-benefits.tsx, about-fit.tsx
+│   │   │   ├── gallery.tsx, team.tsx
+│   │   │   ├── components/                     # team-org-chart, team-org-connector, …
+│   │   │   ├── hooks/use-about-team-tabs.ts (+ .test.ts)
+│   │   │   └── lib/team-level.ts
 │   │   ├── departments/departments-content.tsx
-│   │   ├── events/events-content.tsx
+│   │   ├── events/
+│   │   │   ├── events-content.tsx, events-hero.tsx
+│   │   │   ├── weekly-academic-section.tsx, happy-hour-section.tsx
+│   │   │   ├── event-timeline-section.tsx, stellar-gallery-section.tsx
+│   │   │   ├── moments-gallery-section.tsx
+│   │   │   ├── components/                     # activity-card, timeline-event-row (+ test), …
+│   │   │   └── lib/accent-styles.ts
 │   │   ├── portfolio/portfolio-content.tsx
 │   │   └── recruitment/
 │   │       ├── registration.tsx, recruitment-faq.tsx
@@ -106,10 +119,14 @@ techtonic-website/
 │   ├── 3d/                                     # Canonical R3F runtime
 │   │   ├── canvas/                             # canvas-shell, webgl-fallback
 │   │   ├── effects/                            # camera-rig, particle-field
-│   │   ├── models/                             # floating-logo, cat-mascot
-│   │   ├── scenes/                             # hero-scene, background-scene
+│   │   ├── models/
+│   │   │   ├── floating-logo.tsx, cat-mascot.tsx
+│   │   │   └── rubiks-cube/                    # rubiks-model, rubiks-scene, controller, hooks, utils
+│   │   ├── scenes/                             # hero-scene, background-scene, events-hero-scene
 │   │   ├── scene-lazy.tsx                      # HeroSceneLazy, BackgroundSceneLazy
-│   │   ├── hero-media.tsx                      # HeroCanvasShell (dynamic, ssr: false)
+│   │   ├── hero-media.tsx                      # HeroCanvasShell (home, dynamic, ssr: false)
+│   │   ├── hero-canvas-with-scene.tsx
+│   │   ├── events-hero-canvas.tsx              # EventsHeroCanvas (/events)
 │   │   ├── index.ts
 │   │   └── README.md
 │   │
@@ -120,18 +137,31 @@ techtonic-website/
 │   ├── entities/                               # Reserved (post–V2.0)
 │   └── config/                                 # Reserved (post–V2.0)
 │
-├── public/                                     # Static assets (logo, fonts, images)
+├── public/
+│   └── rubik-faces/                            # 6 JPG textures for Rubik 3D model
+│       ├── back.jpg, bottom.jpg, front.jpg
+│       ├── left.jpg, right.jpg, top.jpg
+│
+├── styles/
+│   └── globals.css                             # Legacy — not imported; use src/app/globals.css
+│
 ├── docs/
-│   ├── techtonic-v2/                             # Product + engineering hub
-│   ├── audits/lighthouse/                        # Lighthouse reports + README
-│   ├── audits/accessibility/                     # Critical-flow a11y checklist
+│   ├── techtonic-v2/                           # Product + engineering hub
+│   ├── audits/lighthouse/                      # Lighthouse reports + README
+│   ├── audits/accessibility/                   # Critical-flow a11y checklist
 │   └── releases/v2.0.0.md
+│
 ├── scripts/
 │   ├── build-with-log.mjs, check-bundle-budget.mjs
 │   ├── lighthouse-ci.mjs, run-lighthouse.mjs
 │   ├── lighthouse-env-run.mjs, lighthouse-audit-local.mjs
+│
 ├── .github/workflows/quality-gates.yml
+├── .husky/                                     # pre-commit, commit-msg hooks
+├── .agents/skills/                             # Cursor agent skills (deploy, optimize, …)
+│
 ├── bundle-budgets.json, lighthouse-budgets.json
+├── pnpm-lock.yaml                              # Lockfile (packageManager: pnpm@10.32.1)
 ├── vitest.config.ts, vitest.setup.ts
 ├── components.json, tailwind.config.ts, tsconfig.json, next.config.mjs
 ├── .env.example
@@ -140,16 +170,20 @@ techtonic-website/
 
 ### Legacy note
 
-- **Do not use** `src/components/` — orphan bridge copies may still exist on disk; **zero imports** in app code. Canonical 3D is `@/3d` only.
-- **No** repository-root `components/` folder.
+- **No** repository-root `components/` folder and **no** `src/components/` — fully decommissioned.
+- Canonical CSS: `src/app/globals.css`. Root `styles/globals.css` is legacy and not imported.
 
 ### `src/lib/content/` modules
 
-`awards.ts`, `blog-posts.ts`, `departments.ts`, `events.ts`, `faq.ts`, `news.ts`, `partners.ts`, `projects.ts`, `timeline.ts`, `types.ts`, `index.ts`
+`about.ts`, `about-team.ts` (+ `about-team.test.ts`), `awards.ts`, `blog-posts.ts`, `departments.ts`, `events.ts`, `faq.ts`, `news.ts`, `partners.ts`, `projects.ts`, `timeline.ts`, `types.ts`, `index.ts`
 
 ### `src/lib/seo/` modules
 
 `site.ts`, `page-config.ts`, `metadata.ts`, `json-ld.ts`, `metadata.test.ts`, `index.ts`
+
+### Test files (13 files, 48 tests)
+
+`lib/3d/performance.test.ts`, `lib/seo/metadata.test.ts`, `lib/content/about-team.test.ts`, `features/home/hero.test.tsx`, `features/home/hooks/use-hero-section.test.ts`, `features/about/hooks/use-about-team-tabs.test.ts`, `features/events/components/timeline-event-row.test.tsx`, `features/recruitment/hooks/use-registration-form.test.ts`, `widgets/layout/header.test.tsx`, `widgets/layout/hooks/use-header-navigation.test.ts`, `widgets/layout/hooks/use-site-shell-visibility.test.ts`, `widgets/__tests__/page-sections.smoke.test.tsx`, `shared/ui/back-to-top.test.tsx`
 
 ---
 
@@ -166,6 +200,9 @@ Per-route section ordering; site chrome (header, footer, shell, Lenis); composit
 ### `src/features`
 
 Domain section UI and feature-local hooks. No cross-feature imports.
+
+- **`components/`** — UI scoped to one feature (org chart, timeline row, gallery tiles).
+- **`lib/`** — Pure helpers scoped to one feature (e.g. `team-level.ts`, `accent-styles.ts`).
 
 ### `src/shared`
 
@@ -188,7 +225,11 @@ Shared TypeScript contracts.
 
 ### `src/3d`
 
-R3F canvas, scenes, effects, models, lazy loaders. Home hero uses `@/3d/hero-media` (`HeroCanvasShell`) for SSR-safe dynamic import.
+R3F canvas, scenes, effects, models, lazy loaders.
+
+- **Home** (`/`): `@/3d/hero-media` (`HeroCanvasShell`) — SSR-safe dynamic import.
+- **Events** (`/events`): `@/3d/events-hero-canvas` (`EventsHeroCanvas`) — same dynamic pattern.
+- **Models**: `models/rubiks-cube/` with textures in `public/rubik-faces/`.
 
 ### `src/test`
 
@@ -204,20 +245,21 @@ Reserved for future domain modeling and app configuration.
 
 `tsconfig` maps `@/*` → `./src/*`.
 
-| Alias              | Resolves to          | Usage                         |
-| ------------------ | -------------------- | ----------------------------- |
-| `@/widgets/*`      | `src/widgets/*`      | Page composition              |
-| `@/features/*`     | `src/features/*`     | Section modules               |
-| `@/shared/ui/*`    | `src/shared/ui/*`    | UI primitives (**preferred**) |
-| `@/shared/ui-v2/*` | `src/shared/ui-v2/*` | V2 design components          |
-| `@/shared/seo/*`   | `src/shared/seo/*`   | JSON-LD components            |
-| `@/shared/utils`   | `src/shared/utils`   | `cn`, helpers                 |
-| `@/3d` / `@/3d/*`  | `src/3d`             | Canonical 3D runtime          |
-| `@/3d/hero-media`  | `src/3d/hero-media`  | **Home hero** 3D (SSR-safe)   |
-| `@/lib/seo`        | `src/lib/seo`        | Metadata & structured data    |
-| `@/lib/*`          | `src/lib/*`          | Content and pure helpers      |
-| `@/hooks/*`        | `src/hooks/*`        | Cross-cutting hooks           |
-| `@/types/*`        | `src/types/*`        | Shared types                  |
+| Alias                     | Resolves to                 | Usage                         |
+| ------------------------- | --------------------------- | ----------------------------- |
+| `@/widgets/*`             | `src/widgets/*`             | Page composition              |
+| `@/features/*`            | `src/features/*`            | Section modules               |
+| `@/shared/ui/*`           | `src/shared/ui/*`           | UI primitives (**preferred**) |
+| `@/shared/ui-v2/*`        | `src/shared/ui-v2/*`        | V2 design components          |
+| `@/shared/seo/*`          | `src/shared/seo/*`          | JSON-LD components            |
+| `@/shared/utils`          | `src/shared/utils`          | `cn`, helpers                 |
+| `@/3d` / `@/3d/*`         | `src/3d`                    | Canonical 3D runtime          |
+| `@/3d/hero-media`         | `src/3d/hero-media`         | **Home hero** 3D (SSR-safe)   |
+| `@/3d/events-hero-canvas` | `src/3d/events-hero-canvas` | **Events hero** 3D            |
+| `@/lib/seo`               | `src/lib/seo`               | Metadata & structured data    |
+| `@/lib/*`                 | `src/lib/*`                 | Content and pure helpers      |
+| `@/hooks/*`               | `src/hooks/*`               | Cross-cutting hooks           |
+| `@/types/*`               | `src/types/*`               | Shared types                  |
 
 ### Recommended imports
 
@@ -226,6 +268,7 @@ import { Button } from "@/shared/ui/button";
 import { SectionShell } from "@/shared/ui-v2";
 import { createPageMetadata, PAGE_SEO } from "@/lib/seo";
 import { HeroCanvasShell, HeroSceneLazy } from "@/3d/hero-media";
+import { EventsHeroCanvas } from "@/3d/events-hero-canvas";
 import { use3d } from "@/hooks/use3d";
 import { clubTimeline } from "@/lib/content/timeline";
 ```
@@ -260,11 +303,15 @@ src/3d → lib/3d, hooks, shared/utils
 | JSON-LD per route         | `<PageSeo config={PAGE_SEO.x} />` in `page.tsx` |
 | Section ordering          | `src/widgets/<route>/`                          |
 | Section UI + logic        | `src/features/<domain>/`                        |
+| Feature-only UI           | `src/features/<domain>/components/`             |
+| Feature-only pure helper  | `src/features/<domain>/lib/`                    |
 | shadcn primitive          | `src/shared/ui/`                                |
 | V2 glass / neon / section | `src/shared/ui-v2/`                             |
 | Static copy / data        | `src/lib/content/`                              |
 | R3F scene / model         | `src/3d/` (+ `scene-lazy.tsx` for lazy routes)  |
 | Home hero 3D shell        | `src/3d/hero-media.tsx`                         |
+| Events hero 3D shell      | `src/3d/events-hero-canvas.tsx`                 |
+| 3D model (Rubik, mascot)  | `src/3d/models/`                                |
 | 3D budget / guard         | `src/lib/3d/performance.ts` (+ tests)           |
 | Shared type               | `src/types/`                                    |
 | Colocated test            | `*.test.ts(x)` next to module or `__tests__/`   |
@@ -278,7 +325,8 @@ src/3d → lib/3d, hooks, shared/utils
 - [`CODE_STYLE.md`](./CODE_STYLE.md)
 - [`CONTRIBUTING.md`](./CONTRIBUTING.md)
 - [`DESIGN.md`](./DESIGN.md)
-- [`REFACTOR_PROGRESS.md`](./REFACTOR_PROGRESS.md)
+- [`CHANGELOG.md`](./CHANGELOG.md)
+- [`docs/techtonic-v2/phase-plan.md`](./docs/techtonic-v2/phase-plan.md)
 - [`docs/techtonic-v2/README.md`](./docs/techtonic-v2/README.md)
 - [`docs/techtonic-v2/seo.md`](./docs/techtonic-v2/seo.md)
 - [`docs/techtonic-v2/3d-performance.md`](./docs/techtonic-v2/3d-performance.md)
