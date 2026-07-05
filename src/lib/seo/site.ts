@@ -4,7 +4,7 @@ export const SITE = {
   shortName: "TechTonic",
   tagline: "Câu lạc bộ Công nghệ",
   description:
-    "Câu lạc bộ công nghệ thông tin tại Đại học Kinh tế - Đại học Đà Nẵng (UEH). Workshop, dự án thực tế và cộng đồng lập trình.",
+    "Câu lạc bộ công nghệ thông tin tại Đại học Kinh tế - Đại học Đà Nẵng (DUE). Workshop, dự án thực tế và cộng đồng lập trình.",
   locale: "vi_VN",
   language: "vi",
   /** Set in production: NEXT_PUBLIC_SITE_URL=https://your-domain.com */

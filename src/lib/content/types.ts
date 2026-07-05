@@ -80,6 +80,42 @@ export type Department = {
   isSample?: boolean;
 };
 
+export type DepartmentColor = "blue" | "purple" | "orange" | "red" | "green" | "yellow" | "pink";
+
+export type DepartmentBookPhase = {
+  title: string;
+  items: string[];
+};
+
+export type DepartmentBookPage = {
+  id: string;
+  title: string;
+  subtitle?: string;
+  color: DepartmentColor;
+  memberCount?: string;
+  overview: string[];
+  phases?: DepartmentBookPhase[];
+  skills?: string[];
+  isCover?: boolean;
+};
+
+export type OrgChartNode = {
+  id: string;
+  label: string;
+  shortDescription: string;
+  color?: DepartmentColor;
+};
+
+export type RecruitmentRoundIcon = "file" | "message" | "briefcase";
+
+export type RecruitmentRound = {
+  id: string;
+  title: string;
+  description: string;
+  appliesTo: string;
+  icon: RecruitmentRoundIcon;
+};
+
 export type ProjectItem = {
   id: string;
   title: string;
