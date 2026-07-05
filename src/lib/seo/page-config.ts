@@ -12,18 +12,18 @@ export type PageSeoConfig = {
 export const PAGE_SEO = {
   home: {
     path: "/",
-    absoluteTitle: "TechTonic Club — Câu lạc bộ Công nghệ | UEH Đà Nẵng",
+    absoluteTitle: "TechTonic Club — Câu lạc bộ Công nghệ | DUE Đà Nẵng",
     title: "Trang chủ",
     description:
-      "TechTonic Club — cộng đồng công nghệ UEH Đà Nẵng: workshop, hackathon, mentor và dự án thực tế cho sinh viên CNTT.",
-    keywords: ["TechTonic", "câu lạc bộ công nghệ", "UEH Đà Nẵng", "lập trình", "sinh viên CNTT"],
+      "TechTonic Club — cộng đồng công nghệ DUE Đà Nẵng: workshop, hackathon, mentor và dự án thực tế cho sinh viên CNTT.",
+    keywords: ["TechTonic", "câu lạc bộ công nghệ", "DUE Đà Nẵng", "lập trình", "sinh viên CNTT"],
   },
   about: {
     path: "/about",
     title: "Giới thiệu",
     description:
-      "Tầm nhìn, sứ mệnh, giá trị cốt lõi, hành trình phát triển, thư viện ảnh và Ban chủ nhiệm TechTonic Club tại UEH Đà Nẵng.",
-    keywords: ["giới thiệu", "TechTonic", "ban chủ nhiệm", "UEH"],
+      "Tầm nhìn, sứ mệnh, giá trị cốt lõi, hành trình phát triển, thư viện ảnh và Ban chủ nhiệm TechTonic Club tại DUE Đà Nẵng.",
+    keywords: ["giới thiệu", "TechTonic", "ban chủ nhiệm", "DUE"],
   },
   departments: {
     path: "/departments",
@@ -36,14 +36,14 @@ export const PAGE_SEO = {
     path: "/events",
     title: "Hoạt động & sự kiện",
     description:
-      "Hoạt động học thuật hằng tuần, sinh hoạt Happy Hour, chuỗi sự kiện cố định mỗi nhiệm kỳ (Mentor-Mentee, TechXplore, Tech Threads, TechWare) — TechTonic Club UEH Đà Nẵng.",
+      "Hoạt động học thuật hằng tuần, sinh hoạt Happy Hour, chuỗi sự kiện cố định mỗi nhiệm kỳ (Mentor-Mentee, TechXplore, Tech Threads, TechWare) — TechTonic Club DUE Đà Nẵng.",
     keywords: [
       "hoạt động CLB",
       "Happy Hour",
       "TechXplore",
       "Mentor Mentee",
       "TechTonic",
-      "UEH Đà Nẵng",
+      "DUE Đà Nẵng",
     ],
   },
   portfolio: {
@@ -57,6 +57,6 @@ export const PAGE_SEO = {
     title: "Tuyển thành viên",
     description:
       "Đăng ký tham gia TechTonic Club: quy trình tuyển thành viên, form đăng ký và câu hỏi thường gặp.",
-    keywords: ["tuyển thành viên", "đăng ký CLB", "TechTonic", "UEH"],
+    keywords: ["tuyển thành viên", "đăng ký CLB", "TechTonic", "DUE"],
   },
 } as const satisfies Record<string, PageSeoConfig>;

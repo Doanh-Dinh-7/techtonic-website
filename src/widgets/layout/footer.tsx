@@ -5,7 +5,7 @@ const links = [
   { name: "Trang chủ", href: "/" },
   { name: "Giới thiệu", href: "/about" },
   { name: "Các ban", href: "/departments" },
-  { name: "Dự án", href: "/portfolio" },
+  // { name: "Dự án", href: "/portfolio" },
   { name: "Hoạt động", href: "/events" },
   { name: "Tuyển thành viên", href: "/recruitment" },
 ];
