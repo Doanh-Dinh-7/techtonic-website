@@ -1,202 +1,332 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
-import { motion, AnimatePresence } from "framer-motion";
-import { Badge } from "@/shared/ui/badge";
-import { BookOpenCheck, HeartHandshake, Trophy, LandPlot, Presentation } from "lucide-react";
+import { motion, useScroll, useTransform, type MotionStyle, type MotionValue } from "framer-motion";
+import { Layers3, Sparkles } from "lucide-react";
 import Image from "next/image";
+import { useEffect, useRef, useState } from "react";
 
-export function Activities() {
-  const [currentActivity, setCurrentActivity] = useState(0);
+import { use3d } from "@/hooks/use3d";
+import {
+  homeActivities,
+  homeActivitiesSectionCopy,
+  type HomeActivity,
+  type HomeActivityAccent,
+} from "@/lib/content/home-activities";
+import { Card3D, GlassCard, GradientOrb, SectionShell } from "@/shared/ui-v2";
+import { cn } from "@/shared/utils";
 
-  const activities = [
-    {
-      title: "Chia sẻ - Hướng dẫn",
-      description: (
-        <>
-          Với tinh thần{" "}
-          <em>
-            <strong>&ldquo;Học để chia sẻ - Chia sẻ để phát triển&rdquo;</strong>
-          </em>
-          , TechTonic tổ chức các <em>lớp chia sẻ nội bộ</em> hỗ trợ sinh viên củng cố kiến thức
-          thực tế, tập trung vào các môn nền tảng như: <strong>Lập trình cơ bản bằng Python</strong>
-          , <strong>Phân tích nghiệp vụ (BA)</strong>, <strong>Cơ sở dữ liệu</strong>,{" "}
-          <strong>Lập trình Web (FE/BE)</strong>.
-        </>
-      ),
-      image: "https://res.cloudinary.com/dggsvq2tw/image/upload/v1758206556/cshd_icrmfj.webp",
-      icon: BookOpenCheck,
-      position: "center",
-    },
-    {
-      title: (
-        <>
-          Mentor-Mentee <span className="text-sm text-gray-600"> &ldquo;From Us To You&rdquo;</span>
-        </>
-      ),
-      description: (
-        <>
-          Chương trình{" "}
-          <em>
-            <strong>Mentor–Mentee</strong>
-          </em>{" "}
-          kết nối <strong>sinh viên năm nhất, năm hai</strong> với{" "}
-          <strong>anh chị giàu kinh nghiệm</strong>, tạo <em>không gian học hỏi</em> và{" "}
-          <em>định hướng toàn diện</em>. Qua sự <strong>chia sẻ tận tâm</strong>, Mentee được hỗ trợ{" "}
-          <strong>học tập, kỹ năng, ngoại khóa</strong> và <em>đời sống sinh viên</em>, mở rộng{" "}
-          <strong>quan hệ</strong> và <em>phát triển bản thân bền vững</em>.
-        </>
-      ),
-      image:
-        "https://res.cloudinary.com/dggsvq2tw/image/upload/v1758206554/mentor_mentee_kjmjqd.webp",
-      icon: HeartHandshake,
-      position: "center",
-    },
-    {
-      title: (
-        <>
-          ICPC-OLP, NCKH
-          <span className="text-sm text-gray-600"> & Contest</span>
-        </>
-      ),
-      description: (
-        <>
-          Các thành viên được tham gia <b>ICPC-OLP</b>, <em>Smart Campus</em>, <em>Hackathon</em> và{" "}
-          <em>Nghiên cứu khoa học</em>, thử thách bản thân qua <strong>coding contest</strong>, rèn
-          luyện <b>tư duy giải quyết vấn đề</b>, <i>tinh thần đồng đội</i> và tích lũy{" "}
-          <strong>kinh nghiệm thực chiến</strong> cho <em>hành trình nghề nghiệp công nghệ</em>.
-        </>
-      ),
-      image: "https://res.cloudinary.com/dggsvq2tw/image/upload/v1765385333/olp_icpc_btvsuh.webp",
-      icon: Trophy,
-      position: "top center",
-    },
-    {
-      title: "TechWare",
-      description: (
-        <>
-          <strong>TechWare</strong> là <em>chương trình nội bộ biểu tượng</em> của TechTonic, nơi{" "}
-          <b>5 đội</b> (Dev, BA, Tester, UX, IT Support) cùng vượt <em>thử thách sáng tạo</em>,{" "}
-          <i>phá mật thư</i>, <i>truy tìm kho báu</i>. Đây là <strong>sân chơi gắn kết</strong>,
-          giúp thành viên <b>thấu hiểu</b>, <b>kết nối</b> và <em>xây dựng cộng đồng bền vững</em>.
-        </>
-      ),
-      image: "https://res.cloudinary.com/dggsvq2tw/image/upload/v1758206574/techware_qb6urk.webp",
-      icon: LandPlot,
-      position: "center",
-    },
-    {
-      title: "Người trong ngành MIS",
-      description: (
-        <>
-          {" "}
-          Buổi trò chuyện là <strong>cầu nối</strong> giữa <em>anh chị đi trước</em> và{" "}
-          <em>sinh viên</em>, chia sẻ đa dạng chủ đề từ <b>AI, Chatbot, dữ liệu, công nghệ số</b>{" "}
-          đến <b>lập trình, kiểm thử</b>. Qua <em>câu chuyện thực tế</em>, sinh viên nhận được{" "}
-          <strong>góc nhìn nghề nghiệp</strong>, <b>kỹ năng thiết yếu</b> và{" "}
-          <em>định hướng tương lai</em>.
-        </>
-      ),
-      image: "https://res.cloudinary.com/dggsvq2tw/image/upload/v1758206555/ntn_mis_g8na7u.webp",
-      icon: Presentation,
-      position: "bottom center",
-    },
-  ];
+type ActivityCardPlacement = {
+  x: number;
+  y: number;
+  rotate: number;
+  rotateX: number;
+  rotateY: number;
+  scale: number;
+  zIndex: number;
+};
 
-  // Auto-rotate activities
+const cardPlacements: ActivityCardPlacement[] = [
+  { x: -56, y: 0, rotate: -4.5, rotateX: 5, rotateY: -7, scale: 0.94, zIndex: 10 },
+  { x: 112, y: 96, rotate: 3.5, rotateX: 4, rotateY: 5, scale: 0.955, zIndex: 20 },
+  { x: -72, y: 192, rotate: -2.8, rotateX: 2, rotateY: -4, scale: 0.97, zIndex: 30 },
+  { x: 96, y: 288, rotate: 2.2, rotateX: 1, rotateY: 3, scale: 0.985, zIndex: 40 },
+  { x: -40, y: 384, rotate: -1.4, rotateX: 0, rotateY: -1, scale: 1, zIndex: 50 },
+];
+
+const accentClasses: Record<
+  HomeActivityAccent,
+  {
+    border: string;
+    glow: "cyan" | "purple" | "magenta";
+    text: string;
+    badge: string;
+    wash: string;
+  }
+> = {
+  cyan: {
+    border: "border-cyan-300/40",
+    glow: "cyan",
+    text: "text-cyan-100",
+    badge: "border-cyan-300/35 bg-cyan-300/12 text-cyan-100",
+    wash: "from-cyan-300/16 via-transparent to-blue-500/10",
+  },
+  purple: {
+    border: "border-purple-300/40",
+    glow: "purple",
+    text: "text-purple-100",
+    badge: "border-purple-300/35 bg-purple-300/12 text-purple-100",
+    wash: "from-purple-400/16 via-transparent to-cyan-300/10",
+  },
+  magenta: {
+    border: "border-fuchsia-300/40",
+    glow: "magenta",
+    text: "text-fuchsia-100",
+    badge: "border-fuchsia-300/35 bg-fuchsia-300/12 text-fuchsia-100",
+    wash: "from-fuchsia-400/16 via-transparent to-purple-500/10",
+  },
+  blue: {
+    border: "border-blue-300/40",
+    glow: "cyan",
+    text: "text-blue-100",
+    badge: "border-blue-300/35 bg-blue-300/12 text-blue-100",
+    wash: "from-blue-400/16 via-transparent to-cyan-300/10",
+  },
+  amber: {
+    border: "border-amber-200/40",
+    glow: "magenta",
+    text: "text-amber-100",
+    badge: "border-amber-200/35 bg-amber-200/12 text-amber-100",
+    wash: "from-amber-200/16 via-transparent to-fuchsia-400/10",
+  },
+};
+
+function useIsDesktop() {
+  const [isDesktop, setIsDesktop] = useState(false);
+
   useEffect(() => {
-    const interval = setInterval(() => {
-      setCurrentActivity((prev) => (prev + 1) % activities.length);
-    }, 5000);
-    return () => clearInterval(interval);
-  }, [activities.length]);
+    const mediaQuery = window.matchMedia("(min-width: 1024px)");
+    const update = () => setIsDesktop(mediaQuery.matches);
 
-  return (
-    <section id="activities" className="py-20">
-      <div className="container mx-auto px-4">
-        <motion.div
-          className="text-center space-y-4 mb-16"
-          initial={{ opacity: 0, y: 50 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8 }}
-          viewport={{ once: true }}
-        >
-          <Badge className="bg-purple-100 text-purple-700 hover:bg-purple-700 hover:text-purple-100">
-            Hoạt động
-          </Badge>
-          <h2 className="text-3xl lg:text-5xl font-bold text-gray-900 font-paris2024">
-            Các hoạt động nổi bật
-          </h2>
-          <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-            Khám phá những chương trình đa dạng và bổ ích của TechTonic Club
-          </p>
-        </motion.div>
+    update();
+    mediaQuery.addEventListener("change", update);
 
-        {/* Activity Carousel */}
-        <div className="relative max-w-5xl mx-auto">
-          <div className="overflow-hidden rounded-2xl shadow-2xl shadow-purple-200">
-            <AnimatePresence mode="wait">
-              <motion.div
-                key={currentActivity}
-                initial={{ opacity: 0, scale: 0.9 }}
-                animate={{ opacity: 1, scale: 1 }}
-                exit={{ opacity: 0, scale: 1.1 }}
-                transition={{ duration: 0.5, ease: "easeInOut" }}
-                className="bg-white rounded-2xl overflow-hidden"
-              >
-                <div className="grid lg:grid-cols-2 ">
-                  <div className="relative h-[40vh]">
-                    <Image
-                      src={activities[currentActivity].image || "/placeholder.svg"}
-                      alt={activities[currentActivity].title as string}
-                      fill
-                      className="object-cover object-center"
-                      style={{
-                        objectPosition: activities[currentActivity].position,
-                      }} // có thể đổi: "top", "bottom", "left", "right"
-                    />
-                  </div>
-                  <div className="p-8 flex flex-col justify-center">
-                    <div className="flex items-center gap-3 mb-4">
-                      <div className="w-12 h-12 bg-purple-100 rounded-lg flex items-center justify-center">
-                        {React.createElement(activities[currentActivity].icon, {
-                          className: "h-6 w-6 text-purple-600",
-                        })}
-                      </div>
-                      <h3 className="font-utm-akashi text-3xl font-bold text-gray-950">
-                        {activities[currentActivity].title}
-                      </h3>
-                    </div>
-                    <p className="text-gray-700 leading-relaxed text-justify">
-                      {activities[currentActivity].description}
-                    </p>
-                  </div>
-                </div>
-              </motion.div>
-            </AnimatePresence>
+    return () => mediaQuery.removeEventListener("change", update);
+  }, []);
+
+  return isDesktop;
+}
+
+type ActivityStackCardProps = {
+  activity: HomeActivity;
+  index: number;
+  isAnimated: boolean;
+  progress: MotionValue<number>;
+};
+
+function ActivityStackCard({ activity, index, isAnimated, progress }: ActivityStackCardProps) {
+  const placement = cardPlacements[index] ?? cardPlacements[cardPlacements.length - 1];
+  const revealStart = index * 0.17;
+  const revealEnd = Math.min(revealStart + 0.28, 0.96);
+  const entryY = 520 + index * 88;
+  const accent = accentClasses[activity.accent];
+
+  const y = useTransform(
+    progress,
+    [revealStart, revealEnd, 1],
+    [entryY, placement.y, placement.y],
+    {
+      clamp: true,
+    }
+  );
+  const x = useTransform(progress, [revealStart, revealEnd, 1], [72, placement.x, placement.x], {
+    clamp: true,
+  });
+  const opacity = useTransform(progress, [revealStart, revealStart + 0.1, 1], [0, 1, 1], {
+    clamp: true,
+  });
+  const rotateZ = useTransform(
+    progress,
+    [revealStart, revealEnd, 1],
+    [10, placement.rotate, placement.rotate],
+    { clamp: true }
+  );
+  const rotateX = useTransform(
+    progress,
+    [revealStart, revealEnd, 1],
+    [12, placement.rotateX, placement.rotateX],
+    { clamp: true }
+  );
+  const rotateY = useTransform(
+    progress,
+    [revealStart, revealEnd, 1],
+    [-14, placement.rotateY, placement.rotateY],
+    { clamp: true }
+  );
+  const scale = useTransform(
+    progress,
+    [revealStart, revealEnd, 1],
+    [0.86, placement.scale, placement.scale],
+    { clamp: true }
+  );
+
+  const motionStyle: MotionStyle = isAnimated
+    ? {
+        opacity,
+        rotateX,
+        rotateY,
+        rotateZ,
+        scale,
+        transformStyle: "preserve-3d",
+        x,
+        y,
+        zIndex: placement.zIndex,
+      }
+    : {
+        opacity: 1,
+        transformStyle: "preserve-3d",
+      };
+
+  const card = (
+    <motion.article
+      aria-labelledby={`activity-${activity.id}-title`}
+      className={cn(
+        "w-full outline-none",
+        isAnimated ? "absolute right-4 top-2 w-[min(720px,52vw)]" : "relative h-full"
+      )}
+      style={motionStyle}
+      tabIndex={0}
+    >
+      <GlassCard
+        glow={accent.glow}
+        className={cn(
+          "group/card relative h-full overflow-hidden rounded-2xl",
+          "border bg-[#111318] shadow-2xl backdrop-blur-none before:opacity-[0.08]",
+          "focus-within:ring-2 focus-within:ring-cyan-300/70",
+          isAnimated ? "aspect-[2/1]" : "min-h-[320px]",
+          accent.border
+        )}
+      >
+        <div
+          aria-hidden
+          className={cn(
+            "pointer-events-none absolute inset-0 bg-gradient-to-br opacity-35",
+            accent.wash
+          )}
+        />
+        <div className="relative z-10 grid h-full gap-0 lg:grid-cols-2">
+          <div className="relative min-h-[220px] overflow-hidden lg:min-h-full [transform:translateZ(28px)]">
+            <Image
+              src={activity.image}
+              alt={activity.imageAlt}
+              fill
+              sizes="(min-width: 1024px) 360px, 100vw"
+              className="object-cover transition duration-500 group-hover/card:scale-105"
+              style={{ objectPosition: activity.position ?? "center" }}
+            />
+            <div
+              aria-hidden
+              className="absolute inset-0 bg-gradient-to-t from-[#08090c]/44 via-transparent to-transparent lg:bg-gradient-to-r lg:from-transparent lg:via-transparent lg:to-[#111318]/38"
+            />
+            <div className="absolute left-4 top-4 inline-flex items-center gap-2 rounded-full border border-white/20 bg-black/55 px-3 py-1.5 text-xs font-semibold uppercase tracking-[0.18em] text-white backdrop-blur-md">
+              <Layers3 className="h-3.5 w-3.5" aria-hidden />
+              {String(index + 1).padStart(2, "0")}
+            </div>
           </div>
 
-          {/* Activity Indicators */}
-          <div className="flex justify-center mt-6 gap-2">
-            {activities.map((_, index) => (
-              <button
-                key={index}
-                type="button"
-                aria-label={`Xem hoạt động ${index + 1}`}
-                aria-current={index === currentActivity ? "true" : undefined}
-                onClick={() => setCurrentActivity(index)}
-                className="inline-flex h-11 w-11 items-center justify-center rounded-full"
+          <div className="relative flex flex-col justify-center gap-3 p-5 sm:p-6 [transform:translateZ(42px)]">
+            <div>
+              <p
+                className={cn("mb-2 text-xs font-semibold uppercase tracking-[0.2em]", accent.text)}
               >
+                {activity.summary}
+              </p>
+              <h3
+                id={`activity-${activity.id}-title`}
+                className="font-utm-akashi text-2xl font-bold leading-tight text-white sm:text-3xl"
+              >
+                {activity.title}
+              </h3>
+            </div>
+
+            <p className="text-sm leading-6 text-white/74">{activity.description}</p>
+
+            <div className="flex flex-wrap gap-2">
+              {activity.tags.map((tag) => (
                 <span
-                  className={`h-3 w-3 rounded-full transition-colors ${
-                    index === currentActivity ? "bg-purple-600" : "bg-gray-300"
-                  }`}
-                />
-              </button>
+                  key={tag}
+                  className={cn(
+                    "rounded-full border px-3 py-1 text-xs font-semibold",
+                    accent.badge
+                  )}
+                >
+                  {tag}
+                </span>
+              ))}
+            </div>
+          </div>
+        </div>
+      </GlassCard>
+    </motion.article>
+  );
+
+  if (isAnimated) {
+    return card;
+  }
+
+  return (
+    <Card3D intensity={4} className="h-full">
+      {card}
+    </Card3D>
+  );
+}
+
+export function Activities() {
+  const containerRef = useRef<HTMLDivElement | null>(null);
+  const { reducedMotion, shouldRenderMotion } = use3d();
+  const isDesktop = useIsDesktop();
+  const isScrollSceneEnabled = isDesktop && shouldRenderMotion && !reducedMotion;
+  const { scrollYProgress } = useScroll({
+    target: containerRef,
+    offset: ["start start", "end end"],
+  });
+
+  return (
+    <div
+      ref={containerRef}
+      className={cn("relative bg-[#0a0a0a]", isScrollSceneEnabled && "h-[420vh]")}
+    >
+      <SectionShell
+        id="activities"
+        aria-labelledby="activities-title"
+        tone="dark"
+        className={cn(
+          "overflow-visible border-y border-white/10 bg-[#0a0a0a]",
+          isScrollSceneEnabled
+            ? "sticky top-0 flex min-h-screen items-center py-14 lg:py-16"
+            : "py-20"
+        )}
+        contentClassName="max-w-[90rem]"
+      >
+        <GradientOrb className="-left-20 top-20 h-80 w-80" color="purple" />
+        <GradientOrb className="bottom-16 right-0 h-96 w-96" color="cyan" />
+
+        <div className="grid items-center gap-12 lg:grid-cols-[0.82fr_1.18fr] lg:gap-16 xl:w-[calc(100%+4rem)] xl:-translate-x-8 2xl:w-[calc(100%+6rem)] 2xl:-translate-x-12">
+          <div className="relative z-20 max-w-xl">
+            <div className="mb-5 inline-flex items-center gap-2 rounded-full border border-purple-300/25 bg-purple-300/10 px-4 py-2 text-xs font-semibold uppercase tracking-[0.24em] text-purple-100">
+              <Sparkles className="h-4 w-4" aria-hidden />
+              {homeActivitiesSectionCopy.badge}
+            </div>
+            <h2
+              id="activities-title"
+              className="font-paris2024 text-4xl font-extrabold leading-tight text-white sm:text-5xl lg:text-6xl"
+            >
+              {homeActivitiesSectionCopy.title}
+            </h2>
+            <p className="mt-6 max-w-lg text-base leading-7 text-white/68 sm:text-lg">
+              {homeActivitiesSectionCopy.description}
+            </p>
+          </div>
+
+          <div
+            className={cn(
+              "relative z-10",
+              isScrollSceneEnabled
+                ? "min-h-[780px] [perspective:1400px]"
+                : "grid gap-5 md:grid-cols-2"
+            )}
+          >
+            {homeActivities.map((activity, index) => (
+              <ActivityStackCard
+                key={activity.id}
+                activity={activity}
+                index={index}
+                isAnimated={isScrollSceneEnabled}
+                progress={scrollYProgress}
+              />
             ))}
           </div>
         </div>
-      </div>
-    </section>
+      </SectionShell>
+    </div>
   );
 }
