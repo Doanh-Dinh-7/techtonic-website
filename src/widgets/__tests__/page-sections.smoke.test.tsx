@@ -1,7 +1,7 @@
 /**
  * @vitest-environment jsdom
  */
-import { render, screen } from "@testing-library/react";
+import { render, screen, waitFor } from "@testing-library/react";
 import { describe, expect, it } from "vitest";
 import { AboutPageSections } from "@/widgets/about/about-page-sections";
 import { EventsPageContent } from "@/widgets/events/events-page-content";
@@ -9,12 +9,15 @@ import { HomePageSections } from "@/widgets/home/home-page-sections";
 import { RecruitmentPageSections } from "@/widgets/recruitment/recruitment-page-sections";
 
 describe("Route section smoke", () => {
-  it("home: renders hero and core section landmarks", () => {
+  it("home: renders hero and core section landmarks", async () => {
     render(<HomePageSections />);
 
     expect(screen.getByRole("heading", { level: 1, name: "TECHTONIC CLUB" })).toBeInTheDocument();
-    expect(document.getElementById("core-values")).toBeTruthy();
-    expect(document.getElementById("contact")).toBeTruthy();
+
+    await waitFor(() => {
+      expect(document.getElementById("core-values")).toBeTruthy();
+      expect(document.getElementById("contact")).toBeTruthy();
+    });
   });
 
   it("recruitment: renders registration entry point", () => {

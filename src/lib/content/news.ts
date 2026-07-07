@@ -1,33 +1,41 @@
-/** Tin nổi bật — mẫu, cập nhật sau. */
+import { happyHourCopy, termEvents } from "./events";
 import type { NewsItem } from "./types";
+import { clubTimeline } from "./timeline";
 
+const techxplore = termEvents.find((event) => event.id === "techxplore");
+const clubLaunch = clubTimeline.find((entry) => entry.title === "Ra mắt chính thức");
+
+if (!techxplore || !clubLaunch) {
+  throw new Error("featuredNews: missing required content from events or timeline");
+}
+
+/** Tin nổi bật trang chủ — đồng bộ từ recruitment, events, about. */
 export const featuredNews: NewsItem[] = [
   {
-    id: "1",
-    title: "TechTonic mở đợt tuyển thành viên mới",
-    excerpt:
-      "Chào đón các bạn tân sinh viên đam mê công nghệ tham gia cộng đồng học tập và dự án thực tế.",
-    date: "2025-03-01",
+    id: "techxplore",
+    title: techxplore.title,
+    excerpt: techxplore.summary,
+    date: "Tuyển thành viên",
     href: "/recruitment",
     badge: "Tuyển dụng",
-    isSample: true,
+    glow: "cyan",
   },
   {
-    id: "2",
-    title: "Workshop: Làm quen với Git & GitHub",
-    excerpt: "Buổi chia sẻ ngắn về quy trình làm việc nhóm và quản lý mã nguồn cho người mới.",
-    date: "2025-02-15",
-    href: "/events",
+    id: "happy-hour",
+    title: happyHourCopy.title,
+    excerpt: happyHourCopy.summary,
+    date: "Hằng tháng",
+    href: "/events#happy-hour",
     badge: "Sự kiện",
-    isSample: true,
+    glow: "purple",
   },
   {
-    id: "3",
-    title: "Cập nhật website CLB",
-    excerpt: "Giao diện mới, nhiều trang thông tin hơn để các bạn dễ tìm hiểu về TechTonic.",
-    date: "2025-03-20",
-    href: "#",
+    id: "club-launch",
+    title: clubLaunch.title,
+    excerpt: clubLaunch.description,
+    date: clubLaunch.dateLabel,
+    href: "/about#about-timeline",
     badge: "Thông báo",
-    isSample: true,
+    glow: "magenta",
   },
 ];
