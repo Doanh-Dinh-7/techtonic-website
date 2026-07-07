@@ -10,4 +10,5 @@ export * from "./awards";
 export * from "./events";
 export * from "./blog-posts";
 export * from "./faq";
+export * from "./home-activities";
 export * from "./home";
