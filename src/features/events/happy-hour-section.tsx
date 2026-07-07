@@ -8,7 +8,10 @@ import { happyHourCopy } from "@/lib/content/events";
 
 export function HappyHourSection() {
   return (
-    <section className="relative overflow-hidden border-y border-white/10 py-20 sm:py-24">
+    <section
+      id="happy-hour"
+      className="relative overflow-hidden border-y border-white/10 py-20 sm:py-24"
+    >
       <Image
         src={happyHourCopy.backgroundImage}
         alt={happyHourCopy.backgroundImageAlt}

@@ -1,13 +1,5 @@
-import { RecruitmentFaq } from "@/features/recruitment/recruitment-faq";
-import { RecruitmentProcessExtra } from "@/features/recruitment/recruitment-process-extra";
-import { Registration } from "@/features/recruitment/registration";
+import { RecruitmentContent } from "@/features/recruitment/recruitment-content";
 
 export function RecruitmentPageSections() {
-  return (
-    <>
-      <Registration />
-      <RecruitmentProcessExtra />
-      <RecruitmentFaq />
-    </>
-  );
+  return <RecruitmentContent />;
 }

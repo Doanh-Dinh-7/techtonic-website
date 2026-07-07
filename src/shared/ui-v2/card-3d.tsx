@@ -41,16 +41,13 @@ export function Card3D({
 
   return (
     <div
-      className="group perspective-[1200px]"
+      className={cn("group perspective-[1200px]", className)}
       onMouseMove={handleMouseMove}
       onMouseLeave={handleMouseLeave}
       {...props}
     >
       <div
-        className={cn(
-          "h-full rounded-3xl transition-transform duration-300 ease-out will-change-transform motion-reduce:transform-none",
-          className
-        )}
+        className="h-full rounded-3xl transition-transform duration-300 ease-out will-change-transform motion-reduce:transform-none"
         style={{
           transform: `rotateX(${rotation.x}deg) rotateY(${rotation.y}deg)`,
           transformStyle: "preserve-3d",

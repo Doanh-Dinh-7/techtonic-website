@@ -1,7 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { Facebook, Instagram, Mail, MapPin, Phone } from "lucide-react";
+import { Facebook, Instagram, Mail, MapPin, Phone, Youtube } from "lucide-react";
 import Link from "next/link";
 import { SiThreads as Threads } from "react-icons/si";
 
@@ -35,6 +35,13 @@ const socialLinks = [
     bgColor: "bg-blue-600",
     hoverBgColor: "hover:bg-blue-700",
     href: "https://www.facebook.com/TechTonic.Club17",
+  },
+  {
+    icon: Youtube,
+    label: "Youtube TechTonic Club",
+    bgColor: "bg-red-600",
+    hoverBgColor: "hover:bg-red-700",
+    href: "https://www.youtube.com/@TechTonicClub-1724",
   },
   {
     icon: Instagram,

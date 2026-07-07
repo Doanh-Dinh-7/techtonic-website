@@ -9,6 +9,7 @@ export type NewsItem = {
   external?: boolean;
   badge?: string;
   isSample?: boolean;
+  glow?: "cyan" | "purple" | "magenta";
 };
 
 export type PartnerLogo = {
