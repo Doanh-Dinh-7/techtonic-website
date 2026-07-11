@@ -25,7 +25,9 @@ export function TimelineMilestoneCard({ entry, className }: TimelineMilestoneCar
         <h3 className="mb-2 font-utm-akashi text-base font-normal">
           <span className={isCyan ? "text-neon-cyan" : "text-neon-purple"}>{entry.dateLabel}:</span>
         </h3>
-        <p className="text-sm leading-relaxed text-white/68">{entry.description}</p>
+        <p className="text-sm leading-relaxed text-muted-foreground dark:text-white/68">
+          {entry.description}
+        </p>
       </GlassCard>
       <div
         className={cn(

@@ -46,10 +46,12 @@ export function AboutBenefits() {
                 className={cn("mb-6 h-12 w-12", isCyan ? "text-neon-cyan" : "text-neon-purple")}
                 aria-hidden
               />
-              <h3 className="mb-4 font-utm-akashi text-xl font-normal text-white md:text-2xl">
+              <h3 className="mb-4 font-utm-akashi text-xl font-normal text-foreground md:text-2xl dark:text-white">
                 {benefit.title}
               </h3>
-              <p className="leading-relaxed text-white/68">{benefit.description}</p>
+              <p className="leading-relaxed text-muted-foreground dark:text-white/68">
+                {benefit.description}
+              </p>
             </GlassCard>
           );
         })}

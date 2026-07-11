@@ -22,10 +22,12 @@ export function AboutIntro() {
           viewport={{ once: true }}
           transition={{ duration: 0.5 }}
         >
-          <h2 className="mb-6 font-paris2024 text-3xl font-bold text-white sm:text-4xl">
+          <h2 className="mb-6 font-paris2024 text-3xl font-bold text-foreground sm:text-4xl dark:text-white">
             {aboutIntroCopy.title}
           </h2>
-          <p className="text-lg leading-relaxed text-white/68">{aboutIntroCopy.description}</p>
+          <p className="text-lg leading-relaxed text-muted-foreground dark:text-white/68">
+            {aboutIntroCopy.description}
+          </p>
         </motion.div>
         <motion.div
           className="grid grid-cols-2 gap-4 md:grid-cols-3"
@@ -38,12 +40,14 @@ export function AboutIntro() {
             <GlassCard
               key={pillar.id}
               glow={pillar.accent === "cyan" ? "cyan" : "purple"}
-              className="flex flex-col items-center justify-center p-6 text-center"
+              className="flex flex-col items-center justify-center bg-card/90 p-6 text-center shadow-sm dark:bg-white/[0.06]"
             >
               <p
                 className={cn(
                   "font-mono text-xs uppercase tracking-wider",
-                  pillar.accent === "cyan" ? "text-neon-cyan" : "text-neon-purple"
+                  pillar.accent === "cyan"
+                    ? "text-cyan-700 dark:text-neon-cyan"
+                    : "text-purple-700 dark:text-neon-purple"
                 )}
               >
                 {pillar.label}

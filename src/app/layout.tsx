@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import { Analytics } from "@vercel/analytics/next";
 import { SITE } from "@/lib/seo";
+import { ThemeProvider } from "@/shared/providers/theme-provider";
 import { Toaster } from "@/shared/ui/toaster";
 import "./globals.css";
 
@@ -31,9 +32,16 @@ export default function RootLayout({
   return (
     <html lang={SITE.language} className="scroll-smooth" suppressHydrationWarning>
       <body className={inter.className} suppressHydrationWarning>
-        {children}
-        <Toaster />
-        <Analytics />
+        <ThemeProvider
+          attribute="class"
+          defaultTheme="system"
+          enableSystem
+          disableTransitionOnChange
+        >
+          {children}
+          <Toaster />
+          <Analytics />
+        </ThemeProvider>
       </body>
     </html>
   );

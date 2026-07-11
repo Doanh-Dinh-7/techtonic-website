@@ -12,12 +12,12 @@ export function DepartmentsOrgChart() {
   return (
     <div
       ref={scrollRef}
-      className="departments-org-scroll overflow-x-auto overscroll-contain rounded-2xl border border-white/10 bg-white/[0.02] p-4 sm:p-6"
+      className="departments-org-scroll overflow-x-auto overscroll-contain rounded-2xl border border-border bg-card/80 p-4 shadow-sm dark:border-white/10 dark:bg-white/[0.02] sm:p-6"
       aria-label="Sơ đồ cơ cấu Câu lạc bộ TechTonic"
       tabIndex={0}
     >
       <div className="mx-auto min-w-[720px] max-w-5xl">
-        <div className="rounded-xl border-2 border-dashed border-cyan-400/30 bg-cyan-500/5 p-4 sm:p-6">
+        <div className="rounded-xl border-2 border-dashed border-cyan-500/30 bg-cyan-500/10 p-4 dark:border-cyan-400/30 dark:bg-cyan-500/5 sm:p-6">
           <OrgChartInfoNode
             node={orgChartNodes.club}
             className="mx-auto mb-6 max-w-md border-cyan-400/30 bg-cyan-500/10"
@@ -56,7 +56,7 @@ export function DepartmentsOrgChart() {
               />
             </div>
 
-            <div className="mx-auto mb-3 h-4 w-px bg-white/20" aria-hidden />
+            <div className="mx-auto mb-3 h-4 w-px bg-border dark:bg-white/20" aria-hidden />
 
             <div className="grid grid-cols-5 gap-2">
               <DepartmentColumn
@@ -120,7 +120,7 @@ export function DepartmentsOrgChart() {
                   key={node.id}
                   node={node}
                   compact
-                  className="border-white/20 bg-white/5"
+                  className="border-border bg-card/80 dark:border-white/20 dark:bg-white/5"
                 />
               ))}
             </div>
@@ -173,7 +173,12 @@ function DepartmentColumn({
 
 function AdvisorColumn() {
   return (
-    <div className={cn("flex flex-col gap-2 rounded-lg border p-2", "border-white/20 bg-white/5")}>
+    <div
+      className={cn(
+        "flex flex-col gap-2 rounded-lg border p-2",
+        "border-border bg-card/80 dark:border-white/20 dark:bg-white/5"
+      )}
+    >
       <OrgChartInfoNode node={orgChartNodes.advisors} showInfo compact />
       <OrgChartInfoNode
         node={orgChartNodes.studentAdvisor}

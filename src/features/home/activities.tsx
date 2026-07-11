@@ -44,38 +44,43 @@ const accentClasses: Record<
   }
 > = {
   cyan: {
-    border: "border-cyan-300/40",
+    border: "border-cyan-500/30 dark:border-cyan-300/40",
     glow: "cyan",
-    text: "text-cyan-100",
-    badge: "border-cyan-300/35 bg-cyan-300/12 text-cyan-100",
+    text: "text-cyan-700 dark:text-cyan-100",
+    badge:
+      "border-cyan-500/30 bg-cyan-500/10 text-cyan-700 dark:border-cyan-300/35 dark:bg-cyan-300/12 dark:text-cyan-100",
     wash: "from-cyan-300/16 via-transparent to-blue-500/10",
   },
   purple: {
-    border: "border-purple-300/40",
+    border: "border-purple-500/30 dark:border-purple-300/40",
     glow: "purple",
-    text: "text-purple-100",
-    badge: "border-purple-300/35 bg-purple-300/12 text-purple-100",
+    text: "text-purple-700 dark:text-purple-100",
+    badge:
+      "border-purple-500/30 bg-purple-500/10 text-purple-700 dark:border-purple-300/35 dark:bg-purple-300/12 dark:text-purple-100",
     wash: "from-purple-400/16 via-transparent to-cyan-300/10",
   },
   magenta: {
-    border: "border-fuchsia-300/40",
+    border: "border-fuchsia-500/30 dark:border-fuchsia-300/40",
     glow: "magenta",
-    text: "text-fuchsia-100",
-    badge: "border-fuchsia-300/35 bg-fuchsia-300/12 text-fuchsia-100",
+    text: "text-fuchsia-700 dark:text-fuchsia-100",
+    badge:
+      "border-fuchsia-500/30 bg-fuchsia-500/10 text-fuchsia-700 dark:border-fuchsia-300/35 dark:bg-fuchsia-300/12 dark:text-fuchsia-100",
     wash: "from-fuchsia-400/16 via-transparent to-purple-500/10",
   },
   blue: {
-    border: "border-blue-300/40",
+    border: "border-blue-500/30 dark:border-blue-300/40",
     glow: "cyan",
-    text: "text-blue-100",
-    badge: "border-blue-300/35 bg-blue-300/12 text-blue-100",
+    text: "text-blue-700 dark:text-blue-100",
+    badge:
+      "border-blue-500/30 bg-blue-500/10 text-blue-700 dark:border-blue-300/35 dark:bg-blue-300/12 dark:text-blue-100",
     wash: "from-blue-400/16 via-transparent to-cyan-300/10",
   },
   amber: {
-    border: "border-amber-200/40",
+    border: "border-amber-500/30 dark:border-amber-200/40",
     glow: "magenta",
-    text: "text-amber-100",
-    badge: "border-amber-200/35 bg-amber-200/12 text-amber-100",
+    text: "text-amber-700 dark:text-amber-100",
+    badge:
+      "border-amber-500/30 bg-amber-500/10 text-amber-700 dark:border-amber-200/35 dark:bg-amber-200/12 dark:text-amber-100",
     wash: "from-amber-200/16 via-transparent to-fuchsia-400/10",
   },
 };
@@ -180,7 +185,7 @@ function ActivityStackCard({ activity, index, isAnimated, progress }: ActivitySt
         glow={accent.glow}
         className={cn(
           "group/card relative h-full overflow-hidden rounded-2xl",
-          "border bg-[#111318] shadow-2xl backdrop-blur-none before:opacity-[0.08]",
+          "border bg-card/95 text-card-foreground shadow-xl backdrop-blur-none before:opacity-[0.08] dark:bg-[#111318] dark:text-white dark:shadow-2xl",
           "focus-within:ring-2 focus-within:ring-cyan-300/70",
           isAnimated ? "aspect-[2/1]" : "min-h-[320px]",
           accent.border
@@ -205,7 +210,7 @@ function ActivityStackCard({ activity, index, isAnimated, progress }: ActivitySt
             />
             <div
               aria-hidden
-              className="absolute inset-0 bg-gradient-to-t from-[#08090c]/44 via-transparent to-transparent lg:bg-gradient-to-r lg:from-transparent lg:via-transparent lg:to-[#111318]/38"
+              className="absolute inset-0 bg-gradient-to-t from-background/35 via-transparent to-transparent lg:bg-gradient-to-r lg:from-transparent lg:via-transparent lg:to-card/40 dark:from-[#08090c]/44 dark:to-[#111318]/38"
             />
             <div className="absolute left-4 top-4 inline-flex items-center gap-2 rounded-full border border-white/20 bg-black/55 px-3 py-1.5 text-xs font-semibold uppercase tracking-[0.18em] text-white backdrop-blur-md">
               <Layers3 className="h-3.5 w-3.5" aria-hidden />
@@ -222,13 +227,15 @@ function ActivityStackCard({ activity, index, isAnimated, progress }: ActivitySt
               </p>
               <h3
                 id={`activity-${activity.id}-title`}
-                className="font-utm-akashi text-2xl font-bold leading-tight text-white sm:text-3xl"
+                className="font-utm-akashi text-2xl font-bold leading-tight text-foreground sm:text-3xl dark:text-white"
               >
                 {activity.title}
               </h3>
             </div>
 
-            <p className="text-sm leading-6 text-white/74">{activity.description}</p>
+            <p className="text-sm leading-6 text-muted-foreground dark:text-white/74">
+              {activity.description}
+            </p>
 
             <div className="flex flex-wrap gap-2">
               {activity.tags.map((tag) => (
@@ -273,14 +280,17 @@ export function Activities() {
   return (
     <div
       ref={containerRef}
-      className={cn("relative bg-[#0a0a0a]", isScrollSceneEnabled && "h-[420vh]")}
+      className={cn(
+        "relative bg-background dark:bg-[#0a0a0a]",
+        isScrollSceneEnabled && "h-[420vh]"
+      )}
     >
       <SectionShell
         id="activities"
         aria-labelledby="activities-title"
         tone="dark"
         className={cn(
-          "overflow-visible border-y border-white/10 bg-[#0a0a0a]",
+          "overflow-visible border-y border-border bg-background dark:border-white/10 dark:bg-[#0a0a0a]",
           isScrollSceneEnabled
             ? "sticky top-0 flex min-h-screen items-center py-14 lg:py-16"
             : "py-20"
@@ -292,17 +302,17 @@ export function Activities() {
 
         <div className="grid items-center gap-12 lg:grid-cols-[0.82fr_1.18fr] lg:gap-16 xl:w-[calc(100%+4rem)] xl:-translate-x-8 2xl:w-[calc(100%+6rem)] 2xl:-translate-x-12">
           <div className="relative z-20 max-w-xl">
-            <div className="mb-5 inline-flex items-center gap-2 rounded-full border border-purple-300/25 bg-purple-300/10 px-4 py-2 text-xs font-semibold uppercase tracking-[0.24em] text-purple-100">
+            <div className="mb-5 inline-flex items-center gap-2 rounded-full border border-purple-500/25 bg-purple-500/10 px-4 py-2 text-xs font-semibold uppercase tracking-[0.24em] text-purple-700 dark:border-purple-300/25 dark:bg-purple-300/10 dark:text-purple-100">
               <Sparkles className="h-4 w-4" aria-hidden />
               {homeActivitiesSectionCopy.badge}
             </div>
             <h2
               id="activities-title"
-              className="font-paris2024 text-4xl font-extrabold leading-tight text-white sm:text-5xl lg:text-6xl"
+              className="font-paris2024 text-4xl font-extrabold leading-tight text-foreground sm:text-5xl lg:text-6xl dark:text-white"
             >
               {homeActivitiesSectionCopy.title}
             </h2>
-            <p className="mt-6 max-w-lg text-base leading-7 text-white/68 sm:text-lg">
+            <p className="mt-6 max-w-lg text-base leading-7 text-muted-foreground sm:text-lg dark:text-white/68">
               {homeActivitiesSectionCopy.description}
             </p>
           </div>

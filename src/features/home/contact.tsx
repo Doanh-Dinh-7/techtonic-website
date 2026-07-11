@@ -101,14 +101,14 @@ export function Contact() {
                 </motion.div>
                 <div>
                   <h3 className="font-semibold">{contact.title}</h3>
-                  <p className="text-white/70">{contact.info}</p>
+                  <p className="text-muted-foreground dark:text-white/70">{contact.info}</p>
                 </div>
               </motion.div>
             ))}
           </div>
 
           <motion.div
-            className="mt-8 border-t border-white/20 pt-6"
+            className="mt-8 border-t border-border pt-6 dark:border-white/20"
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.6, duration: 0.6 }}

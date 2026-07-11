@@ -44,9 +44,17 @@ export function ActivityCard({ activity }: ActivityCardProps) {
       >
         <Icon className="h-6 w-6" aria-hidden />
       </div>
-      <h3 className="font-utm-akashi text-xl font-normal text-white">{activity.title}</h3>
-      <p className="text-sm leading-relaxed text-white/68">{activity.summary}</p>
-      {expanded && <p className="text-sm leading-relaxed text-white/55">{activity.description}</p>}
+      <h3 className="font-utm-akashi text-xl font-normal text-foreground dark:text-white">
+        {activity.title}
+      </h3>
+      <p className="text-sm leading-relaxed text-muted-foreground dark:text-white/68">
+        {activity.summary}
+      </p>
+      {expanded && (
+        <p className="text-sm leading-relaxed text-muted-foreground dark:text-white/55">
+          {activity.description}
+        </p>
+      )}
       {hasMore && (
         <button
           type="button"

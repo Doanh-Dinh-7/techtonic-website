@@ -37,7 +37,9 @@ export function AboutHero() {
         >
           {aboutHeroCopy.title}
         </h1>
-        <p className="max-w-2xl text-lg leading-relaxed text-white/68">{aboutHeroCopy.tagline}</p>
+        <p className="max-w-2xl text-lg leading-relaxed text-muted-foreground dark:text-white/68">
+          {aboutHeroCopy.tagline}
+        </p>
       </motion.div>
     </section>
   );

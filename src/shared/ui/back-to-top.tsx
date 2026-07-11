@@ -20,7 +20,7 @@ export function BackToTop({ show, onClick }: BackToTopProps) {
           exit={{ scale: 0, opacity: 0 }}
           transition={{ duration: 0.3 }}
           onClick={onClick}
-          className="fixed bottom-8 right-8 z-50 flex h-12 w-12 min-h-11 min-w-11 items-center justify-center rounded-full bg-gradient-to-r from-[#3756a6] to-[#667ee4] text-white shadow-lg transition-shadow hover:shadow-xl focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-300 focus-visible:ring-offset-2 focus-visible:ring-offset-[#0a0a0a]"
+          className="fixed bottom-8 right-8 z-50 flex h-12 w-12 min-h-11 min-w-11 items-center justify-center rounded-full bg-primary text-primary-foreground shadow-lg transition-shadow hover:shadow-xl focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background"
           whileHover={{
             scale: 1.1,
             boxShadow: "0 10px 25px rgba(59, 130, 246, 0.4)",

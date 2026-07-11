@@ -39,11 +39,13 @@ function VisionPanel() {
         <div className="flex h-12 w-12 items-center justify-center rounded-lg bg-neon-cyan/10">
           <Eye className="h-6 w-6 text-neon-cyan" aria-hidden />
         </div>
-        <h3 className="font-utm-akashi text-xl font-normal text-white md:text-2xl">
+        <h3 className="font-utm-akashi text-xl font-normal text-foreground md:text-2xl dark:text-white">
           {aboutVisionCopy.title}
         </h3>
       </div>
-      <p className="text-lg leading-relaxed text-white/80">{aboutVisionCopy.description}</p>
+      <p className="text-lg leading-relaxed text-muted-foreground dark:text-white/80">
+        {aboutVisionCopy.description}
+      </p>
     </GlassCard>
   );
 }
@@ -58,7 +60,7 @@ function MissionPanel() {
         >
           &ldquo;
         </span>
-        <p className="font-paris2024 text-xl italic leading-relaxed text-white md:text-2xl lg:text-3xl">
+        <p className="font-paris2024 text-xl italic leading-relaxed text-foreground md:text-2xl lg:text-3xl dark:text-white">
           {aboutMissionCopy.quote}
         </p>
         <span
@@ -76,7 +78,7 @@ function MissionPanel() {
             <GlassCard
               key={pillar.id}
               glow={isCyan ? "cyan" : "purple"}
-              className="group flex flex-col items-center p-6 text-center"
+              className="group flex flex-col items-center bg-card/90 p-6 text-center dark:bg-white/[0.06]"
             >
               <div
                 className={cn(
@@ -89,7 +91,7 @@ function MissionPanel() {
                   aria-hidden
                 />
               </div>
-              <h4 className="font-utm-akashi text-sm font-normal text-white md:text-base">
+              <h4 className="font-utm-akashi text-sm font-normal text-foreground md:text-base dark:text-white">
                 {pillar.label}
               </h4>
             </GlassCard>
@@ -112,7 +114,7 @@ export function AboutIdentitySection() {
       id="about-identity"
       tone="dark"
       align="left"
-      className="border-t border-white/10 bg-white/[0.02] py-16 lg:py-24"
+      className="border-t border-border bg-transparent py-16 lg:py-24 dark:border-white/10 dark:bg-white/[0.02]"
       contentClassName="max-w-7xl"
       badge="Định hướng CLB"
       title="Tầm nhìn & Sứ mệnh"

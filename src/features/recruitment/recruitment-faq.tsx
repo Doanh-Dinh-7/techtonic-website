@@ -38,10 +38,12 @@ export function RecruitmentFaq() {
           <HelpCircle className="h-3.5 w-3.5" aria-hidden />
           {recruitmentFaqCopy.badge}
         </span>
-        <h2 className="font-paris2024 text-3xl font-bold tracking-tight text-white sm:text-4xl">
+        <h2 className="font-paris2024 text-3xl font-bold tracking-tight text-foreground sm:text-4xl dark:text-white">
           {recruitmentFaqCopy.title}
         </h2>
-        <p className="text-sm text-white/65">{recruitmentFaqCopy.description}</p>
+        <p className="text-sm text-muted-foreground dark:text-white/65">
+          {recruitmentFaqCopy.description}
+        </p>
       </motion.div>
 
       <Accordion type="single" collapsible className="w-full space-y-2">
@@ -49,11 +51,11 @@ export function RecruitmentFaq() {
           <AccordionItem
             key={i}
             value={`faq-${i}`}
-            className="overflow-hidden rounded-xl border border-white/10 bg-white/[0.03] px-4 backdrop-blur-sm"
+            className="overflow-hidden rounded-xl border border-border bg-card/90 px-4 shadow-sm backdrop-blur-sm dark:border-white/10 dark:bg-white/[0.03]"
           >
             <AccordionTrigger
               className={cn(
-                "py-4 text-left text-white/90 hover:no-underline",
+                "py-4 text-left text-foreground hover:no-underline dark:text-white/90",
                 "[&[data-state=open]]:text-neon-cyan"
               )}
             >
@@ -64,7 +66,7 @@ export function RecruitmentFaq() {
                 )}
               </span>
             </AccordionTrigger>
-            <AccordionContent className="pb-4 text-sm leading-relaxed text-white/68">
+            <AccordionContent className="pb-4 text-sm leading-relaxed text-muted-foreground dark:text-white/68">
               {item.a}
             </AccordionContent>
           </AccordionItem>

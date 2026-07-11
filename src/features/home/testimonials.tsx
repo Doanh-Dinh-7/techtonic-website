@@ -109,7 +109,7 @@ export function Testimonials() {
                   ))}
                 </div>
 
-                <blockquote className="mb-6 min-h-[12rem] text-xl italic leading-relaxed text-white/75 md:min-h-[10rem]">
+                <blockquote className="mb-6 min-h-[12rem] text-xl italic leading-relaxed text-muted-foreground md:min-h-[10rem] dark:text-white/75">
                   &ldquo;
                   <Typewriter
                     text={active.text}
@@ -126,7 +126,7 @@ export function Testimonials() {
                   transition={{ delay: 0.5 }}
                 >
                   <p className="font-utm-akashi text-xl font-semibold">{active.name}</p>
-                  <p className="text-white/65">
+                  <p className="text-muted-foreground dark:text-white/65">
                     {`${getDynamicRole(active.year)} - ${active.role}`}
                   </p>
                 </motion.div>
@@ -148,7 +148,9 @@ export function Testimonials() {
           >
             <span
               className={`h-3 w-3 rounded-full transition-colors ${
-                index === currentTestimonial ? "bg-cyan-300" : "bg-white/30"
+                index === currentTestimonial
+                  ? "bg-cyan-500 dark:bg-cyan-300"
+                  : "bg-muted-foreground/30 dark:bg-white/30"
               }`}
             />
           </button>

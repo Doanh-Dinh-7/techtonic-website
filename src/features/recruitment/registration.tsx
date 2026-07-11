@@ -16,13 +16,15 @@ import { GlassCard, NeonButton, SectionShell } from "@/shared/ui-v2";
 import { cn } from "@/shared/utils";
 
 const formFieldClass = cn(
-  "border-white/10 bg-white/[0.06] text-white placeholder:text-white/40",
-  "focus-visible:border-neon-cyan/50 focus-visible:ring-neon-cyan/20"
+  "border-border bg-background/80 text-foreground placeholder:text-muted-foreground/70",
+  "focus-visible:border-neon-cyan/50 focus-visible:ring-neon-cyan/20",
+  "dark:border-white/10 dark:bg-white/[0.06] dark:text-white dark:placeholder:text-white/40"
 );
 
-const selectContentClass = "border-white/10 bg-[#141414] text-white";
+const selectContentClass =
+  "border-border bg-popover text-popover-foreground dark:border-white/10 dark:bg-[#141414] dark:text-white";
 
-const labelClass = "mb-2 block text-sm font-medium text-white/90";
+const labelClass = "mb-2 block text-sm font-medium text-foreground dark:text-white/90";
 
 export function Registration() {
   const {
@@ -62,7 +64,7 @@ export function Registration() {
         >
           {recruitmentRegistrationCopy.title}
         </h2>
-        <p className="text-lg leading-relaxed text-white/68">
+        <p className="text-lg leading-relaxed text-muted-foreground dark:text-white/68">
           {recruitmentRegistrationCopy.description}
         </p>
       </div>
@@ -71,7 +73,7 @@ export function Registration() {
         {recruitmentSteps.map((item, index) => (
           <motion.div
             key={item.step}
-            className="rounded-xl border border-white/10 bg-white/[0.03] p-6 text-center"
+            className="rounded-xl border border-border bg-card/90 p-6 text-center shadow-sm dark:border-white/10 dark:bg-white/[0.03]"
             initial={{ opacity: 0, y: 12 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
@@ -80,18 +82,24 @@ export function Registration() {
             <div className="mx-auto mb-4 flex h-14 w-14 items-center justify-center rounded-full bg-neon-cyan/10">
               <span className="font-paris2024 text-xl font-bold text-neon-cyan">{item.step}</span>
             </div>
-            <h3 className="mb-2 font-utm-akashi text-lg text-white">{item.title}</h3>
-            <p className="text-sm leading-relaxed text-white/65">{item.desc}</p>
+            <h3 className="mb-2 font-utm-akashi text-lg text-foreground dark:text-white">
+              {item.title}
+            </h3>
+            <p className="text-sm leading-relaxed text-muted-foreground dark:text-white/65">
+              {item.desc}
+            </p>
           </motion.div>
         ))}
       </div>
 
       <GlassCard glow="cyan" className="p-6 lg:p-8">
         <div className="mb-8 space-y-2 text-center">
-          <h3 className="font-utm-akashi text-2xl text-white">
+          <h3 className="font-utm-akashi text-2xl text-foreground dark:text-white">
             {recruitmentRegistrationCopy.formTitle}
           </h3>
-          <p className="text-sm text-white/65">{recruitmentRegistrationCopy.formDescription}</p>
+          <p className="text-sm text-muted-foreground dark:text-white/65">
+            {recruitmentRegistrationCopy.formDescription}
+          </p>
         </div>
 
         <div
@@ -103,32 +111,40 @@ export function Registration() {
             <div
               className={cn(
                 "flex items-center space-x-2",
-                currentStep >= 1 ? "text-white" : "text-white/50"
+                currentStep >= 1
+                  ? "text-foreground dark:text-white"
+                  : "text-muted-foreground dark:text-white/50"
               )}
               aria-current={currentStep === 1 ? "step" : undefined}
             >
               <div
                 className={cn(
                   "flex h-8 w-8 items-center justify-center rounded-full text-sm font-semibold",
-                  currentStep >= 1 ? "bg-neon-cyan text-black" : "bg-white/10 text-white/50"
+                  currentStep >= 1
+                    ? "bg-neon-cyan text-black"
+                    : "bg-secondary text-muted-foreground dark:bg-white/10 dark:text-white/50"
                 )}
               >
                 1
               </div>
               <span className="text-sm">Thông tin cơ bản</span>
             </div>
-            <div className="h-0.5 w-8 bg-white/20" />
+            <div className="h-0.5 w-8 bg-border dark:bg-white/20" />
             <div
               className={cn(
                 "flex items-center space-x-2",
-                currentStep >= 2 ? "text-white" : "text-white/50"
+                currentStep >= 2
+                  ? "text-foreground dark:text-white"
+                  : "text-muted-foreground dark:text-white/50"
               )}
               aria-current={currentStep === 2 ? "step" : undefined}
             >
               <div
                 className={cn(
                   "flex h-8 w-8 items-center justify-center rounded-full text-sm font-semibold",
-                  currentStep >= 2 ? "bg-neon-cyan text-black" : "bg-white/10 text-white/50"
+                  currentStep >= 2
+                    ? "bg-neon-cyan text-black"
+                    : "bg-secondary text-muted-foreground dark:bg-white/10 dark:text-white/50"
                 )}
               >
                 2
@@ -380,7 +396,7 @@ export function Registration() {
             </div>
           )}
 
-          <div className="flex justify-between border-t border-white/10 pt-6">
+          <div className="flex justify-between border-t border-border pt-6 dark:border-white/10">
             {currentStep === 2 ? (
               <NeonButton type="button" variant="ghost" onClick={prevStep}>
                 Quay lại

@@ -38,26 +38,28 @@ export function TeamMemberCard({ member }: TeamMemberCardProps) {
             src={member.image}
             alt={member.name}
             fill
-            className="object-cover opacity-80 transition-all duration-500 group-hover:scale-105 group-hover:opacity-100"
+            className="object-cover opacity-95 transition-all duration-500 group-hover:scale-105 group-hover:opacity-100 dark:opacity-85"
             sizes="(max-width: 768px) 224px, 256px"
           />
         ) : (
-          <div className="flex h-full w-full items-center justify-center bg-white/5">
-            <User className="h-10 w-10 text-white/30" aria-hidden />
+          <div className="flex h-full w-full items-center justify-center bg-secondary dark:bg-white/5">
+            <User className="h-10 w-10 text-muted-foreground dark:text-white/30" aria-hidden />
           </div>
         )}
-        <div className="absolute inset-0 bg-gradient-to-t from-[#0a0a0a] to-transparent opacity-60" />
+        <div className="absolute inset-0 bg-gradient-to-t from-[#0a0a0a]/70 to-transparent opacity-55" />
       </div>
       <div className="p-4 text-center">
         <h4
           className={cn(
             "font-utm-akashi text-base font-normal",
-            member.isPlaceholder ? "text-white/70" : text
+            member.isPlaceholder ? "text-muted-foreground dark:text-white/70" : text
           )}
         >
           {member.name}
         </h4>
-        {member.role && <p className="mt-1 text-sm text-white/55">{member.role}</p>}
+        {member.role && (
+          <p className="mt-1 text-sm text-muted-foreground dark:text-white/55">{member.role}</p>
+        )}
       </div>
     </GlassCard>
   );

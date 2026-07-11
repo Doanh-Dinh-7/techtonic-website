@@ -30,7 +30,7 @@ describe("Header", () => {
     render(<Header show onLogoClick={vi.fn()} />);
 
     const eventsLink = screen.getByRole("link", { name: "Hoạt động" });
-    expect(eventsLink.className).toMatch(/text-blue-600/);
+    expect(eventsLink.className).toMatch(/text-primary/);
   });
 
   it("does not render when show is false", () => {

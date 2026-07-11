@@ -20,7 +20,7 @@ export function DepartmentsHero() {
 
   return (
     <section className="relative flex min-h-[min(720px,85vh)] items-center justify-center overflow-hidden px-4 pb-20 pt-28 sm:px-6 lg:px-8">
-      <div className="pointer-events-none absolute inset-0 opacity-45" aria-hidden>
+      <div className="pointer-events-none absolute inset-0 opacity-25 dark:opacity-45" aria-hidden>
         {shouldRenderMotion ? (
           <DepartmentsHeroCanvas className="absolute inset-0 h-full w-full" />
         ) : (
@@ -44,13 +44,13 @@ export function DepartmentsHero() {
         >
           {departmentsHeroCopy.badge}
         </span>
-        <h1 className="font-paris2024 text-4xl font-extrabold tracking-tight text-white sm:text-5xl lg:text-6xl">
+        <h1 className="font-paris2024 text-4xl font-extrabold tracking-tight text-foreground sm:text-5xl lg:text-6xl dark:text-white">
           TechTonic{" "}
           <span className="bg-gradient-to-r from-neon-cyan to-neon-purple bg-clip-text text-transparent">
             {departmentsHeroCopy.title}
           </span>
         </h1>
-        <p className="max-w-2xl text-lg leading-relaxed text-white/68">
+        <p className="max-w-2xl text-lg leading-relaxed text-muted-foreground dark:text-white/68">
           {departmentsHeroCopy.description}
         </p>
         <div className="mt-4 flex flex-wrap justify-center gap-4">

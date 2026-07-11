@@ -37,7 +37,7 @@ export function RecruitmentProcessExtra() {
           return (
             <motion.div
               key={round.id}
-              className="rounded-xl border border-white/10 bg-white/[0.03] p-6"
+              className="rounded-xl border border-border bg-card/90 p-6 text-left shadow-sm dark:border-white/10 dark:bg-white/[0.03]"
               initial={{ opacity: 0, y: 12 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
@@ -46,9 +46,11 @@ export function RecruitmentProcessExtra() {
               <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-lg bg-neon-cyan/10">
                 <Icon className="h-6 w-6 text-neon-cyan" />
               </div>
-              <h3 className="mb-1 font-semibold text-white">{round.title}</h3>
+              <h3 className="mb-1 font-semibold text-foreground dark:text-white">{round.title}</h3>
               <p className="mb-3 text-xs text-neon-cyan/80">{round.appliesTo}</p>
-              <p className="text-sm leading-relaxed text-white/65">{round.description}</p>
+              <p className="text-sm leading-relaxed text-muted-foreground dark:text-white/65">
+                {round.description}
+              </p>
             </motion.div>
           );
         })}
@@ -57,7 +59,7 @@ export function RecruitmentProcessExtra() {
       <motion.div
         className={cn(
           "mx-auto mt-8 max-w-3xl rounded-xl border border-amber-400/20",
-          "bg-amber-500/5 px-5 py-4 text-sm leading-relaxed text-amber-100/90"
+          "bg-amber-500/10 px-5 py-4 text-sm leading-relaxed text-amber-800 dark:bg-amber-500/5 dark:text-amber-100/90"
         )}
         initial={{ opacity: 0 }}
         whileInView={{ opacity: 1 }}

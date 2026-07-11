@@ -19,26 +19,26 @@ const iconMap: Record<(typeof clubAchievementStats)[number]["icon"], LucideIcon>
 
 const statAccentClasses = {
   yellow: {
-    icon: "border-amber-400/45 bg-amber-400/15 text-amber-300",
-    value: "text-amber-300",
+    icon: "border-amber-500/35 bg-amber-500/10 text-amber-700 dark:border-amber-400/45 dark:bg-amber-400/15 dark:text-amber-300",
+    value: "text-amber-700 dark:text-amber-300",
     card: "shadow-[0_0_36px_rgba(251,191,36,0.16)] hover:shadow-[0_0_48px_rgba(251,191,36,0.24)]",
     glassGlow: "none" as const,
   },
   blue: {
-    icon: "border-blue-400/45 bg-blue-400/15 text-blue-300",
-    value: "text-blue-300",
+    icon: "border-blue-500/35 bg-blue-500/10 text-blue-700 dark:border-blue-400/45 dark:bg-blue-400/15 dark:text-blue-300",
+    value: "text-blue-700 dark:text-blue-300",
     card: "shadow-[0_0_36px_rgba(59,130,246,0.16)] hover:shadow-[0_0_48px_rgba(59,130,246,0.24)]",
     glassGlow: "none" as const,
   },
   green: {
-    icon: "border-emerald-400/45 bg-emerald-400/15 text-emerald-300",
-    value: "text-emerald-300",
+    icon: "border-emerald-500/35 bg-emerald-500/10 text-emerald-700 dark:border-emerald-400/45 dark:bg-emerald-400/15 dark:text-emerald-300",
+    value: "text-emerald-700 dark:text-emerald-300",
     card: "shadow-[0_0_36px_rgba(52,211,153,0.16)] hover:shadow-[0_0_48px_rgba(52,211,153,0.24)]",
     glassGlow: "none" as const,
   },
   purple: {
-    icon: "border-neon-purple/40 bg-neon-purple/15 text-neon-purple",
-    value: "text-neon-purple",
+    icon: "border-purple-600/35 bg-purple-600/10 text-purple-700 dark:border-purple-300/40 dark:bg-purple-300/15 dark:text-purple-300",
+    value: "text-purple-700 dark:text-purple-300",
     card: "",
     glassGlow: "purple" as const,
   },
@@ -50,7 +50,7 @@ export function Achievements() {
       id="achievements"
       tone="dark"
       align="center"
-      className="border-t border-white/10 py-16 lg:py-24"
+      className="border-t border-border py-16 dark:border-white/10 lg:py-24"
       contentClassName="max-w-7xl"
     >
       <GradientOrb className="-left-24 top-0" color="cyan" />
@@ -65,17 +65,17 @@ export function Achievements() {
       >
         <span
           className={cn(
-            "inline-flex items-center gap-1 rounded-full border border-neon-cyan/20 bg-neon-cyan/10 px-4 py-2",
-            "font-utm-akashi text-sm uppercase tracking-widest text-neon-cyan"
+            "inline-flex items-center gap-1 rounded-full border border-cyan-600/25 bg-cyan-600/10 px-4 py-2",
+            "font-utm-akashi text-sm uppercase tracking-widest text-cyan-700 dark:border-cyan-300/20 dark:bg-cyan-300/10 dark:text-cyan-100"
           )}
         >
           <Trophy className="h-3.5 w-3.5" aria-hidden />
           Thành tích
         </span>
-        <h2 className="font-paris2024 text-3xl font-bold tracking-tight text-white sm:text-5xl">
+        <h2 className="font-paris2024 text-3xl font-bold tracking-tight text-foreground sm:text-5xl dark:text-white">
           Dấu ấn & Thành tựu
         </h2>
-        <p className="mx-auto max-w-2xl text-sm text-white/68 sm:text-base">
+        <p className="mx-auto max-w-2xl text-sm text-muted-foreground sm:text-base dark:text-white/68">
           Những thành tích đáng tự hào của TechTonic Club qua các năm hoạt động
         </p>
       </motion.div>
@@ -111,7 +111,9 @@ export function Achievements() {
                     <Counter end={stat.value} />
                     {stat.suffix}
                   </div>
-                  <p className="mt-2 text-sm text-white/68">{stat.label}</p>
+                  <p className="mt-2 text-sm text-muted-foreground dark:text-white/68">
+                    {stat.label}
+                  </p>
                 </GlassCard>
               </Card3D>
             </motion.div>
@@ -126,7 +128,9 @@ export function Achievements() {
         transition={{ duration: 0.6 }}
         viewport={{ once: true }}
       >
-        <h3 className="text-center font-utm-akashi text-lg text-white">Đối tác & Hợp tác</h3>
+        <h3 className="text-center font-utm-akashi text-lg text-foreground dark:text-white">
+          Đối tác & Hợp tác
+        </h3>
 
         <div className="mx-auto grid max-w-4xl grid-cols-2 gap-4 md:gap-6">
           {partnerLogos.map((partner, index) => (
@@ -139,8 +143,11 @@ export function Achievements() {
               className="h-full"
             >
               <Card3D intensity={6} className="h-full">
-                <GlassCard glow="none" className="h-full border-white/15 p-3 sm:p-4">
-                  <div className="flex h-28 items-center justify-center rounded-2xl border border-white/20 bg-white/95 p-6 shadow-[inset_0_1px_0_rgba(255,255,255,0.8)]">
+                <GlassCard
+                  glow="none"
+                  className="h-full border-border p-3 dark:border-white/15 sm:p-4"
+                >
+                  <div className="flex h-28 items-center justify-center rounded-2xl border border-border bg-white/95 p-6 shadow-[inset_0_1px_0_rgba(255,255,255,0.8)] dark:border-white/20">
                     <Image
                       src={partner.src}
                       alt={partner.alt}

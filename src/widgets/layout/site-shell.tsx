@@ -18,10 +18,10 @@ export function SiteShell({ children }: { children: React.ReactNode }) {
 
   return (
     <LenisProvider>
-      <div className="flex min-h-screen flex-col bg-[#0a0a0a]">
+      <div className="flex min-h-screen flex-col bg-background text-foreground">
         <a
           href="#main-content"
-          className="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:z-[100] focus:rounded-md focus:bg-white focus:px-4 focus:py-2 focus:text-sm focus:font-semibold focus:text-gray-900 focus:shadow-lg focus:outline-none focus:ring-2 focus:ring-cyan-400"
+          className="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:z-[100] focus:rounded-md focus:bg-background focus:px-4 focus:py-2 focus:text-sm focus:font-semibold focus:text-foreground focus:shadow-lg focus:outline-none focus:ring-2 focus:ring-ring"
         >
           Bỏ qua đến nội dung chính
         </a>

@@ -23,10 +23,13 @@ export function Hero() {
   return (
     <section
       ref={heroRef}
-      className="relative flex min-h-screen items-center overflow-hidden bg-gradient-to-br from-[#312e81] via-[#3756a6] to-[#0a0a0a] text-white"
+      className="relative flex min-h-screen items-center overflow-hidden bg-gradient-to-br from-sky-100 via-background to-blue-100 text-foreground dark:from-[#312e81] dark:via-[#3756a6] dark:to-[#0a0a0a] dark:text-white"
     >
       <div className="absolute inset-0 bg-[url('/thumbnail.jpg')] bg-cover bg-center opacity-20" />
-      <motion.div className="absolute inset-0 bg-black/20" style={{ y: heroY, scale: heroScale }} />
+      <motion.div
+        className="absolute inset-0 bg-white/15 dark:bg-black/20"
+        style={{ y: heroY, scale: heroScale }}
+      />
       <div className="relative container mx-auto px-4 py-10 lg:py-20">
         <div className="grid items-center justify-items-center gap-12 lg:grid-cols-2">
           <div className="space-y-8 text-center lg:text-left">
@@ -41,7 +44,7 @@ export function Hero() {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.2, duration: 0.6 }}
               >
-                <Badge className="border-white/30 bg-white/20 text-white hover:bg-white/30">
+                <Badge className="border-primary/20 bg-background/55 text-foreground hover:bg-background/70 dark:border-white/30 dark:bg-white/20 dark:text-white dark:hover:bg-white/30">
                   <Image
                     src="https://res.cloudinary.com/dggsvq2tw/image/upload/v1758206564/logo_school_mxtnzv.webp"
                     alt="Due"
@@ -61,7 +64,7 @@ export function Hero() {
                 TECHTONIC CLUB
               </motion.h1>
               <motion.p
-                className="font-utm-akashi text-xl font-medium text-blue-100 lg:text-2xl"
+                className="font-utm-akashi text-xl font-medium text-primary lg:text-2xl dark:text-blue-100"
                 initial={{ opacity: 0, y: 30 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.6, duration: 0.8 }}
@@ -69,7 +72,7 @@ export function Hero() {
                 Dream it – Code it
               </motion.p>
               <motion.p
-                className="max-w-lg text-lg text-blue-50"
+                className="max-w-lg text-lg text-muted-foreground dark:text-blue-50"
                 initial={{ opacity: 0, y: 30 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.8, duration: 0.8 }}
@@ -90,7 +93,7 @@ export function Hero() {
                 {process.env.NEXT_PUBLIC_REGISTER_URL ? (
                   <Button
                     size="lg"
-                    className="bg-white font-semibold text-blue-600 hover:bg-blue-50"
+                    className="bg-primary font-semibold text-primary-foreground hover:bg-primary/90"
                     onClick={() => window.open(process.env.NEXT_PUBLIC_REGISTER_URL!, "_blank")}
                   >
                     <Users className="mr-2 h-5 w-5" />
@@ -99,7 +102,7 @@ export function Hero() {
                 ) : (
                   <Button
                     size="lg"
-                    className="bg-white font-semibold text-blue-600 hover:bg-blue-50"
+                    className="bg-primary font-semibold text-primary-foreground hover:bg-primary/90"
                     asChild
                   >
                     <Link href="/recruitment" className="inline-flex items-center">
@@ -116,7 +119,7 @@ export function Hero() {
                 <Button
                   size="lg"
                   variant="outline"
-                  className="border-white bg-blue-600 text-white hover:bg-blue-500 hover:text-white"
+                  className="border-primary/30 bg-background/80 text-primary hover:bg-accent hover:text-primary dark:border-white dark:bg-blue-600 dark:text-white dark:hover:bg-blue-500 dark:hover:text-white"
                   onClick={() => {
                     window.open("https://www.facebook.com/TechTonic.Club17", "_blank");
                   }}
@@ -153,7 +156,7 @@ export function Hero() {
         type="button"
         onClick={scrollToNext}
         aria-label="Cuộn xuống phần giá trị cốt lõi"
-        className={`absolute bottom-1 left-1/2 -translate-x-1/2 transform text-white/70 transition-all delay-700 duration-1000 hover:text-white ${
+        className={`absolute bottom-1 left-1/2 -translate-x-1/2 transform text-muted-foreground transition-all delay-700 duration-1000 hover:text-foreground dark:text-white/70 dark:hover:text-white ${
           isLoaded ? "translate-y-0 opacity-100" : "translate-y-10 opacity-0"
         }`}
       >

@@ -30,7 +30,9 @@ export function AboutIdentityNav({ activeId, onSelect, items }: AboutIdentityNav
               className={cn(
                 "group flex items-center gap-3 rounded-lg px-2 py-3 text-left transition-colors",
                 "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-neon-cyan/70",
-                isActive ? "text-white" : "text-white/55 hover:text-white/80",
+                isActive
+                  ? "text-foreground dark:text-white"
+                  : "text-muted-foreground hover:text-foreground dark:text-white/55 dark:hover:text-white/80",
                 "lg:w-full"
               )}
             >
@@ -39,14 +41,14 @@ export function AboutIdentityNav({ activeId, onSelect, items }: AboutIdentityNav
                   "relative z-10 flex h-3.5 w-3.5 shrink-0 items-center justify-center rounded-full border-2 transition-all",
                   isActive
                     ? "border-neon-cyan bg-neon-cyan shadow-[0_0_14px_rgba(0,245,255,0.55)]"
-                    : "border-white/30 bg-transparent group-hover:border-neon-cyan/50"
+                    : "border-muted-foreground/30 bg-transparent group-hover:border-neon-cyan/50 dark:border-white/30"
                 )}
                 aria-hidden
               />
               <span
                 className={cn(
                   "hidden font-utm-akashi text-sm font-normal lg:inline",
-                  isActive ? "text-neon-cyan" : "text-white/70"
+                  isActive ? "text-neon-cyan" : "text-muted-foreground dark:text-white/70"
                 )}
               >
                 {item.label}
