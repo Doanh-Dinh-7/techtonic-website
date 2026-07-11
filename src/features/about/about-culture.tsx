@@ -10,7 +10,7 @@ export function AboutCulture() {
   return (
     <section
       id="about-culture"
-      className="relative flex min-h-[500px] items-center justify-center overflow-hidden border-t border-white/10 py-20"
+      className="relative flex min-h-[500px] items-center justify-center overflow-hidden border-t border-white/10 py-20 text-white"
     >
       <div className="absolute inset-0 z-0" aria-hidden>
         <Image
@@ -37,7 +37,7 @@ export function AboutCulture() {
         >
           {aboutCultureCopy.title}
         </h2>
-        <p className="text-lg leading-loose text-white/80">{aboutCultureCopy.lead}</p>
+        <p className="text-lg leading-loose text-white/85">{aboutCultureCopy.lead}</p>
         <p className="mt-4 text-lg leading-loose text-white/68">{aboutCultureCopy.body}</p>
         <p className="mt-6 text-base leading-relaxed text-white/55">
           {aboutCultureCopy.moreThanClub}

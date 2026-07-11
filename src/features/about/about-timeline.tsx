@@ -13,10 +13,10 @@ export function AboutTimeline() {
   return (
     <section
       id="about-timeline"
-      className="overflow-hidden border-t border-white/10 py-16 lg:py-24"
+      className="overflow-hidden border-t border-border py-16 dark:border-white/10 lg:py-24"
     >
       <div className="mx-auto mb-12 max-w-7xl px-4 text-center sm:px-6 lg:px-8">
-        <h2 className="font-paris2024 text-3xl font-bold tracking-tight text-white sm:text-5xl">
+        <h2 className="font-paris2024 text-3xl font-bold tracking-tight text-foreground sm:text-5xl dark:text-white">
           Hành trình phát triển
         </h2>
       </div>

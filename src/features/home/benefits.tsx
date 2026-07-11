@@ -85,7 +85,7 @@ export function Benefits() {
   ];
 
   return (
-    <section id="benefits" className="py-20">
+    <section id="benefits" className="bg-background py-20 text-foreground dark:bg-[#0a0a0a]">
       <div className="container mx-auto px-4">
         <motion.div
           className="text-center space-y-4 mb-16"
@@ -94,13 +94,13 @@ export function Benefits() {
           transition={{ duration: 0.8 }}
           viewport={{ once: true }}
         >
-          <Badge className="bg-green-100 text-green-700 hover:bg-green-700 hover:text-green-100">
+          <Badge className="bg-green-100 text-green-700 hover:bg-green-700 hover:text-green-100 dark:border-green-400/25 dark:bg-green-400/10 dark:text-green-100 dark:hover:bg-green-400/15">
             Lợi ích tham gia
           </Badge>
-          <h2 className="text-3xl lg:text-5xl font-bold text-gray-900 font-paris2024">
+          <h2 className="font-paris2024 text-3xl font-bold text-foreground lg:text-5xl">
             Tại sao nên tham gia TechTonic?
           </h2>
-          <p className="text-lg text-gray-600 max-w-2xl mx-auto">
+          <p className="mx-auto max-w-2xl text-lg text-muted-foreground">
             Khám phá những cơ hội tuyệt vời đang chờ đón bạn tại TechTonic Club
           </p>
         </motion.div>
@@ -124,14 +124,15 @@ export function Benefits() {
                     type="button"
                     aria-label={`Xem chi tiết: ${benefit.title}`}
                     className={cn(
-                      "h-full w-full cursor-pointer rounded-xl border-0 bg-white text-left shadow-lg transition-shadow hover:shadow-xl focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-500 focus-visible:ring-offset-2",
+                      "h-full w-full cursor-pointer rounded-xl border border-border bg-card text-left shadow-lg transition-shadow hover:shadow-xl focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2",
+                      "dark:border-white/10 dark:bg-white/[0.04] dark:text-white dark:shadow-[0_0_28px_rgba(0,245,255,0.08)] dark:hover:shadow-[0_0_36px_rgba(0,245,255,0.14)]",
                       benefit.shadowColor,
                       benefit.hoverShadowColor
                     )}
                   >
                     <div className="flex flex-row items-center gap-4 p-6">
                       <motion.div
-                        className={`flex h-12 w-12 items-center justify-center rounded-lg ${benefit.bgColor}`}
+                        className={`flex h-12 w-12 items-center justify-center rounded-lg ${benefit.bgColor} dark:bg-white/10`}
                         whileHover={{
                           rotate: [0, -5, 5, -5, 0],
                           transition: { duration: 0.5 },
@@ -141,11 +142,13 @@ export function Benefits() {
                           className: `h-6 w-6 ${benefit.textColor}`,
                         })}
                       </motion.div>
-                      <span className="font-utm-akashi text-2xl font-normal text-gray-900">
+                      <span className="font-utm-akashi text-2xl font-normal text-card-foreground dark:text-white">
                         {benefit.title}
                       </span>
                     </div>
-                    <p className="px-6 pb-6 text-gray-700">{benefit.desc}</p>
+                    <p className="px-6 pb-6 text-muted-foreground dark:text-white/70">
+                      {benefit.desc}
+                    </p>
                   </button>
                 </DialogTrigger>
                 <DialogContent>
@@ -171,7 +174,7 @@ export function Benefits() {
                       height={300}
                       className="w-full rounded-lg"
                     />
-                    <p className="leading-relaxed text-gray-700">{benefit.desc}</p>
+                    <p className="leading-relaxed text-muted-foreground">{benefit.desc}</p>
                   </div>
                 </DialogContent>
               </Dialog>

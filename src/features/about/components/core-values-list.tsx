@@ -37,7 +37,7 @@ export function CoreValuesList({ values }: CoreValuesListProps) {
           <AccordionItem
             key={value.id}
             value={value.id}
-            className="overflow-hidden rounded-xl border border-white/10 bg-white/[0.03] px-4 backdrop-blur-sm"
+            className="overflow-hidden rounded-xl border border-border bg-card/90 px-4 shadow-sm backdrop-blur-sm dark:border-white/10 dark:bg-white/[0.03]"
           >
             <AccordionTrigger
               className={cn(
@@ -49,7 +49,9 @@ export function CoreValuesList({ values }: CoreValuesListProps) {
                 <div
                   className={cn(
                     "mt-0.5 flex h-9 w-9 shrink-0 items-center justify-center rounded-lg",
-                    isCyan ? "bg-neon-cyan/10 text-neon-cyan" : "bg-neon-purple/10 text-neon-purple"
+                    isCyan
+                      ? "bg-cyan-500/10 text-cyan-700 dark:bg-neon-cyan/10 dark:text-neon-cyan"
+                      : "bg-purple-500/10 text-purple-700 dark:bg-neon-purple/10 dark:text-neon-purple"
                   )}
                 >
                   <Icon className="h-4 w-4" aria-hidden />
@@ -58,18 +60,22 @@ export function CoreValuesList({ values }: CoreValuesListProps) {
                   <h4
                     className={cn(
                       "font-utm-akashi text-base font-normal leading-snug md:text-lg",
-                      isCyan ? "text-neon-cyan" : "text-neon-purple"
+                      isCyan
+                        ? "text-cyan-700 dark:text-neon-cyan"
+                        : "text-purple-700 dark:text-neon-purple"
                     )}
                   >
                     {value.title}
                   </h4>
                   {value.subtitle && (
-                    <p className="text-xs leading-relaxed text-white/45">({value.subtitle})</p>
+                    <p className="text-xs leading-relaxed text-muted-foreground dark:text-white/45">
+                      ({value.subtitle})
+                    </p>
                   )}
                 </div>
               </div>
             </AccordionTrigger>
-            <AccordionContent className="pb-4 pl-12 text-sm leading-relaxed text-white/68">
+            <AccordionContent className="pb-4 pl-12 text-sm leading-relaxed text-muted-foreground dark:text-white/68">
               {value.description}
             </AccordionContent>
           </AccordionItem>

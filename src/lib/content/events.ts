@@ -403,7 +403,7 @@ export const stellarGallerySectionCopy = {
   badge: "Trải nghiệm 3D",
   title: "Thư viện ảnh không gian",
   description: "Khám phá khoảnh khắc TechTonic trong không gian 3D",
-  hint: "Kéo để xoay • Cuộn để zoom • Bấm thẻ để xem chi tiết",
+  hint: "Kéo để xoay • Ctrl + Cuộn để zoom • Bấm thẻ để xem chi tiết",
 };
 
 export const stellarGalleryCards: StellarGalleryCard[] = [

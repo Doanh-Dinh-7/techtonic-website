@@ -15,19 +15,26 @@ const links = [
  */
 export function Footer() {
   return (
-    <footer className="bg-gray-950 text-gray-400 py-10">
+    <footer className="border-t border-border bg-card py-10 text-muted-foreground">
       <div className="container mx-auto px-4">
         <div className="flex flex-col lg:flex-row justify-between items-center gap-8">
           <div className="flex items-center gap-2 transition-transform duration-200 hover:scale-105">
             <Link href="/" className="flex items-center gap-2">
               <Image
+                src="/element/logo_black.png"
+                alt="TechTonic Club"
+                width={13}
+                height={400}
+                className="h-8 object-cover dark:hidden"
+              />
+              <Image
                 src="/element/logo_white.png"
                 alt="TechTonic Club"
                 width={13}
                 height={400}
-                className="object-cover h-8"
+                className="hidden h-8 object-cover dark:block"
               />
-              <span className="font-semibold text-white font-paris2024 text-sm leading-none">
+              <span className="font-paris2024 text-sm font-semibold leading-none text-foreground">
                 TECH <br />
                 TONIC
               </span>
@@ -36,7 +43,7 @@ export function Footer() {
 
           <nav className="flex flex-wrap justify-center gap-x-6 gap-y-2 text-sm">
             {links.map((l) => (
-              <Link key={l.href} href={l.href} className="hover:text-white transition-colors">
+              <Link key={l.href} href={l.href} className="transition-colors hover:text-foreground">
                 {l.name}
               </Link>
             ))}

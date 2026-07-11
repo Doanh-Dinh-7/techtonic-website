@@ -70,10 +70,10 @@ export function CoreValues() {
             <Card3D intensity={8}>
               <GlassCard
                 glow={v.glow}
-                className="flex flex-col items-center border-gray-200/80 bg-white/90 p-4 text-center text-gray-900 shadow-sm before:opacity-30"
+                className="flex flex-col items-center border-border bg-card/90 p-4 text-center text-card-foreground shadow-sm before:opacity-30 dark:border-white/10 dark:bg-white/[0.06] dark:text-white"
               >
                 <div
-                  className={`mb-3 flex h-12 w-12 items-center justify-center rounded-lg ${v.iconWrap}`}
+                  className={`mb-3 flex h-12 w-12 items-center justify-center rounded-lg ${v.iconWrap} dark:bg-white/10`}
                 >
                   <v.icon className={`h-6 w-6 ${v.iconColor}`} />
                 </div>
@@ -88,7 +88,7 @@ export function CoreValues() {
         <NeonButton
           asChild
           variant="purple"
-          className="border-purple-400/50 bg-purple-600/10 text-purple-900"
+          className="border-purple-400/50 bg-purple-600/10 text-purple-900 dark:text-purple-100"
         >
           <Link href="/about">Xem Giới thiệu đầy đủ</Link>
         </NeonButton>

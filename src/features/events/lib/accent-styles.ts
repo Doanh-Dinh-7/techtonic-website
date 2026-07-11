@@ -59,7 +59,7 @@ export const accentLabelMuted: Record<ActivityAccent, string> = {
 };
 
 export const accentTagWrap: Record<ActivityAccent, string> = {
-  cyan: "bg-white/5 text-white/70 border-white/10",
+  cyan: "bg-cyan-500/10 text-cyan-700 border-cyan-500/20 dark:bg-white/5 dark:text-white/70 dark:border-white/10",
   violet: "bg-neon-purple/10 text-neon-purple border-neon-purple/20",
   blue: "bg-electric-blue/10 text-electric-blue border-electric-blue/20",
   emerald: "bg-emerald-500/10 text-emerald-400 border-emerald-500/20",

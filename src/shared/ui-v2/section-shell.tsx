@@ -11,18 +11,18 @@ type SectionShellProps = React.ComponentPropsWithoutRef<"section"> & {
 };
 
 const toneSectionClasses = {
-  dark: "bg-[#0a0a0a] text-white",
-  light: "border-b border-gray-100 bg-gray-50 text-gray-900",
+  dark: "bg-background text-foreground",
+  light: "border-b border-border bg-secondary/45 text-foreground",
 };
 
 const toneBadgeClasses = {
-  dark: "border-cyan-300/30 bg-cyan-300/10 text-cyan-100",
-  light: "border-purple-300/40 bg-purple-100 text-purple-800",
+  dark: "border-cyan-300/30 bg-cyan-300/10 text-cyan-700 dark:text-cyan-100",
+  light: "border-primary/20 bg-primary/10 text-primary",
 };
 
 const toneDescriptionClasses = {
-  dark: "text-white/68",
-  light: "text-gray-600",
+  dark: "text-muted-foreground",
+  light: "text-muted-foreground",
 };
 
 export function SectionShell({
@@ -43,6 +43,7 @@ export function SectionShell({
       className={cn(
         "relative overflow-hidden px-4 py-20 sm:px-6 lg:px-8",
         toneSectionClasses[tone],
+        tone === "dark" && "theme-tone-section",
         className
       )}
       {...props}
@@ -64,7 +65,7 @@ export function SectionShell({
               <h2
                 className={cn(
                   "text-balance font-paris2024 text-3xl font-bold tracking-tight sm:text-5xl",
-                  tone === "dark" ? "text-white" : "text-gray-900"
+                  "text-foreground"
                 )}
               >
                 {title}

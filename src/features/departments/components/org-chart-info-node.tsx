@@ -34,7 +34,7 @@ export function OrgChartInfoNode({
       type="button"
       className={cn(
         "absolute right-1.5 top-1.5 z-10 rounded-full p-0.5",
-        "text-white/50 transition-colors hover:bg-white/10 hover:text-white/90",
+        "text-muted-foreground transition-colors hover:bg-accent hover:text-foreground dark:text-white/50 dark:hover:bg-white/10 dark:hover:text-white/90",
         "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-neon-cyan/50"
       )}
       aria-label={`Thông tin về ${node.label}`}
@@ -57,9 +57,11 @@ export function OrgChartInfoNode({
           : cn(
               "rounded-lg border shadow-sm",
               dashed ? "border-dashed" : "border-solid",
-              colors ? cn(colors.bgMuted, colors.border) : "border-white/15 bg-white/5",
+              colors
+                ? cn(colors.bgMuted, colors.border)
+                : "border-border bg-card/80 dark:border-white/15 dark:bg-white/5",
               compact ? "px-2 py-2 text-xs" : "px-3 py-2.5 text-sm",
-              colors && !/\btext-/.test(className ?? "") && "text-white/90"
+              colors && !/\btext-/.test(className ?? "") && "text-foreground dark:text-white/90"
             ),
         className
       )}

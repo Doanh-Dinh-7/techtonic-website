@@ -40,7 +40,7 @@ export function TeamOrgChart({ hierarchy }: TeamOrgChartProps) {
     <div className="relative w-full">
       <div
         ref={scrollRef}
-        className="about-team-org-scroll max-h-[min(160vh)] overflow-auto overscroll-contain rounded-2xl border border-white/10 bg-white/[0.02] shadow-[inset_0_1px_0_rgba(255,255,255,0.04)]"
+        className="about-team-org-scroll max-h-[min(160vh)] overflow-auto overscroll-contain rounded-2xl border border-border bg-card/70 shadow-[inset_0_1px_0_rgba(255,255,255,0.5)] dark:border-white/10 dark:bg-white/[0.02] dark:shadow-[inset_0_1px_0_rgba(255,255,255,0.04)]"
         aria-label="Sơ đồ tổ chức ban"
         tabIndex={0}
       >

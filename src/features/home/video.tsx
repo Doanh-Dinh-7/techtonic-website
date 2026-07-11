@@ -5,7 +5,7 @@ import { Badge } from "@/shared/ui/badge";
 
 export function Video() {
   return (
-    <section id="video" className="py-20 bg-gray-50">
+    <section id="video" className="bg-secondary/45 py-20 text-foreground">
       <div className="container mx-auto px-4">
         <motion.div
           className="text-center space-y-4 mb-16"
@@ -17,10 +17,10 @@ export function Video() {
           <Badge className="bg-red-100 text-red-700 hover:bg-red-700 hover:text-red-100">
             Video giới thiệu
           </Badge>
-          <h2 className="text-3xl lg:text-5xl font-bold text-gray-900 font-paris2024">
+          <h2 className="font-paris2024 text-3xl font-bold text-foreground lg:text-5xl">
             Khám phá TechTonic Club
           </h2>
-          <p className="text-lg text-gray-600 max-w-2xl mx-auto">
+          <p className="mx-auto max-w-2xl text-lg text-muted-foreground">
             Xem video để hiểu rõ hơn về hoạt động và tinh thần của câu lạc bộ
           </p>
         </motion.div>
@@ -32,7 +32,7 @@ export function Video() {
           transition={{ duration: 0.8 }}
           viewport={{ once: true }}
         >
-          <div className="relative bg-gray-900 rounded-2xl overflow-hidden shadow-2xl shadow-red-200 aspect-video ">
+          <div className="relative aspect-video overflow-hidden rounded-2xl bg-card shadow-2xl shadow-primary/10">
             <iframe
               className="w-full h-full"
               src="https://www.youtube.com/embed/0qoiC8_fi8k?rel=0&autoplay=0"

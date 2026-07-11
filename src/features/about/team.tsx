@@ -18,19 +18,19 @@ export function Team() {
       id="about-team"
       tone="dark"
       align="center"
-      className="border-t border-white/10 bg-transparent py-16 lg:py-24"
+      className="border-t border-border bg-transparent py-16 lg:py-24 dark:border-white/10"
       contentClassName="max-w-7xl"
       title={aboutTeamSectionCopy.title}
       description={aboutTeamSectionCopy.description}
     >
       <Tabs value={termId} onValueChange={selectTerm} className="w-full">
-        <TabsList className="mb-8 flex h-auto w-full flex-wrap justify-center gap-2 border-b border-white/10 bg-transparent pb-4">
+        <TabsList className="mb-8 flex h-auto w-full flex-wrap justify-center gap-2 border-b border-border bg-transparent pb-4 dark:border-white/10">
           {terms.map((term) => (
             <TabsTrigger
               key={term.id}
               value={term.id}
               className={cn(
-                "rounded-none border-b-2 border-transparent bg-transparent px-4 py-2 text-white/60 shadow-none",
+                "rounded-none border-b-2 border-transparent bg-transparent px-4 py-2 text-muted-foreground shadow-none dark:text-white/60",
                 "data-[state=active]:border-neon-cyan data-[state=active]:bg-transparent data-[state=active]:text-neon-cyan"
               )}
             >
@@ -52,7 +52,7 @@ export function Team() {
                     "rounded-full border px-4 py-2 font-mono text-sm transition-all",
                     termId === term.id && boardId === board.id
                       ? "border-neon-cyan/50 bg-neon-cyan/10 text-neon-cyan shadow-[0_0_15px_rgba(0,245,255,0.15)]"
-                      : "border-white/10 bg-white/[0.06] text-white/60 hover:border-white/20 hover:text-white/80"
+                      : "border-border bg-card/80 text-muted-foreground hover:border-primary/20 hover:text-foreground dark:border-white/10 dark:bg-white/[0.06] dark:text-white/60 dark:hover:border-white/20 dark:hover:text-white/80"
                   )}
                 >
                   {board.label}

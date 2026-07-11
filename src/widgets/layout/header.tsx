@@ -6,6 +6,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Button } from "@/shared/ui/button";
+import { ThemeToggle } from "@/widgets/layout/theme-toggle";
 import { useHeaderNavigation } from "@/widgets/layout/hooks/use-header-navigation";
 
 const mainNav = [
@@ -38,7 +39,7 @@ export function Header({ show, onLogoClick }: HeaderProps) {
           animate={{ y: 0, opacity: 1 }}
           exit={{ y: -100, opacity: 0 }}
           transition={{ duration: 0.3 }}
-          className="fixed top-0 left-0 right-0 bg-white/95 backdrop-blur-md shadow-lg z-50 border-b border-gray-200"
+          className="fixed left-0 right-0 top-0 z-50 border-b border-border/70 bg-background/90 shadow-lg backdrop-blur-md"
         >
           <div className="container mx-auto px-4">
             <div className="flex items-center justify-between h-16">
@@ -56,11 +57,18 @@ export function Header({ show, onLogoClick }: HeaderProps) {
                   <Image
                     src="/element/logo_black.png"
                     alt="TechTonic Club"
-                    className="object-cover h-10"
+                    className="h-10 object-cover dark:hidden"
                     width={17}
                     height={400}
                   />
-                  <span className="font-bold text-gray-900 font-paris2024 text-xl leading-none">
+                  <Image
+                    src="/element/logo_white.png"
+                    alt="TechTonic Club"
+                    className="hidden h-10 object-cover dark:block"
+                    width={17}
+                    height={400}
+                  />
+                  <span className="font-paris2024 text-xl font-bold leading-none text-foreground">
                     TECH <br />
                     TONIC
                   </span>
@@ -78,7 +86,7 @@ export function Header({ show, onLogoClick }: HeaderProps) {
                       key={item.href}
                       href={item.href}
                       className={`text-sm font-medium transition-colors whitespace-nowrap ${
-                        active ? "text-blue-600" : "text-gray-600 hover:text-blue-600"
+                        active ? "text-primary" : "text-muted-foreground hover:text-primary"
                       }`}
                     >
                       {item.name}
@@ -87,11 +95,12 @@ export function Header({ show, onLogoClick }: HeaderProps) {
                 })}
               </nav>
 
-              <div className="hidden lg:block shrink-0">
+              <div className="hidden shrink-0 items-center gap-3 lg:flex">
+                <ThemeToggle />
                 <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
                   {hasRegisterUrl ? (
                     <Button
-                      className="bg-gradient-to-r from-[#3756a6] to-[#667ee4] hover:from-[#3756a6] hover:to-[#667ee4]"
+                      className="bg-primary text-primary-foreground hover:bg-primary/90"
                       onClick={handleJoinClick}
                     >
                       <Users className="mr-2 h-4 w-4" />
@@ -99,7 +108,7 @@ export function Header({ show, onLogoClick }: HeaderProps) {
                     </Button>
                   ) : (
                     <Button
-                      className="bg-gradient-to-r from-[#3756a6] to-[#667ee4] hover:from-[#3756a6] hover:to-[#667ee4]"
+                      className="bg-primary text-primary-foreground hover:bg-primary/90"
                       asChild
                     >
                       <Link href="/recruitment" className="inline-flex items-center">
@@ -111,20 +120,23 @@ export function Header({ show, onLogoClick }: HeaderProps) {
                 </motion.div>
               </div>
 
-              <button
-                className="lg:hidden min-h-11 min-w-11 p-2"
-                type="button"
-                onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-                aria-label={mobileMenuOpen ? "Đóng menu điều hướng" : "Mở menu điều hướng"}
-                aria-expanded={mobileMenuOpen}
-                aria-controls="mobile-primary-nav"
-              >
-                {mobileMenuOpen ? (
-                  <X className="h-6 w-6 text-gray-600" />
-                ) : (
-                  <Menu className="h-6 w-6 text-gray-600" />
-                )}
-              </button>
+              <div className="flex items-center gap-2 lg:hidden">
+                <ThemeToggle />
+                <button
+                  className="min-h-11 min-w-11 p-2"
+                  type="button"
+                  onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+                  aria-label={mobileMenuOpen ? "Đóng menu điều hướng" : "Mở menu điều hướng"}
+                  aria-expanded={mobileMenuOpen}
+                  aria-controls="mobile-primary-nav"
+                >
+                  {mobileMenuOpen ? (
+                    <X className="h-6 w-6 text-muted-foreground" />
+                  ) : (
+                    <Menu className="h-6 w-6 text-muted-foreground" />
+                  )}
+                </button>
+              </div>
             </div>
 
             <AnimatePresence>
@@ -136,7 +148,7 @@ export function Header({ show, onLogoClick }: HeaderProps) {
                   animate={{ height: "auto", opacity: 1 }}
                   exit={{ height: 0, opacity: 0 }}
                   transition={{ duration: 0.3 }}
-                  className="lg:hidden border-t border-gray-200 bg-white overflow-hidden"
+                  className="overflow-hidden border-t border-border bg-background lg:hidden"
                 >
                   <div className="py-4 space-y-1">
                     {mainNav.map((item) => {
@@ -147,8 +159,8 @@ export function Header({ show, onLogoClick }: HeaderProps) {
                           href={item.href}
                           className={`block w-full text-left px-4 py-2 rounded-md transition-colors ${
                             active
-                              ? "text-blue-600 bg-blue-50 font-medium"
-                              : "text-gray-600 hover:text-blue-600 hover:bg-gray-50"
+                              ? "bg-accent text-primary font-medium"
+                              : "text-muted-foreground hover:bg-accent hover:text-primary"
                           }`}
                           onClick={() => setMobileMenuOpen(false)}
                         >
@@ -159,7 +171,7 @@ export function Header({ show, onLogoClick }: HeaderProps) {
                     <div className="px-4 pt-2">
                       {hasRegisterUrl ? (
                         <Button
-                          className="w-full bg-gradient-to-r from-[#3756a6] to-[#667ee4]"
+                          className="w-full bg-primary text-primary-foreground hover:bg-primary/90"
                           onClick={() => {
                             setMobileMenuOpen(false);
                             handleJoinClick();
@@ -170,7 +182,7 @@ export function Header({ show, onLogoClick }: HeaderProps) {
                         </Button>
                       ) : (
                         <Button
-                          className="w-full bg-gradient-to-r from-[#3756a6] to-[#667ee4]"
+                          className="w-full bg-primary text-primary-foreground hover:bg-primary/90"
                           asChild
                         >
                           <Link href="/recruitment" onClick={() => setMobileMenuOpen(false)}>

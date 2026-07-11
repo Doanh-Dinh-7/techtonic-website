@@ -20,7 +20,7 @@ export function AboutFit() {
       id="about-fit"
       tone="dark"
       align="center"
-      className="border-t border-white/10 bg-white/[0.02] py-16 lg:py-24"
+      className="border-t border-border bg-transparent py-16 lg:py-24 dark:border-white/10 dark:bg-white/[0.02]"
       contentClassName="max-w-7xl"
       title="Bạn có phù hợp?"
     >
@@ -56,10 +56,12 @@ export function AboutFit() {
                   aria-hidden
                 />
               </div>
-              <h4 className="mb-3 font-utm-akashi text-base font-normal leading-snug text-white md:text-lg">
+              <h4 className="mb-3 font-utm-akashi text-base font-normal leading-snug text-foreground md:text-lg dark:text-white">
                 {item.title}
               </h4>
-              <p className="text-sm leading-relaxed text-white/60">{item.description}</p>
+              <p className="text-sm leading-relaxed text-muted-foreground dark:text-white/60">
+                {item.description}
+              </p>
             </GlassCard>
           );
         })}
