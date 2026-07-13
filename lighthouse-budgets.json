@@ -1,22 +1,10 @@
 {
-  "description": "Lighthouse mobile score floors (0–100). Home is JS-heavy; tune only with audit report update.",
+  "description": "Phase 7 release gate: Lighthouse category floors for all public routes. CWV field data is monitored separately after production deploy.",
   "categories": {
-    "performance": 50,
-    "accessibility": 85,
-    "best-practices": 85,
-    "seo": 90
+    "performance": 95,
+    "accessibility": 95,
+    "best-practices": 95,
+    "seo": 95
   },
-  "routes": ["/", "/recruitment", "/events"],
-  "routeOverrides": {
-    "/": {
-      "performance": 40,
-      "accessibility": 85
-    },
-    "/recruitment": {
-      "performance": 60
-    },
-    "/events": {
-      "performance": 60
-    }
-  }
+  "routes": ["/", "/about", "/departments", "/events", "/portfolio", "/recruitment"]
 }

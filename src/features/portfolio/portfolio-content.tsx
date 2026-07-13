@@ -16,11 +16,7 @@ export function PortfolioContent() {
     <div className="min-h-screen bg-white pb-20">
       <section className="relative py-16 overflow-hidden bg-gradient-to-br from-slate-900 via-[#3654a5] to-[#3db4e7] text-white">
         <div className="container mx-auto px-4">
-          <motion.div
-            className="text-center space-y-4 max-w-2xl mx-auto"
-            initial={{ opacity: 0, y: 24 }}
-            animate={{ opacity: 1, y: 0 }}
-          >
+          <div className="text-center space-y-4 max-w-2xl mx-auto">
             <Badge className="bg-white/15 text-white border-white/25">
               <Trophy className="h-3 w-3 mr-1 inline" />
               Dự án &amp; Thành tích
@@ -30,7 +26,7 @@ export function PortfolioContent() {
               Sản phẩm và giải thưởng có mục <span className="text-amber-200">(mẫu)</span> — bổ sung
               link repo và hình ảnh thật sau.
             </p>
-          </motion.div>
+          </div>
         </div>
       </section>
 

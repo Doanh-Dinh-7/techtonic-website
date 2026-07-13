@@ -3,22 +3,12 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useScroll, useTransform } from "framer-motion";
 
-const HERO_IMAGES = [
-  "https://res.cloudinary.com/dggsvq2tw/image/upload/v1758206566/mentor_mentee_ss1_wv08vr.webp",
-  "https://res.cloudinary.com/dggsvq2tw/image/upload/v1758206566/tech_x_plore_cot6ms.webp",
-  "https://res.cloudinary.com/dggsvq2tw/image/upload/v1758206584/cslt_1_ygk3oa.webp",
-  "https://res.cloudinary.com/dggsvq2tw/image/upload/v1758206567/techware_ss1_ljlofj.webp",
-  "https://res.cloudinary.com/dggsvq2tw/image/upload/v1758206585/nckh_s1_lfu4nn.webp",
-  "https://res.cloudinary.com/dggsvq2tw/image/upload/v1758206579/mentor_mentee_ss2_th0fyt.webp",
-] as const;
-
 /**
  * Encapsulates Hero section UI state and scroll/motion behavior.
  */
 export function useHeroSection() {
   const [isLoaded, setIsLoaded] = useState(false);
   const [shouldMountRubik, setShouldMountRubik] = useState(false);
-  const [currentHeroImage, setCurrentHeroImage] = useState(0);
   const heroRef = useRef<HTMLElement | null>(null);
   const { scrollY } = useScroll();
 
@@ -28,18 +18,20 @@ export function useHeroSection() {
 
   useEffect(() => {
     setIsLoaded(true);
-    const timeout = setTimeout(() => {
+
+    const mountRubik = () => {
       setShouldMountRubik(true);
-    }, 800);
-    return () => clearTimeout(timeout);
-  }, []);
+    };
 
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setCurrentHeroImage((prev) => (prev + 1) % HERO_IMAGES.length);
-    }, 5000);
+    window.addEventListener("pointermove", mountRubik, { once: true });
+    window.addEventListener("touchstart", mountRubik, { once: true });
+    window.addEventListener("keydown", mountRubik, { once: true });
 
-    return () => clearInterval(interval);
+    return () => {
+      window.removeEventListener("pointermove", mountRubik);
+      window.removeEventListener("touchstart", mountRubik);
+      window.removeEventListener("keydown", mountRubik);
+    };
   }, []);
 
   const scrollToNext = useCallback(() => {
@@ -51,8 +43,6 @@ export function useHeroSection() {
 
   return useMemo(
     () => ({
-      currentHeroImage,
-      heroImages: HERO_IMAGES,
       heroRef,
       heroScale,
       heroY,
@@ -60,6 +50,6 @@ export function useHeroSection() {
       shouldMountRubik,
       scrollToNext,
     }),
-    [currentHeroImage, heroScale, heroY, isLoaded, shouldMountRubik, scrollToNext]
+    [heroScale, heroY, isLoaded, shouldMountRubik, scrollToNext]
   );
 }

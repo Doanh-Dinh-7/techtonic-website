@@ -1,18 +1,18 @@
 {
-  "baseUrl": "http://127.0.0.1:51458",
-  "auditedAt": "2026-05-29T09:03:34.575Z",
+  "baseUrl": "http://127.0.0.1:57433",
+  "auditedAt": "2026-07-13T06:38:02.483Z",
   "summary": {
     "home": {
-      "url": "http://127.0.0.1:51458",
+      "url": "http://127.0.0.1:57433",
       "scores": {
-        "performance": 50,
-        "accessibility": 54,
-        "best-practices": 92,
-        "seo": 80
+        "performance": 100,
+        "accessibility": 96,
+        "best-practices": 96,
+        "seo": 100
       }
     },
-    "recruitment": {
-      "url": "http://127.0.0.1:51458/recruitment",
+    "about": {
+      "url": "http://127.0.0.1:57433/about",
       "scores": {
         "performance": 100,
         "accessibility": 100,
@@ -20,10 +20,37 @@
         "seo": 100
       }
     },
+    "departments": {
+      "url": "http://127.0.0.1:57433/departments",
+      "scores": {
+        "performance": 98,
+        "accessibility": 100,
+        "best-practices": 96,
+        "seo": 100
+      }
+    },
     "events": {
-      "url": "http://127.0.0.1:51458/events",
+      "url": "http://127.0.0.1:57433/events",
       "scores": {
         "performance": 100,
+        "accessibility": 100,
+        "best-practices": 96,
+        "seo": 100
+      }
+    },
+    "portfolio": {
+      "url": "http://127.0.0.1:57433/portfolio",
+      "scores": {
+        "performance": 100,
+        "accessibility": 96,
+        "best-practices": 96,
+        "seo": 100
+      }
+    },
+    "recruitment": {
+      "url": "http://127.0.0.1:57433/recruitment",
+      "scores": {
+        "performance": 97,
         "accessibility": 100,
         "best-practices": 96,
         "seo": 100

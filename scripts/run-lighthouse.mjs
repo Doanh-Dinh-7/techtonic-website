@@ -141,7 +141,11 @@ try {
     );
   }
 } finally {
-  await chrome.kill();
+  try {
+    await chrome.kill();
+  } catch (error) {
+    console.warn(`Chrome cleanup warning: ${error?.message ?? error}`);
+  }
 }
 
 const summaryPath = join(outDir, "summary.json");
@@ -163,3 +167,4 @@ if (failures.length > 0) {
 }
 
 console.log("\nAll Lighthouse category budgets passed.");
+process.exit(0);

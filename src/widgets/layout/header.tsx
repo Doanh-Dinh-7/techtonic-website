@@ -57,16 +57,16 @@ export function Header({ show, onLogoClick }: HeaderProps) {
                   <Image
                     src="/element/logo_black.png"
                     alt="TechTonic Club"
-                    className="h-10 object-cover dark:hidden"
-                    width={17}
-                    height={400}
+                    className="h-10 w-10 object-contain dark:hidden"
+                    width={40}
+                    height={40}
                   />
                   <Image
                     src="/element/logo_white.png"
                     alt="TechTonic Club"
-                    className="hidden h-10 object-cover dark:block"
-                    width={17}
-                    height={400}
+                    className="hidden h-10 w-10 object-contain dark:block"
+                    width={40}
+                    height={40}
                   />
                   <span className="font-paris2024 text-xl font-bold leading-none text-foreground">
                     TECH <br />

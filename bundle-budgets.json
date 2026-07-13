@@ -8,7 +8,7 @@
     "/events": 180,
     "/portfolio": 175,
     "/recruitment": 200,
-    "/_not-found": 100
+    "/_not-found": 105
   },
   "defaultRouteKb": 200
 }

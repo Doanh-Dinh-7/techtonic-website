@@ -3,7 +3,7 @@
  * Build, start production server on a free port, run Lighthouse audits, then stop server.
  */
 import { createServer } from "node:net";
-import { spawn } from "node:child_process";
+import { spawn, spawnSync } from "node:child_process";
 import { setTimeout as delay } from "node:timers/promises";
 import { join } from "node:path";
 
@@ -44,6 +44,25 @@ function run(command, args, opts = {}) {
       code === 0 ? resolve() : reject(new Error(`${command} exited ${code}`))
     );
   });
+}
+
+async function stopServer(child) {
+  if (!child.pid) return;
+
+  child.kill("SIGTERM");
+  await delay(1000);
+
+  if (isWin && child.exitCode === null) {
+    spawnSync("taskkill", ["/pid", String(child.pid), "/T", "/F"], {
+      stdio: "ignore",
+      windowsHide: true,
+    });
+    await delay(1000);
+  }
+
+  child.stdout?.destroy();
+  child.stderr?.destroy();
+  child.stdin?.destroy();
 }
 
 async function waitForServer(url, maxAttempts = 90) {
@@ -102,7 +121,7 @@ const ready = await waitForServer(healthUrl);
 
 if (!ready) {
   console.error("Server did not become ready in time.");
-  server.kill("SIGTERM");
+  await stopServer(server);
   process.exit(1);
 }
 
@@ -120,6 +139,7 @@ try {
     },
   });
 } finally {
-  server.kill("SIGTERM");
-  await delay(1000);
+  await stopServer(server);
 }
+
+process.exit(0);

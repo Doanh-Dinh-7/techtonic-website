@@ -29,27 +29,33 @@ describe("Route section smoke", () => {
     expect(screen.getByRole("heading", { name: /Điền form đăng ký/i })).toBeInTheDocument();
   });
 
-  it("about: renders hero, timeline and team sections", () => {
+  it("about: renders hero, timeline and team sections", async () => {
     render(<AboutPageSections />);
 
     expect(
       screen.getByRole("heading", { name: /Về TechTonic Club/i, level: 1 })
     ).toBeInTheDocument();
     expect(screen.getByRole("heading", { name: /Hành trình phát triển/i })).toBeInTheDocument();
-    expect(screen.getByTitle("Video giới thiệu giá trị TechTonic Club")).toBeInTheDocument();
-    expect(
-      screen.getByRole("heading", { name: /Ban chủ nhiệm qua từng nhiệm kỳ/i })
-    ).toBeInTheDocument();
-    expect(document.getElementById("gallery")).toBeTruthy();
+
+    await waitFor(() => {
+      expect(screen.getByTitle("Video giới thiệu giá trị TechTonic Club")).toBeInTheDocument();
+      expect(
+        screen.getByRole("heading", { name: /Ban chủ nhiệm qua từng nhiệm kỳ/i })
+      ).toBeInTheDocument();
+      expect(document.getElementById("gallery")).toBeTruthy();
+    });
   });
 
-  it("events: renders page hero title", () => {
+  it("events: renders page hero title", async () => {
     render(<EventsPageContent />);
 
     expect(screen.getByRole("heading", { name: /Hoạt động/i, level: 1 })).toBeInTheDocument();
-    expect(
-      screen.getByRole("heading", { name: /Hoạt động học thuật hằng tuần/i })
-    ).toBeInTheDocument();
-    expect(screen.getByRole("heading", { name: /Hoạt động & sự kiện/i })).toBeInTheDocument();
+
+    await waitFor(() => {
+      expect(
+        screen.getByRole("heading", { name: /Hoạt động học thuật hằng tuần/i })
+      ).toBeInTheDocument();
+      expect(screen.getByRole("heading", { name: /Hoạt động & sự kiện/i })).toBeInTheDocument();
+    });
   });
 });

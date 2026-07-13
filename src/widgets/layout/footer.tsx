@@ -23,16 +23,16 @@ export function Footer() {
               <Image
                 src="/element/logo_black.png"
                 alt="TechTonic Club"
-                width={13}
-                height={400}
-                className="h-8 object-cover dark:hidden"
+                width={32}
+                height={32}
+                className="h-8 w-8 object-contain dark:hidden"
               />
               <Image
                 src="/element/logo_white.png"
                 alt="TechTonic Club"
-                width={13}
-                height={400}
-                className="hidden h-8 object-cover dark:block"
+                width={32}
+                height={32}
+                className="hidden h-8 w-8 object-contain dark:block"
               />
               <span className="font-paris2024 text-sm font-semibold leading-none text-foreground">
                 TECH <br />

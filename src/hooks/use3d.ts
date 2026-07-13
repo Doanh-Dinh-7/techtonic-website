@@ -38,19 +38,36 @@ export function useReducedMotionPreference() {
  */
 export function use3d() {
   const reducedMotion = useReducedMotionPreference();
+  const [hasInteracted, setHasInteracted] = useState(false);
   const [supportsWebGL, setSupportsWebGL] = useState<boolean | null>(null);
 
   useEffect(() => {
     setSupportsWebGL(canCreateWebGLContext());
   }, []);
 
+  useEffect(() => {
+    if (hasInteracted) return;
+
+    const enableMotion = () => setHasInteracted(true);
+
+    window.addEventListener("pointermove", enableMotion, { once: true });
+    window.addEventListener("touchstart", enableMotion, { once: true });
+    window.addEventListener("keydown", enableMotion, { once: true });
+
+    return () => {
+      window.removeEventListener("pointermove", enableMotion);
+      window.removeEventListener("touchstart", enableMotion);
+      window.removeEventListener("keydown", enableMotion);
+    };
+  }, [hasInteracted]);
+
   return useMemo(
     () => ({
       reducedMotion,
       supportsWebGL,
       isReady: supportsWebGL !== null,
-      shouldRenderMotion: supportsWebGL === true && !reducedMotion,
+      shouldRenderMotion: supportsWebGL === true && !reducedMotion && hasInteracted,
     }),
-    [reducedMotion, supportsWebGL]
+    [hasInteracted, reducedMotion, supportsWebGL]
   );
 }
