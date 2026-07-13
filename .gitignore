@@ -11,6 +11,10 @@
 # next.js
 /.next/
 /out/
+build-output.log
+docs/audits/lighthouse/*.report.html
+docs/audits/lighthouse/*.report.json
+!docs/audits/lighthouse/summary.json
 
 # production
 /build
@@ -38,3 +42,11 @@ next-env.d.ts
 
 # package-lock.json
 package-lock.json
+
+# python
+venv/
+__pycache__/
+test_embed.py
+
+# agent skills
+.agents/

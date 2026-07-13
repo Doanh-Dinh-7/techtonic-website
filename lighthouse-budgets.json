@@ -1,0 +1,10 @@
+{
+  "description": "Phase 7 release gate: Lighthouse category floors for all public routes. CWV field data is monitored separately after production deploy.",
+  "categories": {
+    "performance": 95,
+    "accessibility": 95,
+    "best-practices": 95,
+    "seo": 95
+  },
+  "routes": ["/", "/about", "/departments", "/events", "/portfolio", "/recruitment"]
+}
