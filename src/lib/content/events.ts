@@ -86,7 +86,7 @@ export const academicActivities: AcademicActivity[] = [
 export const happyHourCopy = {
   title: "Sinh hoạt hằng tháng Happy Hour",
   backgroundImage:
-    "https://scontent.fsgn2-4.fna.fbcdn.net/v/t39.30808-6/571012057_122192539820523479_7438619101816799519_n.jpg?_nc_cat=101&ccb=1-7&_nc_sid=127cfc&_nc_eui2=AeE-8SSfNJRliEayrwCFUwgnuGd2bERNpny4Z3ZsRE2mfMzqDQrbm5KCbykRxFrogE9F0A7KZUrlmBkhoLr1MpMA&_nc_ohc=PRXONWiW22cQ7kNvwG06uEO&_nc_oc=Adq8xSWnnqk4J_E9EkUKqw94cs8naYksWHQ6xGJc6VEV2t9M7derWDcQmGqYB0M0SIl7aZmIu3t7Jct0IqVJ9tnL&_nc_pt=1&_nc_zt=23&_nc_ht=scontent.fsgn2-4.fna&_nc_gid=d_DcB92M8sp3b4EBIcGzfQ&_nc_ss=7b2a8&oh=00_Af6s67UMKK1L8c8U4UmYOqkAIyO-D3fEJGU_Co7malVmgQ&oe=6A20F1B8",
+    "https://res.cloudinary.com/dggsvq2tw/image/upload/v1783912491/happy-hours_cfgc5y.jpg",
   backgroundImageAlt: "Thành viên TechTonic trong buổi sinh hoạt Happy Hour.",
   summary: "Sinh hoạt tháng — giao lưu, chia sẻ và gắn kết đội ngũ sau giờ học và làm việc.",
   description:
@@ -135,7 +135,7 @@ export const termEvents: TermEvent[] = [
     side: "left",
     accent: "blue",
     imageSrc:
-      "https://scontent.fsgn2-9.fna.fbcdn.net/v/t39.30808-6/544608447_122181711236523479_7948592787458728470_n.jpg?_nc_cat=106&ccb=1-7&_nc_sid=f727a1&_nc_eui2=AeEtKqaZ8znQ5v2WxbLDKRdKbf3WGDeAneJt_dYYN4Cd4mpIS7O0_LYdgMqaGw1mdnOIHkiG5GIt40fl2LZuXgeR&_nc_ohc=hjfgqyxxGfoQ7kNvwHuxEwg&_nc_oc=AdopGCN4jgadlMANtmwdilL97OtOX6J5ym6wG_6gUev6y721f0ez-8FB4bjLzg6rhbn_3ThkLer3Jn6ITLbQfjZU&_nc_pt=1&_nc_zt=23&_nc_ht=scontent.fsgn2-9.fna&_nc_gid=XamUPwEJihe8NuD2Y4iKNA&_nc_ss=7b2a8&oh=00_Af7qg-cN5DV2TAdDNvzCPZynazoIO4XPnkeZFbBNx3z8ZA&oe=6A20F291",
+      "https://res.cloudinary.com/dggsvq2tw/image/upload/v1783912658/Mentor-mentee_jfrjen.jpg",
     imageAlt: "Chương trình Mentor - Mentee, From Us To You.",
   },
   {
@@ -172,7 +172,7 @@ export const termEvents: TermEvent[] = [
     side: "right",
     accent: "emerald",
     imageSrc:
-      "https://scontent.fsgn2-7.fna.fbcdn.net/v/t39.30808-6/555929771_122188846910523479_689079824838183191_n.jpg?_nc_cat=108&ccb=1-7&_nc_sid=f727a1&_nc_eui2=AeGN4RpcMegl-V7ogssqDXWRpO6sGVZgB3Ck7qwZVmAHcCEsuURakkjiC3P61yRoN0vFTBSIlS2z2Fh10YdF0m4y&_nc_ohc=fEdLVmIleeIQ7kNvwGSAo9O&_nc_oc=AdpjXNOldpgKiGXz6wI31U0vpg5fzvkr76zfbXcytuGvG5xpJjxESfH3cjEy3J0s8koKHcHjSO4RVMprCMOgvxDD&_nc_pt=1&_nc_zt=23&_nc_ht=scontent.fsgn2-7.fna&_nc_gid=GbBJOenPhJEqZIDuQOCDAQ&_nc_ss=7b2a8&oh=00_Af5ydtRX9t3v62Je0UHBMn3InJR5V5KT382JxtU8hnNJcA&oe=6A210570",
+      "https://res.cloudinary.com/dggsvq2tw/image/upload/v1783912656/Tech-X-plore_fionvu.jpg",
     imageAlt: "Chương trình tuyển thành viên TechXplore.",
   },
   {
@@ -205,7 +205,7 @@ export const termEvents: TermEvent[] = [
     side: "left",
     accent: "amber",
     imageSrc:
-      "https://scontent.fsgn2-9.fna.fbcdn.net/v/t39.30808-6/603902636_122205225266523479_8892293032107889277_n.jpg?_nc_cat=103&ccb=1-7&_nc_sid=127cfc&_nc_eui2=AeFkgoLw1ceVa4uLUnTiCeiOcuwh6J1qqYly7CHonWqpifX1cbz9qm9ECdOgb0Q8O41svEPg32je8ChlIbaKMlQr&_nc_ohc=fzb6s2WFSkUQ7kNvwEZoXBD&_nc_oc=AdoQY-3BW7ZgDTPfJIiKL-rUpvW4kYFO9cTno7n9Q39_BcalYO2iRvMrc9W8hwPgvx3sRF0p4mjJPVhGtwJt0AO9&_nc_pt=1&_nc_zt=23&_nc_ht=scontent.fsgn2-9.fna&_nc_gid=XOGyocvs3MfP01W0wo5mhQ&_nc_ss=7b2a8&oh=00_Af71gD8zJ4QQlZqnH9BG4eoPKRAbDKw8_KLoKJSEBB7zBg&oe=6A20F008",
+      "https://res.cloudinary.com/dggsvq2tw/image/upload/v1783912655/Tech-threads_qv0ivk.jpg",
     imageAlt: "Chương trình Tech Threads chào đón thành viên mới.",
   },
   {
@@ -248,7 +248,7 @@ export const termEvents: TermEvent[] = [
     side: "right",
     accent: "pink",
     imageSrc:
-      "https://scontent.fsgn2-6.fna.fbcdn.net/v/t39.30808-6/557984991_122189707874523479_8246930334105696631_n.jpg?_nc_cat=111&ccb=1-7&_nc_sid=f727a1&_nc_eui2=AeGFdv5jYkkoVE3iIFzbHEDMojkG60porveiOQbrSmiu92ZUzhpECH7HRHJskxTXg-kIbZZb0eTmkOiuhls3IBMy&_nc_ohc=wQgURTzHHvsQ7kNvwH5LJTR&_nc_oc=Adp5xujsqFPISS4aFHGPXojlvp5Dr_4aXQAuNnY9E_aVdv8joe_4b5pCwEY_V5IHHUNVKl84X7mjb0NQCc4wkblQ&_nc_pt=1&_nc_zt=23&_nc_ht=scontent.fsgn2-6.fna&_nc_gid=__wb0kVHIZ2bE6H2HW9Y9w&_nc_ss=7b2a8&oh=00_Af66LenXImF35FK2sJFSGG4kgGV6uZ1Tiwlxpslqt1JkEA&oe=6A21112E",
+      "https://res.cloudinary.com/dggsvq2tw/image/upload/v1783912657/Dem-hoi-trang-ram_qjc0za.jpg",
     imageAlt: "Chương trình thiện nguyện Đông - Xuân.",
   },
   {
@@ -281,8 +281,7 @@ export const termEvents: TermEvent[] = [
     ],
     side: "left",
     accent: "violet",
-    imageSrc:
-      "https://scontent.fsgn2-7.fna.fbcdn.net/v/t39.30808-6/659710996_122221397852523479_1250077106361322544_n.jpg?_nc_cat=100&ccb=1-7&_nc_sid=127cfc&_nc_eui2=AeEI-uVvudSYXEr86z9xMnBBZtLxoyfkQsdm0vGjJ-RCx_qdskdtSnwS1ylrzOHbESl3PG5OL973RVJLB9kWNQEf&_nc_ohc=pg2ubiff6gYQ7kNvwFSO0wg&_nc_oc=AdpprjfF9lxd2C-kg5KInLBBFp8byDObvNDSPFkbo4mmi_jI2NN9CWdUNXFzkdBECzqzoeeyXmbPfNc49voc_Jgw&_nc_pt=1&_nc_zt=23&_nc_ht=scontent.fsgn2-7.fna&_nc_gid=06_sDNNl-crRQCqZ63KK8A&_nc_ss=7b2a8&oh=00_Af5dAggQlkbRfDciydg37JYm3udEflEQLd02aA3-To9o-g&oe=6A20FE2D",
+    imageSrc: "https://res.cloudinary.com/dggsvq2tw/image/upload/v1783912657/Tech-ware_kqa8rx.jpg",
     imageAlt: "Hoạt động Team Bonding TechWare.",
   },
   {

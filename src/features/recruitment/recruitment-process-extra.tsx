@@ -43,11 +43,13 @@ export function RecruitmentProcessExtra() {
               viewport={{ once: true }}
               transition={{ delay: index * 0.08 }}
             >
-              <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-lg bg-neon-cyan/10">
-                <Icon className="h-6 w-6 text-neon-cyan" />
+              <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-lg bg-cyan-700/10 dark:bg-neon-cyan/10">
+                <Icon className="h-6 w-6 text-cyan-500 dark:text-neon-cyan" />
               </div>
               <h3 className="mb-1 font-semibold text-foreground dark:text-white">{round.title}</h3>
-              <p className="mb-3 text-xs text-neon-cyan/80">{round.appliesTo}</p>
+              <p className="mb-3 text-xs font-medium text-cyan-500 dark:text-neon-cyan/80">
+                {round.appliesTo}
+              </p>
               <p className="text-sm leading-relaxed text-muted-foreground dark:text-white/65">
                 {round.description}
               </p>
@@ -65,7 +67,7 @@ export function RecruitmentProcessExtra() {
         whileInView={{ opacity: 1 }}
         viewport={{ once: true }}
       >
-        <span className="font-semibold text-amber-200">Lưu ý: </span>
+        <span className="font-semibold text-amber-600 dark:text-amber-200">Lưu ý: </span>
         {recruitmentProcessNote}
       </motion.div>
     </SectionShell>
