@@ -23,17 +23,17 @@ export const accentLabel: Record<ActivityAccent, string> = {
 
 /** Tầng 1 — order badge & chấm timeline (đậm nhất, có glow) */
 export const accentOrder: Record<ActivityAccent, string> = {
-  cyan: "border-neon-cyan/70 bg-neon-cyan/25 text-neon-cyan shadow-[0_0_14px_rgba(0,245,255,0.45)]",
+  cyan: "border-cyan-500/70 bg-cyan-100 text-cyan-800 shadow-[0_0_14px_rgba(14,116,144,0.18)] dark:border-neon-cyan/70 dark:bg-neon-cyan/25 dark:text-neon-cyan dark:shadow-[0_0_14px_rgba(0,245,255,0.45)]",
   violet:
-    "border-neon-purple/70 bg-neon-purple/25 text-neon-purple shadow-[0_0_14px_rgba(168,85,247,0.45)]",
-  blue: "border-electric-blue/70 bg-electric-blue/25 text-electric-blue shadow-[0_0_14px_rgba(59,130,246,0.45)]",
+    "border-purple-500/70 bg-purple-100 text-purple-800 shadow-[0_0_14px_rgba(126,34,206,0.18)] dark:border-neon-purple/70 dark:bg-neon-purple/25 dark:text-neon-purple dark:shadow-[0_0_14px_rgba(168,85,247,0.45)]",
+  blue: "border-blue-500/70 bg-blue-100 text-blue-800 shadow-[0_0_14px_rgba(37,99,235,0.18)] dark:border-electric-blue/70 dark:bg-electric-blue/25 dark:text-electric-blue dark:shadow-[0_0_14px_rgba(59,130,246,0.45)]",
   emerald:
-    "border-emerald-400/70 bg-emerald-500/25 text-emerald-400 shadow-[0_0_14px_rgba(52,211,153,0.4)]",
+    "border-emerald-500/70 bg-emerald-100 text-emerald-800 shadow-[0_0_14px_rgba(4,120,87,0.18)] dark:border-emerald-400/70 dark:bg-emerald-500/25 dark:text-emerald-400 dark:shadow-[0_0_14px_rgba(52,211,153,0.4)]",
   amber:
-    "border-amber-400/70 bg-amber-500/25 text-amber-400 shadow-[0_0_14px_rgba(251,191,36,0.4)]",
-  pink: "border-pink-400/70 bg-pink-500/25 text-pink-400 shadow-[0_0_14px_rgba(248,113,113,0.4)]",
+    "border-amber-500/70 bg-amber-100 text-amber-800 shadow-[0_0_14px_rgba(180,83,9,0.18)] dark:border-amber-400/70 dark:bg-amber-500/25 dark:text-amber-400 dark:shadow-[0_0_14px_rgba(251,191,36,0.4)]",
+  pink: "border-pink-500/70 bg-pink-100 text-pink-800 shadow-[0_0_14px_rgba(190,24,93,0.18)] dark:border-pink-400/70 dark:bg-pink-500/25 dark:text-pink-400 dark:shadow-[0_0_14px_rgba(248,113,113,0.4)]",
   orange:
-    "border-orange-400/70 bg-orange-500/25 text-orange-400 shadow-[0_0_14px_rgba(255,165,0,0.4)]",
+    "border-orange-500/70 bg-orange-100 text-orange-800 shadow-[0_0_14px_rgba(194,65,12,0.18)] dark:border-orange-400/70 dark:bg-orange-500/25 dark:text-orange-400 dark:shadow-[0_0_14px_rgba(255,165,0,0.4)]",
 };
 
 /** Tầng 2 — tên chương trình (nổi bật) */

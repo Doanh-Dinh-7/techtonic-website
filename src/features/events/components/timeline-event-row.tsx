@@ -28,8 +28,9 @@ export function TimelineEventRow({ event }: TimelineEventRowProps) {
     >
       <span
         className={cn(
-          "absolute left-1/2 top-6 z-20 hidden h-7 w-7 -translate-x-1/2 items-center justify-center rounded-full border bg-[#0a0a0a] font-mono text-xs font-bold md:flex",
-          accentOrder[event.accent]
+          "absolute left-1/2 top-6 z-20 hidden h-7 w-7 -translate-x-1/2 items-center justify-center rounded-full border font-mono text-xs font-bold md:flex",
+          accentOrder[event.accent],
+          "dark:bg-[#0a0a0a]"
         )}
         aria-hidden
       >
@@ -84,7 +85,8 @@ function TimelineEventCard({ event, align }: { event: TermEvent; align: "left" |
           <span
             className={cn(
               "flex h-6 w-6 items-center justify-center rounded-full border font-mono text-xs font-bold md:hidden",
-              accentOrder[event.accent]
+              accentOrder[event.accent],
+              "dark:bg-[#0a0a0a]"
             )}
           >
             {event.order}
@@ -114,7 +116,7 @@ function TimelineEventCard({ event, align }: { event: TermEvent; align: "left" |
               >
                 <AccordionTrigger
                   className={cn(
-                    "py-3 text-sm text-white/90 hover:text-neon-cyan hover:no-underline",
+                    "py-3 text-sm text-foreground hover:text-cyan-500 hover:no-underline dark:text-white/90 dark:hover:text-neon-cyan",
                     textAlign
                   )}
                 >

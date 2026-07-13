@@ -59,7 +59,7 @@ export function ActivityCard({ activity }: ActivityCardProps) {
         <button
           type="button"
           onClick={() => setExpanded((v) => !v)}
-          className="inline-flex items-center gap-1 self-start text-sm font-medium text-neon-cyan transition hover:text-neon-cyan/80 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-neon-cyan/70 focus-visible:ring-offset-2 focus-visible:ring-offset-transparent"
+          className="inline-flex items-center gap-1 self-start text-sm font-medium text-cyan-500 transition hover:text-cyan-600 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-500/50 focus-visible:ring-offset-2 focus-visible:ring-offset-background dark:text-neon-cyan dark:hover:text-neon-cyan/80 dark:focus-visible:ring-neon-cyan/70 dark:focus-visible:ring-offset-transparent"
           aria-expanded={expanded}
         >
           {expanded ? "Thu gọn" : "Xem thêm"}

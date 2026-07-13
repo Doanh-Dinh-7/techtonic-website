@@ -36,6 +36,7 @@ describe("Route section smoke", () => {
       screen.getByRole("heading", { name: /Về TechTonic Club/i, level: 1 })
     ).toBeInTheDocument();
     expect(screen.getByRole("heading", { name: /Hành trình phát triển/i })).toBeInTheDocument();
+    expect(screen.getByTitle("Video giới thiệu giá trị TechTonic Club")).toBeInTheDocument();
     expect(
       screen.getByRole("heading", { name: /Ban chủ nhiệm qua từng nhiệm kỳ/i })
     ).toBeInTheDocument();

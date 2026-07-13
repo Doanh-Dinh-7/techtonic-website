@@ -12,7 +12,7 @@ export const departmentsHeroCopy = {
 export const departmentsStructureCopy = {
   title: "Cơ cấu chung",
   description:
-    "Sơ đồ tổ chức Câu lạc bộ TechTonic — di chuột hoặc nhấn biểu tượng thông tin để xem giới thiệu ngắn.",
+    "Sơ đồ tổ chức Câu lạc bộ TechTonic — Nhấn biểu tượng thông tin để xem giới thiệu ngắn.",
 };
 
 export const departmentsBookCopy = {

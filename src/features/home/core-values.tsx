@@ -26,14 +26,14 @@ const valueItems = [
     title: "Sự chân thành",
     iconWrap: "bg-green-100",
     iconColor: "text-green-600",
-    glow: "cyan" as const,
+    glow: "green" as const,
   },
   {
     icon: Star,
     title: "Sự tôn trọng",
     iconWrap: "bg-yellow-100",
     iconColor: "text-yellow-600",
-    glow: "purple" as const,
+    glow: "yellow" as const,
   },
   {
     icon: Flag,

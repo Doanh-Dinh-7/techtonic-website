@@ -77,7 +77,7 @@ export function DepartmentsBook() {
   return (
     <div className={cn("mx-auto w-full", isLandscape ? "max-w-5xl" : "max-w-3xl")}>
       <div className="mb-6 flex flex-col items-center gap-3">
-        <p className="text-sm text-white/50">
+        <p className="text-sm text-muted-foreground dark:text-white/50">
           Trang {currentPage + 1} / {TOTAL_PAGES}
         </p>
         <div className="flex gap-2">
@@ -98,7 +98,7 @@ export function DepartmentsBook() {
                 "h-2 rounded-full transition-all",
                 index === currentPage
                   ? cn("w-6", departmentColorStyles[page.color].dot)
-                  : "w-2 bg-white/20 hover:bg-white/40"
+                  : "w-2 bg-slate-400/50 hover:bg-slate-500/70 dark:bg-white/20 dark:hover:bg-white/40"
               )}
               aria-label={`Đi tới trang ${index + 1}: ${page.title}`}
             />
@@ -294,8 +294,10 @@ function NavButton({
       aria-label={label}
       className={cn(
         "flex h-10 w-10 shrink-0 items-center justify-center rounded-full",
-        "border border-white/15 bg-white/5 text-white/70 transition-colors",
-        "hover:border-neon-cyan/40 hover:bg-neon-cyan/10 hover:text-neon-cyan",
+        "border border-slate-300 bg-white text-slate-700 shadow-sm transition-colors",
+        "hover:border-cyan-500/50 hover:bg-cyan-50 hover:text-cyan-700",
+        "dark:border-white/15 dark:bg-white/5 dark:text-white/70 dark:shadow-none",
+        "dark:hover:border-neon-cyan/40 dark:hover:bg-neon-cyan/10 dark:hover:text-neon-cyan",
         "disabled:cursor-not-allowed disabled:opacity-30"
       )}
     >

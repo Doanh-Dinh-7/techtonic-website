@@ -31,7 +31,8 @@ export function Team() {
               value={term.id}
               className={cn(
                 "rounded-none border-b-2 border-transparent bg-transparent px-4 py-2 text-muted-foreground shadow-none dark:text-white/60",
-                "data-[state=active]:border-neon-cyan data-[state=active]:bg-transparent data-[state=active]:text-neon-cyan"
+                "data-[state=active]:border-cyan-700 data-[state=active]:bg-transparent data-[state=active]:text-cyan-700",
+                "dark:data-[state=active]:border-neon-cyan dark:data-[state=active]:text-neon-cyan"
               )}
             >
               {term.label}
@@ -51,7 +52,7 @@ export function Team() {
                   className={cn(
                     "rounded-full border px-4 py-2 font-mono text-sm transition-all",
                     termId === term.id && boardId === board.id
-                      ? "border-neon-cyan/50 bg-neon-cyan/10 text-neon-cyan shadow-[0_0_15px_rgba(0,245,255,0.15)]"
+                      ? "border-cyan-700/60 bg-cyan-700/10 text-cyan-800 shadow-[0_0_15px_rgba(14,116,144,0.16)] dark:border-neon-cyan/50 dark:bg-neon-cyan/10 dark:text-neon-cyan dark:shadow-[0_0_15px_rgba(0,245,255,0.15)]"
                       : "border-border bg-card/80 text-muted-foreground hover:border-primary/20 hover:text-foreground dark:border-white/10 dark:bg-white/[0.06] dark:text-white/60 dark:hover:border-white/20 dark:hover:text-white/80"
                   )}
                 >

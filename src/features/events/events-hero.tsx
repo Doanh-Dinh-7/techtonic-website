@@ -36,8 +36,9 @@ export function EventsHero() {
       >
         <span
           className={cn(
-            "inline-block rounded-full border border-neon-cyan/20 bg-neon-cyan/10 px-4 py-2",
-            "font-utm-akashi text-sm uppercase tracking-widest text-neon-cyan"
+            "inline-block rounded-full border border-cyan-400/25 bg-cyan-400/10 px-4 py-2",
+            "font-utm-akashi text-sm uppercase tracking-widest text-cyan-800",
+            "dark:border-neon-cyan/10 dark:bg-neon-cyan/10 dark:text-neon-cyan"
           )}
         >
           {eventsHeroCopy.badge}

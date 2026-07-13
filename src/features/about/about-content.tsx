@@ -5,6 +5,7 @@ import { AboutHero } from "@/features/about/about-hero";
 import { AboutIdentitySection } from "@/features/about/about-identity-section";
 import { AboutIntro } from "@/features/about/about-intro";
 import { AboutTimeline } from "@/features/about/about-timeline";
+import { AboutVideo } from "@/features/about/about-video";
 import { Gallery } from "@/features/about/gallery";
 import { Team } from "@/features/about/team";
 
@@ -14,6 +15,7 @@ export function AboutContent() {
       <AboutHero />
       <AboutIntro />
       <AboutTimeline />
+      <AboutVideo />
       <AboutIdentitySection />
       <AboutCulture />
       <AboutBenefits />

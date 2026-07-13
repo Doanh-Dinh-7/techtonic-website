@@ -26,6 +26,11 @@ export function Benefits() {
       bgColor: "bg-blue-100",
       shadowColor: "shadow-blue-200",
       hoverShadowColor: "hover:shadow-blue-200",
+      darkTextColor: "dark:text-blue-300",
+      darkBgColor: "dark:bg-blue-400/15",
+      darkCardColor: "dark:border-blue-300/20 dark:bg-blue-400/[0.06]",
+      darkShadowColor: "dark:shadow-[0_0_28px_rgba(96,165,250,0.12)]",
+      darkHoverShadowColor: "dark:hover:shadow-[0_0_36px_rgba(96,165,250,0.18)]",
     },
     {
       icon: Network,
@@ -37,6 +42,11 @@ export function Benefits() {
       bgColor: "bg-green-100",
       shadowColor: "shadow-green-200",
       hoverShadowColor: "hover:shadow-green-200",
+      darkTextColor: "dark:text-emerald-300",
+      darkBgColor: "dark:bg-emerald-400/15",
+      darkCardColor: "dark:border-emerald-300/20 dark:bg-emerald-400/[0.06]",
+      darkShadowColor: "dark:shadow-[0_0_28px_rgba(52,211,153,0.12)]",
+      darkHoverShadowColor: "dark:hover:shadow-[0_0_36px_rgba(52,211,153,0.18)]",
     },
     {
       icon: Lightbulb,
@@ -48,6 +58,11 @@ export function Benefits() {
       bgColor: "bg-yellow-100",
       shadowColor: "shadow-yellow-200",
       hoverShadowColor: "hover:shadow-yellow-200",
+      darkTextColor: "dark:text-yellow-200",
+      darkBgColor: "dark:bg-yellow-300/15",
+      darkCardColor: "dark:border-yellow-200/20 dark:bg-yellow-300/[0.06]",
+      darkShadowColor: "dark:shadow-[0_0_28px_rgba(253,224,71,0.12)]",
+      darkHoverShadowColor: "dark:hover:shadow-[0_0_36px_rgba(253,224,71,0.18)]",
     },
     {
       icon: Trophy,
@@ -59,6 +74,11 @@ export function Benefits() {
       bgColor: "bg-purple-100",
       shadowColor: "shadow-purple-200",
       hoverShadowColor: "hover:shadow-purple-200",
+      darkTextColor: "dark:text-purple-300",
+      darkBgColor: "dark:bg-purple-400/15",
+      darkCardColor: "dark:border-purple-300/20 dark:bg-purple-400/[0.06]",
+      darkShadowColor: "dark:shadow-[0_0_28px_rgba(192,132,252,0.12)]",
+      darkHoverShadowColor: "dark:hover:shadow-[0_0_36px_rgba(192,132,252,0.18)]",
     },
     {
       icon: GraduationCap,
@@ -70,6 +90,11 @@ export function Benefits() {
       bgColor: "bg-red-100",
       shadowColor: "shadow-red-200",
       hoverShadowColor: "hover:shadow-red-200",
+      darkTextColor: "dark:text-red-300",
+      darkBgColor: "dark:bg-red-400/15",
+      darkCardColor: "dark:border-red-300/20 dark:bg-red-400/[0.06]",
+      darkShadowColor: "dark:shadow-[0_0_28px_rgba(248,113,113,0.12)]",
+      darkHoverShadowColor: "dark:hover:shadow-[0_0_36px_rgba(248,113,113,0.18)]",
     },
     {
       icon: Handshake,
@@ -81,6 +106,11 @@ export function Benefits() {
       bgColor: "bg-orange-100",
       shadowColor: "shadow-orange-200",
       hoverShadowColor: "hover:shadow-orange-200",
+      darkTextColor: "dark:text-orange-300",
+      darkBgColor: "dark:bg-orange-400/15",
+      darkCardColor: "dark:border-orange-300/20 dark:bg-orange-400/[0.06]",
+      darkShadowColor: "dark:shadow-[0_0_28px_rgba(251,146,60,0.12)]",
+      darkHoverShadowColor: "dark:hover:shadow-[0_0_36px_rgba(251,146,60,0.18)]",
     },
   ];
 
@@ -125,21 +155,28 @@ export function Benefits() {
                     aria-label={`Xem chi tiết: ${benefit.title}`}
                     className={cn(
                       "h-full w-full cursor-pointer rounded-xl border border-border bg-card text-left shadow-lg transition-shadow hover:shadow-xl focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2",
-                      "dark:border-white/10 dark:bg-white/[0.04] dark:text-white dark:shadow-[0_0_28px_rgba(0,245,255,0.08)] dark:hover:shadow-[0_0_36px_rgba(0,245,255,0.14)]",
+                      "dark:text-white",
                       benefit.shadowColor,
-                      benefit.hoverShadowColor
+                      benefit.hoverShadowColor,
+                      benefit.darkCardColor,
+                      benefit.darkShadowColor,
+                      benefit.darkHoverShadowColor
                     )}
                   >
                     <div className="flex flex-row items-center gap-4 p-6">
                       <motion.div
-                        className={`flex h-12 w-12 items-center justify-center rounded-lg ${benefit.bgColor} dark:bg-white/10`}
+                        className={cn(
+                          "flex h-12 w-12 items-center justify-center rounded-lg",
+                          benefit.bgColor,
+                          benefit.darkBgColor
+                        )}
                         whileHover={{
                           rotate: [0, -5, 5, -5, 0],
                           transition: { duration: 0.5 },
                         }}
                       >
                         {React.createElement(benefit.icon, {
-                          className: `h-6 w-6 ${benefit.textColor}`,
+                          className: cn("h-6 w-6", benefit.textColor, benefit.darkTextColor),
                         })}
                       </motion.div>
                       <span className="font-utm-akashi text-2xl font-normal text-card-foreground dark:text-white">
@@ -151,7 +188,7 @@ export function Benefits() {
                     </p>
                   </button>
                 </DialogTrigger>
-                <DialogContent>
+                <DialogContent className={cn("dark:text-white", benefit.darkCardColor)}>
                   <DialogHeader>
                     <DialogTitle className="font-utm-akashi text-2xl font-normal">
                       {benefit.title}
@@ -160,10 +197,14 @@ export function Benefits() {
                   <div className="space-y-4">
                     <div className="flex items-center gap-3">
                       <div
-                        className={`flex h-12 w-12 items-center justify-center rounded-lg ${benefit.bgColor}`}
+                        className={cn(
+                          "flex h-12 w-12 items-center justify-center rounded-lg",
+                          benefit.bgColor,
+                          benefit.darkBgColor
+                        )}
                       >
                         {React.createElement(benefit.icon, {
-                          className: `h-6 w-6 ${benefit.textColor}`,
+                          className: cn("h-6 w-6", benefit.textColor, benefit.darkTextColor),
                         })}
                       </div>
                     </div>
