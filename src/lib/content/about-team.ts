@@ -315,7 +315,7 @@ export const aboutTeamTerms: AboutTeamTerm[] = [
               name: "Lê Thị Nhung Nguyệt",
               role: "Trưởng ban",
               image:
-                "https://res.cloudinary.com/dggsvq2tw/image/upload/v1785756480/L%C3%AA_Th%E1%BB%8B_Nhung_Nguy%E1%BB%87t_duhokv.png",
+                "https://res.cloudinary.com/dggsvq2tw/image/upload/v1785816321/L%C3%AA_Th%E1%BB%8B_Nhung_Nguy%E1%BB%87t_wjtzqq.png",
             },
           ]),
           levelRow(2, [
@@ -323,7 +323,7 @@ export const aboutTeamTerms: AboutTeamTerm[] = [
               name: "Trương Thị Lan",
               role: "Phó ban",
               image:
-                "https://res.cloudinary.com/dggsvq2tw/image/upload/v1785756480/Tr%C6%B0%C6%A1ng_Th%E1%BB%8B_Lan_myf63j.png",
+                "https://res.cloudinary.com/dggsvq2tw/image/upload/v1785816310/Tr%C6%B0%C6%A1ng_Th%E1%BB%8B_Lan_vvjynt.png",
             },
           ]),
           levelRow(3, [
@@ -331,17 +331,19 @@ export const aboutTeamTerms: AboutTeamTerm[] = [
               name: "Đinh Sỹ Quốc Doanh",
               role: "Thành viên",
               image:
-                "https://res.cloudinary.com/dggsvq2tw/image/upload/v1758206562/Dinh_Sy_Quoc_Doanh_hiqkcs.jpg",
+                "https://res.cloudinary.com/dggsvq2tw/image/upload/v1785816322/%C4%90inh_S%E1%BB%B9_Qu%E1%BB%91c_Doanh_ub0a50.png",
             },
             {
-              ...PLACEHOLDER_BASE,
               name: "Nguyễn Đình Khoa",
               role: "Thành viên",
+              image:
+                "https://res.cloudinary.com/dggsvq2tw/image/upload/v1785817599/Nguy%E1%BB%85n_%C4%90%C3%ACnh_Khoa_krppvv.png",
             },
             {
-              ...PLACEHOLDER_BASE,
               name: "Hồ Văn Trường",
               role: "Thành viên",
+              image:
+                "https://res.cloudinary.com/dggsvq2tw/image/upload/v1785817600/H%E1%BB%93_V%C4%83n_Tr%C6%B0%E1%BB%9Dng_nlrxqc.png",
             },
             {
               ...PLACEHOLDER_BASE,
@@ -349,9 +351,10 @@ export const aboutTeamTerms: AboutTeamTerm[] = [
               role: "Thành viên",
             },
             {
-              ...PLACEHOLDER_BASE,
               name: "Nguyễn Lê Anh Hoàng",
               role: "Thành viên",
+              image:
+                "https://res.cloudinary.com/dggsvq2tw/image/upload/v1785817600/Nguy%E1%BB%85n_L%C3%AA_Anh_Ho%C3%A0ng_ymbmzl.png",
             },
             {
               ...PLACEHOLDER_BASE,
@@ -385,7 +388,7 @@ export const aboutTeamTerms: AboutTeamTerm[] = [
               name: "Nguyễn Anh Tú",
               role: "Trưởng ban",
               image:
-                "https://res.cloudinary.com/dggsvq2tw/image/upload/v1758206563/Nguyen_Anh_Tu_z0wpya.jpg",
+                "https://res.cloudinary.com/dggsvq2tw/image/upload/v1785833721/Nguy%E1%BB%85n_Anh_T%C3%BA_bwmr0q.png",
             },
           ]),
           levelRow(2, [
@@ -393,13 +396,13 @@ export const aboutTeamTerms: AboutTeamTerm[] = [
               name: "Đoàn Ngọc Bảo Trân",
               role: "Phó ban",
               image:
-                "https://res.cloudinary.com/dggsvq2tw/image/upload/v1785757609/%C4%90o%C3%A0n_Ng%E1%BB%8Dc_B%E1%BA%A3o_Tr%C3%A2n_hrqimk.png",
+                "https://res.cloudinary.com/dggsvq2tw/image/upload/v1785833720/%C4%90o%C3%A0n_Ng%E1%BB%8Dc_B%E1%BA%A3o_Tr%C3%A2n_biye8o.png",
             },
             {
               name: "Phạm Ngọc Yến Nhi",
               role: "Phó ban",
               image:
-                "https://res.cloudinary.com/dggsvq2tw/image/upload/v1785757609/Ph%E1%BA%A1m_Ng%E1%BB%8Dc_Y%E1%BA%BFn_Nhi_ynohwy.png",
+                "https://res.cloudinary.com/dggsvq2tw/image/upload/v1785833722/Ph%E1%BA%A1m_Ng%E1%BB%8Dc_Y%E1%BA%BFn_Nhi_uhyzbr.png",
             },
           ]),
           levelRow(3, [
@@ -409,9 +412,10 @@ export const aboutTeamTerms: AboutTeamTerm[] = [
               role: "Thành viên",
             },
             {
-              ...PLACEHOLDER_BASE,
               name: "Nguyễn Ngọc Nhật",
               role: "Thành viên",
+              image:
+                "https://res.cloudinary.com/dggsvq2tw/image/upload/v1785833720/Nguy%E1%BB%85n_Ng%E1%BB%8Dc_Nh%E1%BA%ADt_wvbxsh.png",
             },
             {
               ...PLACEHOLDER_BASE,
@@ -429,9 +433,10 @@ export const aboutTeamTerms: AboutTeamTerm[] = [
               role: "Thành viên",
             },
             {
-              ...PLACEHOLDER_BASE,
               name: "Nguyễn Thị Phương Thảo",
               role: "Thành viên",
+              image:
+                "https://res.cloudinary.com/dggsvq2tw/image/upload/v1785833721/Nguy%E1%BB%85n_Th%E1%BB%8B_Ph%C6%B0%C6%A1ng_Th%E1%BA%A3o_an1iu6.png",
             },
             {
               ...PLACEHOLDER_BASE,
@@ -455,7 +460,7 @@ export const aboutTeamTerms: AboutTeamTerm[] = [
               name: "Nguyễn Thị Kim Phượng",
               role: "Trưởng ban",
               image:
-                "https://res.cloudinary.com/dggsvq2tw/image/upload/v1758206565/Nguyen_Thi_Kim_Phuong_tjgduj.jpg",
+                "https://res.cloudinary.com/dggsvq2tw/image/upload/v1785834931/Nguy%E1%BB%85n_Th%E1%BB%8B_Kim_Ph%C6%B0%E1%BB%A3ng_vethgb.png",
             },
           ]),
           levelRow(2, [
@@ -463,31 +468,33 @@ export const aboutTeamTerms: AboutTeamTerm[] = [
               name: "Hà Gia Bảo Ngọc",
               role: "Phó ban",
               image:
-                "https://res.cloudinary.com/dggsvq2tw/image/upload/v1785759527/H%C3%A0_Gia_B%E1%BA%A3o_Ng%E1%BB%8Dc_yvnm54.png",
+                "https://res.cloudinary.com/dggsvq2tw/image/upload/v1785834930/H%C3%A0_Gia_B%E1%BA%A3o_Ng%E1%BB%8Dc_vlc6kh.png",
             },
             {
               name: "Đặng Thị Thanh Ngân",
               role: "Phó ban",
               image:
-                "https://res.cloudinary.com/dggsvq2tw/image/upload/v1785759527/%C4%90%E1%BA%B7ng_Th%E1%BB%8B_Thanh_Ng%C3%A2n_obutmi.png",
+                "https://res.cloudinary.com/dggsvq2tw/image/upload/v1785834930/%C4%90%E1%BA%B7ng_Th%E1%BB%8B_Thanh_Ng%C3%A2n_s32hty.png",
             },
           ]),
           levelRow(3, [
             {
-              ...PLACEHOLDER_BASE,
               name: "Lê Nữ Hạnh Nhân",
               role: "Thành viên",
+              image:
+                "https://res.cloudinary.com/dggsvq2tw/image/upload/v1785834929/L%C3%AA_N%E1%BB%AF_H%E1%BA%A1nh_Nh%C3%A2n_eo3udq.png",
             },
             {
               name: "Lê Minh Thư",
               role: "Thành viên",
               image:
-                "https://res.cloudinary.com/dggsvq2tw/image/upload/v1758206563/Le_Minh_Thu_suucwn.jpg",
+                "https://res.cloudinary.com/dggsvq2tw/image/upload/v1785834930/L%C3%AA_Minh_Th%C6%B0_i21qof.png",
             },
             {
-              ...PLACEHOLDER_BASE,
               name: "Phạm Khánh Ngân",
               role: "Thành viên",
+              image:
+                "https://res.cloudinary.com/dggsvq2tw/image/upload/v1785839866/Ph%E1%BA%A1m_Kh%C3%A1nh_Ng%C3%A2n_jh0c9p.png",
             },
             {
               ...PLACEHOLDER_BASE,
@@ -495,9 +502,10 @@ export const aboutTeamTerms: AboutTeamTerm[] = [
               role: "Thành viên",
             },
             {
-              ...PLACEHOLDER_BASE,
               name: "Ngô Phương Thảo",
               role: "Thành viên",
+              image:
+                "https://res.cloudinary.com/dggsvq2tw/image/upload/v1785842029/Ng%C3%B4_Ph%C6%B0%C6%A1ng_Th%E1%BA%A3o_cnmlwf.png",
             },
             {
               ...PLACEHOLDER_BASE,
@@ -505,9 +513,10 @@ export const aboutTeamTerms: AboutTeamTerm[] = [
               role: "Thành viên",
             },
             {
-              ...PLACEHOLDER_BASE,
               name: "Nguyễn Ngọc Mai Thảo",
               role: "Thành viên",
+              image:
+                "https://res.cloudinary.com/dggsvq2tw/image/upload/v1785841058/Nguy%E1%BB%85n_Ng%E1%BB%8Dc_Mai_Th%E1%BA%A3o_rjas3h.png",
             },
             {
               ...PLACEHOLDER_BASE,
@@ -523,9 +532,10 @@ export const aboutTeamTerms: AboutTeamTerm[] = [
         hierarchy: [
           levelRow(1, [
             {
-              ...PLACEHOLDER_BASE,
               name: "Võ Đình Khoa",
               role: "Trưởng ban",
+              image:
+                "https://res.cloudinary.com/dggsvq2tw/image/upload/v1785842514/V%C3%B5_%C4%90%C3%ACnh_Khoa_ryxypi.png",
             },
           ]),
           levelRow(2, [
