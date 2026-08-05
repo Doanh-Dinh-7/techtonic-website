@@ -37,47 +37,53 @@ Keep code maintainable, scalable, and consistent across the layered `src/` archi
 
 ## Project Layout Rules (V2.0)
 
-| Path                                | Responsibility                               |
-| ----------------------------------- | -------------------------------------------- |
-| `src/app/`                          | Routes, metadata, sitemap, robots, layouts   |
-| `src/widgets/`                      | Page composition, site chrome                |
-| `src/features/`                     | Domain sections + feature hooks              |
-| `src/features/<domain>/components/` | Feature-scoped UI (org chart, gallery tiles) |
-| `src/features/<domain>/lib/`        | Feature-scoped pure helpers                  |
-| `src/shared/ui/`                    | shadcn/Radix (**canonical UI**)              |
-| `src/shared/ui-v2/`                 | V2 design system                             |
-| `src/shared/seo/`                   | JSON-LD presentation components              |
-| `src/shared/a11y/`                  | Shared a11y helpers (e.g. sample labels)     |
-| `src/shared/utils/`                 | `cn`, helpers                                |
-| `src/lib/seo/`                      | Metadata + Schema.org builders               |
-| `src/lib/content/`                  | Static content                               |
-| `src/lib/3d/`                       | Pure 3D budgets (tested)                     |
-| `src/3d/`                           | Canonical R3F runtime                        |
-| `src/3d/hero-media.tsx`             | Home hero canvas (SSR-safe dynamic import)   |
-| `src/3d/events-hero-canvas.tsx`     | Events hero canvas (SSR-safe dynamic import) |
+| Path                                 | Responsibility                               |
+| ------------------------------------ | -------------------------------------------- |
+| `src/app/`                           | Routes, metadata, sitemap, robots, layouts   |
+| `src/widgets/`                       | Page composition, site chrome                |
+| `src/features/`                      | Domain sections + feature hooks              |
+| `src/features/<domain>/components/`  | Feature-scoped UI (org chart, gallery tiles) |
+| `src/features/<domain>/lib/`         | Feature-scoped pure helpers                  |
+| `src/shared/ui/`                     | shadcn/Radix (**canonical UI**)              |
+| `src/shared/ui-v2/`                  | V2 design system                             |
+| `src/shared/seo/`                    | JSON-LD presentation components              |
+| `src/shared/a11y/`                   | Shared a11y helpers (e.g. sample labels)     |
+| `src/shared/utils/`                  | `cn`, helpers                                |
+| `src/lib/seo/`                       | Metadata + Schema.org builders               |
+| `src/lib/content/`                   | Static content                               |
+| `src/lib/3d/`                        | Pure 3D budgets (tested)                     |
+| `src/3d/`                            | Canonical R3F runtime                        |
+| `src/3d/hero-media.tsx`              | Home hero Rubik (`HeroRubiksCube`, SSR-safe) |
+| `src/3d/events-hero-canvas.tsx`      | Events hero canvas (SSR-safe)                |
+| `src/3d/departments-hero-canvas.tsx` | Departments hero canvas (SSR-safe)           |
+| `src/3d/recruitment-page-canvas.tsx` | Recruitment backdrop canvas (SSR-safe)       |
 
 **No `@/components/*` imports.** `src/components/` has been fully decommissioned.
 
 ### Import policy
 
-| Use case       | Import                          |
-| -------------- | ------------------------------- |
-| UI primitive   | `@/shared/ui/...`               |
-| V2 component   | `@/shared/ui-v2/...`            |
-| Page SEO       | `@/lib/seo`, `@/shared/seo/...` |
-| Utils          | `@/shared/utils`                |
-| Home hero 3D   | `@/3d/hero-media`               |
-| Events hero 3D | `@/3d/events-hero-canvas`       |
-| Other 3D       | `@/3d` or `@/3d/...`            |
-| 3D policy      | `@/lib/3d/performance`          |
-| 3D capability  | `@/hooks/use3d`                 |
+| Use case            | Import                               |
+| ------------------- | ------------------------------------ |
+| UI primitive        | `@/shared/ui/...`                    |
+| V2 component        | `@/shared/ui-v2/...`                 |
+| Page SEO            | `@/lib/seo`, `@/shared/seo/...`      |
+| Utils               | `@/shared/utils`                     |
+| Home hero 3D        | `@/3d/hero-media` (`HeroRubiksCube`) |
+| Events hero 3D      | `@/3d/events-hero-canvas`            |
+| Departments hero 3D | `@/3d/departments-hero-canvas`       |
+| Recruitment 3D      | `@/3d/recruitment-page-canvas`       |
+| Other 3D            | `@/3d` or `@/3d/...`                 |
+| 3D policy           | `@/lib/3d/performance`               |
+| 3D capability       | `@/hooks/use3d`                      |
 
 ```ts
 import { Button } from "@/shared/ui/button";
 import { SectionShell } from "@/shared/ui-v2";
 import { createPageMetadata, PAGE_SEO } from "@/lib/seo";
-import { HeroCanvasShell, HeroSceneLazy } from "@/3d/hero-media";
+import { HeroRubiksCube } from "@/3d/hero-media";
 import { EventsHeroCanvas } from "@/3d/events-hero-canvas";
+import { DepartmentsHeroCanvas } from "@/3d/departments-hero-canvas";
+import { RecruitmentPageCanvas } from "@/3d/recruitment-page-canvas";
 import { getSafeParticleCount } from "@/lib/3d/performance";
 import { use3d } from "@/hooks/use3d";
 ```
@@ -86,10 +92,11 @@ import { use3d } from "@/hooks/use3d";
 
 ## 3D Conventions
 
-- Home hero: **`HeroCanvasShell`** from `@/3d/hero-media` (not static barrel import on `/`).
-- Events hero: **`EventsHeroCanvas`** from `@/3d/events-hero-canvas` (same dynamic / `ssr: false` pattern).
+- Home hero: **`HeroRubiksCube`** from `@/3d/hero-media` (dynamic `RubiksCubeController`, `ssr: false`).
+- Events / Departments / Recruitment: dedicated `*-canvas.tsx` entry points (same dynamic / `ssr: false` pattern).
 - Other scenes: `CanvasShell` + lazy loaders from `@/3d`.
 - Gate with `use3d()` — respect `shouldRenderMotion` and `reducedMotion`.
+- Home may also defer mount via `shouldMountRubik` from `use-hero-section`.
 - Particle/star counts via `getSafeParticleCount` / `getSafeStarCount` only.
 - Headings, CTAs, forms stay real HTML outside the canvas (`aria-hidden` on decorative canvas).
 - 3D textures for models live in `public/` under a model namespace (e.g. `public/rubik-faces/`).
@@ -161,7 +168,7 @@ src/3d → lib/3d, hooks, shared/utils
 
 ## Performance Standards
 
-- Lazy-load 3D (`scene-lazy`, `hero-media`, `events-hero-canvas`).
+- Lazy-load 3D (`hero-media`, `*-hero-canvas`, `recruitment-page-canvas`, `scene-lazy`).
 - Respect `src/lib/3d/performance.ts` budgets.
 - Run `pnpm run build:check` when changing large client bundles.
 
@@ -172,7 +179,7 @@ src/3d → lib/3d, hooks, shared/utils
 - Colocate `*.test.ts(x)` with hooks/components or under `__tests__/`.
 - Pure policy: `lib/3d`, `lib/seo`, `lib/content` — Vitest `node`.
 - UI/hooks: Vitest + RTL + `src/test/setup-browser-mocks.ts`.
-- Run `pnpm run test` before PR (48 tests, 13 files).
+- Run `pnpm run test` before PR (48 tests, 14 files).
 
 ---
 

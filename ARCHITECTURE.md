@@ -2,11 +2,11 @@
 
 ## Purpose
 
-This document describes the **current** architecture after **V2.0 refactor completion**: FSD layers under `src/`, canonical `src/3d`, CI/testing hardening, SEO module, and **Next.js 15 + React 19**.
+This document describes the **current** architecture after **V2.0 refactor** and post-release page expansion: FSD layers under `src/`, canonical `src/3d` (multi-route canvas entries), CI/testing hardening, SEO module, and **Next.js 15 + React 19**.
 
 ---
 
-## Current Architecture (Post V2.0)
+## Current Architecture (Post V2.0 + Expansion)
 
 ### Style
 
@@ -15,25 +15,29 @@ This document describes the **current** architecture after **V2.0 refactor compl
 ```text
 ┌──────────────────────────────────────────────────────────────┐
 │  src/app           Routes, layouts, sitemap, robots, SEO base│
+│                    (+ Vercel Analytics / Speed Insights)     │
 ├──────────────────────────────────────────────────────────────┤
 │  src/widgets       Page composition + site chrome (a11y)     │
+│                    Lenis, theme toggle, animation-ready      │
 ├──────────────────────────────────────────────────────────────┤
 │  src/features      Domain sections + feature hooks + tests   │
 │                    (feature-local components/ + lib/)        │
 ├──────────────────────────────────────────────────────────────┤
 │  src/entities      (reserved — post–V2.0)                    │
 ├──────────────────────────────────────────────────────────────┤
-│  src/shared        ui, ui-v2, seo, a11y, utils, providers    │
+│  src/shared        ui, ui-v2, seo, a11y, hooks, utils, …     │
 ├──────────────────────────────────────────────────────────────┤
 │  src/types · src/hooks · src/lib                             │
 │       lib/seo = metadata + JSON-LD                           │
 │       lib/3d  = pure budgets, constants (unit-tested)        │
-│       lib/content = static data (incl. about-team)           │
+│       lib/content = static data (home, about-team, …)        │
 ├──────────────────────────────────────────────────────────────┤
 │  src/3d            Canonical R3F runtime (React)             │
-│       hero-media        → Home (/)                           │
-│       events-hero-canvas → Events (/events)                  │
-│       models/rubiks-cube → shared 3D asset                   │
+│       hero-media              → Home (/) Rubik               │
+│       events-hero-canvas      → Events (/events)             │
+│       departments-hero-canvas → Departments (/departments)   │
+│       recruitment-page-canvas → Recruitment (/recruitment)   │
+│       models/rubiks-cube      → shared 3D asset              │
 └──────────────────────────────────────────────────────────────┘
 ```
 
@@ -41,15 +45,17 @@ There is **no** `src/components/` import path. UI: `@/shared/ui/*` only.
 
 ### 3D Layer Split
 
-| Concern                              | Location                        | Why                                             |
-| ------------------------------------ | ------------------------------- | ----------------------------------------------- |
-| Budgets, caps, DPR policy            | `src/lib/3d/`                   | Pure functions — unit tested                    |
-| Capability (`WebGL`, reduced motion) | `src/hooks/use3d.ts`            | Shared React hook                               |
-| Canvas, scenes, models               | `src/3d/`                       | R3F implementation                              |
-| Lazy route entry                     | `src/3d/scene-lazy.tsx`         | `next/dynamic`, `ssr: false`                    |
-| Home hero canvas                     | `src/3d/hero-media.tsx`         | Avoid R3F in SSR bundle on `/`                  |
-| Events hero canvas                   | `src/3d/events-hero-canvas.tsx` | Same SSR-safe dynamic pattern                   |
-| Rubik cube model                     | `src/3d/models/rubiks-cube/`    | Isolated model + `public/rubik-faces/` textures |
+| Concern                              | Location                             | Why                                             |
+| ------------------------------------ | ------------------------------------ | ----------------------------------------------- |
+| Budgets, caps, DPR policy            | `src/lib/3d/`                        | Pure functions — unit tested                    |
+| Capability (`WebGL`, reduced motion) | `src/hooks/use3d.ts`                 | Shared React hook                               |
+| Canvas, scenes, models               | `src/3d/`                            | R3F implementation                              |
+| Lazy scene helpers                   | `src/3d/scene-lazy.tsx`              | `BackgroundSceneLazy`, `EventsHeroSceneLazy`    |
+| Home hero (Rubik)                    | `src/3d/hero-media.tsx`              | `HeroRubiksCube` — `dynamic`, `ssr: false`      |
+| Events hero canvas                   | `src/3d/events-hero-canvas.tsx`      | Same SSR-safe dynamic pattern                   |
+| Departments hero canvas              | `src/3d/departments-hero-canvas.tsx` | Same SSR-safe dynamic pattern                   |
+| Recruitment page canvas              | `src/3d/recruitment-page-canvas.tsx` | Backdrop scene; exported from `@/3d` barrel     |
+| Rubik cube model                     | `src/3d/models/rubiks-cube/`         | Isolated model + `public/rubik-faces/` textures |
 
 ### SEO Layer
 
@@ -62,7 +68,7 @@ There is **no** `src/components/` import path. UI: `@/shared/ui/*` only.
 | Script injection     | `src/shared/seo/json-ld.tsx`      |
 | Sitemap / robots     | `src/app/sitemap.ts`, `robots.ts` |
 
-Requires `NEXT_PUBLIC_SITE_URL` in production.
+Requires `NEXT_PUBLIC_SITE_URL` in production (falls back to `http://localhost:3000` in `site.ts`).
 
 ### Canonical Layers
 
@@ -80,20 +86,20 @@ Requires `NEXT_PUBLIC_SITE_URL` in production.
 
 ```text
 Browser
-  → src/app/layout.tsx                    (metadataBase, lang=vi)
+  → src/app/layout.tsx                    (metadataBase, lang=vi, Analytics, SpeedInsights)
   → src/app/(site)/layout.tsx               (SiteShell, Organization JSON-LD)
-  → src/widgets/layout/site-shell.tsx
+  → src/widgets/layout/site-shell.tsx       (Lenis + AnimationReady + Header/Footer)
   → src/app/(site)/<route>/page.tsx         (createPageMetadata + PageSeo)
   → src/widgets/<route>/*
   → src/features/<domain>/*
   → src/shared/ui/* · src/lib/content/*
-  → src/3d/hero-media (home) | events-hero-canvas (/events) when use3d allows
+  → route 3D entry (hero-media | events | departments | recruitment) when use3d allows
 
 Developer workflow
-  → pnpm run ci          (lint, typecheck, format, test — 48 tests)
+  → pnpm run ci          (lint, typecheck, format, test — 48 tests / 14 files)
   → pnpm run ci:build    (+ production build + bundle budget)
   → .github/workflows/quality-gates.yml
-  → PR merge
+  → PR merge → main
 ```
 
 ### Home Page Composition (Example)
@@ -101,7 +107,7 @@ Developer workflow
 ```text
 page.tsx (metadata + PageSeo JSON-LD)
   └── widgets/home/home-page-sections.tsx
-        ├── features/home/hero.tsx          (HeroCanvasShell + HeroSceneLazy | carousel)
+        ├── features/home/hero.tsx          (HeroRubiksCube via @/3d/hero-media | fallback)
         ├── features/home/core-values.tsx   (ui-v2 SectionShell)
         ├── …
         └── widgets/home/hash-scroll-handler.tsx
@@ -127,10 +133,34 @@ page.tsx (metadata + PageSeo JSON-LD)
   └── widgets/about/about-page-sections.tsx
         └── features/about/about-content.tsx
               ├── about-hero.tsx, about-intro.tsx, about-identity-section.tsx
-              ├── about-timeline.tsx, gallery.tsx
+              ├── about-timeline.tsx, about-video.tsx, gallery.tsx
               └── team.tsx
                     └── components/team-org-chart.tsx (+ connector, member-card)
                           data from lib/content/about-team.ts
+```
+
+### Departments Page Composition (Example)
+
+```text
+page.tsx (metadata + PageSeo JSON-LD)
+  └── widgets/departments/departments-page-content.tsx
+        └── features/departments/departments-content.tsx
+              ├── departments-hero.tsx              (DepartmentsHeroCanvas)
+              ├── departments-structure-section.tsx
+              ├── departments-book-section.tsx
+              └── departments-recruitment-section.tsx
+```
+
+### Recruitment Page Composition (Example)
+
+```text
+page.tsx (metadata + PageSeo JSON-LD)
+  └── widgets/recruitment/recruitment-page-sections.tsx
+        └── features/recruitment/recruitment-content.tsx
+              ├── components/recruitment-page-backdrop.tsx  (RecruitmentPageCanvas)
+              ├── registration.tsx
+              ├── recruitment-process-extra.tsx
+              └── recruitment-faq.tsx
 ```
 
 ---
@@ -140,6 +170,7 @@ page.tsx (metadata + PageSeo JSON-LD)
 - Clear separation: routing → composition → features → shared.
 - Single `src/` tree; documented import map.
 - Testable 3D policy (`src/lib/3d`) and SEO builders (`src/lib/seo`).
+- Per-route SSR-safe 3D entry points (Home Rubik, Events, Departments, Recruitment).
 - CI: split verify/build, bundle budgets, optional Lighthouse scripts.
 - Accessible defaults: skip link, landmarks, reduced motion, WebGL fallback.
 - Complex pages scale via feature-local `components/` and `lib/` without polluting `shared/`.
@@ -148,12 +179,14 @@ page.tsx (metadata + PageSeo JSON-LD)
 
 ## Remaining Technical Debt (Post V2.0)
 
-| Item                     | Notes                                                                |
-| ------------------------ | -------------------------------------------------------------------- |
-| `src/entities` layer     | Reserved — introduce when domain models grow                         |
-| Chatbot env vars         | `GEMINI_*`, `SUPABASE_*` in `.env.example`; no `src/app/api/` yet    |
-| Playwright E2E           | Optional (deferred)                                                  |
-| Registration hook parity | `use-registration-form` tested; UI still uses inline state in places |
+| Item                     | Notes                                                                 |
+| ------------------------ | --------------------------------------------------------------------- |
+| `src/entities` layer     | Reserved — introduce when domain models grow                          |
+| Chatbot env vars         | `GEMINI_*`, `SUPABASE_*` in `.env.example`; no `src/app/api/` yet     |
+| Playwright E2E           | Optional (deferred)                                                   |
+| Registration hook parity | `use-registration-form` tested; UI still uses inline state in places  |
+| Root README drift        | Still mentions `npm` / feature branch in places — prefer this doc hub |
+| `src/3d/README.md`       | May lag behind `hero-media` → `HeroRubiksCube` naming                 |
 
 ---
 
@@ -190,7 +223,7 @@ Static content, **SEO** builders, **pure** 3D policy.
 
 ### `src/3d`
 
-Canvas, scenes, models, lazy loaders. Home uses `hero-media`; Events uses `events-hero-canvas` for SSR safety.
+Canvas, scenes, models, lazy loaders. Each animated route gets its own SSR-safe `*-canvas.tsx` (or `hero-media` for Home Rubik).
 
 ## Dependency Direction Rules
 
@@ -272,8 +305,8 @@ Canvas, scenes, models, lazy loaders. Home uses `hero-media`; Events uses `event
 
 ### ADR-012: Home hero 3D via `hero-media` (Phase 4.4)
 
-- **Decision:** Dynamic `CanvasShell` in `src/3d/hero-media.tsx` (`ssr: false`) instead of static `@/3d` barrel import on home.
-- **Status:** Accepted (2026-05-29)
+- **Decision:** Dynamic 3D boundary in `src/3d/hero-media.tsx` (`ssr: false`) instead of static `@/3d` barrel import on home.
+- **Status:** Accepted (2026-05-29); **evolved** by ADR-016
 - **Rationale:** Prevents R3F from breaking Next.js prerender / Lighthouse traces on `/`.
 
 ### ADR-013: V2.0 refactor — consolidated baseline
@@ -294,6 +327,16 @@ Canvas, scenes, models, lazy loaders. Home uses `hero-media`; Events uses `event
 - **Status:** Accepted (2026-06)
 - **Consequences:** Each route with 3D gets its own SSR-safe canvas entry point; 3D textures live in `public/` by model namespace.
 
+### ADR-016: Multi-route 3D entries + Home Rubik hero (post–V2.0)
+
+- **Decision:**
+  1. Home hero uses **`HeroRubiksCube`** from `@/3d/hero-media` (dynamic import of `RubiksCubeController`, `ssr: false`) instead of a generic hero scene shell.
+  2. Departments and Recruitment follow the Events pattern with dedicated entry points: `departments-hero-canvas.tsx`, `recruitment-page-canvas.tsx`.
+  3. Feature composition grows under `features/<domain>/{components,lib}` (departments book/org-chart, recruitment backdrop).
+- **Status:** Accepted (2026-08)
+- **Rationale:** Keeps R3F out of SSR/prerender per route; aligns Home visual identity with Rubik brand asset; avoids a single bloated `@/3d` import on every page.
+- **Consequences:** Docs and CODE_STYLE must reference `HeroRubiksCube` (not legacy `HeroCanvasShell`); new animated routes add a `*-canvas.tsx` entry + scene under `src/3d/scenes/`.
+
 ---
 
 ## Definition of Architecture Done (V2.0 Baseline)
@@ -301,10 +344,11 @@ Canvas, scenes, models, lazy loaders. Home uses `hero-media`; Events uses `event
 - [x] FSD layers under `src/` with documented dependency direction
 - [x] Canonical 3D at `src/3d` with lazy loaders + hero-media SSR pattern
 - [x] Events 3D via `events-hero-canvas` + Rubik model under `models/rubiks-cube/`
+- [x] Departments + Recruitment SSR-safe canvas entries (ADR-016)
 - [x] Performance guardrails tested and documented
 - [x] SEO module, sitemap, robots, structured data
 - [x] CI verify + build + bundle budget (pnpm)
-- [x] Vitest baseline (48 tests, 13 files)
+- [x] Vitest baseline (48 tests, 14 files)
 - [x] Architecture documentation matches codebase
 
 ---
