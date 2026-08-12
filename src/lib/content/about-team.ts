@@ -357,9 +357,10 @@ export const aboutTeamTerms: AboutTeamTerm[] = [
                 "https://res.cloudinary.com/dggsvq2tw/image/upload/v1785817600/Nguy%E1%BB%85n_L%C3%AA_Anh_Ho%C3%A0ng_ymbmzl.png",
             },
             {
-              ...PLACEHOLDER_BASE,
               name: "Đinh Tấn Khoa",
               role: "Thành viên",
+              image:
+                "https://res.cloudinary.com/dggsvq2tw/image/upload/v1786544925/%C4%90inh_T%E1%BA%A5n_Khoa_fg66bg.png",
             },
             {
               ...PLACEHOLDER_BASE,
@@ -367,9 +368,10 @@ export const aboutTeamTerms: AboutTeamTerm[] = [
               role: "Thành viên",
             },
             {
-              ...PLACEHOLDER_BASE,
               name: "Trần Thị Thanh Tâm",
               role: "Thành viên",
+              image:
+                "https://res.cloudinary.com/dggsvq2tw/image/upload/v1786544841/Tr%E1%BA%A7n_Th%E1%BB%8B_Thanh_T%C3%A2m_h3iqu1.png",
             },
             {
               ...PLACEHOLDER_BASE,
@@ -428,9 +430,10 @@ export const aboutTeamTerms: AboutTeamTerm[] = [
               role: "Thành viên",
             },
             {
-              ...PLACEHOLDER_BASE,
               name: "Tô Nguyễn Quốc Bảo",
               role: "Thành viên",
+              image:
+                "https://res.cloudinary.com/dggsvq2tw/image/upload/v1786549679/T%C3%B4_Nguy%E1%BB%85n_Qu%E1%BB%91c_B%E1%BA%A3o_ewkhlv.png",
             },
             {
               name: "Nguyễn Thị Phương Thảo",
@@ -439,9 +442,10 @@ export const aboutTeamTerms: AboutTeamTerm[] = [
                 "https://res.cloudinary.com/dggsvq2tw/image/upload/v1785833721/Nguy%E1%BB%85n_Th%E1%BB%8B_Ph%C6%B0%C6%A1ng_Th%E1%BA%A3o_an1iu6.png",
             },
             {
-              ...PLACEHOLDER_BASE,
               name: "Phạm Nhật Hạ",
               role: "Thành viên",
+              image:
+                "https://res.cloudinary.com/dggsvq2tw/image/upload/v1786549680/Ph%E1%BA%A1m_Nh%E1%BA%ADt_H%E1%BA%A1_sdblbc.png",
             },
             {
               ...PLACEHOLDER_BASE,
@@ -508,9 +512,10 @@ export const aboutTeamTerms: AboutTeamTerm[] = [
                 "https://res.cloudinary.com/dggsvq2tw/image/upload/v1785842029/Ng%C3%B4_Ph%C6%B0%C6%A1ng_Th%E1%BA%A3o_cnmlwf.png",
             },
             {
-              ...PLACEHOLDER_BASE,
               name: "Nguyễn Anh Tú",
               role: "Thành viên",
+              image:
+                "https://res.cloudinary.com/dggsvq2tw/image/upload/v1786544985/Nguy%E1%BB%85n_Anh_T%C3%BA_d8rm4i.png",
             },
             {
               name: "Nguyễn Ngọc Mai Thảo",
@@ -519,9 +524,10 @@ export const aboutTeamTerms: AboutTeamTerm[] = [
                 "https://res.cloudinary.com/dggsvq2tw/image/upload/v1785841058/Nguy%E1%BB%85n_Ng%E1%BB%8Dc_Mai_Th%E1%BA%A3o_rjas3h.png",
             },
             {
-              ...PLACEHOLDER_BASE,
               name: "Phan Thị Quỳnh Chi",
               role: "Thành viên",
+              image:
+                "https://res.cloudinary.com/dggsvq2tw/image/upload/v1786549625/Phan_Th%E1%BB%8B_Qu%E1%BB%B3nh_Chi_ikcqha.png",
             },
           ]),
         ],
