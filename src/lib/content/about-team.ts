@@ -51,6 +51,12 @@ export const aboutTeamTerms: AboutTeamTerm[] = [
           ]),
           levelRow(2, [
             {
+              name: "Nguyễn Đình Khoa",
+              role: "Co-Founder",
+              image:
+                "https://res.cloudinary.com/dggsvq2tw/image/upload/v1758206554/Nguyen_Dinh_Khoa_focqi8.jpg",
+            },
+            {
               name: "Lê Minh Thư",
               role: "Co-Founder",
               image:
@@ -61,12 +67,6 @@ export const aboutTeamTerms: AboutTeamTerm[] = [
               role: "Co-Founder",
               image:
                 "https://res.cloudinary.com/dggsvq2tw/image/upload/v1758206563/Nguyen_Thi_Anh_Tuyet_an6hzg.jpg",
-            },
-            {
-              name: "Nguyễn Đình Khoa",
-              role: "Co-Founder",
-              image:
-                "https://res.cloudinary.com/dggsvq2tw/image/upload/v1758206554/Nguyen_Dinh_Khoa_focqi8.jpg",
             },
           ]),
         ],
@@ -172,7 +172,7 @@ export const aboutTeamTerms: AboutTeamTerm[] = [
                 "https://res.cloudinary.com/dggsvq2tw/image/upload/v1758206563/Nguyen_Anh_Tu_z0wpya.jpg",
             },
           ]),
-          levelRow(2, [
+          levelRow(3, [
             {
               name: "Phạm Ngọc Yến Nhi",
               role: "Thành viên",
