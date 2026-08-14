@@ -65,42 +65,42 @@ const galleryItems = {
     {
       id: "20",
       src: "https://res.cloudinary.com/dggsvq2tw/image/upload/v1758206560/mm1_bk4o4u.webp",
-      alt: "Mentor-Mentee 1",
+      alt: "Mentor - Mentee 1",
     },
     {
       id: "21",
       src: "https://res.cloudinary.com/dggsvq2tw/image/upload/v1758206577/mm2_gewykm.webp",
-      alt: "Mentor-Mentee 2",
+      alt: "Mentor - Mentee 2",
     },
     {
       id: "22",
       src: "https://res.cloudinary.com/dggsvq2tw/image/upload/v1758206557/mm4_fc12rj.webp",
-      alt: "Mentor-Mentee 4",
+      alt: "Mentor - Mentee 4",
     },
     {
       id: "23",
       src: "https://res.cloudinary.com/dggsvq2tw/image/upload/v1758206572/mm5_elp0af.webp",
-      alt: "Mentor-Mentee 5",
+      alt: "Mentor - Mentee 5",
     },
     {
       id: "24",
       src: "https://res.cloudinary.com/dggsvq2tw/image/upload/v1758206578/mm6_nvs60b.webp",
-      alt: "Mentor-Mentee 6",
+      alt: "Mentor - Mentee 6",
     },
     {
       id: "25",
       src: "https://res.cloudinary.com/dggsvq2tw/image/upload/v1758206573/mm7_sxeuow.webp",
-      alt: "Mentor-Mentee 7",
+      alt: "Mentor - Mentee 7",
     },
     {
       id: "26",
       src: "https://res.cloudinary.com/dggsvq2tw/image/upload/v1758206573/mm8_zcnku6.webp",
-      alt: "Mentor-Mentee 8",
+      alt: "Mentor - Mentee 8",
     },
     {
       id: "27",
       src: "https://res.cloudinary.com/dggsvq2tw/image/upload/v1758206584/mm9_u8uhve.webp",
-      alt: "Mentor-Mentee 9",
+      alt: "Mentor - Mentee 9",
     },
   ],
   row_3: [

@@ -37,7 +37,7 @@ export const homeTestimonials: HomeTestimonial[] = [
     id: "minh-anh",
     name: "Phan Nhật Minh Anh",
     role: "Chủ nhiệm CLB TechTonic nhiệm kỳ 2025-2026",
-    year: 2024,
+    year: 2023,
     text: "Điều mình luôn tin khi xây dựng TechTonic là sinh viên hoàn toàn có thể tạo ra những giá trị lớn nếu được đặt trong một môi trường phù hợp. Không cần phải là người giỏi nhất ngay từ đầu, chỉ cần luôn sẵn sàng học hỏi, dám thử và dám bước ra khỏi giới hạn của bản thân. Mình hy vọng TechTonic sẽ trở thành nơi để các bạn trẻ gặp được những người đồng hành tốt, có thêm cơ hội phát triển và lưu lại những dấu ấn thật đẹp trong quãng đời sinh viên.",
     catVariant: "purple",
   },

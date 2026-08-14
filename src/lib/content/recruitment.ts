@@ -25,10 +25,10 @@ export const recruitmentSteps = [
 ] as const;
 
 export const recruitmentDepartments = [
-  "Ban Sự kiện",
-  "Ban Truyền thông",
-  "Ban Nhân sự",
-  "Ban Chuyên môn",
+  "Ban Sự Kiện",
+  "Ban Truyền Thông",
+  "Ban Nhân Sự",
+  "Ban Chuyên Môn",
 ] as const;
 
 export const recruitmentFaqCopy = {

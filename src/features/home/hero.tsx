@@ -69,7 +69,7 @@ export function Hero() {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.6, duration: 0.8 }}
               >
-                Dream it – Code it
+                Dream it - Code it
               </motion.p>
               <motion.p
                 className="max-w-lg text-lg text-muted-foreground dark:text-blue-50"

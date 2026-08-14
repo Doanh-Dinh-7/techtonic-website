@@ -12,31 +12,31 @@ export type PageSeoConfig = {
 export const PAGE_SEO = {
   home: {
     path: "/",
-    absoluteTitle: "TechTonic Club — Câu lạc bộ Công nghệ | DUE Đà Nẵng",
+    absoluteTitle: "TechTonic Club - Câu lạc bộ Công nghệ | DUE Đà Nẵng",
     title: "Trang chủ",
     description:
-      "TechTonic Club — cộng đồng công nghệ DUE Đà Nẵng: workshop, hackathon, mentor và dự án thực tế cho sinh viên CNTT.",
+      "TechTonic Club - cộng đồng công nghệ DUE Đà Nẵng: workshop, hackathon, mentor và dự án thực tế cho sinh viên CNTT.",
     keywords: ["TechTonic", "câu lạc bộ công nghệ", "DUE Đà Nẵng", "lập trình", "sinh viên CNTT"],
   },
   about: {
     path: "/about",
     title: "Giới thiệu",
     description:
-      "Tầm nhìn, sứ mệnh, giá trị cốt lõi, hành trình phát triển, thư viện ảnh và Ban chủ nhiệm TechTonic Club tại DUE Đà Nẵng.",
+      "Tầm nhìn, sứ mệnh, giá trị cốt lõi, hành trình phát triển, thư viện ảnh và Ban Chủ Nhiệm TechTonic Club tại DUE Đà Nẵng.",
     keywords: ["giới thiệu", "TechTonic", "ban chủ nhiệm", "DUE"],
   },
   departments: {
     path: "/departments",
     title: "Các ban",
     description:
-      "Ban Sự kiện, Truyền thông, Nhân sự và Chuyên môn — hoạt động và định hướng từng ban TechTonic Club.",
+      "Ban Sự Kiện, Truyền Thông, Nhân Sự và Chuyên Môn - hoạt động và định hướng từng ban TechTonic Club.",
     keywords: ["ban CLB", "sự kiện", "truyền thông", "chuyên môn"],
   },
   events: {
     path: "/events",
-    title: "Hoạt động & sự kiện",
+    title: "Hoạt động & Sự kiện",
     description:
-      "Hoạt động học thuật hằng tuần, sinh hoạt Happy Hour, chuỗi sự kiện cố định mỗi nhiệm kỳ (Mentor-Mentee, TechXplore, Tech Threads, TechWare) — TechTonic Club DUE Đà Nẵng.",
+      "Hoạt động học thuật hằng tuần, sinh hoạt Happy Hour, chuỗi sự kiện cố định mỗi nhiệm kỳ (Mentor - Mentee, TechXplore, Tech Threads, TechWare) - TechTonic Club DUE Đà Nẵng.",
     keywords: [
       "hoạt động CLB",
       "Happy Hour",

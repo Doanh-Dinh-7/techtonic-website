@@ -79,7 +79,7 @@ export const aboutTeamTerms: AboutTeamTerm[] = [
     boards: [
       {
         id: "ban-chu-nhiem",
-        label: "Ban Chủ nhiệm",
+        label: "Ban Chủ Nhiệm",
         hierarchy: [
           levelRow(1, [
             {
@@ -119,7 +119,7 @@ export const aboutTeamTerms: AboutTeamTerm[] = [
       },
       {
         id: "ban-chuyen-mon",
-        label: "Ban Chuyên môn",
+        label: "Ban Chuyên Môn",
         hierarchy: [
           levelRow(1, [
             {
@@ -162,7 +162,7 @@ export const aboutTeamTerms: AboutTeamTerm[] = [
       },
       {
         id: "ban-su-kien",
-        label: "Ban Sự kiện",
+        label: "Ban Sự Kiện",
         hierarchy: [
           levelRow(1, [
             {
@@ -196,7 +196,7 @@ export const aboutTeamTerms: AboutTeamTerm[] = [
       },
       {
         id: "ban-nhan-su",
-        label: "Ban Nhân sự",
+        label: "Ban Nhân Sự",
         hierarchy: [
           levelRow(1, [
             {
@@ -244,7 +244,7 @@ export const aboutTeamTerms: AboutTeamTerm[] = [
       },
       {
         id: "ban-truyen-thong",
-        label: "Ban Truyền thông",
+        label: "Ban Truyền Thông",
         hierarchy: [
           levelRow(1, [
             {
@@ -280,7 +280,7 @@ export const aboutTeamTerms: AboutTeamTerm[] = [
     boards: [
       {
         id: "ban-chu-nhiem",
-        label: "Ban Chủ nhiệm",
+        label: "Ban Chủ Nhiệm",
         hierarchy: [
           levelRow(1, [
             {
@@ -308,7 +308,7 @@ export const aboutTeamTerms: AboutTeamTerm[] = [
       },
       {
         id: "ban-chuyen-mon",
-        label: "Ban Chuyên môn",
+        label: "Ban Chuyên Môn",
         hierarchy: [
           levelRow(1, [
             {
@@ -383,7 +383,7 @@ export const aboutTeamTerms: AboutTeamTerm[] = [
       },
       {
         id: "ban-su-kien",
-        label: "Ban Sự kiện",
+        label: "Ban Sự Kiện",
         hierarchy: [
           levelRow(1, [
             {
@@ -457,7 +457,7 @@ export const aboutTeamTerms: AboutTeamTerm[] = [
       },
       {
         id: "ban-nhan-su",
-        label: "Ban Nhân sự",
+        label: "Ban Nhân Sự",
         hierarchy: [
           levelRow(1, [
             {
@@ -534,7 +534,7 @@ export const aboutTeamTerms: AboutTeamTerm[] = [
       },
       {
         id: "ban-truyen-thong",
-        label: "Ban Truyền thông",
+        label: "Ban Truyền Thông",
         hierarchy: [
           levelRow(1, [
             {
@@ -598,7 +598,7 @@ export const aboutTeamTerms: AboutTeamTerm[] = [
     boards: [
       {
         id: "ban-chu-nhiem",
-        label: "Ban Chủ nhiệm",
+        label: "Ban Chủ Nhiệm",
         hierarchy: [
           levelRow(1, [{ ...PLACEHOLDER_BASE, role: "Chủ nhiệm CLB" }]),
           levelRow(2, [{ ...PLACEHOLDER_BASE, role: "Phó Chủ nhiệm" }]),
@@ -606,7 +606,7 @@ export const aboutTeamTerms: AboutTeamTerm[] = [
       },
       {
         id: "ban-chuyen-mon",
-        label: "Ban Chuyên môn",
+        label: "Ban Chuyên Môn",
         hierarchy: [
           levelRow(1, [{ ...PLACEHOLDER_BASE, role: "Trưởng ban" }]),
           levelRow(2, [{ ...PLACEHOLDER_BASE, role: "Phó ban" }]),
@@ -614,7 +614,7 @@ export const aboutTeamTerms: AboutTeamTerm[] = [
       },
       {
         id: "ban-su-kien",
-        label: "Ban Sự kiện",
+        label: "Ban Sự Kiện",
         hierarchy: [
           levelRow(1, [{ ...PLACEHOLDER_BASE, role: "Trưởng ban" }]),
           levelRow(2, [{ ...PLACEHOLDER_BASE, role: "Phó ban" }]),
@@ -622,7 +622,7 @@ export const aboutTeamTerms: AboutTeamTerm[] = [
       },
       {
         id: "ban-nhan-su",
-        label: "Ban Nhân sự",
+        label: "Ban Nhân Sự",
         hierarchy: [
           levelRow(1, [{ ...PLACEHOLDER_BASE, role: "Trưởng ban" }]),
           levelRow(2, [{ ...PLACEHOLDER_BASE, role: "Phó ban" }]),
@@ -630,7 +630,7 @@ export const aboutTeamTerms: AboutTeamTerm[] = [
       },
       {
         id: "ban-truyen-thong",
-        label: "Ban Truyền thông",
+        label: "Ban Truyền Thông",
         hierarchy: [
           levelRow(1, [{ ...PLACEHOLDER_BASE, role: "Trưởng ban" }]),
           levelRow(2, [{ ...PLACEHOLDER_BASE, role: "Phó ban" }]),

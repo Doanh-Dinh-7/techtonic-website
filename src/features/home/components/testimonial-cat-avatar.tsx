@@ -32,7 +32,7 @@ export function TestimonialCatAvatar({ variant, name, className }: TestimonialCa
       width={80}
       height={80}
       role="img"
-      aria-label={`Mascot meo TechTonic — ${name}`}
+      aria-label={`Mascot meo TechTonic - ${name}`}
       className={cn("mx-auto mb-6 h-20 w-20 rounded-full ring-2", ringClasses[variant], className)}
     >
       <defs>

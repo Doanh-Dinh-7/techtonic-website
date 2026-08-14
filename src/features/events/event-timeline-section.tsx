@@ -15,7 +15,7 @@ export function EventTimelineSection() {
       align="center"
       className="bg-transparent py-16 lg:py-24"
       contentClassName="max-w-4xl"
-      title="Hoạt động & sự kiện"
+      title="Hoạt động & Sự kiện"
       description="Chuỗi hoạt động chính của một nhiệm kỳ"
     >
       <motion.div

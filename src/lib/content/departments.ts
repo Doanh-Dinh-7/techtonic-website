@@ -12,7 +12,7 @@ export const departmentsHeroCopy = {
 export const departmentsStructureCopy = {
   title: "Cơ cấu chung",
   description:
-    "Sơ đồ tổ chức Câu lạc bộ TechTonic — Nhấn biểu tượng thông tin để xem giới thiệu ngắn.",
+    "Sơ đồ tổ chức Câu lạc bộ TechTonic - Nhấn biểu tượng thông tin để xem giới thiệu ngắn.",
 };
 
 export const departmentsBookCopy = {
@@ -40,7 +40,7 @@ export const orgChartNodes: Record<string, OrgChartNode> = {
   },
   executiveBoard: {
     id: "executiveBoard",
-    label: "Ban chủ nhiệm",
+    label: "Ban Chủ Nhiệm",
     shortDescription:
       "Đội ngũ điều hành CLB, gồm lãnh đạo và các ban chức năng phụ trách hoạt động học thuật, sự kiện, nhân sự và truyền thông.",
     color: "purple",
@@ -59,105 +59,105 @@ export const orgChartNodes: Record<string, OrgChartNode> = {
   },
   events: {
     id: "events",
-    label: "Ban Sự kiện",
+    label: "Ban Sự Kiện",
     shortDescription:
-      "Chuẩn bị, tổ chức và giám sát các hoạt động sự kiện — tạo kết nối và nâng cao hình ảnh CLB.",
+      "Chuẩn bị, tổ chức và giám sát các hoạt động sự kiện - tạo kết nối và nâng cao hình ảnh CLB.",
     color: "red",
   },
   eventsHead: {
     id: "eventsHead",
-    label: "TB. Sự kiện",
+    label: "TB. Sự Kiện",
     shortDescription:
-      "Trưởng ban Sự kiện — chịu trách nhiệm điều phối kế hoạch và triển khai chương trình.",
+      "Trưởng ban Sự Kiện - chịu trách nhiệm điều phối kế hoạch và triển khai chương trình.",
     color: "red",
   },
   eventsDeputy: {
     id: "eventsDeputy",
-    label: "PB. Sự kiện",
-    shortDescription: "Phó ban Sự kiện — hỗ trợ trưởng ban và điều phối công việc nội bộ.",
+    label: "PB. Sự Kiện",
+    shortDescription: "Phó ban Sự Kiện - hỗ trợ trưởng ban và điều phối công việc nội bộ.",
     color: "red",
   },
   eventsMembers: {
     id: "eventsMembers",
-    label: "Thành viên Sự kiện",
+    label: "Thành viên Sự Kiện",
     shortDescription:
-      "Thành viên ban chủ nhiệm thuộc Ban Sự kiện — tham gia trực tiếp tổ chức chương trình.",
+      "Thành viên Ban Chủ Nhiệm thuộc Ban Sự Kiện - tham gia trực tiếp tổ chức chương trình.",
     color: "red",
   },
   hr: {
     id: "hr",
-    label: "Ban Nhân sự",
+    label: "Ban Nhân Sự",
     shortDescription:
-      "Phụ trách gây quỹ, đối ngoại, nhân sự và hậu cần — đảm bảo nguồn lực tài chính và vận hành CLB.",
+      "Phụ trách gây quỹ, đối ngoại, nhân sự và hậu cần - đảm bảo nguồn lực tài chính và vận hành CLB.",
     color: "yellow",
   },
   hrHead: {
     id: "hrHead",
-    label: "TB. Nhân sự",
-    shortDescription: "Trưởng ban Nhân sự — quản lý tài chính, nhân sự và đối ngoại.",
+    label: "TB. Nhân Sự",
+    shortDescription: "Trưởng ban Nhân Sự - quản lý tài chính, nhân sự và đối ngoại.",
     color: "yellow",
   },
   hrDeputy: {
     id: "hrDeputy",
-    label: "PB. Nhân sự",
-    shortDescription: "Phó ban Nhân sự — hỗ trợ trưởng ban trong công tác hậu cần và gây quỹ.",
+    label: "PB. Nhân Sự",
+    shortDescription: "Phó ban Nhân Sự - hỗ trợ trưởng ban trong công tác hậu cần và gây quỹ.",
     color: "yellow",
   },
   hrMembers: {
     id: "hrMembers",
-    label: "Thành viên Nhân sự",
-    shortDescription: "Thành viên ban chủ nhiệm thuộc Ban Nhân sự.",
+    label: "Thành viên Nhân Sự",
+    shortDescription: "Thành viên Ban Chủ Nhiệm thuộc Ban Nhân Sự.",
     color: "yellow",
   },
   media: {
     id: "media",
-    label: "Ban Truyền thông",
+    label: "Ban Truyền Thông",
     shortDescription:
-      "Chuẩn bị, tổ chức và giám sát hoạt động truyền thông — lan tỏa hình ảnh CLB đến đúng đối tượng.",
+      "Chuẩn bị, tổ chức và giám sát hoạt động truyền thông - lan tỏa hình ảnh CLB đến đúng đối tượng.",
     color: "green",
   },
   mediaHead: {
     id: "mediaHead",
-    label: "TB. Truyền thông",
+    label: "TB. Truyền Thông",
     shortDescription:
-      "Trưởng ban Truyền thông — định hướng chiến dịch và quản lý kênh truyền thông.",
+      "Trưởng ban Truyền Thông - định hướng chiến dịch và quản lý kênh truyền thông.",
     color: "green",
   },
   mediaDeputy: {
     id: "mediaDeputy",
-    label: "PB. Truyền thông",
-    shortDescription: "Phó ban Truyền thông — hỗ trợ sản xuất nội dung và điều phối chiến dịch.",
+    label: "PB. Truyền Thông",
+    shortDescription: "Phó ban Truyền Thông - hỗ trợ sản xuất nội dung và điều phối chiến dịch.",
     color: "green",
   },
   mediaMembers: {
     id: "mediaMembers",
-    label: "Thành viên Truyền thông",
-    shortDescription: "Thành viên ban chủ nhiệm thuộc Ban Truyền thông.",
+    label: "Thành viên Truyền Thông",
+    shortDescription: "Thành viên Ban Chủ Nhiệm thuộc Ban Truyền Thông.",
     color: "green",
   },
   tech: {
     id: "tech",
-    label: "Ban Chuyên môn",
+    label: "Ban Chuyên Môn",
     shortDescription:
-      "Chuẩn bị, tổ chức và giám sát hoạt động học thuật — tạo môi trường học tập chuyên sâu và ứng dụng.",
+      "Chuẩn bị, tổ chức và giám sát hoạt động học thuật - tạo môi trường học tập chuyên sâu và ứng dụng.",
     color: "orange",
   },
   techHead: {
     id: "techHead",
-    label: "TB. Chuyên môn",
-    shortDescription: "Trưởng ban Chuyên môn — định hướng nội dung học thuật và dự án CNTT nội bộ.",
+    label: "TB. Chuyên Môn",
+    shortDescription: "Trưởng ban Chuyên Môn - định hướng nội dung học thuật và dự án CNTT nội bộ.",
     color: "orange",
   },
   techDeputy: {
     id: "techDeputy",
-    label: "PB. Chuyên môn",
-    shortDescription: "Phó ban Chuyên môn — hỗ trợ triển khai khóa học, workshop và dự án.",
+    label: "PB. Chuyên Môn",
+    shortDescription: "Phó ban Chuyên Môn - hỗ trợ triển khai khóa học, workshop và dự án.",
     color: "orange",
   },
   techMembers: {
     id: "techMembers",
-    label: "Thành viên Chuyên môn",
-    shortDescription: "Thành viên ban chủ nhiệm thuộc Ban Chuyên môn.",
+    label: "Thành viên Chuyên Môn",
+    shortDescription: "Thành viên Ban Chủ Nhiệm thuộc Ban Chuyên Môn.",
     color: "orange",
   },
   advisors: {
@@ -182,14 +182,14 @@ export const orgChartNodes: Record<string, OrgChartNode> = {
     id: "freeMembers",
     label: "Thành viên tự do",
     shortDescription:
-      "Dành cho bạn mong muốn phát triển sâu về học thuật và tận dụng quyền lợi tại CLB mà không thuộc ban chủ nhiệm.",
+      "Dành cho bạn mong muốn phát triển sâu về học thuật và tận dụng quyền lợi tại CLB mà không thuộc Ban Chủ Nhiệm.",
     color: "blue",
   },
   pythonDb: {
     id: "pythonDb",
     label: "Lập trình Python & CSDL",
     shortDescription:
-      "Nhóm học tập Python và Cơ sở dữ liệu — tham gia khóa chuyên đề và dự án thực tế.",
+      "Nhóm học tập Python và Cơ sở dữ liệu - tham gia khóa chuyên đề và dự án thực tế.",
     color: "blue",
   },
   backend: {
@@ -206,7 +206,7 @@ export const orgChartNodes: Record<string, OrgChartNode> = {
   },
   dataAi: {
     id: "dataAi",
-    label: "Thành viên chuyên môn Data & AI",
+    label: "Thành viên chuyên môn AI & Data",
     shortDescription: "Khám phá phân tích dữ liệu và AI qua workshop, dự án nghiên cứu.",
     color: "blue",
   },
@@ -214,7 +214,7 @@ export const orgChartNodes: Record<string, OrgChartNode> = {
     id: "product",
     label: "Product team",
     shortDescription:
-      "Nhóm phát triển sản phẩm — báo cáo tiến độ, tư duy sản phẩm và làm việc nhóm.",
+      "Nhóm phát triển sản phẩm - báo cáo tiến độ, tư duy sản phẩm và làm việc nhóm.",
     color: "blue",
   },
 };
@@ -226,7 +226,7 @@ export const departmentBookPages: DepartmentBookPage[] = [
     subtitle: "Dream it, Code it.",
     color: "purple",
     overview: [
-      "Chào mừng bạn đến với cuốn sổ giới thiệu cơ cấu CLB. Lật từng trang để tìm hiểu vai trò thành viên tự do, Ban chủ nhiệm và từng ban chức năng.",
+      "Chào mừng bạn đến với cuốn sổ giới thiệu cơ cấu CLB. Lật từng trang để tìm hiểu vai trò thành viên tự do, Ban Chủ Nhiệm và từng ban chức năng.",
     ],
     isCover: true,
   },
@@ -247,12 +247,12 @@ export const departmentBookPages: DepartmentBookPage[] = [
   },
   {
     id: "bcn",
-    title: "Thành viên Ban chủ nhiệm",
+    title: "Thành viên Ban Chủ Nhiệm",
     color: "purple",
     memberCount: `${executiveBoardLeadershipCount} lãnh đạo + ${Object.values(executiveBoardDepartmentCounts).reduce((a, b) => a + b, 0)} TV các ban`,
     overview: [
       "Vai trò dành cho những bạn muốn thử sức với vai trò tổ chức, quản lý và điều hành các hoạt động của câu lạc bộ từ bên trong, tạo ra giá trị sâu sắc và lâu dài cho câu lạc bộ.",
-      "Chịu trách nhiệm chính cho hoạt động CLB, phân thành 4 ban: Sự kiện, Nhân sự, Truyền thông, Chuyên môn. Thành viên BCN được hưởng đầy đủ quyền lợi thành viên tự do và cơ hội rèn luyện kỹ năng mềm, quản lý, lãnh đạo.",
+      "Chịu trách nhiệm chính cho hoạt động CLB, phân thành 4 ban: Sự Kiện, Nhân Sự, Truyền Thông, Chuyên Môn. Thành viên BCN được hưởng đầy đủ quyền lợi thành viên tự do và cơ hội rèn luyện kỹ năng mềm, quản lý, lãnh đạo.",
     ],
     skills: [
       "Tinh thần trách nhiệm cao, chủ động và sẵn sàng cống hiến.",
@@ -262,7 +262,7 @@ export const departmentBookPages: DepartmentBookPage[] = [
   },
   {
     id: "tech",
-    title: "Ban Chuyên môn",
+    title: "Ban Chuyên Môn",
     color: "orange",
     memberCount: `${executiveBoardDepartmentCounts.tech} thành viên`,
     overview: [
@@ -284,7 +284,7 @@ export const departmentBookPages: DepartmentBookPage[] = [
         title: "Trong hoạt động học thuật",
         items: [
           "Điều phối, giám sát triển khai hoạt động đạt mục tiêu.",
-          "Quản lý dự án CNTT nội bộ (Front-end, Back-end, Data & AI).",
+          "Quản lý dự án CNTT nội bộ (Front-end, Back-end, AI & Data).",
           "Đóng vai trò người hướng dẫn kiến thức, kỹ năng cho thành viên.",
           "Tổ chức hoạt động kết nối nhỏ trong các nhóm học.",
         ],
@@ -307,11 +307,11 @@ export const departmentBookPages: DepartmentBookPage[] = [
   },
   {
     id: "events",
-    title: "Ban Sự kiện",
+    title: "Ban Sự Kiện",
     color: "red",
     memberCount: `${executiveBoardDepartmentCounts.events} thành viên`,
     overview: [
-      "Ban Sự Kiện tập trung công tác chuẩn bị, tổ chức, giám sát các hoạt động sự kiện của câu lạc bộ TechTonic — tạo kết nối bên trong và bên ngoài CLB.",
+      "Ban Sự Kiện tập trung công tác chuẩn bị, tổ chức, giám sát các hoạt động sự kiện của câu lạc bộ TechTonic - tạo kết nối bên trong và bên ngoài CLB.",
       "Ban đề cao tính phù hợp của sự kiện với đối tượng và mục tiêu CLB, tránh chạy theo xu hướng hình thức; đại diện tiếng nói CLB khi truyền thông chương trình.",
     ],
     phases: [
@@ -337,7 +337,7 @@ export const departmentBookPages: DepartmentBookPage[] = [
       },
     ],
     skills: [
-      "Tinh thần nhiệt huyết, yêu thích hoạt động Đoàn – Hội.",
+      "Tinh thần nhiệt huyết, yêu thích hoạt động Đoàn - Hội.",
       "Sáng tạo, chủ động đóng góp ý tưởng mới.",
       "Kỹ năng teamwork và giao tiếp.",
       "Trách nhiệm, kỷ luật và sẵn sàng học hỏi lập kế hoạch, tổ chức sự kiện.",
@@ -345,7 +345,7 @@ export const departmentBookPages: DepartmentBookPage[] = [
   },
   {
     id: "media",
-    title: "Ban Truyền thông",
+    title: "Ban Truyền Thông",
     color: "green",
     memberCount: `${executiveBoardDepartmentCounts.media} thành viên`,
     overview: [
@@ -376,7 +376,7 @@ export const departmentBookPages: DepartmentBookPage[] = [
       },
     ],
     skills: [
-      "Tinh thần trách nhiệm, đam mê truyền thông – sáng tạo.",
+      "Tinh thần trách nhiệm, đam mê truyền thông - sáng tạo.",
       "Kỹ năng viết tốt, diễn đạt ý tưởng mạch lạc.",
       "Biết Canva, Photoshop, Illustrator và/hoặc dựng video (Premiere, CapCut) là lợi thế.",
       "Kỹ năng chụp ảnh, quay video cơ bản hoặc mong muốn học thêm.",
@@ -385,16 +385,16 @@ export const departmentBookPages: DepartmentBookPage[] = [
   },
   {
     id: "hr",
-    title: "Ban Nhân sự",
+    title: "Ban Nhân Sự",
     color: "yellow",
     memberCount: `${executiveBoardDepartmentCounts.hr} thành viên`,
     overview: [
-      "Ban phụ trách công tác gây quỹ, đối ngoại, nhân sự và hậu cần — đảm bảo nguồn lực tài chính và vận hành cho các hoạt động của CLB TechTonic.",
+      "Ban phụ trách công tác gây quỹ, đối ngoại, nhân sự và hậu cần - đảm bảo nguồn lực tài chính và vận hành cho các hoạt động của CLB TechTonic.",
       "Ban thực hiện nhiệm vụ với tính cẩn trọng, minh bạch và rõ ràng; đại diện tiếng nói CLB trong truyền thông liên quan gây quỹ, đối ngoại, nhân sự và hậu cần.",
     ],
     phases: [
       {
-        title: "Gây quỹ & đối ngoại — Trước",
+        title: "Gây quỹ & đối ngoại - Trước",
         items: [
           "Khảo sát địa điểm, nguồn hàng, sản phẩm phục vụ gây quỹ.",
           "Nghiên cứu, thảo luận sản phẩm phù hợp; lập kế hoạch, phân công, timeline.",
@@ -402,7 +402,7 @@ export const departmentBookPages: DepartmentBookPage[] = [
         ],
       },
       {
-        title: "Gây quỹ & đối ngoại — Trong",
+        title: "Gây quỹ & đối ngoại - Trong",
         items: [
           "Điều phối quá trình gây quỹ theo kế hoạch; xử lý tình huống phát sinh.",
           "Đàm phán với đơn vị tài trợ; tiếp đón, hỗ trợ nhà tài trợ tại chương trình.",
@@ -413,8 +413,8 @@ export const departmentBookPages: DepartmentBookPage[] = [
         items: [
           "Quản lý dữ liệu thành viên, hồ sơ nội bộ; duy trì kênh liên lạc (Facebook, Email).",
           "Lập checklist, dự trù chi phí, chuẩn bị form, đồ dùng cho hoạt động CLB.",
-          "Phối hợp Ban Sự kiện, Chuyên môn, Truyền thông chuẩn bị địa điểm, dụng cụ.",
-          "Quản lý tài chính – quỹ CLB minh bạch, rõ ràng xuyên suốt.",
+          "Phối hợp Ban Sự Kiện, Chuyên Môn, Truyền Thông chuẩn bị địa điểm, dụng cụ.",
+          "Quản lý tài chính - quỹ CLB minh bạch, rõ ràng xuyên suốt.",
           "Lập bảng thu chi sau các hoạt động; duy trì quan hệ đối tác, nhà tài trợ.",
         ],
       },

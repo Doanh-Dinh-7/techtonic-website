@@ -53,7 +53,7 @@ export function OrgChartInfoNode({
       className={cn(
         "relative text-center",
         showInfo
-          ? "border-0 bg-transparent px-2 py-1 shadow-none"
+          ? "border-0 bg-transparent px-2 py-1 pr-6 shadow-none"
           : cn(
               "rounded-lg border shadow-sm",
               dashed ? "border-dashed" : "border-solid",
@@ -101,8 +101,8 @@ export function OrgChartInfoNode({
           "font-medium",
           showInfo
             ? cn(
-                "font-semibold",
-                compact ? "text-sm sm:text-base" : "text-base sm:text-lg",
+                "text-balance font-semibold leading-snug",
+                compact ? "text-sm" : "text-base sm:text-lg",
                 colors?.text ?? "text-white/90"
               )
             : compact && "text-[11px] leading-tight"

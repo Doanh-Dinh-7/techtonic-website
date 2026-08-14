@@ -14,7 +14,7 @@ describe("useAboutTeamTabs", () => {
 
     expect(result.current.termId).toBe(resolveDefaultAboutTeamTermId());
     expect(result.current.boardId).toBe("ban-chu-nhiem");
-    expect(result.current.activeBoard?.label).toBe("Ban Chủ nhiệm");
+    expect(result.current.activeBoard?.label).toBe("Ban Chủ Nhiệm");
   });
 
   it("resets board when switching term", () => {
@@ -39,6 +39,6 @@ describe("useAboutTeamTabs", () => {
       result.current.selectBoard("ban-truyen-thong");
     });
 
-    expect(result.current.activeBoard?.label).toBe("Ban Truyền thông");
+    expect(result.current.activeBoard?.label).toBe("Ban Truyền Thông");
   });
 });

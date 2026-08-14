@@ -23,7 +23,7 @@ export function PortfolioContent() {
             </Badge>
             <h1 className="text-3xl lg:text-5xl font-bold font-paris2024">Bảng vàng CLB</h1>
             <p className="text-blue-100 text-sm">
-              Sản phẩm và giải thưởng có mục <span className="text-amber-200">(mẫu)</span> — bổ sung
+              Sản phẩm và giải thưởng có mục <span className="text-amber-200">(mẫu)</span> - bổ sung
               link repo và hình ảnh thật sau.
             </p>
           </div>

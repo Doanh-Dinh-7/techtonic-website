@@ -56,7 +56,7 @@ export function CoreValues() {
         </>
       }
       title="Những điều chúng mình cùng giữ"
-      description="Nền tảng văn hóa TechTonic — xem thêm tầm nhìn & sứ mệnh đầy đủ tại trang Giới thiệu."
+      description="Nền tảng văn hóa TechTonic - xem thêm tầm nhìn & sứ mệnh đầy đủ tại trang Giới thiệu."
     >
       <div className="mx-auto mb-10 grid max-w-5xl gap-4 sm:grid-cols-2 lg:grid-cols-5">
         {valueItems.map((v, index) => (

@@ -56,7 +56,7 @@ export function createPageMetadata(
           url: ogImage,
           width: 1200,
           height: 630,
-          alt: `${SITE.name} — ${config.title}`,
+          alt: `${SITE.name} - ${config.title}`,
         },
       ],
     },
@@ -74,7 +74,7 @@ export function createPageMetadata(
 export function createSiteLayoutMetadata(): Metadata {
   return {
     title: {
-      default: `${SITE.shortName} — ${SITE.tagline}`,
+      default: `${SITE.shortName} - ${SITE.tagline}`,
       template: `%s | ${SITE.name}`,
     },
     description: SITE.description,
@@ -82,7 +82,7 @@ export function createSiteLayoutMetadata(): Metadata {
       type: "website",
       locale: SITE.locale,
       siteName: SITE.name,
-      title: `${SITE.shortName} — ${SITE.tagline}`,
+      title: `${SITE.shortName} - ${SITE.tagline}`,
       description: SITE.description,
       images: [
         {
@@ -95,7 +95,7 @@ export function createSiteLayoutMetadata(): Metadata {
     },
     twitter: {
       card: "summary_large_image",
-      title: `${SITE.shortName} — ${SITE.tagline}`,
+      title: `${SITE.shortName} - ${SITE.tagline}`,
       description: SITE.description,
       images: [absoluteImageUrl(SITE.defaultOgImage)],
     },

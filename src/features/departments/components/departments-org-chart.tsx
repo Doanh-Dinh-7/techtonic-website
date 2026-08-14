@@ -16,7 +16,7 @@ export function DepartmentsOrgChart() {
       aria-label="Sơ đồ cơ cấu Câu lạc bộ TechTonic"
       tabIndex={0}
     >
-      <div className="mx-auto min-w-[720px] max-w-5xl">
+      <div className="mx-auto min-w-[880px] max-w-5xl">
         <div className="rounded-xl border-2 border-dashed border-cyan-500/30 bg-cyan-500/10 p-4 dark:border-cyan-400/30 dark:bg-cyan-500/5 sm:p-6">
           <OrgChartInfoNode
             node={orgChartNodes.club}
@@ -58,7 +58,7 @@ export function DepartmentsOrgChart() {
 
             <div className="mx-auto mb-3 h-4 w-px bg-border dark:bg-white/20" aria-hidden />
 
-            <div className="grid grid-cols-5 gap-2">
+            <div className="grid grid-cols-5 gap-3">
               <DepartmentColumn
                 deptNode={orgChartNodes.events}
                 headNode={orgChartNodes.eventsHead}
@@ -106,7 +106,7 @@ export function DepartmentsOrgChart() {
                 departmentColorStyles.blue.border
               )}
             />
-            <div className="grid grid-cols-5 gap-2">
+            <div className="grid grid-cols-5 gap-3">
               {(
                 [
                   orgChartNodes.pythonDb,

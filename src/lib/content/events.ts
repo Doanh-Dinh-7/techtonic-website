@@ -53,8 +53,8 @@ export const academicActivities: AcademicActivity[] = [
   {
     id: "ai-data",
     icon: "psychology",
-    title: "Chuyên môn AI&Data",
-    summary: "Dữ liệu, phân tích và Machine Learning — ứng dụng AI vào thực tế.",
+    title: "Chuyên môn AI & Data",
+    summary: "Dữ liệu, phân tích và Machine Learning - ứng dụng AI vào thực tế.",
     description:
       "Nhóm chuyên môn AI & Data hướng đến việc tìm hiểu và ứng dụng các công nghệ liên quan đến dữ liệu và trí tuệ nhân tạo. Thành viên sẽ được tiếp cận với các kiến thức về xử lý dữ liệu, phân tích dữ liệu, Machine Learning và các xu hướng công nghệ mới, từ đó phát triển tư duy nghiên cứu và khả năng ứng dụng AI vào thực tế.",
     tags: ["AI & Data", "Hằng tuần"],
@@ -88,7 +88,7 @@ export const happyHourCopy = {
   backgroundImage:
     "https://res.cloudinary.com/dggsvq2tw/image/upload/v1783912491/happy-hours_cfgc5y.jpg",
   backgroundImageAlt: "Thành viên TechTonic trong buổi sinh hoạt Happy Hour.",
-  summary: "Sinh hoạt tháng — giao lưu, chia sẻ và gắn kết đội ngũ sau giờ học và làm việc.",
+  summary: "Sinh hoạt tháng - giao lưu, chia sẻ và gắn kết đội ngũ sau giờ học và làm việc.",
   description:
     "Happy Hour là hoạt động sinh hoạt hằng tháng nhằm tạo không gian kết nối, giao lưu và gắn kết giữa các thành viên trong câu lạc bộ. Đây là dịp để mọi người cùng nhìn lại hành trình hoạt động, chia sẻ những câu chuyện, trải nghiệm và thư giãn sau khoảng thời gian học tập, làm việc. Không chỉ mang đến bầu không khí thoải mái và gần gũi, Happy Hour còn góp phần xây dựng tinh thần đồng đội và tạo nên những kỷ niệm đáng nhớ trong hành trình đồng hành cùng câu lạc bộ.",
 };
@@ -99,11 +99,11 @@ export const termEvents: TermEvent[] = [
     order: 1,
     label: "Sự kiện mở đầu",
     title: "Mentor - Mentee",
-    summary: "From Us To You — định hướng sinh viên và giới thiệu TechTonic.",
+    summary: "From Us To You - định hướng sinh viên và giới thiệu TechTonic.",
     tagline:
-      "From Us To You — Giúp định hướng phát triển cho sinh viên và giới thiệu câu lạc bộ TechTonic.",
+      "From Us To You - Giúp định hướng phát triển cho sinh viên và giới thiệu câu lạc bộ TechTonic.",
     description:
-      "From Us To You — Giúp định hướng phát triển cho sinh viên và giới thiệu câu lạc bộ TechTonic.",
+      "From Us To You - Giúp định hướng phát triển cho sinh viên và giới thiệu câu lạc bộ TechTonic.",
     detailSections: [
       {
         id: "mentor-goals",
@@ -143,11 +143,11 @@ export const termEvents: TermEvent[] = [
     order: 2,
     label: "Tuyển thành viên",
     title: "TechXplore",
-    summary: "Tuyển thành viên tự do & Ban chủ nhiệm qua các vòng đơn, PV, training.",
+    summary: "Tuyển thành viên tự do & Ban Chủ Nhiệm qua các vòng đơn, PV, training.",
     tagline:
-      "Giúp tuyển thành viên câu lạc bộ TechTonic (Tự do và Ban chủ nhiệm) cho mỗi nhiệm kỳ, bao gồm tuyển chọn và đào tạo qua các vòng.",
+      "Giúp tuyển thành viên câu lạc bộ TechTonic (Tự do và Ban Chủ Nhiệm) cho mỗi nhiệm kỳ, bao gồm tuyển chọn và đào tạo qua các vòng.",
     description:
-      "Giúp tuyển thành viên câu lạc bộ TechTonic (Tự do và Ban chủ nhiệm) cho mỗi nhiệm kỳ, bao gồm tuyển chọn và đào tạo qua các vòng.",
+      "Giúp tuyển thành viên câu lạc bộ TechTonic (Tự do và Ban Chủ Nhiệm) cho mỗi nhiệm kỳ, bao gồm tuyển chọn và đào tạo qua các vòng.",
     detailSections: [
       {
         id: "techxplore-free",
@@ -160,13 +160,13 @@ export const termEvents: TermEvent[] = [
       },
       {
         id: "techxplore-bcn",
-        title: "📌 Thành viên Ban chủ nhiệm",
+        title: "📌 Thành viên Ban Chủ Nhiệm",
         items: [
           "🎯 Mục tiêu: Xây dựng đội ngũ thành viên BCN câu lạc bộ.",
           "👥 Đối tượng tham gia: Sinh viên năm 1 và năm 2 Trường Đại học Kinh Tế - Đại học Đà Nẵng, ưu tiên sinh viên các ngành có yếu tố CNTT (có thể là thành viên hoặc chưa là thành viên CLB).",
           "📚 Nội dung: Vòng đơn, vòng phỏng vấn, vòng training và vòng thực tập.",
         ],
-        note: "Tuyển thành viên tự do và thành viên ban chủ nhiệm phải được tuyển cùng lúc để tận dụng tối đa nguồn sinh viên của trường Đại học Kinh Tế - Đại học Đà Nẵng. Nên tuyển trước các câu lạc bộ, liên chi đoàn có cùng tệp thành viên mục tiêu như CLB I-Design, LCĐ Khoa Thương Mại Điện Tử, LCĐ Khoa Thống kê - Tin học.",
+        note: "Tuyển thành viên tự do và thành viên Ban Chủ Nhiệm phải được tuyển cùng lúc để tận dụng tối đa nguồn sinh viên của trường Đại học Kinh Tế - Đại học Đà Nẵng. Nên tuyển trước các câu lạc bộ, liên chi đoàn có cùng tệp thành viên mục tiêu như CLB I-Design, LCĐ Khoa Thương Mại Điện Tử, LCĐ Khoa Thống kê - Tin học.",
       },
     ],
     side: "right",
@@ -180,9 +180,9 @@ export const termEvents: TermEvent[] = [
     order: 3,
     label: "Kết nối nội bộ 1",
     title: "Tech Threads",
-    summary: "Chào đón tân thành viên — kết nối nội bộ lần 1.",
-    tagline: "Chào đón thành viên mới — hoạt động kết nối nội bộ lần 1.",
-    description: "Chào đón thành viên mới — hoạt động kết nối nội bộ lần 1.",
+    summary: "Chào đón tân thành viên - kết nối nội bộ lần 1.",
+    tagline: "Chào đón thành viên mới - hoạt động kết nối nội bộ lần 1.",
+    description: "Chào đón thành viên mới - hoạt động kết nối nội bộ lần 1.",
     detailSections: [
       {
         id: "threads-goals",
@@ -213,7 +213,7 @@ export const termEvents: TermEvent[] = [
     order: 4,
     label: "Kết nối nội bộ 2",
     title: "Tình nguyện Đông - Xuân",
-    summary: "Thiện nguyện và gắn kết sâu — kết nối nội bộ lần 2.",
+    summary: "Thiện nguyện và gắn kết sâu - kết nối nội bộ lần 2.",
     tagline:
       "Chương trình kết nối thành viên câu lạc bộ TechTonic thông qua hoạt động thiện nguyện.",
     description:
@@ -256,7 +256,7 @@ export const termEvents: TermEvent[] = [
     order: 5,
     label: "Kết nối nội bộ 3",
     title: "Team Bonding - TechWare",
-    summary: "Team bonding ganh đua trực tiếp — kết nối nội bộ lần 3.",
+    summary: "Team Bonding ganh đua trực tiếp - kết nối nội bộ lần 3.",
     tagline: "Chương trình Team Bonding gắn kết gần gũi giữa các thành viên câu lạc bộ TechTonic.",
     description:
       "Chương trình Team Bonding gắn kết gần gũi giữa các thành viên câu lạc bộ TechTonic.",
@@ -289,26 +289,26 @@ export const termEvents: TermEvent[] = [
     order: 6,
     label: "Tổng kết",
     title: "Kiện toàn Câu lạc bộ TechTonic",
-    summary: "Tổng kết nhiệm kỳ và công bố Ban chủ nhiệm mới.",
-    tagline: "Chương trình công bố Ban chủ nhiệm nhiệm kỳ mới.",
-    description: "Chương trình công bố Ban chủ nhiệm nhiệm kỳ mới.",
+    summary: "Tổng kết nhiệm kỳ và công bố Ban Chủ Nhiệm mới.",
+    tagline: "Chương trình công bố Ban Chủ Nhiệm nhiệm kỳ mới.",
+    description: "Chương trình công bố Ban Chủ Nhiệm nhiệm kỳ mới.",
     detailSections: [
       {
         id: "closing-goals",
         title: "🎯 Mục tiêu",
-        items: ["📍 Tổng kết nhiệm kỳ.", "📍 Công bố ban chủ nhiệm nhiệm kỳ mới của câu lạc bộ."],
+        items: ["📍 Tổng kết nhiệm kỳ.", "📍 Công bố Ban Chủ Nhiệm nhiệm kỳ mới của câu lạc bộ."],
       },
       {
         id: "closing-audience",
         title: "👥 Đối tượng tham gia",
-        items: ["📍 Toàn thể thành viên ban chủ nhiệm.", "📍 Đại diện hội sinh viên."],
+        items: ["📍 Toàn thể thành viên Ban Chủ Nhiệm.", "📍 Đại diện hội sinh viên."],
       },
       {
         id: "closing-content",
         title: "📚 Nội dung",
         items: [
-          "📍 Tổng kết nhiệm kỳ — những gì đã làm tốt và những gì chưa tốt.",
-          "📍 Chọn ra ban chủ nhiệm nhiệm kỳ mới của câu lạc bộ.",
+          "📍 Tổng kết nhiệm kỳ - những gì đã làm tốt và những gì chưa tốt.",
+          "📍 Chọn ra Ban Chủ Nhiệm nhiệm kỳ mới của câu lạc bộ.",
         ],
       },
     ],
@@ -338,12 +338,12 @@ const termEventGalleryMedia: Record<
   "tech-threads": {
     imageSrc:
       "https://scontent.fsgn2-7.fna.fbcdn.net/v/t39.30808-6/608972096_122207047274523479_3685682196447257985_n.jpg?_nc_cat=100&ccb=1-7&_nc_sid=127cfc&_nc_eui2=AeFuIHJmBr-o18dTO7531sMvmuKZZ0I_wtSa4plnQj_C1GbSDGk8cEk2jgOAa_6N88j-eTorlwq6CEv3zCZWhCIb&_nc_ohc=0D-ganUmyHoQ7kNvwEnGO83&_nc_oc=Adorzosn2l3RkwohVBFDvn6riGaZ5bBHDsOKKbYeApiUOudw-ppZtfjX0vDEPC6DuNr-tfcDlNAGmQWy58OOad38&_nc_pt=1&_nc_zt=23&_nc_ht=scontent.fsgn2-7.fna&_nc_gid=3Qh_BYy1iTomFjj9b9Rmug&_nc_ss=7b2a8&oh=00_Af7iH3TOlMTBMvvjUHdLVHBtoLkZIyXnqYmQ0WLs9fWy0A&oe=6A20FF33",
-    imageAlt: "Tech Threads — chào đón thành viên mới.",
+    imageAlt: "Tech Threads - chào đón thành viên mới.",
   },
   volunteer: {
     imageSrc:
       "https://scontent.fsgn2-8.fna.fbcdn.net/v/t39.30808-6/558159593_122190077282523479_5187171086897198994_n.jpg?_nc_cat=102&ccb=1-7&_nc_sid=f727a1&_nc_eui2=AeEwOB4HtZtgZvtzBu0OQkHrknW7sPhCeWOSdbuw-EJ5Y-rLRs7uX4-opyJTotw0LuetVECLiEzYF3gwBvWN_lPF&_nc_ohc=lWZegAqSaZ8Q7kNvwGnjpre&_nc_oc=Adrv_grEBPOxYO-waJyAqZX6wZTERJKMcWmnSoaBpIbYXMgERB_P2im7KX1rILKpyEJ7DafOgzFVl8R8Q8mvwRXP&_nc_pt=1&_nc_zt=23&_nc_ht=scontent.fsgn2-8.fna&_nc_gid=Yg5pceVJ4bdpeGqyVyasKg&_nc_ss=7b2a8&oh=00_Af4lkEWXJtx7JdiuK4cvFT6uajeYmHlPob1lMkCuacGa2A&oe=6A21157C",
-    imageAlt: "Tình nguyện Đông - Xuân — kết nối thành viên.",
+    imageAlt: "Tình nguyện Đông - Xuân - kết nối thành viên.",
   },
   techware: {
     imageSrc:
@@ -387,7 +387,7 @@ export const eventsHeroCopy = {
 
 export const termGallerySectionCopy = {
   title: "Thư viện ảnh",
-  description: "Khoảnh khắc từ các chương trình — ảnh gallery độc lập với timeline phía trên.",
+  description: "Khoảnh khắc từ các chương trình - ảnh gallery độc lập với timeline phía trên.",
   cta: "Xem timeline đầy đủ",
 };
 
@@ -457,20 +457,20 @@ export const stellarGalleryCards: StellarGalleryCard[] = [
   {
     id: "9",
     imageUrl: "https://res.cloudinary.com/dggsvq2tw/image/upload/v1758206560/mm1_bk4o4u.webp",
-    alt: "Mentor-Mentee 1",
-    title: "Mentor-Mentee",
+    alt: "Mentor - Mentee 1",
+    title: "Mentor - Mentee",
   },
   {
     id: "10",
     imageUrl: "https://res.cloudinary.com/dggsvq2tw/image/upload/v1758206577/mm2_gewykm.webp",
-    alt: "Mentor-Mentee 2",
-    title: "Mentor-Mentee",
+    alt: "Mentor - Mentee 2",
+    title: "Mentor - Mentee",
   },
   {
     id: "11",
     imageUrl: "https://res.cloudinary.com/dggsvq2tw/image/upload/v1758206578/mm6_nvs60b.webp",
-    alt: "Mentor-Mentee 3",
-    title: "Mentor-Mentee",
+    alt: "Mentor - Mentee 3",
+    title: "Mentor - Mentee",
   },
   {
     id: "12",

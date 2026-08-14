@@ -14,7 +14,7 @@ export const featuredProjects: ProjectItem[] = [
     id: "p2",
     title: "Ứng dụng nội bộ (demo)",
     description:
-      "Ý tưởng quản lý sự kiện và điểm danh thành viên — đang trong giai đoạn thử nghiệm.",
+      "Ý tưởng quản lý sự kiện và điểm danh thành viên - đang trong giai đoạn thử nghiệm.",
     stack: ["React", "Node.js"],
     isSample: true,
   },

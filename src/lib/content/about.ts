@@ -84,7 +84,7 @@ export const aboutCoreValues: AboutCoreValue[] = [
   {
     id: "responsibility",
     title: "Sự trách nhiệm",
-    subtitle: "Ý thức tiếp tục xây dựng và phát triển CLB",
+    subtitle: "ý thức tiếp tục xây dựng và phát triển CLB",
     description:
       "Mỗi thành viên có trách nhiệm với việc học tập của bản thân, với sự phát triển của CLB và rộng hơn là với cộng đồng mà mình đang tham gia.",
     icon: "shield",
@@ -113,7 +113,7 @@ export const aboutCoreValues: AboutCoreValue[] = [
 ];
 
 export const aboutCultureCopy = {
-  title: "Study Hard — Play Harder",
+  title: "Study Hard - Play Harder",
   lead: "Học tập, rèn luyện có trách nhiệm và điều sáng suốt nhất cần được ưu tiên nhưng đừng quên tận hưởng cuộc sống sinh viên với nhiều màu sắc và trải nghiệm:",
   body: "Các thành viên nghiêm túc trong học thuật, trách nhiệm trong công việc nhưng vẫn tích cực tham gia các hoạt động vì niềm vui và sự kết nối.",
   moreThanClub:
@@ -189,6 +189,6 @@ export const aboutGalleryCopy = {
 };
 
 export const aboutTeamSectionCopy = {
-  title: "Ban chủ nhiệm qua từng nhiệm kỳ",
+  title: "Ban Chủ Nhiệm qua từng nhiệm kỳ",
   description: "Đội ngũ tâm huyết, kiến tạo giá trị và truyền cảm hứng.",
 };

@@ -82,7 +82,7 @@ export function Team() {
 
       {activeTerm && activeBoard && (
         <p className="sr-only">
-          Đang xem {activeBoard.label} — {activeTerm.label}
+          Đang xem {activeBoard.label} - {activeTerm.label}
         </p>
       )}
     </SectionShell>

@@ -40,7 +40,7 @@ describe("Route section smoke", () => {
     await waitFor(() => {
       expect(screen.getByTitle("Video giới thiệu giá trị TechTonic Club")).toBeInTheDocument();
       expect(
-        screen.getByRole("heading", { name: /Ban chủ nhiệm qua từng nhiệm kỳ/i })
+        screen.getByRole("heading", { name: /Ban Chủ Nhiệm qua từng nhiệm kỳ/i })
       ).toBeInTheDocument();
       expect(document.getElementById("gallery")).toBeTruthy();
     });
@@ -55,7 +55,7 @@ describe("Route section smoke", () => {
       expect(
         screen.getByRole("heading", { name: /Hoạt động học thuật hằng tuần/i })
       ).toBeInTheDocument();
-      expect(screen.getByRole("heading", { name: /Hoạt động & sự kiện/i })).toBeInTheDocument();
+      expect(screen.getByRole("heading", { name: /Hoạt động & Sự kiện/i })).toBeInTheDocument();
     });
   });
 });

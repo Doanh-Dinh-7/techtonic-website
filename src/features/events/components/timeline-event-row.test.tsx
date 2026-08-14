@@ -12,7 +12,7 @@ const sampleEvent: TermEvent = {
   order: 1,
   label: "Sự kiện mở đầu",
   title: "Mentor - Mentee",
-  summary: "From Us To You — định hướng sinh viên.",
+  summary: "From Us To You - định hướng sinh viên.",
   tagline: "From Us To You.",
   description: "From Us To You.",
   detailSections: [

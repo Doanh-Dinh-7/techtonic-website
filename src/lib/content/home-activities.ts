@@ -34,12 +34,12 @@ export const homeActivities: HomeActivity[] = [
   },
   {
     id: "mentor-mentee",
-    title: "Mentor-Mentee",
+    title: "Mentor - Mentee",
     summary: "Không gian kết nối giữa sinh viên mới và anh chị có kinh nghiệm.",
     description:
       "From Us To You giúp mentee được đồng hành trong học tập, kỹ năng, hoạt động ngoại khóa và đời sống sinh viên.",
     image: "/activity/mentor_mentee.webp",
-    imageAlt: "Hoạt động Mentor-Mentee From Us To You của TechTonic",
+    imageAlt: "Hoạt động Mentor - Mentee From Us To You của TechTonic",
     accent: "purple",
     tags: ["Mentor", "Mentee", "Kỹ năng", "Định hướng"],
     position: "center",
@@ -65,7 +65,7 @@ export const homeActivities: HomeActivity[] = [
     image: "/activity/techware.webp",
     imageAlt: "Hoạt động Team Bonding TechWare của TechTonic",
     accent: "magenta",
-    tags: ["Team bonding", "Challenge", "Community", "Creative"],
+    tags: ["Team Bonding", "Challenge", "Community", "Creative"],
     position: "center",
   },
   {

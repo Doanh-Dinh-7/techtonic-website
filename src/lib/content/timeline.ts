@@ -38,7 +38,7 @@ export const clubTimeline: TimelineEntry[] = [
     year: "2025",
     dateLabel: "05/2025",
     title: "Mở chuyên môn",
-    description: "Ra mắt chính thức các chuyên môn FE, BE, AI&Data.",
+    description: "Ra mắt chính thức các chuyên môn FE, BE, AI & Data.",
     offset: "high",
     accent: "cyan",
   },

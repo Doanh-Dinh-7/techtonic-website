@@ -22,7 +22,7 @@ export function Testimonials() {
 
     let academicYearDifference;
 
-    if (currentMonth >= 6) {
+    if (currentMonth >= 8) {
       academicYearDifference = currentYear - year;
     } else {
       academicYearDifference = currentYear - 1 - year;
