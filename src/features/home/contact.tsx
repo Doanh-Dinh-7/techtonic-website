@@ -17,7 +17,7 @@ const contactInfo = [
   {
     icon: Phone,
     title: "Hotline",
-    info: "077 249 3327",
+    info: "091 474 3819",
     bgColor: "bg-green-600",
   },
   {
