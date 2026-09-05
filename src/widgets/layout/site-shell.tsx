@@ -6,8 +6,8 @@ import { Footer } from "@/widgets/layout/footer";
 import { Header } from "@/widgets/layout/header";
 import { AnimationReadyProvider } from "@/widgets/layout/animation-ready-provider";
 import { LenisProvider } from "@/widgets/layout/lenis-provider";
-import { BackToTop } from "@/shared/ui/back-to-top";
 import { useSiteShellVisibility } from "@/widgets/layout/hooks/use-site-shell-visibility";
+import { ChatWidget } from "@/features/chatbot/chat-widget";
 
 /**
  * Shared shell for all `(site)` routes.
@@ -15,7 +15,7 @@ import { useSiteShellVisibility } from "@/widgets/layout/hooks/use-site-shell-vi
 export function SiteShell({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
   const isHome = pathname === "/";
-  const { showBackToTop, showHeader, scrollToTop } = useSiteShellVisibility(isHome);
+  const { showHeader, scrollToTop } = useSiteShellVisibility(isHome);
 
   return (
     <LenisProvider>
@@ -36,7 +36,7 @@ export function SiteShell({ children }: { children: React.ReactNode }) {
             {children}
           </main>
           <Footer />
-          <BackToTop show={showBackToTop} onClick={scrollToTop} />
+          <ChatWidget />
         </div>
       </AnimationReadyProvider>
     </LenisProvider>
