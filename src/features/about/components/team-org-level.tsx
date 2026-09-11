@@ -6,13 +6,20 @@ import { TeamMemberCard } from "./team-member-card";
 type TeamOrgLevelProps = {
   members: AboutTeamMember[];
   nowrap?: boolean;
+  cardGap?: number;
 };
 
-export function TeamOrgLevel({ members, nowrap }: TeamOrgLevelProps) {
+export function TeamOrgLevel({ members, nowrap, cardGap }: TeamOrgLevelProps) {
   return (
-    <div className={cn("flex justify-center gap-6", nowrap && "flex-nowrap")}>
-      {members.map((member) => (
-        <TeamMemberCard key={`${member.name}-${member.role}-${member.level}`} member={member} />
+    <div
+      className={cn("flex justify-center gap-6", nowrap && "flex-nowrap")}
+      style={cardGap === undefined ? undefined : { gap: cardGap }}
+    >
+      {members.map((member, index) => (
+        <TeamMemberCard
+          key={`${member.name}-${member.role}-${member.level}-${index}`}
+          member={member}
+        />
       ))}
     </div>
   );

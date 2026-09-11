@@ -5,7 +5,7 @@ import { useEffect, useId, useMemo, useRef, useState } from "react";
 import { cn } from "@/shared/utils";
 
 const CARD_WIDTH = { lg: 224, md: 192 } as const;
-const CARD_GAP = 24;
+const DEFAULT_CARD_GAP = 24;
 const STEM_HEIGHT = 24;
 const BRANCH_HEIGHT = 24;
 const STROKE_WIDTH = 2;
@@ -15,18 +15,24 @@ type TeamOrgConnectorProps = {
   childCount: number;
   parentSize?: "lg" | "md";
   childSize?: "lg" | "md";
+  cardGap?: number;
   className?: string;
 };
 
-function computeCenters(count: number, cardWidth: number, containerWidth: number): number[] {
+function computeCenters(
+  count: number,
+  cardWidth: number,
+  containerWidth: number,
+  cardGap: number
+): number[] {
   if (count <= 0 || containerWidth <= 0) return [];
 
-  const rowWidth = count * cardWidth + Math.max(0, count - 1) * CARD_GAP;
+  const rowWidth = count * cardWidth + Math.max(0, count - 1) * cardGap;
   const startX = Math.max(0, (containerWidth - rowWidth) / 2);
 
   return Array.from(
     { length: count },
-    (_, index) => startX + index * (cardWidth + CARD_GAP) + cardWidth / 2
+    (_, index) => startX + index * (cardWidth + cardGap) + cardWidth / 2
   );
 }
 
@@ -101,6 +107,7 @@ export function TeamOrgConnector({
   childCount,
   parentSize = "lg",
   childSize = "md",
+  cardGap = DEFAULT_CARD_GAP,
   className,
 }: TeamOrgConnectorProps) {
   const containerRef = useRef<HTMLDivElement>(null);
@@ -130,16 +137,16 @@ export function TeamOrgConnector({
   const svgHeight = STEM_HEIGHT + BRANCH_HEIGHT;
 
   const parentCenters = useMemo(
-    () => computeCenters(parentCount, parentCardWidth, containerWidth),
-    [parentCount, parentCardWidth, containerWidth]
+    () => computeCenters(parentCount, parentCardWidth, containerWidth, cardGap),
+    [parentCount, parentCardWidth, containerWidth, cardGap]
   );
 
   const childCenters = useMemo(
-    () => computeCenters(childCount, childCardWidth, containerWidth),
-    [childCount, childCardWidth, containerWidth]
+    () => computeCenters(childCount, childCardWidth, containerWidth, cardGap),
+    [childCount, childCardWidth, containerWidth, cardGap]
   );
 
-  const rowWidth = childCount * childCardWidth + Math.max(0, childCount - 1) * CARD_GAP;
+  const rowWidth = childCount * childCardWidth + Math.max(0, childCount - 1) * cardGap;
   const useSimpleFallback = containerWidth > 0 && rowWidth > containerWidth;
 
   const paths = useMemo(

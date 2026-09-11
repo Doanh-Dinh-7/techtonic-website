@@ -600,40 +600,184 @@ export const aboutTeamTerms: AboutTeamTerm[] = [
         id: "ban-chu-nhiem",
         label: "Ban Chủ Nhiệm",
         hierarchy: [
-          levelRow(1, [{ ...PLACEHOLDER_BASE, role: "Chủ nhiệm CLB" }]),
-          levelRow(2, [{ ...PLACEHOLDER_BASE, role: "Phó Chủ nhiệm" }]),
+          levelRow(1, [
+            {
+              name: "Đặng Nguyên Quốc Bảo",
+              role: "Chủ nhiệm CLB",
+              image:
+                "https://res.cloudinary.com/jb6ttotp/image/upload/v1789064855/dang-nguyen-quoc-bao.png",
+              imagePosition: "top",
+            },
+          ]),
+          levelRow(2, [
+            {
+              name: "Nguyễn Thị Phương Thảo",
+              role: "Phó Chủ nhiệm",
+              image:
+                "https://res.cloudinary.com/jb6ttotp/image/upload/v1789064773/Nguy%E1%BB%85n_Th%E1%BB%8B_Ph%C6%B0%C6%A1ng_Th%E1%BA%A3o.png",
+            },
+            {
+              name: "Ngô Phương Thảo",
+              role: "Phó Chủ nhiệm",
+              image:
+                "https://res.cloudinary.com/jb6ttotp/image/upload/v1789064705/Ng%C3%B4_Ph%C6%B0%C6%A1ng_Th%E1%BA%A3o.png",
+            },
+          ]),
         ],
       },
       {
         id: "ban-chuyen-mon",
         label: "Ban Chuyên Môn",
+        cardGap: 40,
         hierarchy: [
-          levelRow(1, [{ ...PLACEHOLDER_BASE, role: "Trưởng ban" }]),
-          levelRow(2, [{ ...PLACEHOLDER_BASE, role: "Phó ban" }]),
+          levelRow(1, [
+            {
+              name: "Hồ Văn Trường",
+              role: "Trưởng ban",
+              image:
+                "https://res.cloudinary.com/dggsvq2tw/image/upload/v1785817600/H%E1%BB%93_V%C4%83n_Tr%C6%B0%E1%BB%9Dng_nlrxqc.png",
+            },
+          ]),
+          levelRow(2, [
+            {
+              name: "Đinh Tấn Khoa",
+              role: "Phó ban",
+              image:
+                "https://res.cloudinary.com/dggsvq2tw/image/upload/v1786544925/%C4%90inh_T%E1%BA%A5n_Khoa_fg66bg.png",
+            },
+            {
+              name: "Ngô Thị Ngọc Huyền",
+              role: "Phó ban",
+              image:
+                "https://res.cloudinary.com/dggsvq2tw/image/upload/v1789062492/Ng%C3%B4_Th%E1%BB%8B_Ng%E1%BB%8Dc_Huy%E1%BB%81n_wjuxvh.png",
+            },
+            {
+              name: "Trần Thị Thanh Tâm",
+              role: "Phó ban",
+              image:
+                "https://res.cloudinary.com/dggsvq2tw/image/upload/v1786544841/Tr%E1%BA%A7n_Th%E1%BB%8B_Thanh_T%C3%A2m_h3iqu1.png",
+            },
+          ]),
+          levelRow(3, [
+            {
+              name: "Nguyễn Lê Anh Hoàng",
+              role: "Thành viên",
+              image:
+                "https://res.cloudinary.com/dggsvq2tw/image/upload/v1785817600/Nguy%E1%BB%85n_L%C3%AA_Anh_Ho%C3%A0ng_ymbmzl.png",
+            },
+            {
+              name: "Trương Thị Lan",
+              role: "Thành viên",
+              image:
+                "https://res.cloudinary.com/dggsvq2tw/image/upload/v1785816310/Tr%C6%B0%C6%A1ng_Th%E1%BB%8B_Lan_vvjynt.png",
+            },
+            {
+              name: "Lê Thị Nhung Nguyệt",
+              role: "Thành viên",
+              image:
+                "https://res.cloudinary.com/dggsvq2tw/image/upload/v1785816321/L%C3%AA_Th%E1%BB%8B_Nhung_Nguy%E1%BB%87t_wjtzqq.png",
+            },
+          ]),
         ],
       },
       {
         id: "ban-su-kien",
         label: "Ban Sự Kiện",
+        cardGap: 40,
         hierarchy: [
-          levelRow(1, [{ ...PLACEHOLDER_BASE, role: "Trưởng ban" }]),
-          levelRow(2, [{ ...PLACEHOLDER_BASE, role: "Phó ban" }]),
+          levelRow(1, [
+            {
+              name: "Đoàn Ngọc Bảo Trân",
+              role: "Trưởng ban",
+              image:
+                "https://res.cloudinary.com/dggsvq2tw/image/upload/v1785833720/%C4%90o%C3%A0n_Ng%E1%BB%8Dc_B%E1%BA%A3o_Tr%C3%A2n_biye8o.png",
+            },
+          ]),
+          levelRow(2, [
+            {
+              name: "Nguyễn Ngọc Nhật",
+              role: "Phó ban",
+              image:
+                "https://res.cloudinary.com/dggsvq2tw/image/upload/v1785833720/Nguy%E1%BB%85n_Ng%E1%BB%8Dc_Nh%E1%BA%ADt_wvbxsh.png",
+            },
+            {
+              name: "Tô Nguyên Quốc Bảo",
+              role: "Phó ban",
+              image:
+                "https://res.cloudinary.com/jb6ttotp/image/upload/v1789065464/ChatGPT_Image_01_37_37_11_thg_9_2026.png",
+            },
+            {
+              name: "Phạm Nhật Hạ",
+              role: "Phó ban",
+              image:
+                "https://res.cloudinary.com/dggsvq2tw/image/upload/v1786549680/Ph%E1%BA%A1m_Nh%E1%BA%ADt_H%E1%BA%A1_sdblbc.png",
+            },
+          ]),
+          levelRow(3, [
+            {
+              name: "Phạm Ngọc Yến Nhi",
+              role: "Thành viên",
+              image:
+                "https://res.cloudinary.com/dggsvq2tw/image/upload/v1785833722/Ph%E1%BA%A1m_Ng%E1%BB%8Dc_Y%E1%BA%BFn_Nhi_uhyzbr.png",
+            },
+            { name: "Trần Tôn Phương Thảo", role: "Thành viên" },
+            { name: "Trần Nguyên Minh Anh", role: "Thành viên" },
+          ]),
         ],
       },
       {
         id: "ban-nhan-su",
         label: "Ban Nhân Sự",
         hierarchy: [
-          levelRow(1, [{ ...PLACEHOLDER_BASE, role: "Trưởng ban" }]),
-          levelRow(2, [{ ...PLACEHOLDER_BASE, role: "Phó ban" }]),
+          levelRow(1, [
+            {
+              name: "Nguyễn Anh Tú",
+              role: "Trưởng ban",
+              image:
+                "https://res.cloudinary.com/dggsvq2tw/image/upload/v1786544985/Nguy%E1%BB%85n_Anh_T%C3%BA_d8rm4i.png",
+            },
+          ]),
+          levelRow(2, [
+            {
+              name: "Phạm Khánh Ngân",
+              role: "Phó ban",
+              image:
+                "https://res.cloudinary.com/dggsvq2tw/image/upload/v1785839866/Ph%E1%BA%A1m_Kh%C3%A1nh_Ng%C3%A2n_jh0c9p.png",
+            },
+          ]),
+          levelRow(3, [
+            {
+              name: "Phan Thị Quỳnh Chi",
+              role: "Thành viên",
+              image:
+                "https://res.cloudinary.com/dggsvq2tw/image/upload/v1786549625/Phan_Th%E1%BB%8B_Qu%E1%BB%B3nh_Chi_ikcqha.png",
+            },
+          ]),
         ],
       },
       {
         id: "ban-truyen-thong",
         label: "Ban Truyền Thông",
         hierarchy: [
-          levelRow(1, [{ ...PLACEHOLDER_BASE, role: "Trưởng ban" }]),
-          levelRow(2, [{ ...PLACEHOLDER_BASE, role: "Phó ban" }]),
+          levelRow(1, [
+            {
+              name: "Võ Đình Khoa",
+              role: "Trưởng ban",
+              image:
+                "https://res.cloudinary.com/jb6ttotp/image/upload/v1789085239/%C4%90%C3%ACnh_Khoa.png",
+              imagePosition: "top",
+            },
+          ]),
+          levelRow(2, [{ name: "Vũ Thị Huyền Trang", role: "Phó ban" }]),
+          levelRow(3, [
+            { name: "Phạm Thị Nhật Uyên", role: "Thành viên" },
+            { name: "Nguyễn Huỳnh Minh Ánh", role: "Thành viên" },
+            { name: "Phan Thị Yến Chi", role: "Thành viên" },
+            { name: "Nguyễn Nữ Vũ Hoàng", role: "Thành viên" },
+            { name: "Lê Văn Lợi", role: "Thành viên" },
+            { name: "Phan Nhật Đài Trang", role: "Thành viên" },
+            { name: "Phan Trần Hạ Giang", role: "Thành viên" },
+          ]),
         ],
       },
     ],
