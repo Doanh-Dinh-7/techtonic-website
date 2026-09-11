@@ -606,7 +606,7 @@ export const aboutTeamTerms: AboutTeamTerm[] = [
               role: "Chủ nhiệm CLB",
               image:
                 "https://res.cloudinary.com/jb6ttotp/image/upload/v1789064855/dang-nguyen-quoc-bao.png",
-              imagePosition: "top",
+              imagePosition: "center 38%",
             },
           ]),
           levelRow(2, [
@@ -705,6 +705,7 @@ export const aboutTeamTerms: AboutTeamTerm[] = [
               role: "Phó ban",
               image:
                 "https://res.cloudinary.com/jb6ttotp/image/upload/v1789065464/ChatGPT_Image_01_37_37_11_thg_9_2026.png",
+              imagePosition: "center 25%",
             },
             {
               name: "Phạm Nhật Hạ",
@@ -765,13 +766,27 @@ export const aboutTeamTerms: AboutTeamTerm[] = [
               role: "Trưởng ban",
               image:
                 "https://res.cloudinary.com/jb6ttotp/image/upload/v1789085239/%C4%90%C3%ACnh_Khoa.png",
-              imagePosition: "top",
+              imagePosition: "center -8px",
             },
           ]),
-          levelRow(2, [{ name: "Vũ Thị Huyền Trang", role: "Phó ban" }]),
+          levelRow(2, [
+            {
+              name: "Vũ Thị Huyền Trang",
+              role: "Phó ban",
+              image:
+                "https://res.cloudinary.com/jb6ttotp/image/upload/v1789119871/ChatGPT_Image_16_43_43_11_thg_9_2026.png",
+              imagePosition: "center 20%",
+            },
+          ]),
           levelRow(3, [
             { name: "Phạm Thị Nhật Uyên", role: "Thành viên" },
-            { name: "Nguyễn Huỳnh Minh Ánh", role: "Thành viên" },
+            {
+              name: "Nguyễn Huỳnh Minh Ánh",
+              role: "Thành viên",
+              image:
+                "https://res.cloudinary.com/jb6ttotp/image/upload/v1789120336/ChatGPT_Image_16_52_06_11_thg_9_2026.png",
+              imagePosition: "center 20%",
+            },
             { name: "Phan Thị Yến Chi", role: "Thành viên" },
             { name: "Nguyễn Nữ Vũ Hoàng", role: "Thành viên" },
             { name: "Lê Văn Lợi", role: "Thành viên" },

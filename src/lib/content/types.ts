@@ -57,7 +57,7 @@ export type AboutTeamMember = {
   role: string;
   level: AboutTeamLevel;
   image?: string;
-  imagePosition?: "center" | "top";
+  imagePosition?: "center" | "top" | `center ${number}px` | `center ${number}%`;
   isPlaceholder?: boolean;
 };
 

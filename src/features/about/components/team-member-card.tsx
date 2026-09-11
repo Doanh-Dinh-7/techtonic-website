@@ -38,10 +38,12 @@ export function TeamMemberCard({ member }: TeamMemberCardProps) {
             src={member.image}
             alt={member.name}
             fill
-            className={cn(
-              "object-cover opacity-95 transition-all duration-500 group-hover:scale-105 group-hover:opacity-100 dark:opacity-85",
-              member.imagePosition === "top" && "object-top"
-            )}
+            className="object-cover opacity-95 transition-all duration-500 group-hover:scale-105 group-hover:opacity-100 dark:opacity-85"
+            style={
+              member.imagePosition === undefined
+                ? undefined
+                : { objectPosition: member.imagePosition }
+            }
             sizes="(max-width: 768px) 224px, 256px"
           />
         ) : (
