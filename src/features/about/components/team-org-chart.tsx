@@ -1,5 +1,7 @@
 "use client";
 
+import { useEffect, useRef } from "react";
+
 import type { AboutTeamLevel, AboutTeamMember } from "@/lib/content/types";
 import {
   getAboutTeamCardSize,
@@ -14,27 +16,48 @@ import { TeamOrgLevel } from "./team-org-level";
 const CARD_GAP = 24;
 const CHART_PADDING_X = 48;
 
-function computeLevelWidth(members: AboutTeamMember[]): number {
+function computeLevelWidth(members: AboutTeamMember[], cardGap: number): number {
   if (members.length === 0) return 0;
 
   const cardWidth = getAboutTeamCardWidth(getRowLevel(members));
-  return members.length * cardWidth + Math.max(0, members.length - 1) * CARD_GAP;
+  return members.length * cardWidth + Math.max(0, members.length - 1) * cardGap;
 }
 
-function computeChartWidth(hierarchy: AboutTeamMember[][]): number {
+function computeChartWidth(hierarchy: AboutTeamMember[][], cardGap = CARD_GAP): number {
   if (hierarchy.length === 0) return 320;
 
-  const levelWidths = hierarchy.map(computeLevelWidth);
+  const levelWidths = hierarchy.map((members) => computeLevelWidth(members, cardGap));
   return Math.max(...levelWidths, 280) + CHART_PADDING_X * 2;
 }
 
 type TeamOrgChartProps = {
   hierarchy: AboutTeamMember[][];
+  cardGap?: number;
+  isActive?: boolean;
 };
 
-export function TeamOrgChart({ hierarchy }: TeamOrgChartProps) {
-  const chartWidth = computeChartWidth(hierarchy);
+export function TeamOrgChart({
+  hierarchy,
+  cardGap = CARD_GAP,
+  isActive = true,
+}: TeamOrgChartProps) {
+  const chartWidth = computeChartWidth(hierarchy, cardGap);
   const scrollRef = useShiftWheelHorizontalScroll<HTMLDivElement>();
+  const hasCenteredRef = useRef(false);
+
+  useEffect(() => {
+    if (!isActive || hasCenteredRef.current) return;
+
+    const frameId = window.requestAnimationFrame(() => {
+      const element = scrollRef.current;
+      if (!element) return;
+
+      element.scrollLeft = Math.max(0, (element.scrollWidth - element.clientWidth) / 2);
+      hasCenteredRef.current = true;
+    });
+
+    return () => window.cancelAnimationFrame(frameId);
+  }, [chartWidth, isActive, scrollRef]);
 
   return (
     <div className="relative w-full">
@@ -54,13 +77,14 @@ export function TeamOrgChart({ hierarchy }: TeamOrgChartProps) {
 
             return (
               <div key={levelIndex} className="flex w-full flex-col items-center">
-                <TeamOrgLevel members={level} nowrap />
+                <TeamOrgLevel members={level} nowrap cardGap={cardGap} />
                 {nextLevel && childLevel !== undefined && (
                   <TeamOrgConnector
                     parentCount={level.length}
                     childCount={nextLevel.length}
                     parentSize={getAboutTeamCardSize(parentLevel)}
                     childSize={getAboutTeamCardSize(childLevel)}
+                    cardGap={cardGap}
                   />
                 )}
               </div>

@@ -72,7 +72,11 @@ export function Team() {
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.35 }}
                 >
-                  <TeamOrgChart hierarchy={board.hierarchy} />
+                  <TeamOrgChart
+                    hierarchy={board.hierarchy}
+                    cardGap={board.cardGap}
+                    isActive={termId === term.id && boardId === board.id}
+                  />
                 </motion.div>
               </div>
             ))}

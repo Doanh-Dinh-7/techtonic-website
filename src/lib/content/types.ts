@@ -57,6 +57,7 @@ export type AboutTeamMember = {
   role: string;
   level: AboutTeamLevel;
   image?: string;
+  imagePosition?: "center" | "top" | `center ${number}px` | `center ${number}%`;
   isPlaceholder?: boolean;
 };
 
@@ -64,6 +65,7 @@ export type AboutTeamBoard = {
   id: string;
   label: string;
   hierarchy: AboutTeamMember[][];
+  cardGap?: number;
 };
 
 export type AboutTeamTerm = {
