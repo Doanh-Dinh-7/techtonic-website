@@ -77,11 +77,7 @@ export function TeamOrgChart({
 
             return (
               <div key={levelIndex} className="flex w-full flex-col items-center">
-                <TeamOrgLevel
-                  members={level}
-                  nowrap
-                  cardGap={cardGap === CARD_GAP ? undefined : cardGap}
-                />
+                <TeamOrgLevel members={level} nowrap cardGap={cardGap} />
                 {nextLevel && childLevel !== undefined && (
                   <TeamOrgConnector
                     parentCount={level.length}
