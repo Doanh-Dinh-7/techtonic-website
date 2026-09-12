@@ -552,9 +552,11 @@ export const aboutTeamTerms: AboutTeamTerm[] = [
           ]),
           levelRow(2, [
             {
-              ...PLACEHOLDER_BASE,
               name: "Phạm Nhật Uyên",
               role: "Phó ban",
+              image:
+                "https://res.cloudinary.com/jb6ttotp/image/upload/v1789197005/ChatGPT_Image_14_09_39_12_thg_9_2026.png",
+              imagePosition: "center 15%",
             },
           ]),
           levelRow(3, [
