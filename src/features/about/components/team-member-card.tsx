@@ -56,7 +56,7 @@ export function TeamMemberCard({ member }: TeamMemberCardProps) {
       <div className="p-4 text-center">
         <h4
           className={cn(
-            "font-utm-akashi text-base font-normal",
+            "font-paris2024 text-lg font-normal",
             member.isPlaceholder ? "text-muted-foreground dark:text-white/70" : text
           )}
         >

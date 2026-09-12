@@ -60,7 +60,7 @@ function MissionPanel() {
         >
           &ldquo;
         </span>
-        <p className="font-paris2024 text-xl italic leading-relaxed text-foreground md:text-2xl lg:text-3xl dark:text-white">
+        <p className="font-sans text-xl italic leading-relaxed text-foreground md:text-2xl lg:text-3xl dark:text-white">
           {aboutMissionCopy.quote}
         </p>
         <span

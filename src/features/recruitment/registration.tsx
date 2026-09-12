@@ -1,46 +1,194 @@
 "use client";
 
+import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
-import { Clock, Code, Loader2 } from "lucide-react";
+import { Clock, ExternalLink, Flame, Zap } from "lucide-react";
 
-import { useRegistrationForm } from "@/features/recruitment/hooks/use-registration-form";
-import {
-  recruitmentDepartments,
-  recruitmentRegistrationCopy,
-  recruitmentSteps,
-} from "@/lib/content/recruitment";
-import { Input } from "@/shared/ui/input";
-import { Textarea } from "@/shared/ui/textarea";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/shared/ui/select";
+import { useCountdown } from "@/features/recruitment/hooks/use-countdown";
+import { recruitmentRegistrationCopy, recruitmentSteps } from "@/lib/content/recruitment";
 import { GlassCard, NeonButton, SectionShell } from "@/shared/ui-v2";
 import { cn } from "@/shared/utils";
 
-const formFieldClass = cn(
-  "border-border bg-background/80 text-foreground placeholder:text-muted-foreground/70",
-  "focus-visible:border-neon-cyan/50 focus-visible:ring-neon-cyan/20",
-  "dark:border-white/10 dark:bg-white/[0.06] dark:text-white dark:placeholder:text-white/40"
-);
-
-const selectContentClass =
-  "border-border bg-popover text-popover-foreground dark:border-white/10 dark:bg-[#141414] dark:text-white";
-
-const labelClass = "mb-2 block text-sm font-medium text-foreground dark:text-white/90";
-
+const FORM_URL = process.env.NEXT_PUBLIC_GG_FORM ?? "#";
 const isHiringOpen = process.env.NEXT_PUBLIC_IS_HIRING === "true";
 
-export function Registration() {
-  const {
-    currentStep,
-    formData,
-    handleInputChange,
-    handleSubmit,
-    isFormComplete,
-    isStep1Valid,
-    isSubmitting,
-    nextStep,
-    prevStep,
-  } = useRegistrationForm();
+function CountdownUnit({ value, label }: { value: number | string; label: string }) {
+  const displayValue = typeof value === "number" ? String(value).padStart(2, "0") : value;
+  return (
+    <div className="flex flex-col items-center gap-1">
+      <div className="relative flex h-14 w-14 items-center justify-center rounded-xl border border-neon-cyan/25 bg-neon-cyan/5 shadow-[0_0_15px_rgba(0,240,255,0.08)] sm:h-16 sm:w-16">
+        <span
+          suppressHydrationWarning
+          className="font-paris2024 text-2xl font-bold tabular-nums text-cyan-700 dark:text-neon-cyan sm:text-3xl"
+        >
+          {displayValue}
+        </span>
+      </div>
+      <span className="text-[10px] uppercase tracking-wider text-muted-foreground dark:text-white/40 sm:text-xs">
+        {label}
+      </span>
+    </div>
+  );
+}
 
+function CountdownSection({
+  cd,
+  label,
+  mounted,
+}: {
+  cd: ReturnType<typeof useCountdown>;
+  label: string;
+  mounted: boolean;
+}) {
+  const units = [
+    { v: mounted ? cd.days : "--", l: "Ngày" },
+    { v: mounted ? cd.hours : "--", l: "Giờ" },
+    { v: mounted ? cd.minutes : "--", l: "Phút" },
+    { v: mounted ? cd.seconds : "--", l: "Giây" },
+  ];
+
+  return (
+    <div className="space-y-3">
+      <p className="text-xs uppercase tracking-widest text-muted-foreground dark:text-white/40">
+        {label}
+      </p>
+      <div className="flex items-end justify-center gap-2 sm:gap-3">
+        {units.map((item, i) => (
+          <div key={item.l} className="flex items-end gap-2 sm:gap-3">
+            <CountdownUnit value={item.v} label={item.l} />
+            {i < units.length - 1 && (
+              <span className="mb-5 text-xl font-bold text-cyan-400/60 dark:text-neon-cyan/50 sm:text-2xl">
+                :
+              </span>
+            )}
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+function RegistrationCTA() {
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  const OPEN = process.env.NEXT_PUBLIC_RECRUITMENT_OPEN;
+  const CLOSE = process.env.NEXT_PUBLIC_RECRUITMENT_CLOSE;
+
+  const openCountdown = useCountdown(OPEN);
+  const closeCountdown = useCountdown(CLOSE);
+
+  // Xác định trạng thái tuyển sinh
+  const isBeforeOpen = Boolean(OPEN && !openCountdown.expired);
+  const isClosed = Boolean(CLOSE && closeCountdown.expired);
+  const isOpen = !isBeforeOpen && !isClosed;
+
+  return (
+    <motion.div
+      className="w-full"
+      initial={{ opacity: 0, y: 20 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true }}
+      transition={{ duration: 0.5 }}
+    >
+      <GlassCard glow="cyan" className="overflow-hidden p-0">
+        {/* Banner */}
+        <div className="flex items-center justify-center gap-2 border-b border-neon-cyan/10 bg-gradient-to-r from-neon-cyan/15 via-neon-cyan/8 to-neon-purple/15 px-6 py-3">
+          <Flame className="h-4 w-4 animate-pulse text-neon-cyan" />
+          <span className="font-paris2024 uppercase text-xs tracking-widest text-neon-cyan">
+            {isBeforeOpen
+              ? "Tuyển thành viên TechXplore 2026 - Sắp mở"
+              : isClosed
+                ? "Tuyển thành viên TechXplore 2026 - Đã đóng"
+                : "Tuyển thành viên TechXplore 2026 - Đang mở"}
+          </span>
+          <Flame className="h-4 w-4 animate-pulse text-neon-cyan" />
+        </div>
+
+        <div className="flex flex-col items-center gap-6 p-6 text-center sm:gap-8 sm:p-8 lg:p-12">
+          {/* Tiêu đề thay đổi theo trạng thái */}
+          <div className="flex flex-col items-center space-y-3 text-center">
+            <h3 className="font-paris2024 uppercase text-xl font-bold text-foreground dark:text-white sm:text-3xl lg:text-4xl">
+              {isBeforeOpen ? (
+                <>
+                  Chuẩn bị{" "}
+                  <span className="bg-gradient-to-r from-neon-cyan to-neon-purple bg-clip-text text-transparent">
+                    sẵn sàng
+                  </span>
+                </>
+              ) : isClosed ? (
+                <>
+                  Đã kết thúc đợt{" "}
+                  <span className="bg-gradient-to-r from-neon-cyan to-neon-purple bg-clip-text text-transparent">
+                    tuyển thành viên
+                  </span>
+                </>
+              ) : (
+                <>
+                  Cơ hội chỉ có{" "}
+                  <span className="bg-gradient-to-r from-neon-cyan to-neon-purple bg-clip-text text-transparent">
+                    một lần
+                  </span>{" "}
+                  trong năm
+                </>
+              )}
+            </h3>
+            <p className="mx-auto max-w-lg text-center text-sm leading-relaxed text-muted-foreground dark:text-white/60 sm:text-base">
+              {isBeforeOpen
+                ? "Cổng đăng ký đang được mở khoá. TechTonic Club sắp gọi tên bạn!"
+                : isClosed
+                  ? "Hẹn bạn ở TechXplore mùa sau nhé!"
+                  : "Gia nhập để kết nối - Đồng hành để bức phá!"}
+            </p>
+          </div>
+
+          {/* Countdown trước khi mở — không có nút đăng ký */}
+          {isBeforeOpen && (
+            <CountdownSection cd={openCountdown} label="Đơn mở sau" mounted={mounted} />
+          )}
+
+          {/* Countdown đến khi đóng — có nút đăng ký */}
+          {isOpen && (
+            <>
+              {CLOSE && (
+                <CountdownSection
+                  cd={closeCountdown}
+                  label="Thời gian còn lại để nộp hồ sơ"
+                  mounted={mounted}
+                />
+              )}
+              <div className="flex flex-col items-center gap-3">
+                <NeonButton
+                  variant="cyan"
+                  asChild
+                  className="w-full px-8 py-3 text-sm sm:w-auto sm:px-10 sm:py-4 sm:text-base"
+                >
+                  <a href={FORM_URL} target="_blank" rel="noopener noreferrer">
+                    <Zap className="h-4 w-4 sm:h-5 sm:w-5" />
+                    Đăng ký ngay
+                    <ExternalLink className="h-4 w-4 opacity-60" />
+                  </a>
+                </NeonButton>
+              </div>
+            </>
+          )}
+
+          {/* Đã đóng */}
+          {isClosed && (
+            <p className="text-sm font-semibold text-red-500 dark:text-red-400">
+              ⚠ Đã hết hạn nộp hồ sơ.
+            </p>
+          )}
+        </div>
+      </GlassCard>
+    </motion.div>
+  );
+}
+
+export function Registration() {
   return (
     <SectionShell
       id="registration"
@@ -53,7 +201,7 @@ export function Registration() {
         <span
           className={cn(
             "inline-block rounded-full border border-cyan-400/25 bg-cyan-400/10 px-4 py-2",
-            "font-utm-akashi text-sm uppercase tracking-widest text-cyan-800",
+            "font-paris2024 uppercase text-sm tracking-widest text-cyan-800",
             "dark:border-neon-cyan/10 dark:bg-neon-cyan/10 dark:text-neon-cyan"
           )}
         >
@@ -83,9 +231,11 @@ export function Registration() {
             transition={{ delay: index * 0.08 }}
           >
             <div className="mx-auto mb-4 flex h-14 w-14 items-center justify-center rounded-full bg-neon-cyan/10">
-              <span className="font-paris2024 text-xl font-bold text-neon-cyan">{item.step}</span>
+              <span className="font-paris2024 uppercase text-xl font-bold text-neon-cyan">
+                {item.step}
+              </span>
             </div>
-            <h3 className="mb-2 font-utm-akashi text-lg text-foreground dark:text-white">
+            <h3 className="mb-2 font-paris2024 uppercase text-lg text-foreground dark:text-white">
               {item.title}
             </h3>
             <p className="text-sm leading-relaxed text-muted-foreground dark:text-white/65">
@@ -107,7 +257,7 @@ export function Registration() {
             <div className="flex h-20 w-20 items-center justify-center rounded-full bg-neon-cyan/10 ring-1 ring-neon-cyan/30">
               <Clock className="h-10 w-10 text-neon-cyan" />
             </div>
-            <h3 className="font-paris2024 text-2xl font-bold text-foreground dark:text-white sm:text-3xl">
+            <h3 className="font-paris2024 uppercase text-2xl font-bold text-foreground dark:text-white sm:text-3xl">
               Form đăng ký đang đóng!
             </h3>
             <p className="max-w-xl text-base leading-relaxed text-muted-foreground dark:text-white/65">
@@ -117,346 +267,7 @@ export function Registration() {
           </motion.div>
         </GlassCard>
       ) : (
-        <GlassCard glow="cyan" className="p-6 lg:p-8">
-          <div className="mb-8 space-y-2 text-center">
-            <h3 className="font-utm-akashi text-2xl text-foreground dark:text-white">
-              {recruitmentRegistrationCopy.formTitle}
-            </h3>
-            <p className="text-sm text-muted-foreground dark:text-white/65">
-              {recruitmentRegistrationCopy.formDescription}
-            </p>
-          </div>
-
-          <div
-            className="mb-8 flex items-center justify-center"
-            role="group"
-            aria-label="Tiến trình đăng ký"
-          >
-            <div className="flex items-center space-x-4">
-              <div
-                className={cn(
-                  "flex items-center space-x-2",
-                  currentStep >= 1
-                    ? "text-foreground dark:text-white"
-                    : "text-muted-foreground dark:text-white/50"
-                )}
-                aria-current={currentStep === 1 ? "step" : undefined}
-              >
-                <div
-                  className={cn(
-                    "flex h-8 w-8 items-center justify-center rounded-full text-sm font-semibold",
-                    currentStep >= 1
-                      ? "bg-neon-cyan text-black"
-                      : "bg-secondary text-muted-foreground dark:bg-white/10 dark:text-white/50"
-                  )}
-                >
-                  1
-                </div>
-                <span className="text-sm">Thông tin cơ bản</span>
-              </div>
-              <div className="h-0.5 w-8 bg-border dark:bg-white/20" />
-              <div
-                className={cn(
-                  "flex items-center space-x-2",
-                  currentStep >= 2
-                    ? "text-foreground dark:text-white"
-                    : "text-muted-foreground dark:text-white/50"
-                )}
-                aria-current={currentStep === 2 ? "step" : undefined}
-              >
-                <div
-                  className={cn(
-                    "flex h-8 w-8 items-center justify-center rounded-full text-sm font-semibold",
-                    currentStep >= 2
-                      ? "bg-neon-cyan text-black"
-                      : "bg-secondary text-muted-foreground dark:bg-white/10 dark:text-white/50"
-                  )}
-                >
-                  2
-                </div>
-                <span className="text-sm">Thông tin bổ sung</span>
-              </div>
-            </div>
-          </div>
-
-          <p className="sr-only" aria-live="polite" aria-atomic="true">
-            {currentStep === 1 ? "Bước 1: Thông tin cơ bản" : "Bước 2: Thông tin bổ sung"}
-          </p>
-
-          <form
-            onSubmit={handleSubmit}
-            className="space-y-6"
-            aria-label="Form đăng ký tham gia TechTonic Club"
-          >
-            {currentStep === 1 && (
-              <div className="space-y-4 text-left">
-                <div className="grid gap-4 md:grid-cols-2">
-                  <div>
-                    <label htmlFor="fullName" className={labelClass}>
-                      * Họ và tên
-                    </label>
-                    <Input
-                      id="fullName"
-                      placeholder="Nhập họ và tên của bạn"
-                      value={formData.fullName}
-                      onChange={(e) => handleInputChange("fullName", e.target.value)}
-                      required
-                      className={formFieldClass}
-                    />
-                  </div>
-                  <div>
-                    <label htmlFor="studentId" className={labelClass}>
-                      * Mã số sinh viên
-                    </label>
-                    <Input
-                      id="studentId"
-                      placeholder="Nhập mã số sinh viên"
-                      value={formData.studentId}
-                      onChange={(e) => handleInputChange("studentId", e.target.value)}
-                      required
-                      className={formFieldClass}
-                    />
-                  </div>
-                </div>
-                <div className="grid gap-4 md:grid-cols-2">
-                  <div>
-                    <label htmlFor="class" className={labelClass}>
-                      * Lớp
-                    </label>
-                    <Input
-                      id="class"
-                      placeholder="Ví dụ: 48K14.2, 49K14.1..."
-                      value={formData.class}
-                      onChange={(e) => handleInputChange("class", e.target.value)}
-                      required
-                      className={formFieldClass}
-                    />
-                  </div>
-                  <div>
-                    <label htmlFor="phone" className={labelClass}>
-                      * Số điện thoại
-                    </label>
-                    <Input
-                      id="phone"
-                      placeholder="Nhập số điện thoại của bạn"
-                      value={formData.phone}
-                      onChange={(e) => handleInputChange("phone", e.target.value)}
-                      required
-                      className={formFieldClass}
-                    />
-                  </div>
-                </div>
-                <div className="grid gap-4 md:grid-cols-2">
-                  <div>
-                    <label htmlFor="email" className={labelClass}>
-                      * Email
-                    </label>
-                    <Input
-                      id="email"
-                      type="email"
-                      placeholder="Nhập địa chỉ email của bạn"
-                      value={formData.email}
-                      onChange={(e) => handleInputChange("email", e.target.value)}
-                      required
-                      className={formFieldClass}
-                    />
-                  </div>
-                  <div>
-                    <label htmlFor="gender" className={labelClass}>
-                      * Giới tính
-                    </label>
-                    <Select
-                      value={formData.gender}
-                      onValueChange={(value) => handleInputChange("gender", value)}
-                      required
-                    >
-                      <SelectTrigger id="gender" className={formFieldClass}>
-                        <SelectValue placeholder="Chọn giới tính" />
-                      </SelectTrigger>
-                      <SelectContent className={selectContentClass}>
-                        <SelectItem value="Nam">Nam</SelectItem>
-                        <SelectItem value="Nữ">Nữ</SelectItem>
-                      </SelectContent>
-                    </Select>
-                  </div>
-                </div>
-                <div>
-                  <label htmlFor="facebookLink" className={labelClass}>
-                    * Link Facebook
-                  </label>
-                  <Input
-                    id="facebookLink"
-                    placeholder="https://facebook.com/your-profile"
-                    value={formData.facebookLink}
-                    onChange={(e) => handleInputChange("facebookLink", e.target.value)}
-                    required
-                    className={formFieldClass}
-                  />
-                </div>
-                <div>
-                  <label htmlFor="selfDescription" className={labelClass}>
-                    * Miêu tả bản thân
-                  </label>
-                  <Textarea
-                    id="selfDescription"
-                    placeholder="Hãy giới thiệu về bản thân, sở thích, mục tiêu..."
-                    value={formData.selfDescription}
-                    onChange={(e) => handleInputChange("selfDescription", e.target.value)}
-                    required
-                    className={formFieldClass}
-                    rows={3}
-                  />
-                </div>
-              </div>
-            )}
-
-            {currentStep === 2 && (
-              <div className="space-y-4 text-left">
-                <div className="grid gap-4 md:grid-cols-2">
-                  <div>
-                    <label htmlFor="department" className={labelClass}>
-                      * Bạn muốn tham gia vào ban nào nhất
-                    </label>
-                    <Select
-                      value={formData.department}
-                      onValueChange={(value) => handleInputChange("department", value)}
-                    >
-                      <SelectTrigger id="department" className={formFieldClass}>
-                        <SelectValue placeholder="Chọn ban bạn muốn tham gia" />
-                      </SelectTrigger>
-                      <SelectContent className={selectContentClass}>
-                        {recruitmentDepartments.map((dept) => (
-                          <SelectItem key={dept} value={dept}>
-                            {dept}
-                          </SelectItem>
-                        ))}
-                      </SelectContent>
-                    </Select>
-                  </div>
-                  <div>
-                    <label htmlFor="whyChooseDepartment" className={labelClass}>
-                      * Lý do chọn ban
-                    </label>
-                    <Textarea
-                      id="whyChooseDepartment"
-                      placeholder="Hãy giải thích tại sao bạn chọn ban này và bạn có thể đóng góp gì?"
-                      value={formData.whyChooseDepartment}
-                      onChange={(e) => handleInputChange("whyChooseDepartment", e.target.value)}
-                      required
-                      className={formFieldClass}
-                      rows={2}
-                    />
-                  </div>
-                </div>
-                <div className="grid gap-4 md:grid-cols-2">
-                  <div>
-                    <label htmlFor="skills" className={labelClass}>
-                      * Bạn nghĩ mình có kỹ năng/ tố chất gì phù hợp với ban trên
-                    </label>
-                    <Textarea
-                      id="skills"
-                      placeholder="Hãy chia sẻ về kỹ năng, kinh nghiệm hoặc điểm mạnh của bạn"
-                      value={formData.skills}
-                      onChange={(e) => handleInputChange("skills", e.target.value)}
-                      required
-                      className={formFieldClass}
-                      rows={2}
-                    />
-                  </div>
-                  <div>
-                    <label htmlFor="whyJoin" className={labelClass}>
-                      * Tại sao bạn muốn trở thành thành viên của TECHTONIC
-                    </label>
-                    <Textarea
-                      id="whyJoin"
-                      placeholder="Hãy chia sẻ lý do bạn muốn trở thành thành viên của TechTonic Club"
-                      value={formData.whyJoin}
-                      onChange={(e) => handleInputChange("whyJoin", e.target.value)}
-                      required
-                      className={formFieldClass}
-                      rows={2}
-                    />
-                  </div>
-                </div>
-                <div className="grid gap-4 md:grid-cols-2">
-                  <div>
-                    <label htmlFor="knowAnyone" className={labelClass}>
-                      Bạn có biết ai hay ấn tượng với ai trong TECHTONIC không
-                    </label>
-                    <Textarea
-                      id="knowAnyone"
-                      placeholder="Nếu có thì bạn có thể chia sẻ vì sao bạn biết hay ấn tượng với thành viên đó?"
-                      value={formData.knowAnyone}
-                      onChange={(e) => handleInputChange("knowAnyone", e.target.value)}
-                      className={formFieldClass}
-                      rows={2}
-                    />
-                  </div>
-                  <div>
-                    <label htmlFor="questions" className={labelClass}>
-                      Câu hỏi hoặc thắc mắc
-                    </label>
-                    <Textarea
-                      id="questions"
-                      placeholder="Bạn còn câu hỏi hay thắc mắc nào không?"
-                      value={formData.questions}
-                      onChange={(e) => handleInputChange("questions", e.target.value)}
-                      className={formFieldClass}
-                      rows={2}
-                    />
-                  </div>
-                </div>
-                <div className="space-y-3">
-                  <p className={labelClass}>* Upload CV và Minh chứng</p>
-                  <p className="text-xs leading-relaxed text-neon-cyan/80">
-                    <span className="font-semibold">Lưu ý:</span> Ngoài CV, các ứng viên có thể tự
-                    do tải lên những tài liệu về các bản thân nhằm giúp chúng mình hiểu rõ hơn về
-                    các bạn nhé
-                  </p>
-                  <p className="text-xs leading-relaxed text-amber-200/90">
-                    <span className="font-semibold">Quan trọng:</span> File upload sẽ được ghi nhận
-                    trong form sau khi bạn gửi đăng ký.
-                  </p>
-                </div>
-              </div>
-            )}
-
-            <div className="flex justify-between border-t border-border pt-6 dark:border-white/10">
-              {currentStep === 2 ? (
-                <NeonButton type="button" variant="ghost" onClick={prevStep}>
-                  Quay lại
-                </NeonButton>
-              ) : (
-                <div />
-              )}
-
-              {currentStep === 1 ? (
-                <NeonButton
-                  type="button"
-                  variant="cyan"
-                  onClick={nextStep}
-                  disabled={!isStep1Valid}
-                >
-                  Tiếp theo
-                </NeonButton>
-              ) : (
-                <NeonButton type="submit" variant="cyan" disabled={!isFormComplete || isSubmitting}>
-                  {isSubmitting ? (
-                    <>
-                      <Loader2 className="h-5 w-5 animate-spin" />
-                      Đang gửi...
-                    </>
-                  ) : (
-                    <>
-                      <Code className="h-5 w-5" />
-                      Mở form đăng ký
-                    </>
-                  )}
-                </NeonButton>
-              )}
-            </div>
-          </form>
-        </GlassCard>
+        <RegistrationCTA />
       )}
     </SectionShell>
   );

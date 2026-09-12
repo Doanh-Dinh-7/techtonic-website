@@ -25,6 +25,10 @@ const DepartmentsRecruitmentSection = dynamic(() =>
   }))
 );
 
+const DeferredTeam = dynamic(() =>
+  import("@/features/about/team").then((m) => ({ default: m.Team }))
+);
+
 export function DepartmentsContent() {
   return (
     <div className="v2-dark-shell min-h-screen">
@@ -37,6 +41,9 @@ export function DepartmentsContent() {
       </DeferredMount>
       <DeferredMount minHeight="24rem" rootMargin="200px 0px">
         <DepartmentsRecruitmentSection />
+      </DeferredMount>
+      <DeferredMount minHeight="32rem" rootMargin="180px 0px">
+        <DeferredTeam />
       </DeferredMount>
     </div>
   );

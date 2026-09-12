@@ -425,9 +425,11 @@ export const aboutTeamTerms: AboutTeamTerm[] = [
                 "https://res.cloudinary.com/dggsvq2tw/image/upload/v1785833720/Nguy%E1%BB%85n_Ng%E1%BB%8Dc_Nh%E1%BA%ADt_wvbxsh.png",
             },
             {
-              ...PLACEHOLDER_BASE,
               name: "Trần Nguyễn Minh Anh",
               role: "Thành viên",
+              image:
+                "https://res.cloudinary.com/jb6ttotp/image/upload/v1789137699/ChatGPT_Image_21_41_31_11_thg_9_2026.png",
+              imagePosition: "center 13%",
             },
             {
               ...PLACEHOLDER_BASE,
@@ -723,11 +725,10 @@ export const aboutTeamTerms: AboutTeamTerm[] = [
                 "https://res.cloudinary.com/dggsvq2tw/image/upload/v1785833720/Nguy%E1%BB%85n_Ng%E1%BB%8Dc_Nh%E1%BA%ADt_wvbxsh.png",
             },
             {
-              name: "Tô Nguyên Quốc Bảo",
+              name: "Tô Nguyễn Quốc Bảo",
               role: "Phó ban",
               image:
-                "https://res.cloudinary.com/jb6ttotp/image/upload/v1789065464/ChatGPT_Image_01_37_37_11_thg_9_2026.png",
-              imagePosition: "center 25%",
+                "https://res.cloudinary.com/dggsvq2tw/image/upload/v1786549679/T%C3%B4_Nguy%E1%BB%85n_Qu%E1%BB%91c_B%E1%BA%A3o_ewkhlv.png",
             },
             {
               name: "Phạm Nhật Hạ",
@@ -745,7 +746,7 @@ export const aboutTeamTerms: AboutTeamTerm[] = [
           levelRow(3, [
             { name: "Trần Tôn Phương Thảo", role: "Thành viên" },
             {
-              name: "Trần Nguyên Minh Anh",
+              name: "Trần Nguyễn Minh Anh",
               role: "Thành viên",
               image:
                 "https://res.cloudinary.com/jb6ttotp/image/upload/v1789137699/ChatGPT_Image_21_41_31_11_thg_9_2026.png",
