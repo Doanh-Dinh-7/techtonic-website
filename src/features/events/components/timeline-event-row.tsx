@@ -64,6 +64,7 @@ function TimelineEventCard({ event, align }: { event: TermEvent; align: "left" |
       tabIndex={0}
       className={cn(
         "events-hover-reveal relative min-h-[160px] rounded-xl border border-white/10 p-6 outline-none",
+        "events-hover-reveal relative min-h-[160px] !rounded-xl before:!rounded-xl border border-white/10 p-6 outline-none",
         "focus-visible:ring-2 focus-visible:ring-neon-cyan/70",
         textAlign
       )}
