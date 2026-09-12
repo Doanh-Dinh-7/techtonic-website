@@ -32,6 +32,7 @@ export function ActivityCard({ activity }: ActivityCardProps) {
       glow={activity.accent === "violet" ? "purple" : activity.accent === "cyan" ? "cyan" : "none"}
       className={cn(
         "flex flex-col gap-4 rounded-xl p-6 transition duration-300",
+        "flex flex-col gap-4 !rounded-xl before:!rounded-xl p-6 transition duration-300",
         "hover:-translate-y-1 hover:border-neon-cyan/40 hover:shadow-[0_0_20px_rgba(0,245,255,0.15)]",
         activity.colSpan === "wide" && "md:col-span-2 lg:col-span-2"
       )}
@@ -74,7 +75,7 @@ export function ActivityCard({ activity }: ActivityCardProps) {
           <span
             key={tag}
             className={cn(
-              "rounded border px-2 py-1 font-mono text-[12px] uppercase tracking-wide",
+              "rounded-full border px-3 py-1 font-mono text-[12px] uppercase tracking-wide",
               accentTagWrap[activity.accent]
             )}
           >
