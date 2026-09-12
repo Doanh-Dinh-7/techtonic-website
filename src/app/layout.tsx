@@ -25,6 +25,9 @@ export const metadata: Metadata = {
   },
 };
 
+const themeMode = process.env.NEXT_PUBLIC_THEME_MODE ?? "both";
+const forcedTheme = themeMode === "light" || themeMode === "dark" ? themeMode : undefined;
+
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -35,8 +38,9 @@ export default function RootLayout({
       <body className={inter.className} suppressHydrationWarning>
         <ThemeProvider
           attribute="class"
-          defaultTheme="system"
-          enableSystem
+          defaultTheme={forcedTheme ?? "system"}
+          enableSystem={!forcedTheme}
+          forcedTheme={forcedTheme}
           disableTransitionOnChange
         >
           {children}

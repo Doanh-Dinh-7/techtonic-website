@@ -31,10 +31,6 @@ const DeferredAboutFit = dynamic(() =>
   import("@/features/about/about-fit").then((m) => ({ default: m.AboutFit }))
 );
 
-const DeferredTeam = dynamic(() =>
-  import("@/features/about/team").then((m) => ({ default: m.Team }))
-);
-
 export function AboutContent() {
   return (
     <div className="v2-dark-shell min-h-screen">
@@ -58,9 +54,6 @@ export function AboutContent() {
       </DeferredMount>
       <DeferredMount minHeight="24rem" rootMargin="240px 0px">
         <DeferredAboutFit />
-      </DeferredMount>
-      <DeferredMount minHeight="32rem" rootMargin="220px 0px">
-        <DeferredTeam />
       </DeferredMount>
     </div>
   );

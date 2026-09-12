@@ -4,6 +4,7 @@
 import { render, screen, waitFor } from "@testing-library/react";
 import { describe, expect, it } from "vitest";
 import { AboutPageSections } from "@/widgets/about/about-page-sections";
+import { DepartmentsPageContent } from "@/widgets/departments/departments-page-content";
 import { EventsPageContent } from "@/widgets/events/events-page-content";
 import { HomePageSections } from "@/widgets/home/home-page-sections";
 import { RecruitmentPageSections } from "@/widgets/recruitment/recruitment-page-sections";
@@ -29,7 +30,7 @@ describe("Route section smoke", () => {
     expect(screen.getByRole("heading", { name: /Điền form đăng ký/i })).toBeInTheDocument();
   });
 
-  it("about: renders hero, timeline and team sections", async () => {
+  it("about: renders hero, timeline and gallery sections", async () => {
     render(<AboutPageSections />);
 
     expect(
@@ -39,10 +40,19 @@ describe("Route section smoke", () => {
 
     await waitFor(() => {
       expect(screen.getByTitle("Video giới thiệu giá trị TechTonic Club")).toBeInTheDocument();
+      expect(document.getElementById("gallery")).toBeTruthy();
+    });
+  });
+
+  it("departments: renders hero and team sections", async () => {
+    render(<DepartmentsPageContent />);
+
+    expect(screen.getByRole("heading", { name: /TechTonic/i, level: 1 })).toBeInTheDocument();
+
+    await waitFor(() => {
       expect(
         screen.getByRole("heading", { name: /Ban Chủ Nhiệm qua từng nhiệm kỳ/i })
       ).toBeInTheDocument();
-      expect(document.getElementById("gallery")).toBeTruthy();
     });
   });
 

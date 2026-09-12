@@ -21,6 +21,9 @@ export function ThemeToggle() {
     setMounted(true);
   }, []);
 
+  // Ẩn nút khi theme bị khóa cứng bởi env
+  const themeMode = process.env.NEXT_PUBLIC_THEME_MODE ?? "both";
+
   const activeTheme = mounted ? (theme ?? "system") : "system";
   const isDark = mounted && resolvedTheme === "dark";
   const label = useMemo(() => {
@@ -29,6 +32,8 @@ export function ThemeToggle() {
   }, [isDark, mounted]);
 
   const Icon = !mounted ? Monitor : activeTheme === "system" ? Monitor : isDark ? Moon : Sun;
+
+  if (themeMode !== "both") return null;
 
   return (
     <TooltipProvider delayDuration={150}>
