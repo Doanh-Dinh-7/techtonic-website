@@ -713,14 +713,14 @@ export const aboutTeamTerms: AboutTeamTerm[] = [
               image:
                 "https://res.cloudinary.com/dggsvq2tw/image/upload/v1786549680/Ph%E1%BA%A1m_Nh%E1%BA%ADt_H%E1%BA%A1_sdblbc.png",
             },
-          ]),
-          levelRow(3, [
             {
               name: "Phạm Ngọc Yến Nhi",
-              role: "Thành viên",
+              role: "Phó ban",
               image:
                 "https://res.cloudinary.com/dggsvq2tw/image/upload/v1785833722/Ph%E1%BA%A1m_Ng%E1%BB%8Dc_Y%E1%BA%BFn_Nhi_uhyzbr.png",
             },
+          ]),
+          levelRow(3, [
             { name: "Trần Tôn Phương Thảo", role: "Thành viên" },
             {
               name: "Trần Nguyên Minh Anh",
