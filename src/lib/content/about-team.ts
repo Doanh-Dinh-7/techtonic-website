@@ -722,7 +722,13 @@ export const aboutTeamTerms: AboutTeamTerm[] = [
                 "https://res.cloudinary.com/dggsvq2tw/image/upload/v1785833722/Ph%E1%BA%A1m_Ng%E1%BB%8Dc_Y%E1%BA%BFn_Nhi_uhyzbr.png",
             },
             { name: "Trần Tôn Phương Thảo", role: "Thành viên" },
-            { name: "Trần Nguyên Minh Anh", role: "Thành viên" },
+            {
+              name: "Trần Nguyên Minh Anh",
+              role: "Thành viên",
+              image:
+                "https://res.cloudinary.com/jb6ttotp/image/upload/v1789137699/ChatGPT_Image_21_41_31_11_thg_9_2026.png",
+              imagePosition: "center 13%",
+            },
           ]),
         ],
       },
@@ -779,7 +785,13 @@ export const aboutTeamTerms: AboutTeamTerm[] = [
             },
           ]),
           levelRow(3, [
-            { name: "Phạm Thị Nhật Uyên", role: "Thành viên" },
+            {
+              name: "Phạm Thị Nhật Uyên",
+              role: "Thành viên",
+              image:
+                "https://res.cloudinary.com/jb6ttotp/image/upload/v1789197005/ChatGPT_Image_14_09_39_12_thg_9_2026.png",
+              imagePosition: "center 15%",
+            },
             {
               name: "Nguyễn Huỳnh Minh Ánh",
               role: "Thành viên",
@@ -787,11 +799,41 @@ export const aboutTeamTerms: AboutTeamTerm[] = [
                 "https://res.cloudinary.com/jb6ttotp/image/upload/v1789120336/ChatGPT_Image_16_52_06_11_thg_9_2026.png",
               imagePosition: "center 20%",
             },
-            { name: "Phan Thị Yến Chi", role: "Thành viên" },
-            { name: "Nguyễn Nữ Vũ Hoàng", role: "Thành viên" },
-            { name: "Lê Văn Lợi", role: "Thành viên" },
-            { name: "Phan Nhật Đài Trang", role: "Thành viên" },
-            { name: "Phan Trần Hạ Giang", role: "Thành viên" },
+            {
+              name: "Phan Thị Yến Chi",
+              role: "Thành viên",
+              image:
+                "https://res.cloudinary.com/jb6ttotp/image/upload/v1789122388/ChatGPT_Image_17_26_18_11_thg_9_2026.png",
+              imagePosition: "center 20%",
+            },
+            {
+              name: "Nguyễn Nữ Vũ Hoàng",
+              role: "Thành viên",
+              image:
+                "https://res.cloudinary.com/jb6ttotp/image/upload/v1789125427/ChatGPT_Image_18_16_54_11_thg_9_2026.png",
+              imagePosition: "center 13%",
+            },
+            {
+              name: "Lê Văn Lợi",
+              role: "Thành viên",
+              image:
+                "https://res.cloudinary.com/jb6ttotp/image/upload/v1789132816/ChatGPT_Image_20_19_57_11_thg_9_2026.png",
+              imagePosition: "center 15%",
+            },
+            {
+              name: "Phan Nhật Đài Trang",
+              role: "Thành viên",
+              image:
+                "https://res.cloudinary.com/jb6ttotp/image/upload/v1789137376/ChatGPT_Image_21_35_48_11_thg_9_2026.png",
+              imagePosition: "center 15%",
+            },
+            {
+              name: "Phan Trần Hạ Giang",
+              role: "Thành viên",
+              image:
+                "https://res.cloudinary.com/jb6ttotp/image/upload/v1789125187/ChatGPT_Image_18_12_59_11_thg_9_2026.png",
+              imagePosition: "center 20%",
+            },
           ]),
         ],
       },
