@@ -346,9 +346,11 @@ export const aboutTeamTerms: AboutTeamTerm[] = [
                 "https://res.cloudinary.com/dggsvq2tw/image/upload/v1785817600/H%E1%BB%93_V%C4%83n_Tr%C6%B0%E1%BB%9Dng_nlrxqc.png",
             },
             {
-              ...PLACEHOLDER_BASE,
               name: "Phan Nguyễn Hải Đăng",
               role: "Thành viên",
+              image:
+                "https://res.cloudinary.com/jb6ttotp/image/upload/v1789217921/ChatGPT_Image_19_58_31_12_thg_9_2026.png",
+              imagePosition: "center 13%",
             },
             {
               name: "Nguyễn Lê Anh Hoàng",
@@ -363,9 +365,11 @@ export const aboutTeamTerms: AboutTeamTerm[] = [
                 "https://res.cloudinary.com/dggsvq2tw/image/upload/v1786544925/%C4%90inh_T%E1%BA%A5n_Khoa_fg66bg.png",
             },
             {
-              ...PLACEHOLDER_BASE,
               name: "Trương Phan Như Ngọc",
               role: "Thành viên",
+              image:
+                "https://res.cloudinary.com/jb6ttotp/image/upload/v1789218556/ChatGPT_Image_20_08_45_12_thg_9_2026.png",
+              imagePosition: "center 8%",
             },
             {
               name: "Trần Thị Thanh Tâm",
@@ -374,9 +378,10 @@ export const aboutTeamTerms: AboutTeamTerm[] = [
                 "https://res.cloudinary.com/dggsvq2tw/image/upload/v1786544841/Tr%E1%BA%A7n_Th%E1%BB%8B_Thanh_T%C3%A2m_h3iqu1.png",
             },
             {
-              ...PLACEHOLDER_BASE,
               name: "Ngô Thị Ngọc Huyền",
               role: "Thành viên",
+              image:
+                "https://res.cloudinary.com/dggsvq2tw/image/upload/v1789062492/Ng%C3%B4_Th%E1%BB%8B_Ng%E1%BB%8Dc_Huy%E1%BB%81n_wjuxvh.png",
             },
           ]),
         ],
@@ -541,7 +546,8 @@ export const aboutTeamTerms: AboutTeamTerm[] = [
               name: "Võ Đình Khoa",
               role: "Trưởng ban",
               image:
-                "https://res.cloudinary.com/dggsvq2tw/image/upload/v1785842514/V%C3%B5_%C4%90%C3%ACnh_Khoa_ryxypi.png",
+                "https://res.cloudinary.com/jb6ttotp/image/upload/v1789085239/%C4%90%C3%ACnh_Khoa.png",
+              imagePosition: "center -8px",
             },
           ]),
           levelRow(2, [
@@ -553,39 +559,53 @@ export const aboutTeamTerms: AboutTeamTerm[] = [
           ]),
           levelRow(3, [
             {
-              ...PLACEHOLDER_BASE,
               name: "Nguyễn Huỳnh Minh Ánh",
               role: "Thành viên",
+              image:
+                "https://res.cloudinary.com/jb6ttotp/image/upload/v1789120336/ChatGPT_Image_16_52_06_11_thg_9_2026.png",
+              imagePosition: "center 20%",
             },
             {
-              ...PLACEHOLDER_BASE,
               name: "Phan Thị Yến Chi",
               role: "Thành viên",
+              image:
+                "https://res.cloudinary.com/jb6ttotp/image/upload/v1789122388/ChatGPT_Image_17_26_18_11_thg_9_2026.png",
+              imagePosition: "center 20%",
             },
             {
-              ...PLACEHOLDER_BASE,
               name: "Phan Trần Hạ Giang",
               role: "Thành viên",
+              image:
+                "https://res.cloudinary.com/jb6ttotp/image/upload/v1789125187/ChatGPT_Image_18_12_59_11_thg_9_2026.png",
+              imagePosition: "center 20%",
             },
             {
-              ...PLACEHOLDER_BASE,
               name: "Nguyễn Nữ Vũ Hoàng",
               role: "Thành viên",
+              image:
+                "https://res.cloudinary.com/jb6ttotp/image/upload/v1789125427/ChatGPT_Image_18_16_54_11_thg_9_2026.png",
+              imagePosition: "center 13%",
             },
             {
-              ...PLACEHOLDER_BASE,
               name: "Lê Văn Lợi",
               role: "Thành viên",
+              image:
+                "https://res.cloudinary.com/jb6ttotp/image/upload/v1789132816/ChatGPT_Image_20_19_57_11_thg_9_2026.png",
+              imagePosition: "center 15%",
             },
             {
-              ...PLACEHOLDER_BASE,
               name: "Phan Nhật Đài Trang",
               role: "Thành viên",
+              image:
+                "https://res.cloudinary.com/jb6ttotp/image/upload/v1789137376/ChatGPT_Image_21_35_48_11_thg_9_2026.png",
+              imagePosition: "center 15%",
             },
             {
-              ...PLACEHOLDER_BASE,
               name: "Vũ Thị Huyền Trang",
               role: "Thành viên",
+              image:
+                "https://res.cloudinary.com/jb6ttotp/image/upload/v1789119871/ChatGPT_Image_16_43_43_11_thg_9_2026.png",
+              imagePosition: "center 20%",
             },
           ]),
         ],
