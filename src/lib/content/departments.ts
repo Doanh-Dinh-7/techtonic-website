@@ -23,10 +23,10 @@ export const departmentsBookCopy = {
 /** Ban chủ nhiệm: 3 lãnh đạo + thành viên 4 ban */
 export const executiveBoardLeadershipCount = 3;
 export const executiveBoardDepartmentCounts = {
-  tech: 7,
-  events: 11,
+  tech: 8,
+  events: 7,
   media: 9,
-  hr: 10,
+  hr: 3,
 } as const;
 
 export const freeMemberCount = "45+";

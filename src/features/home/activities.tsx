@@ -114,6 +114,7 @@ function ActivityStackCard({ activity, index, isAnimated, progress }: ActivitySt
   const revealEnd = Math.min(revealStart + 0.28, 0.96);
   const entryY = 520 + index * 88;
   const accent = accentClasses[activity.accent];
+  const shouldZoomImage = activity.id === "icpc-olp-nckh";
 
   const y = useTransform(
     progress,
@@ -204,8 +205,17 @@ function ActivityStackCard({ activity, index, isAnimated, progress }: ActivitySt
               src={activity.image}
               alt={activity.imageAlt}
               fill
-              sizes="(min-width: 1024px) 360px, 100vw"
-              className="object-cover transition duration-500 group-hover/card:scale-105"
+              sizes={
+                shouldZoomImage
+                  ? "(min-width: 1024px) 450px, 125vw"
+                  : "(min-width: 1024px) 360px, 100vw"
+              }
+              className={cn(
+                "object-cover transition duration-500",
+                shouldZoomImage
+                  ? "origin-[center_35%] scale-125 group-hover/card:scale-[1.3]"
+                  : "group-hover/card:scale-105"
+              )}
               style={{ objectPosition: activity.position ?? "center" }}
             />
             <div

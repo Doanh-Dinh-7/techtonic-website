@@ -25,7 +25,7 @@ export function Hero() {
       ref={heroRef}
       className="relative flex min-h-screen items-center overflow-hidden bg-gradient-to-br from-sky-100 via-background to-blue-100 text-foreground dark:from-[#312e81] dark:via-[#3756a6] dark:to-[#0a0a0a] dark:text-white"
     >
-      <div className="absolute inset-0 bg-[url('/thumbnail.jpg')] bg-cover bg-center opacity-20" />
+      <div className="absolute inset-0 bg-[url('https://res.cloudinary.com/jb6ttotp/image/upload/v1789319177/DSC09468.jpg')] bg-cover bg-center opacity-20" />
       <motion.div
         className="absolute inset-0 bg-white/15 dark:bg-black/20"
         style={{ y: heroY, scale: heroScale }}

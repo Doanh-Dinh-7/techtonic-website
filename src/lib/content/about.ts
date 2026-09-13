@@ -114,7 +114,7 @@ export const aboutCoreValues: AboutCoreValue[] = [
 
 export const aboutCultureCopy = {
   title: "Study Hard - Play Harder",
-  lead: "Học tập, rèn luyện có trách nhiệm và điều sáng suốt nhất cần được ưu tiên nhưng đừng quên tận hưởng cuộc sống sinh viên với nhiều màu sắc và trải nghiệm:",
+  lead: "Học tập, rèn luyện có trách nhiệm là điều sáng suốt nhất cần được ưu tiên nhưng đừng quên tận hưởng cuộc sống sinh viên với nhiều màu sắc và trải nghiệm:",
   body: "Các thành viên nghiêm túc trong học thuật, trách nhiệm trong công việc nhưng vẫn tích cực tham gia các hoạt động vì niềm vui và sự kết nối.",
   moreThanClub:
     "Giá trị TechTonic mang lại không chỉ dừng ở học thuật, kỹ năng, kinh nghiệm hay mối quan hệ, mà còn là những giá trị bền vững, đồng hành cùng thành viên trong suốt thời gian đại học và chặng đường sau này.",
