@@ -57,7 +57,7 @@ export const homeTestimonials: HomeTestimonial[] = [
   {
     id: "ngoc-nhi",
     name: "Nguyễn Thị Ngọc Nhi",
-    role: "Phó chủ nhiệm CLB TechTonic nhiệm kỳ 2025 - 2026",
+    role: "Cựu thành viên Ban Sự Kiện CLB TechTonic nhiệm kỳ 2025 - 2026",
     year: 2024,
     text: "Nhờ tham gia CLB, mình vừa học hỏi, rèn luyện kỹ năng, vừa gắn kết như một gia đình nhỏ. Ở vai trò Phó chủ nhiệm, mình tự hào đồng hành cùng mọi người tạo ra hoạt động ý nghĩa, kỷ niệm đẹp. CLB là môi trường tuyệt vời để khám phá bản thân, phát triển năng lực và lan tỏa giá trị tích cực.",
     catVariant: "magenta",
@@ -77,7 +77,7 @@ export const homeTestimonials: HomeTestimonial[] = [
   {
     id: "doanh-dinh",
     name: "Đinh Sỹ Quốc Doanh",
-    role: "Co-Fouder của CLB TechTonic",
+    role: "Co-Fouder của CLB TechTonic, Trưởng Ban Chuyên Môn nhiệm kỳ 2024-2025, Mentor của Chuyên Môn BE mùa đầu tiên. ",
     year: 2022,
     text: "TechTonic được hình thành với mong muốn tạo ra một môi trường nơi sinh viên yêu công nghệ có thể cùng học hỏi, cùng thử sức và cùng phát triển. Điều mình trân trọng nhất không chỉ là những hoạt động hay dự án đã thực hiện, mà là cách các thế hệ thành viên luôn sẵn sàng hỗ trợ và truyền cảm hứng cho nhau. Mình hy vọng TechTonic sẽ tiếp tục là nơi mỗi thành viên tìm thấy cơ hội, định hướng và những người đồng hành trên hành trình phát triển của mình.",
     catVariant: "magenta",
