@@ -1,3 +1,5 @@
+import { useId } from "react";
+
 import type { TestimonialCatVariant } from "@/lib/content/home";
 import { cn } from "@/shared/utils";
 
@@ -22,8 +24,9 @@ type TestimonialCatAvatarProps = {
 
 export function TestimonialCatAvatar({ variant, name, className }: TestimonialCatAvatarProps) {
   const accent = accentColors[variant];
-  const gradientId = `cat-bg-${variant}`;
-  const glowId = `cat-glow-${variant}`;
+  const instanceId = useId().replaceAll(":", "");
+  const gradientId = `cat-bg-${variant}-${instanceId}`;
+  const glowId = `cat-glow-${variant}-${instanceId}`;
 
   return (
     <svg
@@ -32,7 +35,7 @@ export function TestimonialCatAvatar({ variant, name, className }: TestimonialCa
       width={80}
       height={80}
       role="img"
-      aria-label={`Mascot meo TechTonic - ${name}`}
+      aria-label={`Mascot mèo TechTonic - ${name}`}
       className={cn("mx-auto mb-6 h-20 w-20 rounded-full ring-2", ringClasses[variant], className)}
     >
       <defs>

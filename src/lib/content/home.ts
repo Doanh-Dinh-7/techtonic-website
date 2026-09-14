@@ -30,6 +30,7 @@ export type HomeTestimonial = {
   year: number;
   text: string;
   catVariant: TestimonialCatVariant;
+  image: string;
 };
 
 export const homeTestimonials: HomeTestimonial[] = [
@@ -40,6 +41,8 @@ export const homeTestimonials: HomeTestimonial[] = [
     year: 2023,
     text: "Điều mình luôn tin khi xây dựng TechTonic là sinh viên hoàn toàn có thể tạo ra những giá trị lớn nếu được đặt trong một môi trường phù hợp. Không cần phải là người giỏi nhất ngay từ đầu, chỉ cần luôn sẵn sàng học hỏi, dám thử và dám bước ra khỏi giới hạn của bản thân. Mình hy vọng TechTonic sẽ trở thành nơi để các bạn trẻ gặp được những người đồng hành tốt, có thêm cơ hội phát triển và lưu lại những dấu ấn thật đẹp trong quãng đời sinh viên.",
     catVariant: "purple",
+    image:
+      "https://res.cloudinary.com/dggsvq2tw/image/upload/v1785766691/Phan_Nh%E1%BA%ADt_Minh_Anh_q7otkn.png",
   },
   {
     id: "hoang",
@@ -48,6 +51,8 @@ export const homeTestimonials: HomeTestimonial[] = [
     year: 2022,
     text: "Đối với mình, TechTonic không chỉ là nơi chia sẻ kiến thức, mà còn là nơi được đồng hành cùng các bạn trên hành trình phát triển. Với vai trò Mentor mảng Frontend, mình luôn mong muốn giúp các thành viên xây dựng nền tảng vững chắc, rèn luyện tư duy lập trình và tự tin áp dụng kiến thức vào thực tế. Điều mình trân trọng nhất không phải là những sản phẩm hoàn hảo, mà là sự tiến bộ của từng người qua mỗi buổi học và mỗi thử thách. Hy vọng những trải nghiệm tại TechTonic sẽ trở thành hành trang ý nghĩa để các bạn vững bước trên con đường công nghệ phía trước.",
     catVariant: "cyan",
+    image:
+      "https://res.cloudinary.com/jb6ttotp/image/upload/v1789325014/537537916_1452852722432313_6044311279688375103_n.jpg",
   },
   {
     id: "ngoc-nhi",
@@ -56,5 +61,27 @@ export const homeTestimonials: HomeTestimonial[] = [
     year: 2024,
     text: "Nhờ tham gia CLB, mình vừa học hỏi, rèn luyện kỹ năng, vừa gắn kết như một gia đình nhỏ. Ở vai trò Phó chủ nhiệm, mình tự hào đồng hành cùng mọi người tạo ra hoạt động ý nghĩa, kỷ niệm đẹp. CLB là môi trường tuyệt vời để khám phá bản thân, phát triển năng lực và lan tỏa giá trị tích cực.",
     catVariant: "magenta",
+    image:
+      "https://res.cloudinary.com/jb6ttotp/image/upload/v1789325930/Screenshot_2026-09-14_015833.png",
+  },
+  {
+    id: "van-truong",
+    name: "Hồ Văn Trường",
+    role: "Trưởng Ban Chuyên Môn CLB TechTonic nhiệm kỳ 2026 - 2027",
+    year: 2024,
+    text: "TechTonic không chỉ là một CLB học thuật ở DUE, mà là nơi mình trở về mỗi khi mệt mỏi và sau nhiều tiết học khô khan. Ở đây có những con người mà tôi tìm mãi không bao giờ thấy ở cuộc sống hằng ngày, họ có sự nhiệt huyết, năng nổ, tiềm năng và sự đột phá trong từng công việc. Tôi yêu nơi đây và tôi YÊU BAN CHUYÊN MÔN. Tôi mong rằng trong tương lai TechTonic sẽ vươn xa hơn và đạt đến mục tiêu là CLB học thuật số 1 DUE.",
+    catVariant: "magenta",
+    image:
+      "https://res.cloudinary.com/dggsvq2tw/image/upload/v1785817600/H%E1%BB%93_V%C4%83n_Tr%C6%B0%E1%BB%9Dng_nlrxqc.png",
+  },
+  {
+    id: "doanh-dinh",
+    name: "Đinh Sỹ Quốc Doanh",
+    role: "Co-Fouder của CLB TechTonic",
+    year: 2022,
+    text: "TechTonic được hình thành với mong muốn tạo ra một môi trường nơi sinh viên yêu công nghệ có thể cùng học hỏi, cùng thử sức và cùng phát triển. Điều mình trân trọng nhất không chỉ là những hoạt động hay dự án đã thực hiện, mà là cách các thế hệ thành viên luôn sẵn sàng hỗ trợ và truyền cảm hứng cho nhau. Mình hy vọng TechTonic sẽ tiếp tục là nơi mỗi thành viên tìm thấy cơ hội, định hướng và những người đồng hành trên hành trình phát triển của mình.",
+    catVariant: "magenta",
+    image:
+      "https://res.cloudinary.com/jb6ttotp/image/upload/v1789326684/602338018_1624614182038760_1447728319155963626_n.jpg",
   },
 ];
