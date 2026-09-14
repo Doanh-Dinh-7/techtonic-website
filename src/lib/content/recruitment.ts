@@ -9,8 +9,8 @@ export const recruitmentRegistrationCopy = {
 export const recruitmentSteps = [
   {
     step: "1",
-    title: "Điền form đăng ký",
-    desc: "Cung cấp thông tin cơ bản và lĩnh vực quan tâm",
+    title: "Chinh phục TechXplore",
+    desc: "Thử thách tuyển chọn thành viên mới hằng năm của TechTonic",
   },
   {
     step: "2",
