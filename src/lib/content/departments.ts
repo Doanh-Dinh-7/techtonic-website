@@ -249,7 +249,7 @@ export const departmentBookPages: DepartmentBookPage[] = [
     id: "bcn",
     title: "Thành viên Ban Chủ Nhiệm",
     color: "purple",
-    memberCount: `${executiveBoardLeadershipCount} lãnh đạo + ${Object.values(executiveBoardDepartmentCounts).reduce((a, b) => a + b, 0)} TV các ban`,
+    memberCount: `${executiveBoardLeadershipCount} Quản lý + ${Object.values(executiveBoardDepartmentCounts).reduce((a, b) => a + b, 0)} TV các ban`,
     overview: [
       "Vai trò dành cho những bạn muốn thử sức với vai trò tổ chức, quản lý và điều hành các hoạt động của câu lạc bộ từ bên trong, tạo ra giá trị sâu sắc và lâu dài cho câu lạc bộ.",
       "Chịu trách nhiệm chính cho hoạt động CLB, phân thành 4 ban: Sự Kiện, Nhân Sự, Truyền Thông, Chuyên Môn. Thành viên BCN được hưởng đầy đủ quyền lợi thành viên tự do và cơ hội rèn luyện kỹ năng mềm, quản lý, lãnh đạo.",

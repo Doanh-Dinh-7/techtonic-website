@@ -37,7 +37,7 @@ export function Benefits() {
       icon: Network,
       title: "Mạng lưới kết nối",
       desc: "Kết nối với sinh viên cùng đam mê, các anh chị thế hệ trước và chuyên gia trong ngành công nghệ thông tin.",
-      image: "https://res.cloudinary.com/jb6ttotp/image/upload/v1789320694/IMG_6805.jpg",
+      image: "https://res.cloudinary.com/jb6ttotp/image/upload/v1789353737/DSC08352.jpg",
       color: "green",
       textColor: "text-green-600",
       bgColor: "bg-green-100",
@@ -70,7 +70,7 @@ export function Benefits() {
       icon: Trophy,
       title: "Cơ hội thi đấu",
       desc: "Tham gia các cuộc thi lập trình và sáng tạo công nghệ ở cấp trường, quốc gia và quốc tế.",
-      image: "https://res.cloudinary.com/jb6ttotp/image/upload/v1789319651/IMG_8906.jpg",
+      image: "https://res.cloudinary.com/jb6ttotp/image/upload/v1789353639/IMG_8905.jpg",
       color: "purple",
       textColor: "text-purple-600",
       bgColor: "bg-purple-100",
@@ -212,25 +212,13 @@ export function Benefits() {
                         })}
                       </div>
                     </div>
-                    {benefit.title === "Mạng lưới kết nối" ? (
-                      <div className="relative aspect-[2/1] w-full overflow-hidden rounded-lg">
-                        <Image
-                          src={benefit.image || "/placeholder.svg"}
-                          alt={benefit.title}
-                          fill
-                          sizes="(max-width: 640px) calc(100vw - 3rem), 464px"
-                          className="object-cover object-[center_68%]"
-                        />
-                      </div>
-                    ) : (
-                      <Image
-                        src={benefit.image || "/placeholder.svg"}
-                        alt={benefit.title}
-                        width={600}
-                        height={300}
-                        className="w-full rounded-lg"
-                      />
-                    )}
+                    <Image
+                      src={benefit.image || "/placeholder.svg"}
+                      alt={benefit.title}
+                      width={600}
+                      height={300}
+                      className="w-full rounded-lg"
+                    />
                     <p className="leading-relaxed text-muted-foreground">{benefit.desc}</p>
                   </div>
                 </DialogContent>
