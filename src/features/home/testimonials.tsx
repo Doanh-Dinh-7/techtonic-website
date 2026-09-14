@@ -1,67 +1,54 @@
 "use client";
 
-import { AnimatePresence, motion } from "framer-motion";
-import { Star } from "lucide-react";
+import { motion } from "framer-motion";
+import { ArrowLeft, ArrowRight, Pause, Play } from "lucide-react";
+import Image from "next/image";
 import { useEffect, useState } from "react";
 
+import { useReducedMotionPreference } from "@/hooks/use3d";
 import { homeTestimonials } from "@/lib/content/home";
-import { TestimonialCatAvatar } from "@/features/home/components/testimonial-cat-avatar";
-import { Card3D, GlassCard, GradientOrb, SectionShell } from "@/shared/ui-v2";
-import { Typewriter } from "@/shared/ui/typewriter";
+import { GlassCard, GradientOrb, SectionShell } from "@/shared/ui-v2";
+
+const AUTOPLAY_DELAY_MS = 3000;
+
+const navigationButtonClassName =
+  "inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-full border border-border bg-secondary text-foreground transition-colors hover:bg-accent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background motion-reduce:transition-none";
+
+function getDynamicRole(year: number) {
+  const now = new Date();
+  const currentYear = now.getFullYear();
+  const currentMonth = now.getMonth() + 1;
+  const academicYearDifference = currentMonth >= 8 ? currentYear - year : currentYear - 1 - year;
+
+  if (academicYearDifference >= 4) return "Cựu sinh viên";
+  if (academicYearDifference < 1) return "Tân sinh viên";
+
+  return `Sinh viên năm ${academicYearDifference + 1}`;
+}
 
 export function Testimonials() {
   const [currentTestimonial, setCurrentTestimonial] = useState(0);
-  const [isHovered, setIsHovered] = useState(false);
-  const [isTypewriterComplete, setIsTypewriterComplete] = useState(false);
-  const [timeoutId, setTimeoutId] = useState<NodeJS.Timeout | null>(null);
+  const [isHoverPaused, setIsHoverPaused] = useState(false);
+  const [isManuallyPaused, setIsManuallyPaused] = useState(false);
+  const reducedMotion = useReducedMotionPreference();
+  const isAutoplaying =
+    !reducedMotion && !isHoverPaused && !isManuallyPaused && homeTestimonials.length > 1;
 
-  const getDynamicRole = (year: number) => {
-    const now = new Date();
-    const currentYear = now.getFullYear();
-    const currentMonth = now.getMonth() + 1;
+  useEffect(() => {
+    if (!isAutoplaying) return;
 
-    let academicYearDifference;
+    const timeout = setTimeout(() => {
+      setCurrentTestimonial((previous) => (previous + 1) % homeTestimonials.length);
+    }, AUTOPLAY_DELAY_MS);
 
-    if (currentMonth >= 8) {
-      academicYearDifference = currentYear - year;
-    } else {
-      academicYearDifference = currentYear - 1 - year;
-    }
+    return () => clearTimeout(timeout);
+  }, [currentTestimonial, isAutoplaying]);
 
-    if (academicYearDifference >= 4) {
-      return "Cựu sinh viên";
-    } else if (academicYearDifference < 1) {
-      return "Tân sinh viên";
-    } else {
-      return `Sinh viên năm ${academicYearDifference + 1}`;
-    }
+  const navigate = (direction: number) => {
+    setCurrentTestimonial(
+      (previous) => (previous + direction + homeTestimonials.length) % homeTestimonials.length
+    );
   };
-
-  useEffect(() => {
-    if (isHovered) return;
-
-    if (isTypewriterComplete) {
-      const timeout = setTimeout(() => {
-        setCurrentTestimonial((prev) => (prev + 1) % homeTestimonials.length);
-        setIsTypewriterComplete(false);
-      }, 3000);
-
-      setTimeoutId(timeout);
-      return () => clearTimeout(timeout);
-    }
-  }, [isTypewriterComplete, isHovered]);
-
-  useEffect(() => {
-    return () => {
-      if (timeoutId) clearTimeout(timeoutId);
-    };
-  }, [timeoutId]);
-
-  useEffect(() => {
-    setIsTypewriterComplete(false);
-  }, [currentTestimonial]);
-
-  const active = homeTestimonials[currentTestimonial];
 
   return (
     <SectionShell
@@ -72,90 +59,130 @@ export function Testimonials() {
     >
       <GradientOrb className="left-1/2 top-8 -translate-x-1/2" color="magenta" />
 
-      <AnimatePresence mode="wait">
-        <motion.div
-          key={currentTestimonial}
-          initial={{ opacity: 0, x: 100 }}
-          animate={{ opacity: 1, x: 0 }}
-          exit={{ opacity: 0, x: -100 }}
-          transition={{ duration: 0.5 }}
-          onMouseEnter={() => setIsHovered(true)}
-          onMouseLeave={() => setIsHovered(false)}
-        >
-          <Card3D>
-            <GlassCard
-              glow="purple"
-              className={`p-8 transition-all duration-300 ${isHovered ? "scale-[1.01]" : ""}`}
-            >
-              <div className="text-center">
-                <motion.div
-                  initial={{ scale: 0 }}
-                  animate={{ scale: 1 }}
-                  transition={{ delay: 0.2, type: "spring", bounce: 0.5 }}
+      <GlassCard
+        glow="purple"
+        role="region"
+        aria-roledescription="trình chiếu"
+        aria-label="Cảm nhận của thành viên"
+        className="p-6 sm:p-8 motion-reduce:transition-none"
+        onMouseEnter={() => setIsHoverPaused(true)}
+        onMouseLeave={() => setIsHoverPaused(false)}
+      >
+        {/* Adapted from https://ui.aceternity.com/components/animated-testimonials. */}
+        <div className="relative grid min-w-0 items-start gap-8 md:grid-cols-[minmax(0,0.85fr)_minmax(0,1.15fr)]">
+          <div className="px-4 py-6">
+            <div className="relative isolate mx-auto aspect-square w-full max-w-xs [perspective:1000px]">
+              {homeTestimonials.map((testimonial, index) => {
+                const isActive = index === currentTestimonial;
+
+                return (
+                  <motion.div
+                    key={testimonial.id}
+                    aria-hidden={!isActive}
+                    initial={false}
+                    animate={{
+                      opacity: isActive ? 1 : reducedMotion ? 0 : 0.65,
+                      scale: isActive || reducedMotion ? 1 : 0.94,
+                      rotate: isActive || reducedMotion ? 0 : index % 2 === 0 ? -8 : 8,
+                      z: isActive || reducedMotion ? 0 : -40,
+                      y: isActive && !reducedMotion ? [0, -24, 0] : 0,
+                    }}
+                    transition={{ duration: reducedMotion ? 0 : 0.4, ease: "easeInOut" }}
+                    style={{ zIndex: isActive ? homeTestimonials.length : index }}
+                    className="absolute inset-0 flex origin-bottom items-center justify-center rounded-3xl border border-[var(--v2-glass-border)] bg-background p-6 shadow-xl"
+                  >
+                    <div className="relative h-full w-full overflow-hidden rounded-2xl">
+                      <Image
+                        src={testimonial.image}
+                        alt={`Ảnh của ${testimonial.name}`}
+                        fill
+                        sizes="(max-width: 767px) 100vw, 50vw"
+                        className="object-cover object-center"
+                      />
+                    </div>
+                  </motion.div>
+                );
+              })}
+            </div>
+          </div>
+
+          <div className="flex min-w-0 flex-col gap-6">
+            <div className="grid" aria-live={isAutoplaying ? "off" : "polite"} aria-atomic="true">
+              {homeTestimonials.map((testimonial, index) => {
+                const isActive = index === currentTestimonial;
+
+                return (
+                  <motion.div
+                    key={testimonial.id}
+                    aria-hidden={!isActive}
+                    initial={false}
+                    animate={{
+                      opacity: isActive ? 1 : 0,
+                      y: reducedMotion || isActive ? 0 : 16,
+                    }}
+                    transition={{ duration: reducedMotion ? 0 : 0.25, ease: "easeInOut" }}
+                    style={{
+                      gridArea: "1 / 1",
+                      pointerEvents: isActive ? "auto" : "none",
+                    }}
+                    className="min-w-0 break-words"
+                  >
+                    <h3 className="font-paris2024 text-2xl font-black text-foreground sm:text-3xl">
+                      {testimonial.name}
+                    </h3>
+                    <p className="mt-2 text-sm leading-6 text-muted-foreground dark:text-white/65">
+                      {`${getDynamicRole(testimonial.year)} - ${testimonial.role}`}
+                    </p>
+                    <blockquote className="mt-6 text-base leading-7 text-muted-foreground dark:text-white/75">
+                      <span aria-hidden="true">&ldquo;</span>
+                      {testimonial.text}
+                      <span aria-hidden="true">&rdquo;</span>
+                    </blockquote>
+                  </motion.div>
+                );
+              })}
+            </div>
+
+            <div className="flex flex-wrap items-center gap-3">
+              <button
+                type="button"
+                aria-label="Cảm nhận trước"
+                onClick={() => navigate(-1)}
+                className={navigationButtonClassName}
+              >
+                <ArrowLeft className="h-5 w-5" aria-hidden="true" />
+              </button>
+              <button
+                type="button"
+                aria-label="Cảm nhận tiếp theo"
+                onClick={() => navigate(1)}
+                className={navigationButtonClassName}
+              >
+                <ArrowRight className="h-5 w-5" aria-hidden="true" />
+              </button>
+              {!reducedMotion && (
+                <button
+                  type="button"
+                  aria-label={
+                    isManuallyPaused ? "Tiếp tục chuyển cảm nhận" : "Tạm dừng chuyển cảm nhận"
+                  }
+                  onClick={() => setIsManuallyPaused((paused) => !paused)}
+                  className={navigationButtonClassName}
                 >
-                  <TestimonialCatAvatar variant={active.catVariant} name={active.name} />
-                </motion.div>
-
-                <div className="mb-6 flex justify-center">
-                  {[...Array(5)].map((_, i) => (
-                    <motion.div
-                      key={i}
-                      initial={{ opacity: 0, scale: 0 }}
-                      animate={{ opacity: 1, scale: 1 }}
-                      transition={{ delay: 0.3 + i * 0.1 }}
-                    >
-                      <Star className="h-5 w-5 fill-yellow-400 text-yellow-400" />
-                    </motion.div>
-                  ))}
-                </div>
-
-                <blockquote className="mb-6 min-h-[12rem] text-xl italic leading-relaxed text-muted-foreground md:min-h-[10rem] dark:text-white/75">
-                  &ldquo;
-                  <Typewriter
-                    text={active.text}
-                    delay={20}
-                    pause={isHovered}
-                    onComplete={() => setIsTypewriterComplete(true)}
-                  />
-                  &rdquo;
-                </blockquote>
-
-                <motion.div
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 0.5 }}
-                >
-                  <p className="font-utm-akashi text-xl font-semibold">{active.name}</p>
-                  <p className="text-muted-foreground dark:text-white/65">
-                    {`${getDynamicRole(active.year)} - ${active.role}`}
-                  </p>
-                </motion.div>
-              </div>
-            </GlassCard>
-          </Card3D>
-        </motion.div>
-      </AnimatePresence>
-
-      <div className="mt-8 flex justify-center gap-2">
-        {homeTestimonials.map((_, index) => (
-          <button
-            key={index}
-            type="button"
-            aria-label={`Xem cảm nhận ${index + 1}`}
-            aria-current={index === currentTestimonial ? "true" : undefined}
-            onClick={() => setCurrentTestimonial(index)}
-            className="inline-flex h-11 w-11 items-center justify-center rounded-full"
-          >
-            <span
-              className={`h-3 w-3 rounded-full transition-colors ${
-                index === currentTestimonial
-                  ? "bg-cyan-500 dark:bg-cyan-300"
-                  : "bg-muted-foreground/30 dark:bg-white/30"
-              }`}
-            />
-          </button>
-        ))}
-      </div>
+                  {isManuallyPaused ? (
+                    <Play className="h-4 w-4" aria-hidden="true" />
+                  ) : (
+                    <Pause className="h-4 w-4" aria-hidden="true" />
+                  )}
+                </button>
+              )}
+              <span className="text-sm tabular-nums text-muted-foreground">
+                {currentTestimonial + 1} / {homeTestimonials.length}
+              </span>
+            </div>
+          </div>
+        </div>
+      </GlassCard>
     </SectionShell>
   );
 }
