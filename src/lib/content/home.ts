@@ -77,7 +77,7 @@ export const homeTestimonials: HomeTestimonial[] = [
   {
     id: "doanh-dinh",
     name: "Đinh Sỹ Quốc Doanh",
-    role: "Co-Fouder của CLB TechTonic, Trưởng Ban Chuyên Môn nhiệm kỳ 2024-2025, Mentor của Chuyên Môn BE mùa đầu tiên. ",
+    role: "Co-Fouder của CLB TechTonic, Trưởng Ban Chuyên Môn nhiệm kỳ 2024-2025, Mentor của Chuyên Môn BE mùa đầu tiên.",
     year: 2022,
     text: "TechTonic được hình thành với mong muốn tạo ra một môi trường nơi sinh viên yêu công nghệ có thể cùng học hỏi, cùng thử sức và cùng phát triển. Điều mình trân trọng nhất không chỉ là những hoạt động hay dự án đã thực hiện, mà là cách các thế hệ thành viên luôn sẵn sàng hỗ trợ và truyền cảm hứng cho nhau. Mình hy vọng TechTonic sẽ tiếp tục là nơi mỗi thành viên tìm thấy cơ hội, định hướng và những người đồng hành trên hành trình phát triển của mình.",
     catVariant: "magenta",
