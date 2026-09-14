@@ -26,7 +26,7 @@ export const homeActivities: HomeActivity[] = [
     summary: "Lớp học nội bộ củng cố nền tảng và thực hành cùng nhau.",
     description:
       "TechTonic tổ chức các buổi chia sẻ về Python, BA, cơ sở dữ liệu và lập trình web để thành viên có thêm nền tảng thực tế.",
-    image: "/activity/cshd.webp",
+    image: "https://res.cloudinary.com/jb6ttotp/image/upload/v1789319495/DSC06791.jpg",
     imageAlt: "Hoạt động chia sẻ và hướng dẫn học thuật của TechTonic",
     accent: "cyan",
     tags: ["Python", "BA", "Database", "Web"],
@@ -50,7 +50,7 @@ export const homeActivities: HomeActivity[] = [
     summary: "Sân chơi học thuật thử thách tư duy và tinh thần đồng đội.",
     description:
       "Thành viên tham gia ICPC-OLP, nghiên cứu khoa học và hackathon để rèn tư duy giải quyết vấn đề qua trải nghiệm thực chiến.",
-    image: "/activity/olp_icpc.webp",
+    image: "https://res.cloudinary.com/jb6ttotp/image/upload/v1789319651/IMG_8906.jpg",
     imageAlt: "Hoạt động ICPC OLP và nghiên cứu khoa học của TechTonic",
     accent: "blue",
     tags: ["ICPC", "OLP", "NCKH", "Hackathon"],
@@ -62,7 +62,7 @@ export const homeActivities: HomeActivity[] = [
     summary: "Chương trình nội bộ nơi các đội vượt thử thách sáng tạo.",
     description:
       "TechWare đưa Dev, BA, Tester, UX và IT Support vào những thử thách chung để hiểu nhau hơn và xây dựng cộng đồng bền vững.",
-    image: "/activity/techware.webp",
+    image: "https://res.cloudinary.com/jb6ttotp/image/upload/v1789319718/IMG_4843.jpg",
     imageAlt: "Hoạt động Team Bonding TechWare của TechTonic",
     accent: "magenta",
     tags: ["Team Bonding", "Challenge", "Community", "Creative"],

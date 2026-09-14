@@ -19,7 +19,7 @@ export function Benefits() {
     {
       icon: Code,
       title: "Kỹ năng lập trình",
-      desc: "Học và thực hành các ngôn ngữ lập trình hiện đại, framework và công nghệ mới nhất trong ngành.",
+      desc: "Học và thực hành các ngôn ngữ lập trình, công cụ phát triển và công nghệ hiện đại trong ngành.",
       image:
         "https://res.cloudinary.com/dggsvq2tw/image/upload/v1785313184/K%E1%BB%B9_n%C4%83ng_l%E1%BA%ADp_tr%C3%ACnh_xcccka.jpg",
       color: "blue",
@@ -36,9 +36,8 @@ export function Benefits() {
     {
       icon: Network,
       title: "Mạng lưới kết nối",
-      desc: "Kết nối với sinh viên cùng đam mê, alumni và các chuyên gia trong ngành công nghệ thông tin.",
-      image:
-        "https://res.cloudinary.com/dggsvq2tw/image/upload/v1785313184/M%E1%BA%A1ng_l%C6%B0%E1%BB%9Bi_k%E1%BA%BFt_n%E1%BB%91i_icp26e.jpg",
+      desc: "Kết nối với sinh viên cùng đam mê, các anh chị thế hệ trước và chuyên gia trong ngành công nghệ thông tin.",
+      image: "https://res.cloudinary.com/jb6ttotp/image/upload/v1789353737/DSC08352.jpg",
       color: "green",
       textColor: "text-green-600",
       bgColor: "bg-green-100",
@@ -53,7 +52,7 @@ export function Benefits() {
     {
       icon: Lightbulb,
       title: "Dự án thực tế",
-      desc: "Tham gia các dự án thực tế, từ ý tưởng đến triển khai, giúp tích lũy kinh nghiệm làm việc.",
+      desc: "Tham gia các dự án thực tế, từ hình thành ý tưởng đến triển khai, qua đó tích lũy kinh nghiệm làm việc.",
       image:
         "https://res.cloudinary.com/dggsvq2tw/image/upload/v1785313740/D%E1%BB%B1_%C3%A1n_th%E1%BB%B1c_t%E1%BA%BF_tpzhbb.jpg",
       color: "yellow",
@@ -70,8 +69,8 @@ export function Benefits() {
     {
       icon: Trophy,
       title: "Cơ hội thi đấu",
-      desc: "Tham gia các cuộc thi lập trình, hackathon cấp trường, quốc gia và quốc tế.",
-      image: "https://res.cloudinary.com/dggsvq2tw/image/upload/v1758206555/olp_icpc_qlzrul.webp",
+      desc: "Tham gia các cuộc thi lập trình và sáng tạo công nghệ ở cấp trường, quốc gia và quốc tế.",
+      image: "https://res.cloudinary.com/jb6ttotp/image/upload/v1789353639/IMG_8905.jpg",
       color: "purple",
       textColor: "text-purple-600",
       bgColor: "bg-purple-100",
@@ -86,7 +85,7 @@ export function Benefits() {
     {
       icon: GraduationCap,
       title: "Phát triển bản thân",
-      desc: "Rèn luyện kỹ năng mềm, leadership và khả năng làm việc nhóm thông qua các hoạt động CLB.",
+      desc: "Rèn luyện kỹ năng mềm, kỹ năng lãnh đạo và khả năng làm việc nhóm thông qua các hoạt động của CLB.",
       image:
         "https://res.cloudinary.com/dggsvq2tw/image/upload/v1785313184/Ph%C3%A1t_tri%E1%BB%83n_b%E1%BA%A3n_th%C3%A2n_mnvjss.jpg",
       color: "red",

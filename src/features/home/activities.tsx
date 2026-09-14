@@ -204,8 +204,7 @@ function ActivityStackCard({ activity, index, isAnimated, progress }: ActivitySt
               src={activity.image}
               alt={activity.imageAlt}
               fill
-              sizes="(min-width: 1024px) 360px, 100vw"
-              className="object-cover transition duration-500 group-hover/card:scale-105"
+              className={cn("object-cover transition duration-500")}
               style={{ objectPosition: activity.position ?? "center" }}
             />
             <div

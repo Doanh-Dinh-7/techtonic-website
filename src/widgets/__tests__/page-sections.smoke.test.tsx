@@ -3,6 +3,7 @@
  */
 import { render, screen, waitFor } from "@testing-library/react";
 import { describe, expect, it } from "vitest";
+import { recruitmentSteps } from "@/lib/content/recruitment";
 import { AboutPageSections } from "@/widgets/about/about-page-sections";
 import { DepartmentsPageContent } from "@/widgets/departments/departments-page-content";
 import { EventsPageContent } from "@/widgets/events/events-page-content";
@@ -27,7 +28,9 @@ describe("Route section smoke", () => {
     expect(
       screen.getByRole("heading", { name: /Sẵn sàng bắt đầu hành trình công nghệ/i })
     ).toBeInTheDocument();
-    expect(screen.getByRole("heading", { name: /Điền form đăng ký/i })).toBeInTheDocument();
+    expect(
+      screen.getByRole("heading", { name: new RegExp(recruitmentSteps[0].title, "i") })
+    ).toBeInTheDocument();
   });
 
   it("about: renders hero, timeline and gallery sections", async () => {
