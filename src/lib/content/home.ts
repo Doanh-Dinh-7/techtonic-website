@@ -35,6 +35,16 @@ export type HomeTestimonial = {
 
 export const homeTestimonials: HomeTestimonial[] = [
   {
+    id: "doanh-dinh",
+    name: "Đinh Sỹ Quốc Doanh",
+    role: "Co-Fouder của CLB TechTonic, Trưởng Ban Chuyên Môn nhiệm kỳ 2024-2025, Mentor của Chuyên Môn BE mùa đầu tiên.",
+    year: 2022,
+    text: "TechTonic được hình thành với mong muốn tạo ra một môi trường nơi sinh viên yêu công nghệ có thể cùng học hỏi, cùng thử sức và cùng phát triển. Điều mình trân trọng nhất không chỉ là những hoạt động hay dự án đã thực hiện, mà là cách các thế hệ thành viên luôn sẵn sàng hỗ trợ và truyền cảm hứng cho nhau. Mình hy vọng TechTonic sẽ tiếp tục là nơi mỗi thành viên tìm thấy cơ hội, định hướng và những người đồng hành trên hành trình phát triển của mình.",
+    catVariant: "magenta",
+    image:
+      "https://res.cloudinary.com/jb6ttotp/image/upload/v1789326684/602338018_1624614182038760_1447728319155963626_n.jpg",
+  },
+  {
     id: "minh-anh",
     name: "Phan Nhật Minh Anh",
     role: "Chủ nhiệm CLB TechTonic nhiệm kỳ 2025-2026",
@@ -55,16 +65,6 @@ export const homeTestimonials: HomeTestimonial[] = [
       "https://res.cloudinary.com/jb6ttotp/image/upload/v1789325014/537537916_1452852722432313_6044311279688375103_n.jpg",
   },
   {
-    id: "ngoc-nhi",
-    name: "Nguyễn Thị Ngọc Nhi",
-    role: "Cựu thành viên Ban Sự Kiện CLB TechTonic nhiệm kỳ 2025 - 2026",
-    year: 2024,
-    text: "Nhờ tham gia CLB, mình vừa học hỏi, rèn luyện kỹ năng, vừa gắn kết như một gia đình nhỏ. Ở vai trò Phó chủ nhiệm, mình tự hào đồng hành cùng mọi người tạo ra hoạt động ý nghĩa, kỷ niệm đẹp. CLB là môi trường tuyệt vời để khám phá bản thân, phát triển năng lực và lan tỏa giá trị tích cực.",
-    catVariant: "magenta",
-    image:
-      "https://res.cloudinary.com/jb6ttotp/image/upload/v1789325930/Screenshot_2026-09-14_015833.png",
-  },
-  {
     id: "van-truong",
     name: "Hồ Văn Trường",
     role: "Trưởng Ban Chuyên Môn CLB TechTonic nhiệm kỳ 2026 - 2027",
@@ -75,13 +75,13 @@ export const homeTestimonials: HomeTestimonial[] = [
       "https://res.cloudinary.com/dggsvq2tw/image/upload/v1785817600/H%E1%BB%93_V%C4%83n_Tr%C6%B0%E1%BB%9Dng_nlrxqc.png",
   },
   {
-    id: "doanh-dinh",
-    name: "Đinh Sỹ Quốc Doanh",
-    role: "Co-Fouder của CLB TechTonic, Trưởng Ban Chuyên Môn nhiệm kỳ 2024-2025, Mentor của Chuyên Môn BE mùa đầu tiên.",
-    year: 2022,
-    text: "TechTonic được hình thành với mong muốn tạo ra một môi trường nơi sinh viên yêu công nghệ có thể cùng học hỏi, cùng thử sức và cùng phát triển. Điều mình trân trọng nhất không chỉ là những hoạt động hay dự án đã thực hiện, mà là cách các thế hệ thành viên luôn sẵn sàng hỗ trợ và truyền cảm hứng cho nhau. Mình hy vọng TechTonic sẽ tiếp tục là nơi mỗi thành viên tìm thấy cơ hội, định hướng và những người đồng hành trên hành trình phát triển của mình.",
+    id: "ngoc-nhi",
+    name: "Nguyễn Thị Ngọc Nhi",
+    role: "Cựu thành viên Ban Sự Kiện CLB TechTonic nhiệm kỳ 2025 - 2026",
+    year: 2024,
+    text: "Nhờ tham gia CLB, mình vừa học hỏi, rèn luyện kỹ năng, vừa gắn kết như một gia đình nhỏ. Ở vai trò Phó chủ nhiệm, mình tự hào đồng hành cùng mọi người tạo ra hoạt động ý nghĩa, kỷ niệm đẹp. CLB là môi trường tuyệt vời để khám phá bản thân, phát triển năng lực và lan tỏa giá trị tích cực.",
     catVariant: "magenta",
     image:
-      "https://res.cloudinary.com/jb6ttotp/image/upload/v1789326684/602338018_1624614182038760_1447728319155963626_n.jpg",
+      "https://res.cloudinary.com/jb6ttotp/image/upload/v1789325930/Screenshot_2026-09-14_015833.png",
   },
 ];
