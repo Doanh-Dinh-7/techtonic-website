@@ -20,6 +20,8 @@ describe("Route section smoke", () => {
       expect(document.getElementById("core-values")).toBeTruthy();
       expect(document.getElementById("contact")).toBeTruthy();
     });
+    expect(document.getElementById("music")).toBeNull();
+    expect(screen.queryByRole("region", { name: "Bảng điều khiển nhạc" })).not.toBeInTheDocument();
   });
 
   it("recruitment: renders registration entry point", () => {

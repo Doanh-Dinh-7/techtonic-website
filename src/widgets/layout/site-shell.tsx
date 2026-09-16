@@ -7,7 +7,10 @@ import { Header } from "@/widgets/layout/header";
 import { AnimationReadyProvider } from "@/widgets/layout/animation-ready-provider";
 import { LenisProvider } from "@/widgets/layout/lenis-provider";
 import { BackToTop } from "@/shared/ui/back-to-top";
+import dynamic from "next/dynamic";
 import { useSiteShellVisibility } from "@/widgets/layout/hooks/use-site-shell-visibility";
+
+const Music = dynamic(() => import("@/features/home/music").then((m) => m.Music), { ssr: false });
 
 /**
  * Shared shell for all `(site)` routes.
@@ -36,6 +39,7 @@ export function SiteShell({ children }: { children: React.ReactNode }) {
             {children}
           </main>
           <Footer />
+          <Music />
           <BackToTop show={showBackToTop} onClick={scrollToTop} />
         </div>
       </AnimationReadyProvider>
