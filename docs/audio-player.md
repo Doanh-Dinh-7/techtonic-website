@@ -35,6 +35,8 @@ API một bài vẫn được hỗ trợ:
 
 ## Hành vi
 
+- Nút nhạc dùng cùng trạng thái ẩn/hiện với nút cuộn lên đầu trang (`showBackToTop`) và hiệu ứng thu/phóng, mờ dần trong 0,3 giây. Trên trang chủ, hai nút hiện khi cuộn qua phần hero; các trang khác dùng đúng điều kiện hiện có của nút cuộn lên đầu trang.
+- Khi nút nhạc bị ẩn, bảng điều khiển đóng và không nhận tương tác; audio vẫn được giữ để nhạc, tiến độ và chế độ lặp không bị đặt lại.
 - Bảng điều khiển rộng tối đa 280px, co lại trên màn hình hẹp và có thể cuộn khi chiều cao màn hình nhỏ.
 - Mặc định chỉ hiện biểu tượng nhạc. Có thể thu gọn bằng nút biểu tượng, nút X, phím Escape hoặc bấm bên ngoài; bảng hỗ trợ thao tác bàn phím.
 - Thu gọn bảng giữ nguyên bài nhạc, tiến độ và trạng thái phát. Dùng nút tạm dừng trong bảng để dừng nhạc; chuyển giữa các route dùng chung `SiteShell` giữ trình phát đang hoạt động.

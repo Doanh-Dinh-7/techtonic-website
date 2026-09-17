@@ -42,7 +42,7 @@ export function SiteShell({ children }: { children: React.ReactNode }) {
             {children}
           </main>
           <Footer />
-          <MusicPlayer />
+          <MusicPlayer show={showBackToTop} />
           <BackToTop show={showBackToTop} onClick={scrollToTop} />
         </div>
       </AnimationReadyProvider>

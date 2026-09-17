@@ -10,12 +10,17 @@ import { Button } from "@/shared/ui/button";
 import { emitPlayerEvent, subscribePlayerEvent } from "@/shared/utils/player-events";
 import { PLAYER_EVENTS } from "@/types/player-events";
 
-export function MusicPlayer() {
+interface MusicPlayerProps {
+  show: boolean;
+}
+
+export function MusicPlayer({ show }: MusicPlayerProps) {
   const [isOpen, setIsOpen] = useState(false);
   const widgetRef = useRef<HTMLDivElement>(null);
   const triggerRef = useRef<HTMLButtonElement>(null);
   const closeRef = useRef<HTMLButtonElement>(null);
   const panelId = useId();
+  const isPanelOpen = show && isOpen;
 
   const closePanel = () => {
     setIsOpen(false);
@@ -23,7 +28,11 @@ export function MusicPlayer() {
   };
 
   useEffect(() => {
-    if (!isOpen) return;
+    if (!show) setIsOpen(false);
+  }, [show]);
+
+  useEffect(() => {
+    if (!isPanelOpen) return;
     closeRef.current?.focus();
 
     const handlePointerDown = (event: PointerEvent) => {
@@ -44,25 +53,31 @@ export function MusicPlayer() {
       document.removeEventListener("pointerdown", handlePointerDown);
       document.removeEventListener("keydown", handleKeyDown);
     };
-  }, [isOpen]);
+  }, [isPanelOpen]);
 
   useEffect(() => {
     const publishPanelState = () =>
-      emitPlayerEvent(isOpen ? PLAYER_EVENTS.UI_OPEN : PLAYER_EVENTS.UI_CLOSE);
+      emitPlayerEvent(isPanelOpen ? PLAYER_EVENTS.UI_OPEN : PLAYER_EVENTS.UI_CLOSE);
     publishPanelState();
     return subscribePlayerEvent(PLAYER_EVENTS.REQUEST_STATE, publishPanelState);
-  }, [isOpen]);
+  }, [isPanelOpen]);
 
   return (
-    <div
+    <motion.div
       ref={widgetRef}
+      initial={{ scale: 0, opacity: 0 }}
+      animate={{ scale: show ? 1 : 0, opacity: show ? 1 : 0 }}
+      transition={{ duration: 0.3 }}
+      aria-hidden={!show}
+      inert={!show}
+      style={{ pointerEvents: show ? "auto" : "none" }}
       className="fixed bottom-[calc(6rem+env(safe-area-inset-bottom))] right-8 z-40"
     >
       <motion.button
         ref={triggerRef}
         type="button"
         aria-label="Trình phát nhạc"
-        aria-expanded={isOpen}
+        aria-expanded={isPanelOpen}
         aria-controls={panelId}
         title={isOpen ? "Thu gọn trình phát nhạc" : "Mở trình phát nhạc"}
         onClick={() => {
@@ -82,7 +97,7 @@ export function MusicPlayer() {
         id={panelId}
         role="region"
         aria-label="Bảng điều khiển nhạc"
-        hidden={!isOpen}
+        hidden={!isPanelOpen}
         data-lenis-prevent
         className="absolute bottom-full right-0 mb-4 max-h-[calc(100dvh-11rem-env(safe-area-inset-bottom))] w-[280px] max-w-[calc(100vw-4rem)] overflow-y-auto overscroll-contain rounded-[24px] border border-white/10 ring-1 ring-cyan-500/20 bg-zinc-950/80 backdrop-blur-2xl text-white shadow-[0_8px_32px_rgba(0,245,255,0.15)]"
       >
@@ -100,9 +115,9 @@ export function MusicPlayer() {
             <X aria-hidden="true" />
           </Button>
         </div>
-        {/* Always mount the player to allow autoplay. Collapsing does not stop the audio. */}
+        {/* Keep audio mounted when the widget is hidden or the panel is collapsed. */}
         <AudioPlayer playlist={homePlaylist} autoPlay defaultShuffle />
       </div>
-    </div>
+    </motion.div>
   );
 }

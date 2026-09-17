@@ -361,6 +361,7 @@ function PlaylistPlayer({
               variant="ghost"
               size="icon"
               aria-label={isPlaying ? "Tạm dừng" : "Phát nhạc"}
+              title="Tạm dừng"
               onClick={() => {
                 cancelInteractionAutoplay();
                 const audio = audioRef.current;

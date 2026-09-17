@@ -42,16 +42,53 @@ afterEach(() => {
   vi.restoreAllMocks();
 });
 
-function page(showHeader: boolean) {
+function page(showHeader: boolean, showMusic = true) {
   return (
     <>
-      <MusicPlayer />
+      <MusicPlayer show={showMusic} />
       {showHeader && <Header show onLogoClick={() => {}} />}
     </>
   );
 }
 
 describe("MusicPlayer integration", () => {
+  it("hides its controls and closes the panel without resetting audio when visibility changes", () => {
+    const { container, rerender } = render(page(true, false));
+    const audio = container.querySelector("audio")!;
+    expect(screen.queryByRole("button", { name: "Trình phát nhạc" })).not.toBeInTheDocument();
+
+    fireEvent.click(document.body);
+    expect(audio.paused).toBe(false);
+    Object.defineProperty(audio, "duration", { configurable: true, value: 180 });
+    audio.currentTime = 42;
+    fireEvent.loadedMetadata(audio);
+
+    rerender(page(true, true));
+    fireEvent.click(screen.getByRole("button", { name: "Trình phát nhạc" }));
+    fireEvent.click(screen.getByRole("button", { name: "Lặp bài nhạc" }));
+    expect(screen.getByRole("region", { name: "Bảng điều khiển nhạc" })).toBeInTheDocument();
+
+    rerender(page(true, false));
+    expect(screen.queryByRole("button", { name: "Trình phát nhạc" })).not.toBeInTheDocument();
+    expect(screen.queryByRole("region", { name: "Bảng điều khiển nhạc" })).not.toBeInTheDocument();
+    expect(
+      within(screen.getByRole("banner")).getByRole("button", { name: "Tạm dừng" })
+    ).toBeInTheDocument();
+    expect(container.querySelector("audio")).toBe(audio);
+    expect(audio.paused).toBe(false);
+    expect(audio.currentTime).toBe(42);
+    expect(audio.loop).toBe(true);
+
+    rerender(page(true, true));
+    expect(screen.getByRole("button", { name: "Trình phát nhạc" })).toHaveAttribute(
+      "aria-expanded",
+      "false"
+    );
+    expect(container.querySelector("audio")).toBe(audio);
+    expect(audio.play).toHaveBeenCalledOnce();
+    expect(audio.pause).not.toHaveBeenCalled();
+  });
+
   it("restores header controls after remount while paused and keeps both controls in sync", () => {
     const { rerender } = render(page(false));
     fireEvent.click(screen.getByRole("button", { name: "Trình phát nhạc" }));
