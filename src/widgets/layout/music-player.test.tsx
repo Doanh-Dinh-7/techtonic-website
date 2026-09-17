@@ -2,7 +2,7 @@
  * @vitest-environment jsdom
  */
 
-import { cleanup, fireEvent, render, screen, within } from "@testing-library/react";
+import { cleanup, fireEvent, render, screen } from "@testing-library/react";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { Header } from "./header";
 import { MusicPlayer } from "./music-player";
@@ -71,9 +71,6 @@ describe("MusicPlayer integration", () => {
     rerender(page(true, false));
     expect(screen.queryByRole("button", { name: "Trình phát nhạc" })).not.toBeInTheDocument();
     expect(screen.queryByRole("region", { name: "Bảng điều khiển nhạc" })).not.toBeInTheDocument();
-    expect(
-      within(screen.getByRole("banner")).getByRole("button", { name: "Tạm dừng" })
-    ).toBeInTheDocument();
     expect(container.querySelector("audio")).toBe(audio);
     expect(audio.paused).toBe(false);
     expect(audio.currentTime).toBe(42);
@@ -87,36 +84,6 @@ describe("MusicPlayer integration", () => {
     expect(container.querySelector("audio")).toBe(audio);
     expect(audio.play).toHaveBeenCalledOnce();
     expect(audio.pause).not.toHaveBeenCalled();
-  });
-
-  it("restores header controls after remount while paused and keeps both controls in sync", () => {
-    const { rerender } = render(page(false));
-    fireEvent.click(screen.getByRole("button", { name: "Trình phát nhạc" }));
-    fireEvent.click(screen.getByRole("button", { name: "Tạm dừng" }));
-    fireEvent.click(screen.getByRole("button", { name: "Thu gọn trình phát nhạc" }));
-
-    rerender(page(true));
-    const header = within(screen.getByRole("banner"));
-    expect(header.getByText("Alpha")).toBeInTheDocument();
-    fireEvent.click(header.getByRole("button", { name: "Phát nhạc" }));
-    expect(header.getByRole("button", { name: "Tạm dừng" })).toBeInTheDocument();
-
-    fireEvent.click(screen.getByRole("button", { name: "Trình phát nhạc" }));
-    expect(header.queryByText("Alpha")).not.toBeInTheDocument();
-    fireEvent.click(screen.getByRole("button", { name: "Tạm dừng" }));
-    fireEvent.click(screen.getByRole("button", { name: "Thu gọn trình phát nhạc" }));
-    expect(header.getByRole("button", { name: "Phát nhạc" })).toBeInTheDocument();
-  });
-
-  it("keeps the mini player hidden when the header mounts while the panel is already open", () => {
-    const { rerender } = render(page(false));
-    fireEvent.click(screen.getByRole("button", { name: "Trình phát nhạc" }));
-    rerender(page(true));
-    const header = within(screen.getByRole("banner"));
-    expect(header.queryByText("Alpha")).not.toBeInTheDocument();
-
-    fireEvent.click(screen.getByRole("button", { name: "Thu gọn trình phát nhạc" }));
-    expect(header.getByText("Alpha")).toBeInTheDocument();
   });
 
   it("closes by the trigger, Escape, or outside interaction without stopping playback", () => {

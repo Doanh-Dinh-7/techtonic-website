@@ -8,7 +8,6 @@ import { usePathname } from "next/navigation";
 import { Button } from "@/shared/ui/button";
 import { ThemeToggle } from "@/widgets/layout/theme-toggle";
 import { useHeaderNavigation } from "@/widgets/layout/hooks/use-header-navigation";
-import { Pause, Play } from "lucide-react";
 const mainNav = [
   { name: "Trang chủ", href: "/" },
   { name: "Giới thiệu", href: "/about" },
@@ -26,91 +25,6 @@ interface HeaderProps {
 /**
  * Top navigation with desktop/mobile variants and recruitment CTA.
  */
-import { useEffect, useState } from "react";
-import { emitPlayerEvent, subscribePlayerEvent } from "@/shared/utils/player-events";
-import { PLAYER_EVENTS, type AudioTrack } from "@/types/player-events";
-
-function MiniPlayer() {
-  const [isPlaying, setIsPlaying] = useState(false);
-  const [track, setTrack] = useState<AudioTrack | null>(null);
-  const [isOpen, setIsOpen] = useState(false);
-
-  useEffect(() => {
-    const unsubscribeState = subscribePlayerEvent(PLAYER_EVENTS.STATE, ({ detail }) => {
-      setIsPlaying(detail.isPlaying);
-      setTrack(detail.track);
-    });
-    const unsubscribeOpen = subscribePlayerEvent(PLAYER_EVENTS.UI_OPEN, () => setIsOpen(true));
-    const unsubscribeClose = subscribePlayerEvent(PLAYER_EVENTS.UI_CLOSE, () => setIsOpen(false));
-    emitPlayerEvent(PLAYER_EVENTS.REQUEST_STATE);
-
-    return () => {
-      unsubscribeState();
-      unsubscribeOpen();
-      unsubscribeClose();
-    };
-  }, []);
-
-  const playAudio = () => emitPlayerEvent(PLAYER_EVENTS.PLAY);
-  const pauseAudio = () => emitPlayerEvent(PLAYER_EVENTS.PAUSE);
-
-  if (isOpen || !track) return null;
-
-  return (
-    <motion.div
-      initial={{ opacity: 0, x: 20 }}
-      animate={{ opacity: 1, x: 0 }}
-      className="hidden md:flex items-center gap-3 rounded-full bg-zinc-900/80 border border-white/10 px-3 py-1.5 shadow-lg backdrop-blur-md"
-    >
-      <div className="flex h-3 items-end gap-[2px] opacity-80" aria-hidden="true">
-        {isPlaying ? (
-          <>
-            <motion.div
-              className="w-[2px] rounded-t-sm bg-cyan-400"
-              animate={{ height: ["40%", "100%", "40%"] }}
-              transition={{ duration: 0.6, repeat: Infinity, ease: "easeInOut" }}
-            />
-            <motion.div
-              className="w-[2px] rounded-t-sm bg-cyan-400"
-              animate={{ height: ["80%", "30%", "80%"] }}
-              transition={{ duration: 0.5, repeat: Infinity, ease: "easeInOut", delay: 0.1 }}
-            />
-            <motion.div
-              className="w-[2px] rounded-t-sm bg-cyan-400"
-              animate={{ height: ["50%", "90%", "50%"] }}
-              transition={{ duration: 0.7, repeat: Infinity, ease: "easeInOut", delay: 0.2 }}
-            />
-          </>
-        ) : (
-          <>
-            <div className="w-[2px] h-[30%] rounded-t-sm bg-zinc-500" />
-            <div className="w-[2px] h-[60%] rounded-t-sm bg-zinc-500" />
-            <div className="w-[2px] h-[40%] rounded-t-sm bg-zinc-500" />
-          </>
-        )}
-      </div>
-
-      <div className="flex max-w-[120px] flex-col overflow-hidden whitespace-nowrap">
-        <span className="truncate text-xs font-bold text-white leading-tight">{track.title}</span>
-        <span className="text-[10px] text-white/50 leading-tight">TechTonic</span>
-      </div>
-
-      <button
-        type="button"
-        aria-label={isPlaying ? "Tạm dừng" : "Phát nhạc"}
-        onClick={() => (isPlaying ? pauseAudio() : playAudio())}
-        className="ml-1 flex h-6 w-6 items-center justify-center rounded-full bg-white/10 hover:bg-white/20 text-white transition-colors"
-      >
-        {isPlaying ? (
-          <Pause className="h-3 w-3 fill-current" aria-hidden="true" />
-        ) : (
-          <Play className="h-3 w-3 fill-current ml-0.5" aria-hidden="true" />
-        )}
-      </button>
-    </motion.div>
-  );
-}
-
 export function Header({ show, onLogoClick }: HeaderProps) {
   const pathname = usePathname();
   const { hasRegisterUrl, isNavActive, mobileMenuOpen, setMobileMenuOpen, handleJoinClick } =
@@ -181,7 +95,6 @@ export function Header({ show, onLogoClick }: HeaderProps) {
               </nav>
 
               <div className="hidden shrink-0 items-center gap-3 lg:flex">
-                <MiniPlayer />
                 <ThemeToggle />
                 <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
                   {hasRegisterUrl ? (

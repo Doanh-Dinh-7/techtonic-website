@@ -4,14 +4,18 @@ import { useEffect, useRef, useState } from "react";
 import { motion } from "framer-motion";
 
 import { SectionShell } from "@/shared/ui-v2";
+import { useYouTubeAudioDuck } from "@/shared/hooks/use-youtube-audio-duck";
 
-const VIDEO_BASE_SRC = "https://www.youtube.com/embed/fko6tQUqNhQ?rel=0";
+const VIDEO_BASE_SRC = "https://www.youtube.com/embed/fko6tQUqNhQ?rel=0&enablejsapi=1";
 const VIDEO_IDLE_SRC = `${VIDEO_BASE_SRC}&autoplay=0`;
 const VIDEO_AUTOPLAY_SRC = `${VIDEO_BASE_SRC}&autoplay=1&mute=1`;
 
 export function AboutVideo() {
   const videoRef = useRef<HTMLDivElement>(null);
+  const iframeRef = useRef<HTMLIFrameElement>(null);
   const [shouldAutoplay, setShouldAutoplay] = useState(false);
+
+  useYouTubeAudioDuck(iframeRef);
 
   useEffect(() => {
     const element = videoRef.current;
@@ -52,6 +56,7 @@ export function AboutVideo() {
       >
         <div className="relative aspect-video overflow-hidden rounded-2xl border border-border bg-card shadow-2xl shadow-cyan-700/10 dark:border-white/10 dark:bg-white/[0.04] dark:shadow-neon-cyan/10">
           <iframe
+            ref={iframeRef}
             className="h-full w-full"
             src={shouldAutoplay ? VIDEO_AUTOPLAY_SRC : VIDEO_IDLE_SRC}
             title="Video giới thiệu giá trị TechTonic Club"

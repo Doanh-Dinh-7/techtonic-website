@@ -5,6 +5,8 @@ export const PLAYER_EVENTS = {
   PAUSE: "player:cmd:pause",
   UI_OPEN: "player:ui:open",
   UI_CLOSE: "player:ui:close",
+  DUCK_START: "player:cmd:duck:start",
+  DUCK_END: "player:cmd:duck:end",
 } as const;
 
 export interface AudioTrack {
@@ -28,6 +30,8 @@ export interface PlayerEventMap {
   [PLAYER_EVENTS.PAUSE]: Event;
   [PLAYER_EVENTS.UI_OPEN]: Event;
   [PLAYER_EVENTS.UI_CLOSE]: Event;
+  [PLAYER_EVENTS.DUCK_START]: Event;
+  [PLAYER_EVENTS.DUCK_END]: Event;
 }
 
 export type PlayerEventName = keyof PlayerEventMap;

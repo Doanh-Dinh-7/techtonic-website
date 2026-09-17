@@ -62,6 +62,16 @@ export function MusicPlayer({ show }: MusicPlayerProps) {
     return subscribePlayerEvent(PLAYER_EVENTS.REQUEST_STATE, publishPanelState);
   }, [isPanelOpen]);
 
+  const [isPlaying, setIsPlaying] = useState(false);
+
+  useEffect(() => {
+    const unsubscribe = subscribePlayerEvent(PLAYER_EVENTS.STATE, ({ detail }) => {
+      setIsPlaying(detail.isPlaying);
+    });
+    emitPlayerEvent(PLAYER_EVENTS.REQUEST_STATE);
+    return unsubscribe;
+  }, []);
+
   return (
     <motion.div
       ref={widgetRef}
@@ -83,7 +93,7 @@ export function MusicPlayer({ show }: MusicPlayerProps) {
         onClick={() => {
           setIsOpen(!isOpen);
         }}
-        className="flex h-12 w-12 min-h-11 min-w-11 items-center justify-center rounded-full bg-primary text-primary-foreground shadow-lg transition-shadow hover:shadow-xl focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background"
+        className="relative flex h-12 w-12 min-h-11 min-w-11 items-center justify-center rounded-full bg-primary text-primary-foreground shadow-lg transition-shadow hover:shadow-xl focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background"
         transition={{ duration: 0.3 }}
         whileHover={{
           scale: 1.1,
@@ -91,7 +101,41 @@ export function MusicPlayer({ show }: MusicPlayerProps) {
         }}
         whileTap={{ scale: 0.9 }}
       >
-        <Music2 className="h-5 w-5" aria-hidden="true" />
+        {isPlaying && (
+          <span
+            className="absolute inset-0 -z-10 rounded-full bg-primary/40 animate-ping opacity-60 pointer-events-none"
+            aria-hidden="true"
+          />
+        )}
+        {isPlaying ? (
+          <div
+            className="flex h-5 w-5 items-end justify-center gap-[2.5px] pb-0.5"
+            aria-hidden="true"
+          >
+            <motion.span
+              className="w-[2.5px] rounded-full bg-primary-foreground"
+              animate={{ height: ["25%", "90%", "25%"] }}
+              transition={{ duration: 0.55, repeat: Infinity, ease: "easeInOut" }}
+            />
+            <motion.span
+              className="w-[2.5px] rounded-full bg-primary-foreground"
+              animate={{ height: ["70%", "20%", "70%"] }}
+              transition={{ duration: 0.45, repeat: Infinity, ease: "easeInOut", delay: 0.1 }}
+            />
+            <motion.span
+              className="w-[2.5px] rounded-full bg-primary-foreground"
+              animate={{ height: ["40%", "100%", "40%"] }}
+              transition={{ duration: 0.65, repeat: Infinity, ease: "easeInOut", delay: 0.2 }}
+            />
+            <motion.span
+              className="w-[2.5px] rounded-full bg-primary-foreground"
+              animate={{ height: ["60%", "30%", "60%"] }}
+              transition={{ duration: 0.5, repeat: Infinity, ease: "easeInOut", delay: 0.15 }}
+            />
+          </div>
+        ) : (
+          <Music2 className="h-5 w-5" aria-hidden="true" />
+        )}
       </motion.button>
       <div
         id={panelId}

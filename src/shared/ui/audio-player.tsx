@@ -3,7 +3,17 @@
 import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import { AnimatePresence, motion } from "framer-motion";
-import { Pause, Play, Repeat1, Shuffle, SkipBack, SkipForward } from "lucide-react";
+import {
+  Pause,
+  Play,
+  Repeat1,
+  Shuffle,
+  SkipBack,
+  SkipForward,
+  Volume1,
+  Volume2,
+  VolumeX,
+} from "lucide-react";
 import { Button } from "@/shared/ui/button";
 import { useReducedMotionPreference } from "@/hooks/use3d";
 import { cn } from "@/shared/utils";
@@ -64,6 +74,42 @@ function PlaylistPlayer({
   const [duration, setDuration] = useState(0);
   const [isRepeat, setIsRepeat] = useState(false);
   const [error, setError] = useState<string | null>(null);
+
+  const [volume, setVolume] = useState(1);
+  const [isMuted, setIsMuted] = useState(false);
+  const [prevVolume, setPrevVolume] = useState(1);
+  const [isVolumeOpen, setIsVolumeOpen] = useState(false);
+  const volumeRef = useRef(1);
+
+  const handleVolumeChange = (newVolume: number) => {
+    setVolume(newVolume);
+    volumeRef.current = newVolume;
+    if (newVolume === 0) {
+      setIsMuted(true);
+    } else if (isMuted) {
+      setIsMuted(false);
+    }
+    if (audioRef.current) {
+      audioRef.current.volume = newVolume;
+    }
+  };
+
+  const toggleMute = () => {
+    if (isMuted || volume === 0) {
+      const restored = prevVolume > 0 ? prevVolume : 0.8;
+      setIsMuted(false);
+      setVolume(restored);
+      volumeRef.current = restored;
+      if (audioRef.current) audioRef.current.volume = restored;
+    } else {
+      setPrevVolume(volume);
+      setIsMuted(true);
+      setVolume(0);
+      volumeRef.current = 0;
+      if (audioRef.current) audioRef.current.volume = 0;
+    }
+  };
+
   const trackIndex = order[position];
   const track = tracks[trackIndex];
   const hasPlaylist = tracks.length > 1;
@@ -93,15 +139,71 @@ function PlaylistPlayer({
   useEffect(() => {
     if (!autoPlay || !allowAutoplay) return;
 
+    let touchStartX = 0;
+    let touchStartY = 0;
+    let isSwiping = false;
+
     const playOnInteraction = () => {
       const audio = audioRef.current;
       if (!audio) return;
-      cancelInteractionAutoplay();
-      if (audio.paused) void playAudio(audio);
+      if (!audio.paused) {
+        cancelInteractionAutoplay();
+        return;
+      }
+
+      const request = ++playRequest.current;
+      setError(null);
+      if (audio.error) audio.load();
+
+      audio
+        .play()
+        .then(() => {
+          cancelInteractionAutoplay();
+        })
+        .catch((cause) => {
+          if (request !== playRequest.current) return;
+          if (cause instanceof DOMException && cause.name === "AbortError") return;
+
+          cancelInteractionAutoplay();
+          setIsPlaying(false);
+          setError("Không thể phát bài nhạc. Vui lòng thử lại.");
+        });
     };
-    // Bubble after React controls so a Play/Pause click is not handled twice.
+
+    const handleTouchStart = (e: TouchEvent) => {
+      touchStartX = e.touches[0]?.clientX ?? 0;
+      touchStartY = e.touches[0]?.clientY ?? 0;
+      isSwiping = false;
+    };
+
+    const handleTouchMove = (e: TouchEvent) => {
+      const currentX = e.touches[0]?.clientX ?? touchStartX;
+      const currentY = e.touches[0]?.clientY ?? touchStartY;
+      const dx = Math.abs(currentX - touchStartX);
+      const dy = Math.abs(currentY - touchStartY);
+      if (dx > 10 || dy > 10) {
+        isSwiping = true;
+      }
+    };
+
+    const handleTouchEnd = () => {
+      if (isSwiping) return;
+      playOnInteraction();
+    };
+
     window.addEventListener("click", playOnInteraction);
-    const cleanup = () => window.removeEventListener("click", playOnInteraction);
+    window.addEventListener("keydown", playOnInteraction);
+    window.addEventListener("touchstart", handleTouchStart, { passive: true });
+    window.addEventListener("touchmove", handleTouchMove, { passive: true });
+    window.addEventListener("touchend", handleTouchEnd, { passive: true });
+
+    const cleanup = () => {
+      window.removeEventListener("click", playOnInteraction);
+      window.removeEventListener("keydown", playOnInteraction);
+      window.removeEventListener("touchstart", handleTouchStart);
+      window.removeEventListener("touchmove", handleTouchMove);
+      window.removeEventListener("touchend", handleTouchEnd);
+    };
     autoplayCleanup.current = cleanup;
 
     return () => {
@@ -110,14 +212,29 @@ function PlaylistPlayer({
     };
   }, [autoPlay, allowAutoplay]);
 
+  const fadeIntervalRef = useRef<number | null>(null);
+  const wasPlayingBeforeDucking = useRef(false);
+
+  const clearFadeInterval = () => {
+    if (fadeIntervalRef.current !== null) {
+      window.clearInterval(fadeIntervalRef.current);
+      fadeIntervalRef.current = null;
+    }
+  };
+
   useEffect(() => {
     const unsubscribePlay = subscribePlayerEvent(PLAYER_EVENTS.PLAY, () => {
       cancelInteractionAutoplay();
+      clearFadeInterval();
+      wasPlayingBeforeDucking.current = false;
       const audio = audioRef.current;
+      if (audio) audio.volume = 1;
       if (audio?.paused) void playAudio(audio);
     });
     const unsubscribePause = subscribePlayerEvent(PLAYER_EVENTS.PAUSE, () => {
       cancelInteractionAutoplay();
+      clearFadeInterval();
+      wasPlayingBeforeDucking.current = false;
       const audio = audioRef.current;
       if (audio && !audio.paused) {
         playRequest.current += 1;
@@ -125,9 +242,68 @@ function PlaylistPlayer({
       }
     });
 
+    const unsubscribeDuckStart = subscribePlayerEvent(PLAYER_EVENTS.DUCK_START, () => {
+      const audio = audioRef.current;
+      if (!audio) return;
+
+      clearFadeInterval();
+
+      if (!audio.paused) {
+        wasPlayingBeforeDucking.current = true;
+        const startVolume = audio.volume || 1;
+        const steps = 16;
+        const step = startVolume / steps;
+
+        fadeIntervalRef.current = window.setInterval(() => {
+          if (!audioRef.current) return;
+          if (audioRef.current.volume > step) {
+            audioRef.current.volume = Math.max(0, audioRef.current.volume - step);
+          } else {
+            audioRef.current.volume = 0;
+            audioRef.current.pause();
+            clearFadeInterval();
+          }
+        }, 50);
+      } else {
+        wasPlayingBeforeDucking.current = false;
+      }
+    });
+
+    const unsubscribeDuckEnd = subscribePlayerEvent(PLAYER_EVENTS.DUCK_END, () => {
+      const audio = audioRef.current;
+      if (!audio) return;
+
+      clearFadeInterval();
+
+      if (wasPlayingBeforeDucking.current) {
+        wasPlayingBeforeDucking.current = false;
+        audio.volume = 0;
+        void playAudio(audio).then(() => {
+          const targetVolume = volumeRef.current;
+          if (targetVolume > 0) {
+            const steps = 20;
+            const step = targetVolume / steps;
+
+            fadeIntervalRef.current = window.setInterval(() => {
+              if (!audioRef.current) return;
+              if (audioRef.current.volume < targetVolume - step) {
+                audioRef.current.volume = Math.min(targetVolume, audioRef.current.volume + step);
+              } else {
+                audioRef.current.volume = targetVolume;
+                clearFadeInterval();
+              }
+            }, 50);
+          }
+        });
+      }
+    });
+
     return () => {
+      clearFadeInterval();
       unsubscribePlay();
       unsubscribePause();
+      unsubscribeDuckStart();
+      unsubscribeDuckEnd();
     };
   }, []);
 
@@ -410,9 +586,62 @@ function PlaylistPlayer({
             <Repeat1 aria-hidden="true" />
           </Button>
         </div>
-        <p role="status" className="text-center text-xs text-white/60">
-          Lặp bài nhạc: {isRepeat ? "Bật" : "Tắt"}
-        </p>
+        <div className="flex items-center justify-between px-1 text-xs text-white/60">
+          <p role="status">Lặp bài nhạc: {isRepeat ? "Bật" : "Tắt"}</p>
+
+          <div
+            className="relative flex items-center gap-1.5"
+            onMouseEnter={() => setIsVolumeOpen(true)}
+            onMouseLeave={() => setIsVolumeOpen(false)}
+          >
+            <AnimatePresence>
+              {isVolumeOpen && (
+                <motion.div
+                  initial={{ width: 0, opacity: 0 }}
+                  animate={{ width: 68, opacity: 1 }}
+                  exit={{ width: 0, opacity: 0 }}
+                  transition={{ duration: 0.2 }}
+                  className="overflow-hidden flex items-center"
+                >
+                  <input
+                    type="range"
+                    min={0}
+                    max={1}
+                    step={0.02}
+                    value={isMuted ? 0 : volume}
+                    onChange={(e) => handleVolumeChange(Number(e.target.value))}
+                    aria-label="Âm lượng"
+                    className="h-1 w-[64px] cursor-pointer appearance-none rounded-full bg-white/20 accent-cyan-400 focus:outline-none"
+                  />
+                </motion.div>
+              )}
+            </AnimatePresence>
+
+            <Button
+              type="button"
+              variant="ghost"
+              size="icon"
+              aria-label={isMuted ? "Bật âm thanh" : "Tắt âm thanh"}
+              title={`Âm lượng: ${Math.round((isMuted ? 0 : volume) * 100)}%`}
+              onClick={() => {
+                if (!isVolumeOpen) {
+                  setIsVolumeOpen(true);
+                } else {
+                  toggleMute();
+                }
+              }}
+              className="h-7 w-7 rounded-full text-white/70 hover:bg-white/10 hover:text-white transition-colors"
+            >
+              {isMuted || volume === 0 ? (
+                <VolumeX className="h-4 w-4 text-red-400" />
+              ) : volume < 0.5 ? (
+                <Volume1 className="h-4 w-4 text-cyan-400" />
+              ) : (
+                <Volume2 className="h-4 w-4 text-cyan-400" />
+              )}
+            </Button>
+          </div>
+        </div>
         {error && (
           <p role="alert" className="text-center text-xs text-red-200">
             {error}

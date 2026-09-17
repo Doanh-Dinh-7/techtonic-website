@@ -3,26 +3,19 @@
 import { useEffect, useRef, useState } from "react";
 import { motion } from "framer-motion";
 import { Badge } from "@/shared/ui/badge";
-import { subscribePlayerEvent } from "@/shared/utils/player-events";
-import { PLAYER_EVENTS } from "@/types/player-events";
+import { useYouTubeAudioDuck } from "@/shared/hooks/use-youtube-audio-duck";
 
 const YOUTUBE_ORIGIN = "https://www.youtube.com";
 const VIDEO_BASE_SRC = `${YOUTUBE_ORIGIN}/embed/0qoiC8_fi8k?rel=0&enablejsapi=1`;
 const VIDEO_IDLE_SRC = `${VIDEO_BASE_SRC}&autoplay=0`;
 const VIDEO_AUTOPLAY_SRC = `${VIDEO_BASE_SRC}&autoplay=1&mute=1`;
 
-function muteYouTubeVideo(iframe: HTMLIFrameElement | null) {
-  iframe?.contentWindow?.postMessage(
-    JSON.stringify({ event: "command", func: "muteVideo", args: [] }),
-    YOUTUBE_ORIGIN
-  );
-}
-
 export function Video() {
   const videoRef = useRef<HTMLDivElement>(null);
   const iframeRef = useRef<HTMLIFrameElement>(null);
-  const isMusicPlayingRef = useRef(false);
   const [shouldAutoplay, setShouldAutoplay] = useState(false);
+
+  useYouTubeAudioDuck(iframeRef);
 
   useEffect(() => {
     const element = videoRef.current;
@@ -41,14 +34,6 @@ export function Video() {
     observer.observe(element);
     return () => observer.disconnect();
   }, [shouldAutoplay]);
-
-  useEffect(() => {
-    return subscribePlayerEvent(PLAYER_EVENTS.STATE, ({ detail: { isPlaying } }) => {
-      isMusicPlayingRef.current = isPlaying;
-
-      if (isPlaying) muteYouTubeVideo(iframeRef.current);
-    });
-  }, []);
 
   return (
     <section id="video" className="bg-secondary/45 py-20 text-foreground">
@@ -88,9 +73,6 @@ export function Video() {
               frameBorder="0"
               allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
               allowFullScreen
-              onLoad={() => {
-                if (isMusicPlayingRef.current) muteYouTubeVideo(iframeRef.current);
-              }}
             ></iframe>
           </div>
         </motion.div>

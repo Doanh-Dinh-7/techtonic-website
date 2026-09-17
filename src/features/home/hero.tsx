@@ -161,7 +161,7 @@ export function Hero() {
         }`}
       >
         <div className="flex animate-bounce flex-col items-center">
-          <span className="mb-2 text-sm">Cuộn xuống</span>
+          <span className="mb-2 text-sm">Click / chạm để bắt đầu</span>
           <ChevronDown size={24} />
         </div>
       </button>

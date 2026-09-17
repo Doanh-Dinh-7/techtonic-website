@@ -99,6 +99,27 @@ describe("AudioPlayer", () => {
     expect(audio.play).toHaveBeenCalledOnce();
   });
 
+  it("starts autoplay on touch tap interactions", () => {
+    render(<AudioPlayer playlist={playlist} autoPlay />);
+    const audio = audioElement();
+    expect(audio.play).not.toHaveBeenCalled();
+
+    fireEvent.touchStart(window, { touches: [{ clientX: 100, clientY: 100 }] });
+    fireEvent.touchEnd(window);
+    expect(audio.play).toHaveBeenCalledOnce();
+  });
+
+  it("does not start autoplay when swiping on touch devices", () => {
+    render(<AudioPlayer playlist={playlist} autoPlay />);
+    const audio = audioElement();
+    expect(audio.play).not.toHaveBeenCalled();
+
+    fireEvent.touchStart(window, { touches: [{ clientX: 100, clientY: 100 }] });
+    fireEvent.touchMove(window, { touches: [{ clientX: 100, clientY: 150 }] });
+    fireEvent.touchEnd(window);
+    expect(audio.play).not.toHaveBeenCalled();
+  });
+
   it("does not start on page clicks when autoplay is disabled", () => {
     render(<AudioPlayer playlist={playlist} />);
     fireEvent.click(document.body);
@@ -540,5 +561,23 @@ describe("AudioPlayer", () => {
     rerender(<AudioPlayer playlist={[{ src: " " }, playlist[0]]} />);
     expectTrack("Alpha", "/audio/alpha.mp3");
     expect(screen.getByRole("button", { name: "Bài tiếp theo" })).toBeDisabled();
+  });
+
+  it("opens volume slider and controls volume and mute", () => {
+    render(<AudioPlayer playlist={playlist} />);
+    const audio = audioElement();
+    expect(screen.queryByLabelText("Âm lượng")).not.toBeInTheDocument();
+
+    const muteBtn = screen.getByRole("button", { name: "Tắt âm thanh" });
+    fireEvent.click(muteBtn);
+
+    const volumeSlider = screen.getByLabelText("Âm lượng");
+    expect(volumeSlider).toBeInTheDocument();
+
+    fireEvent.change(volumeSlider, { target: { value: "0.5" } });
+    expect(audio.volume).toBe(0.5);
+
+    fireEvent.click(muteBtn);
+    expect(audio.volume).toBe(0);
   });
 });
