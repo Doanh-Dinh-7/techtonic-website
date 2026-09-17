@@ -4,14 +4,37 @@
 
 import { fireEvent, render, screen } from "@testing-library/react";
 import { afterEach, describe, expect, it, vi } from "vitest";
+import { emitPlayerEvent } from "@/shared/utils/player-events";
+import { PLAYER_EVENTS } from "@/types/player-events";
 
 import { Video } from "./video";
+
+function emitMusicState(isPlaying: boolean) {
+  emitPlayerEvent(PLAYER_EVENTS.STATE, {
+    isPlaying,
+    track: { src: "/audio/sample.mp3" },
+    progress: 0,
+    currentTime: 0,
+    duration: 120,
+  });
+}
 
 afterEach(() => {
   vi.restoreAllMocks();
 });
 
 describe("Video", () => {
+  it("stops receiving player state after unmount", () => {
+    const { unmount } = render(<Video />);
+    const iframe = screen.getByTitle<HTMLIFrameElement>("YouTube video player");
+    const postMessage = vi.spyOn(iframe.contentWindow!, "postMessage");
+
+    unmount();
+    emitMusicState(true);
+
+    expect(postMessage).not.toHaveBeenCalled();
+  });
+
   it("enables the YouTube JavaScript API", () => {
     render(<Video />);
 
@@ -26,7 +49,7 @@ describe("Video", () => {
     const iframe = screen.getByTitle<HTMLIFrameElement>("YouTube video player");
     const postMessage = vi.spyOn(iframe.contentWindow!, "postMessage");
 
-    window.dispatchEvent(new CustomEvent("player:state", { detail: { isPlaying: true } }));
+    emitMusicState(true);
 
     expect(postMessage).toHaveBeenCalledWith(
       JSON.stringify({ event: "command", func: "muteVideo", args: [] }),
@@ -39,7 +62,7 @@ describe("Video", () => {
     const iframe = screen.getByTitle<HTMLIFrameElement>("YouTube video player");
     const postMessage = vi.spyOn(iframe.contentWindow!, "postMessage");
 
-    window.dispatchEvent(new CustomEvent("player:state", { detail: { isPlaying: false } }));
+    emitMusicState(false);
 
     expect(postMessage).not.toHaveBeenCalled();
   });
@@ -49,7 +72,7 @@ describe("Video", () => {
     const iframe = screen.getByTitle<HTMLIFrameElement>("YouTube video player");
     const postMessage = vi.spyOn(iframe.contentWindow!, "postMessage");
 
-    window.dispatchEvent(new CustomEvent("player:state", { detail: { isPlaying: true } }));
+    emitMusicState(true);
     postMessage.mockClear();
     fireEvent.load(iframe);
 

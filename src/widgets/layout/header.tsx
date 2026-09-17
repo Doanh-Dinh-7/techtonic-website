@@ -27,7 +27,8 @@ interface HeaderProps {
  * Top navigation with desktop/mobile variants and recruitment CTA.
  */
 import { useEffect, useState } from "react";
-import type { AudioTrack } from "@/components/ui/audio-player";
+import { emitPlayerEvent, subscribePlayerEvent } from "@/shared/utils/player-events";
+import { PLAYER_EVENTS, type AudioTrack } from "@/types/player-events";
 
 function MiniPlayer() {
   const [isPlaying, setIsPlaying] = useState(false);
@@ -35,27 +36,22 @@ function MiniPlayer() {
   const [isOpen, setIsOpen] = useState(false);
 
   useEffect(() => {
-    const handleStateChange = (e: Event) => {
-      const customEvent = e as CustomEvent;
-      setIsPlaying(customEvent.detail.isPlaying);
-      setTrack(customEvent.detail.track);
-    };
-    const handleOpen = () => setIsOpen(true);
-    const handleClose = () => setIsOpen(false);
-
-    window.addEventListener("player:state", handleStateChange);
-    window.addEventListener("player:ui:open", handleOpen);
-    window.addEventListener("player:ui:close", handleClose);
+    const unsubscribeState = subscribePlayerEvent(PLAYER_EVENTS.STATE, ({ detail }) => {
+      setIsPlaying(detail.isPlaying);
+      setTrack(detail.track);
+    });
+    const unsubscribeOpen = subscribePlayerEvent(PLAYER_EVENTS.UI_OPEN, () => setIsOpen(true));
+    const unsubscribeClose = subscribePlayerEvent(PLAYER_EVENTS.UI_CLOSE, () => setIsOpen(false));
 
     return () => {
-      window.removeEventListener("player:state", handleStateChange);
-      window.removeEventListener("player:ui:open", handleOpen);
-      window.removeEventListener("player:ui:close", handleClose);
+      unsubscribeState();
+      unsubscribeOpen();
+      unsubscribeClose();
     };
   }, []);
 
-  const playAudio = () => window.dispatchEvent(new Event("player:cmd:play"));
-  const pauseAudio = () => window.dispatchEvent(new Event("player:cmd:pause"));
+  const playAudio = () => emitPlayerEvent(PLAYER_EVENTS.PLAY);
+  const pauseAudio = () => emitPlayerEvent(PLAYER_EVENTS.PAUSE);
 
   if (isOpen || !track) return null;
 

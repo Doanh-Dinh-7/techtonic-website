@@ -3,12 +3,14 @@
 import { useEffect, useId, useRef, useState } from "react";
 import { Music2, X } from "lucide-react";
 
-import AudioPlayer from "@/components/ui/audio-player";
+import AudioPlayer from "@/shared/ui/audio-player";
 import { homePlaylist } from "@/lib/content/home";
 import { Button } from "@/shared/ui/button";
 import { cn } from "@/lib/utils";
+import { emitPlayerEvent } from "@/shared/utils/player-events";
+import { PLAYER_EVENTS } from "@/types/player-events";
 
-export function Music() {
+export function MusicPlayer() {
   const [isOpen, setIsOpen] = useState(false);
   const widgetRef = useRef<HTMLDivElement>(null);
   const triggerRef = useRef<HTMLButtonElement>(null);
@@ -45,7 +47,7 @@ export function Music() {
   }, [isOpen]);
 
   useEffect(() => {
-    window.dispatchEvent(new Event(isOpen ? "player:ui:open" : "player:ui:close"));
+    emitPlayerEvent(isOpen ? PLAYER_EVENTS.UI_OPEN : PLAYER_EVENTS.UI_CLOSE);
   }, [isOpen]);
 
   return (

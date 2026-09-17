@@ -3,9 +3,12 @@
  */
 
 import { act, cleanup, fireEvent, render, screen, waitFor } from "@testing-library/react";
+import { StrictMode } from "react";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 
-import AudioPlayer, { type AudioTrack } from "./audio-player";
+import AudioPlayer from "@/shared/ui/audio-player";
+import { emitPlayerEvent, subscribePlayerEvent } from "@/shared/utils/player-events";
+import { PLAYER_EVENTS, type AudioTrack } from "@/types/player-events";
 
 // The global motion mock creates a different component on every property read,
 // which replaces the audio element during playback state updates.
@@ -70,6 +73,57 @@ afterEach(() => {
 });
 
 describe("AudioPlayer", () => {
+  it("handles external commands once after updates and releases listeners on unmount", () => {
+    const stateListener = vi.fn();
+    const unsubscribe = subscribePlayerEvent(PLAYER_EVENTS.STATE, stateListener);
+
+    try {
+      const { unmount } = render(
+        <StrictMode>
+          <AudioPlayer playlist={playlist} />
+        </StrictMode>
+      );
+      const audio = audioElement();
+
+      act(() => emitPlayerEvent(PLAYER_EVENTS.PLAY));
+      expect(audio.play).toHaveBeenCalledOnce();
+      expect(stateListener.mock.lastCall?.[0].detail).toMatchObject({
+        isPlaying: true,
+        track: playlist[0],
+      });
+
+      setMetadata(audio, 120, 30);
+      audio.currentTime = 60;
+      fireEvent.timeUpdate(audio);
+      expect(stateListener.mock.lastCall?.[0].detail).toMatchObject({
+        progress: 50,
+        currentTime: 60,
+        duration: 120,
+      });
+
+      act(() => emitPlayerEvent(PLAYER_EVENTS.PAUSE));
+      expect(audio.pause).toHaveBeenCalledOnce();
+      expect(stateListener.mock.lastCall?.[0].detail.isPlaying).toBe(false);
+
+      act(() => emitPlayerEvent(PLAYER_EVENTS.PLAY));
+      expect(audio.play).toHaveBeenCalledTimes(2);
+      unmount();
+
+      vi.mocked(audio.play).mockClear();
+      vi.mocked(audio.pause).mockClear();
+      stateListener.mockClear();
+      act(() => {
+        emitPlayerEvent(PLAYER_EVENTS.PLAY);
+        emitPlayerEvent(PLAYER_EVENTS.PAUSE);
+      });
+      expect(audio.play).not.toHaveBeenCalled();
+      expect(audio.pause).not.toHaveBeenCalled();
+      expect(stateListener).not.toHaveBeenCalled();
+    } finally {
+      unsubscribe();
+    }
+  });
+
   it("does not autoplay and follows play, pause, and ended events", () => {
     render(<AudioPlayer src="/audio/alpha.mp3" title="Alpha" />);
     const audio = audioElement();

@@ -6,13 +6,9 @@ import { AnimatePresence, motion } from "framer-motion";
 import { Pause, Play, Repeat, Shuffle, SkipBack, SkipForward } from "lucide-react";
 import { Button } from "@/shared/ui/button";
 import { useReducedMotionPreference } from "@/hooks/use3d";
-import { cn } from "@/lib/utils";
-
-export interface AudioTrack {
-  src: string;
-  cover?: string;
-  title?: string;
-}
+import { cn } from "@/shared/utils";
+import { emitPlayerEvent, subscribePlayerEvent } from "@/shared/utils/player-events";
+import { PLAYER_EVENTS, type AudioTrack } from "@/types/player-events";
 
 export interface AudioPlayerProps {
   src?: string;
@@ -87,25 +83,26 @@ function PlaylistPlayer({
   };
 
   useEffect(() => {
-    const handleCommand = (e: Event) => {
+    const unsubscribePlay = subscribePlayerEvent(PLAYER_EVENTS.PLAY, () => {
       const audio = audioRef.current;
-      if (!audio) return;
-      if (e.type === "player:cmd:play" && audio.paused) void playAudio(audio);
-      if (e.type === "player:cmd:pause" && !audio.paused) {
+      if (audio?.paused) void playAudio(audio);
+    });
+    const unsubscribePause = subscribePlayerEvent(PLAYER_EVENTS.PAUSE, () => {
+      const audio = audioRef.current;
+      if (audio && !audio.paused) {
         playRequest.current += 1;
         audio.pause();
       }
-    };
-    window.addEventListener("player:cmd:play", handleCommand);
-    window.addEventListener("player:cmd:pause", handleCommand);
-
-    const stateDetail = { isPlaying, track, progress, currentTime, duration };
-    window.dispatchEvent(new CustomEvent("player:state", { detail: stateDetail }));
+    });
 
     return () => {
-      window.removeEventListener("player:cmd:play", handleCommand);
-      window.removeEventListener("player:cmd:pause", handleCommand);
+      unsubscribePlay();
+      unsubscribePause();
     };
+  }, []);
+
+  useEffect(() => {
+    emitPlayerEvent(PLAYER_EVENTS.STATE, { isPlaying, track, progress, currentTime, duration });
   }, [isPlaying, track, progress, currentTime, duration]);
 
   useEffect(() => {

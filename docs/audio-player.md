@@ -1,6 +1,6 @@
-# Trình phát nhạc trang chủ
+# Trình phát nhạc toàn website
 
-Trình phát là nút tròn có biểu tượng nhạc cố định ở góc dưới bên phải trang chủ, phía trên nút cuộn lên đầu trang. Bấm nút để mở hoặc thu gọn bảng điều khiển. Không có section nhạc trong nội dung trang. Widget dùng `next/dynamic` và hiển thị ngay, không phụ thuộc vị trí cuộn; audio chỉ được gắn vào trang sau lần mở đầu tiên. Nhạc không tự phát khi mở bảng.
+Trình phát là nút tròn có biểu tượng nhạc cố định ở góc dưới bên phải các route dùng `SiteShell`, phía trên nút cuộn lên đầu trang. Bấm nút để mở hoặc thu gọn bảng điều khiển. Không có section nhạc trong nội dung trang. `SiteShell` tải widget bằng `next/dynamic` với `ssr: false`; audio được gắn ngay cùng widget, bật `autoPlay` và `defaultShuffle`. Khả năng tự phát phụ thuộc chính sách của trình duyệt.
 
 ## Cấu trúc và thư viện
 
@@ -8,16 +8,16 @@ Dự án đã có TypeScript, Tailwind CSS và cấu hình shadcn trong `compone
 
 - UI mặc định: `src/shared/ui`; tiện ích `cn`: `src/shared/utils`.
 - CSS toàn cục: `src/app/globals.css`; cấu hình Tailwind: `tailwind.config.ts`.
-- `src/components/ui/audio-player.tsx` và `demo.tsx` giữ đúng đường dẫn tích hợp được yêu cầu trong prompt. Đây là ngoại lệ để các đoạn mã import `@/components/ui/...` hoạt động, không thay đổi thư mục UI mặc định của dự án.
-- `src/components/ui/button.tsx` tái xuất Button hiện có từ `src/shared/ui/button`, tránh tạo hai bản Button phải bảo trì riêng.
-- `src/features/home/music.tsx` quản lý nút nổi và bảng điều khiển trên trang chủ.
+- `src/shared/ui/audio-player.tsx` chứa trình phát; `src/shared/ui/audio-player.test.tsx` chứa kiểm thử. Import từ `@/shared/ui/audio-player` theo kiến trúc V2.0.
+- Trình phát dùng trực tiếp Button tại `src/shared/ui/button.tsx` và tiện ích `cn` từ `@/shared/utils`.
+- `src/widgets/layout/music-player.tsx` quản lý nút nổi và bảng điều khiển dùng chung cho mọi route trong `SiteShell`; không phụ thuộc `features/home`.
 
 ## Dữ liệu và cách dùng
 
 Chỉnh `homePlaylist` trong `src/lib/content/home.ts` khi có danh sách nhạc chính thức. Mỗi phần tử gồm `src` (URL âm thanh trực tiếp hoặc đường dẫn file trong `public`), `title` và `cover` tùy chọn. Hiện dùng **SoundHelix Song 1** và ảnh bìa Unsplash. URL MP3 gốc trong prompt (`ui.webmakers.studio/audio/ncs.mp3`) không phân giải DNS khi kiểm tra, nên đã thay bằng [MP3 mẫu SoundHelix](https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3) trả HTTP 200.
 
 ```tsx
-import AudioPlayer from "@/components/ui/audio-player";
+import AudioPlayer from "@/shared/ui/audio-player";
 import { homePlaylist } from "@/lib/content/home";
 
 <AudioPlayer playlist={homePlaylist} />;
@@ -33,17 +33,22 @@ API một bài vẫn được hỗ trợ:
 />
 ```
 
-`AudioPlayerDemo` được xuất từ `src/components/ui/demo.tsx` để xem cách dùng bài mẫu. Không cần thêm route demo.
-
 ## Hành vi
 
 - Bảng điều khiển rộng tối đa 280px, co lại trên màn hình hẹp và có thể cuộn khi chiều cao màn hình nhỏ.
 - Mặc định chỉ hiện biểu tượng nhạc. Có thể thu gọn bằng nút biểu tượng, nút X, phím Escape hoặc bấm bên ngoài; bảng hỗ trợ thao tác bàn phím.
-- Thu gọn bảng giữ nguyên bài nhạc, tiến độ và trạng thái phát. Dùng nút tạm dừng trong bảng để dừng nhạc; rời trang chủ sẽ dừng trình phát.
+- Thu gọn bảng giữ nguyên bài nhạc, tiến độ và trạng thái phát. Dùng nút tạm dừng trong bảng để dừng nhạc; chuyển giữa các route dùng chung `SiteShell` giữ trình phát đang hoạt động.
 - Phát/tạm dừng và tua nhạc hoạt động trên phần tử audio của trình duyệt; trạng thái và thời lượng theo sự kiện phát thực tế.
 - Bài trước, bài tiếp và phát ngẫu nhiên dùng playlist. Khi chỉ có một bài, các nút này bị vô hiệu hóa.
 - Lặp áp dụng cho cả playlist; với một bài, bài đó được lặp lại.
 - Phát ngẫu nhiên đi qua từng bài trước khi dừng hoặc bắt đầu vòng lặp mới.
 - Trạng thái phát chỉ tồn tại trong component; không cần lưu trữ hay state manager riêng.
+
+## Giao tiếp giữa các component
+
+- `src/types/player-events.ts` là nơi khai báo `PLAYER_EVENTS`, `AudioTrack`, `PlayerState` và kiểu sự kiện trên `window`.
+- Gửi sự kiện bằng `emitPlayerEvent` từ `@/shared/utils/player-events`. Sự kiện `PLAYER_EVENTS.STATE` bắt buộc có đủ `isPlaying`, `track`, `progress`, `currentTime`, `duration`; các lệnh phát/dừng và mở/đóng UI không có payload.
+- Nhận sự kiện bằng `subscribePlayerEvent`, với kiểu callback được suy ra từ tên sự kiện. Hàm trả về cleanup để dùng trong `useEffect`; gọi tất cả cleanup khi effect kết thúc nếu đăng ký nhiều listener.
+- Listener lệnh phát/dừng tồn tại theo vòng đời player, không đăng ký lại theo cập nhật tiến độ. Các component dùng hằng số thay vì tự ghi chuỗi tên sự kiện.
 
 Danh sách nhạc chính thức sẽ được bổ sung vào `homePlaylist` khi người dùng cung cấp.

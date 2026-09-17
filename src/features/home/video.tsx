@@ -3,15 +3,13 @@
 import { useEffect, useRef, useState } from "react";
 import { motion } from "framer-motion";
 import { Badge } from "@/shared/ui/badge";
+import { subscribePlayerEvent } from "@/shared/utils/player-events";
+import { PLAYER_EVENTS } from "@/types/player-events";
 
 const YOUTUBE_ORIGIN = "https://www.youtube.com";
 const VIDEO_BASE_SRC = `${YOUTUBE_ORIGIN}/embed/0qoiC8_fi8k?rel=0&enablejsapi=1`;
 const VIDEO_IDLE_SRC = `${VIDEO_BASE_SRC}&autoplay=0`;
 const VIDEO_AUTOPLAY_SRC = `${VIDEO_BASE_SRC}&autoplay=1&mute=1`;
-
-type PlayerStateDetail = {
-  isPlaying?: boolean;
-};
 
 function muteYouTubeVideo(iframe: HTMLIFrameElement | null) {
   iframe?.contentWindow?.postMessage(
@@ -45,15 +43,11 @@ export function Video() {
   }, [shouldAutoplay]);
 
   useEffect(() => {
-    const handlePlayerState = (event: Event) => {
-      const { isPlaying = false } = (event as CustomEvent<PlayerStateDetail>).detail ?? {};
+    return subscribePlayerEvent(PLAYER_EVENTS.STATE, ({ detail: { isPlaying } }) => {
       isMusicPlayingRef.current = isPlaying;
 
       if (isPlaying) muteYouTubeVideo(iframeRef.current);
-    };
-
-    window.addEventListener("player:state", handlePlayerState);
-    return () => window.removeEventListener("player:state", handlePlayerState);
+    });
   }, []);
 
   return (

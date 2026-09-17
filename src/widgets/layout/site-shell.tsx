@@ -10,7 +10,10 @@ import { BackToTop } from "@/shared/ui/back-to-top";
 import dynamic from "next/dynamic";
 import { useSiteShellVisibility } from "@/widgets/layout/hooks/use-site-shell-visibility";
 
-const Music = dynamic(() => import("@/features/home/music").then((m) => m.Music), { ssr: false });
+const MusicPlayer = dynamic(
+  () => import("@/widgets/layout/music-player").then((m) => m.MusicPlayer),
+  { ssr: false }
+);
 
 /**
  * Shared shell for all `(site)` routes.
@@ -39,7 +42,7 @@ export function SiteShell({ children }: { children: React.ReactNode }) {
             {children}
           </main>
           <Footer />
-          <Music />
+          <MusicPlayer />
           <BackToTop show={showBackToTop} onClick={scrollToTop} />
         </div>
       </AnimationReadyProvider>

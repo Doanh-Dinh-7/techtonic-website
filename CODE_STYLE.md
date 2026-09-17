@@ -58,7 +58,7 @@ Keep code maintainable, scalable, and consistent across the layered `src/` archi
 | `src/3d/departments-hero-canvas.tsx` | Departments hero canvas (SSR-safe)           |
 | `src/3d/recruitment-page-canvas.tsx` | Recruitment backdrop canvas (SSR-safe)       |
 
-Use `@/shared/ui/*` for UI imports. The requested [audio player integration](docs/audio-player.md) is a compatibility exception in `src/components/ui/`; its Button reuses the canonical shared implementation.
+**No `@/components/*` imports.** `src/components/` has been fully decommissioned.
 
 ### Import policy
 
@@ -147,7 +147,7 @@ src/3d → lib/3d, hooks, shared/utils
 - `shared →` upper layers
 - `lib/3d →` React in `src/3d` (keep policy pure)
 - Cross-feature deep imports
-- `@/components/*` outside the documented audio player compatibility entrypoints
+- `@/components/*`
 
 ---
 
