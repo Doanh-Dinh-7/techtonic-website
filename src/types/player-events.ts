@@ -1,5 +1,6 @@
 export const PLAYER_EVENTS = {
   STATE: "player:state",
+  REQUEST_STATE: "player:state:request",
   PLAY: "player:cmd:play",
   PAUSE: "player:cmd:pause",
   UI_OPEN: "player:ui:open",
@@ -22,6 +23,7 @@ export interface PlayerState {
 
 export interface PlayerEventMap {
   [PLAYER_EVENTS.STATE]: CustomEvent<PlayerState>;
+  [PLAYER_EVENTS.REQUEST_STATE]: Event;
   [PLAYER_EVENTS.PLAY]: Event;
   [PLAYER_EVENTS.PAUSE]: Event;
   [PLAYER_EVENTS.UI_OPEN]: Event;

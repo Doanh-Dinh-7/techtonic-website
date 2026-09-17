@@ -1,13 +1,13 @@
 "use client";
 
 import { useEffect, useId, useRef, useState } from "react";
+import { motion } from "framer-motion";
 import { Music2, X } from "lucide-react";
 
 import AudioPlayer from "@/shared/ui/audio-player";
 import { homePlaylist } from "@/lib/content/home";
 import { Button } from "@/shared/ui/button";
-import { cn } from "@/lib/utils";
-import { emitPlayerEvent } from "@/shared/utils/player-events";
+import { emitPlayerEvent, subscribePlayerEvent } from "@/shared/utils/player-events";
 import { PLAYER_EVENTS } from "@/types/player-events";
 
 export function MusicPlayer() {
@@ -47,7 +47,10 @@ export function MusicPlayer() {
   }, [isOpen]);
 
   useEffect(() => {
-    emitPlayerEvent(isOpen ? PLAYER_EVENTS.UI_OPEN : PLAYER_EVENTS.UI_CLOSE);
+    const publishPanelState = () =>
+      emitPlayerEvent(isOpen ? PLAYER_EVENTS.UI_OPEN : PLAYER_EVENTS.UI_CLOSE);
+    publishPanelState();
+    return subscribePlayerEvent(PLAYER_EVENTS.REQUEST_STATE, publishPanelState);
   }, [isOpen]);
 
   return (
@@ -55,10 +58,9 @@ export function MusicPlayer() {
       ref={widgetRef}
       className="fixed bottom-[calc(6rem+env(safe-area-inset-bottom))] right-8 z-40"
     >
-      <Button
+      <motion.button
         ref={triggerRef}
         type="button"
-        size="icon"
         aria-label="Trình phát nhạc"
         aria-expanded={isOpen}
         aria-controls={panelId}
@@ -66,15 +68,16 @@ export function MusicPlayer() {
         onClick={() => {
           setIsOpen(!isOpen);
         }}
-        className={cn(
-          "h-14 w-14 rounded-full shadow-[0_0_20px_rgba(0,245,255,0.2)] transition-all hover:scale-105 hover:shadow-[0_0_30px_rgba(0,245,255,0.4)] [&_svg]:size-6",
-          isOpen
-            ? "bg-zinc-800 text-white hover:bg-zinc-700"
-            : "bg-gradient-to-tr from-cyan-500 to-blue-600 text-white"
-        )}
+        className="flex h-12 w-12 min-h-11 min-w-11 items-center justify-center rounded-full bg-primary text-primary-foreground shadow-lg transition-shadow hover:shadow-xl focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background"
+        transition={{ duration: 0.3 }}
+        whileHover={{
+          scale: 1.1,
+          boxShadow: "0 10px 25px rgba(59, 130, 246, 0.4)",
+        }}
+        whileTap={{ scale: 0.9 }}
       >
-        <Music2 aria-hidden="true" />
-      </Button>
+        <Music2 className="h-5 w-5" aria-hidden="true" />
+      </motion.button>
       <div
         id={panelId}
         role="region"

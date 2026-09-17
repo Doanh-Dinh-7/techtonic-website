@@ -1,3 +1,5 @@
+/// <reference types="vitest/globals" />
+
 import "@testing-library/jest-dom/vitest";
 
 class ResizeObserverMock {
@@ -11,6 +13,7 @@ globalThis.ResizeObserver = ResizeObserverMock as typeof ResizeObserver;
 class IntersectionObserverMock implements IntersectionObserver {
   readonly root: Element | Document | null = null;
   readonly rootMargin: string = "";
+  readonly scrollMargin: string = "0px 0px 0px 0px";
   readonly thresholds: ReadonlyArray<number> = [];
 
   constructor(private readonly callback: IntersectionObserverCallback) {}

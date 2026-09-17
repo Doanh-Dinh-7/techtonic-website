@@ -39,9 +39,12 @@ API một bài vẫn được hỗ trợ:
 - Mặc định chỉ hiện biểu tượng nhạc. Có thể thu gọn bằng nút biểu tượng, nút X, phím Escape hoặc bấm bên ngoài; bảng hỗ trợ thao tác bàn phím.
 - Thu gọn bảng giữ nguyên bài nhạc, tiến độ và trạng thái phát. Dùng nút tạm dừng trong bảng để dừng nhạc; chuyển giữa các route dùng chung `SiteShell` giữ trình phát đang hoạt động.
 - Phát/tạm dừng và tua nhạc hoạt động trên phần tử audio của trình duyệt; trạng thái và thời lượng theo sự kiện phát thực tế.
+- Khi bật `autoPlay` mà audio chưa phát, player thử gọi `play()` một lần sau cú click/chạm đầu tiên trên trang chính (không gồm nội dung iframe). Không cần mở bảng điều khiển. Quyền phát âm thanh vẫn do trình duyệt quyết định.
+- Cơ chế thử phát này ngừng khi nhạc đã phát hoặc người dùng chủ động phát/tạm dừng, để các click sau không tự bật nhạc lại. Listener được gỡ khi không còn cần, khi tắt `autoPlay` hoặc khi player unmount; nếu thử phát thất bại, người dùng có thể thử lại bằng nút phát.
 - Bài trước, bài tiếp và phát ngẫu nhiên dùng playlist. Khi chỉ có một bài, các nút này bị vô hiệu hóa.
-- Lặp áp dụng cho cả playlist; với một bài, bài đó được lặp lại.
-- Phát ngẫu nhiên đi qua từng bài trước khi dừng hoặc bắt đầu vòng lặp mới.
+- Nút ngẫu nhiên phát ngay một bài khác với bài đang chọn, kể cả khi đang tạm dừng. `defaultShuffle` vẫn trộn thứ tự playlist lúc khởi tạo; nút ngẫu nhiên không còn là công tắc bật/tắt chế độ trộn.
+- Nút lặp bật/tắt lặp bài đang nghe, dùng biểu tượng lặp có số 1. Khi bật, bài hiện tại phát lại liên tục; nếu chủ động đổi bài, chế độ lặp áp dụng cho bài mới. Khi tắt, hết bài sẽ chuyển bài tiếp theo và dừng ở cuối danh sách. Trạng thái Bật/Tắt hiển thị ngay dưới các nút.
+- Bài trước/bài tiếp giữ trạng thái phát hoặc tạm dừng. Dùng cùng một phần tử audio khi đổi bài; autoplay ban đầu không tự bật lại sau thao tác tạm dừng.
 - Trạng thái phát chỉ tồn tại trong component; không cần lưu trữ hay state manager riêng.
 
 ## Giao tiếp giữa các component
@@ -50,5 +53,6 @@ API một bài vẫn được hỗ trợ:
 - Gửi sự kiện bằng `emitPlayerEvent` từ `@/shared/utils/player-events`. Sự kiện `PLAYER_EVENTS.STATE` bắt buộc có đủ `isPlaying`, `track`, `progress`, `currentTime`, `duration`; các lệnh phát/dừng và mở/đóng UI không có payload.
 - Nhận sự kiện bằng `subscribePlayerEvent`, với kiểu callback được suy ra từ tên sự kiện. Hàm trả về cleanup để dùng trong `useEffect`; gọi tất cả cleanup khi effect kết thúc nếu đăng ký nhiều listener.
 - Listener lệnh phát/dừng tồn tại theo vòng đời player, không đăng ký lại theo cập nhật tiến độ. Các component dùng hằng số thay vì tự ghi chuỗi tên sự kiện.
+- Header gửi `PLAYER_EVENTS.REQUEST_STATE` sau khi đăng ký nhận sự kiện. Player và widget trả lại trạng thái phát và mở/đóng hiện tại để nút trên header hoạt động ngay cả khi header vừa xuất hiện lại lúc nhạc đang tạm dừng.
 
 Danh sách nhạc chính thức sẽ được bổ sung vào `homePlaylist` khi người dùng cung cấp.

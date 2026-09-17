@@ -42,6 +42,7 @@ function MiniPlayer() {
     });
     const unsubscribeOpen = subscribePlayerEvent(PLAYER_EVENTS.UI_OPEN, () => setIsOpen(true));
     const unsubscribeClose = subscribePlayerEvent(PLAYER_EVENTS.UI_CLOSE, () => setIsOpen(false));
+    emitPlayerEvent(PLAYER_EVENTS.REQUEST_STATE);
 
     return () => {
       unsubscribeState();
@@ -95,13 +96,15 @@ function MiniPlayer() {
       </div>
 
       <button
+        type="button"
+        aria-label={isPlaying ? "Tạm dừng" : "Phát nhạc"}
         onClick={() => (isPlaying ? pauseAudio() : playAudio())}
         className="ml-1 flex h-6 w-6 items-center justify-center rounded-full bg-white/10 hover:bg-white/20 text-white transition-colors"
       >
         {isPlaying ? (
-          <Pause className="h-3 w-3 fill-current" />
+          <Pause className="h-3 w-3 fill-current" aria-hidden="true" />
         ) : (
-          <Play className="h-3 w-3 fill-current ml-0.5" />
+          <Play className="h-3 w-3 fill-current ml-0.5" aria-hidden="true" />
         )}
       </button>
     </motion.div>

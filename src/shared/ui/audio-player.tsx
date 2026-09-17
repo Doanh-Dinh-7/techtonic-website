@@ -3,7 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import { AnimatePresence, motion } from "framer-motion";
-import { Pause, Play, Repeat, Shuffle, SkipBack, SkipForward } from "lucide-react";
+import { Pause, Play, Repeat1, Shuffle, SkipBack, SkipForward } from "lucide-react";
 import { Button } from "@/shared/ui/button";
 import { useReducedMotionPreference } from "@/hooks/use3d";
 import { cn } from "@/shared/utils";
@@ -42,8 +42,10 @@ function PlaylistPlayer({
   const audioRef = useRef<HTMLAudioElement>(null);
   const resumeOnTrackChange = useRef(false);
   const playRequest = useRef(0);
+  const autoplayCleanup = useRef<(() => void) | null>(null);
+  const [allowAutoplay, setAllowAutoplay] = useState(true);
   const reducedMotion = useReducedMotionPreference();
-  const [order, setOrder] = useState(() => {
+  const [order] = useState(() => {
     const initialOrder = tracks.map((_, index) => index);
     if (defaultShuffle && initialOrder.length > 1) {
       for (let index = initialOrder.length - 1; index > 0; index -= 1) {
@@ -60,7 +62,6 @@ function PlaylistPlayer({
   const [isPlaying, setIsPlaying] = useState(false);
   const [currentTime, setCurrentTime] = useState(0);
   const [duration, setDuration] = useState(0);
-  const [isShuffle, setIsShuffle] = useState(defaultShuffle ?? false);
   const [isRepeat, setIsRepeat] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const trackIndex = order[position];
@@ -82,12 +83,41 @@ function PlaylistPlayer({
     }
   };
 
+  const cancelInteractionAutoplay = () => {
+    setAllowAutoplay(false);
+    if (audioRef.current) audioRef.current.autoplay = false;
+    autoplayCleanup.current?.();
+    autoplayCleanup.current = null;
+  };
+
+  useEffect(() => {
+    if (!autoPlay || !allowAutoplay) return;
+
+    const playOnInteraction = () => {
+      const audio = audioRef.current;
+      if (!audio) return;
+      cancelInteractionAutoplay();
+      if (audio.paused) void playAudio(audio);
+    };
+    // Bubble after React controls so a Play/Pause click is not handled twice.
+    window.addEventListener("click", playOnInteraction);
+    const cleanup = () => window.removeEventListener("click", playOnInteraction);
+    autoplayCleanup.current = cleanup;
+
+    return () => {
+      cleanup();
+      autoplayCleanup.current = null;
+    };
+  }, [autoPlay, allowAutoplay]);
+
   useEffect(() => {
     const unsubscribePlay = subscribePlayerEvent(PLAYER_EVENTS.PLAY, () => {
+      cancelInteractionAutoplay();
       const audio = audioRef.current;
       if (audio?.paused) void playAudio(audio);
     });
     const unsubscribePause = subscribePlayerEvent(PLAYER_EVENTS.PAUSE, () => {
+      cancelInteractionAutoplay();
       const audio = audioRef.current;
       if (audio && !audio.paused) {
         playRequest.current += 1;
@@ -102,7 +132,10 @@ function PlaylistPlayer({
   }, []);
 
   useEffect(() => {
-    emitPlayerEvent(PLAYER_EVENTS.STATE, { isPlaying, track, progress, currentTime, duration });
+    const publishState = () =>
+      emitPlayerEvent(PLAYER_EVENTS.STATE, { isPlaying, track, progress, currentTime, duration });
+    publishState();
+    return subscribePlayerEvent(PLAYER_EVENTS.REQUEST_STATE, publishState);
   }, [isPlaying, track, progress, currentTime, duration]);
 
   useEffect(() => {
@@ -140,29 +173,29 @@ function PlaylistPlayer({
     setPosition(nextPosition);
   };
 
+  const skipTrack = (direction: -1 | 1) => {
+    cancelInteractionAutoplay();
+    const audio = audioRef.current;
+    changeTrack(
+      (position + direction + order.length) % order.length,
+      Boolean(audio && !audio.paused)
+    );
+  };
+
   const handleEnded = () => {
+    if (isRepeat) return;
     setIsPlaying(false);
     if (position < order.length - 1) {
       changeTrack(position + 1, true);
-    } else if (isRepeat && hasPlaylist) {
-      changeTrack(0, true);
     }
   };
 
-  const toggleShuffle = () => {
-    if (isShuffle) {
-      setOrder(tracks.map((_, index) => index));
-      setPosition(trackIndex);
-    } else {
-      const remaining = order.filter((index) => index !== trackIndex);
-      for (let index = remaining.length - 1; index > 0; index -= 1) {
-        const randomIndex = Math.floor(Math.random() * (index + 1));
-        [remaining[index], remaining[randomIndex]] = [remaining[randomIndex], remaining[index]];
-      }
-      setOrder([trackIndex, ...remaining]);
-      setPosition(0);
-    }
-    setIsShuffle(!isShuffle);
+  const playRandomTrack = () => {
+    if (!hasPlaylist) return;
+    cancelInteractionAutoplay();
+    // Pick a nonzero offset so the current track can never be selected again.
+    const offset = 1 + Math.floor(Math.random() * (order.length - 1));
+    changeTrack((position + offset) % order.length, true);
   };
 
   return (
@@ -176,17 +209,19 @@ function PlaylistPlayer({
       transition={{ duration: reducedMotion ? 0 : 0.4, ease: "easeOut" }}
     >
       <audio
-        key={trackIndex}
         ref={audioRef}
         src={track.src}
         preload="metadata"
-        autoPlay={autoPlay}
-        loop={isRepeat && !hasPlaylist}
+        autoPlay={autoPlay && allowAutoplay}
+        loop={isRepeat}
         onLoadedMetadata={updateTime}
         onDurationChange={updateTime}
         onTimeUpdate={updateTime}
-        onPlay={() => setIsPlaying(true)}
-        onPause={() => setIsPlaying(false)}
+        onPlay={(event) => {
+          cancelInteractionAutoplay();
+          setIsPlaying(!event.currentTarget.paused);
+        }}
+        onPause={(event) => setIsPlaying(!event.currentTarget.paused)}
         onEnded={handleEnded}
         onError={() => {
           setIsPlaying(false);
@@ -293,11 +328,14 @@ function PlaylistPlayer({
             variant="ghost"
             size="icon"
             aria-label="Phát ngẫu nhiên"
-            aria-pressed={isShuffle}
-            title={hasPlaylist ? "Phát ngẫu nhiên" : "Phát ngẫu nhiên cần ít nhất hai bài nhạc"}
+            title={
+              hasPlaylist
+                ? "Phát một bài ngẫu nhiên khác"
+                : "Phát ngẫu nhiên cần ít nhất hai bài nhạc"
+            }
             disabled={!hasPlaylist}
-            onClick={toggleShuffle}
-            className={cn(controlClassName, isShuffle && "text-cyan-400 bg-white/10")}
+            onClick={playRandomTrack}
+            className={controlClassName}
           >
             <Shuffle aria-hidden="true" />
           </Button>
@@ -308,7 +346,7 @@ function PlaylistPlayer({
             aria-label="Bài trước"
             title={hasPlaylist ? "Bài trước" : "Danh sách hiện chỉ có một bài nhạc"}
             disabled={!hasPlaylist}
-            onClick={() => changeTrack((position - 1 + order.length) % order.length, isPlaying)}
+            onClick={() => skipTrack(-1)}
             className={controlClassName}
           >
             <SkipBack aria-hidden="true" />
@@ -324,6 +362,7 @@ function PlaylistPlayer({
               size="icon"
               aria-label={isPlaying ? "Tạm dừng" : "Phát nhạc"}
               onClick={() => {
+                cancelInteractionAutoplay();
                 const audio = audioRef.current;
                 if (!audio) return;
                 if (audio.paused) {
@@ -349,7 +388,7 @@ function PlaylistPlayer({
             aria-label="Bài tiếp theo"
             title={hasPlaylist ? "Bài tiếp theo" : "Danh sách hiện chỉ có một bài nhạc"}
             disabled={!hasPlaylist}
-            onClick={() => changeTrack((position + 1) % order.length, isPlaying)}
+            onClick={() => skipTrack(1)}
             className={controlClassName}
           >
             <SkipForward aria-hidden="true" />
@@ -358,14 +397,21 @@ function PlaylistPlayer({
             type="button"
             variant="ghost"
             size="icon"
-            aria-label={hasPlaylist ? "Lặp danh sách" : "Lặp bài nhạc"}
+            aria-label="Lặp bài nhạc"
+            title={`${isRepeat ? "Tắt" : "Bật"} lặp bài đang nghe`}
             aria-pressed={isRepeat}
-            onClick={() => setIsRepeat(!isRepeat)}
-            className={cn(controlClassName, isRepeat && "text-cyan-400 bg-white/10")}
+            onClick={() => setIsRepeat((repeat) => !repeat)}
+            className={cn(
+              controlClassName,
+              isRepeat && "text-cyan-400 bg-cyan-400/15 hover:text-cyan-300 hover:bg-cyan-400/20"
+            )}
           >
-            <Repeat aria-hidden="true" />
+            <Repeat1 aria-hidden="true" />
           </Button>
         </div>
+        <p role="status" className="text-center text-xs text-white/60">
+          Lặp bài nhạc: {isRepeat ? "Bật" : "Tắt"}
+        </p>
         {error && (
           <p role="alert" className="text-center text-xs text-red-200">
             {error}
