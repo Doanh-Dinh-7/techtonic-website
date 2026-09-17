@@ -133,4 +133,9 @@ export const homePlaylist = [
     src: "https://res.cloudinary.com/jb6ttotp/video/upload/v1789582992/Haru_Haru.mp3",
     cover: "https://res.cloudinary.com/jb6ttotp/image/upload/v1789583975/images_2.jpg",
   },
+  {
+    title: "I'll Be there",
+    src: "https://res.cloudinary.com/jb6ttotp/video/upload/v1789615968/I_LL_BE_THERE_-_Orange_Ph%C6%B0%C6%A1ng_M%E1%BB%B9_Chi_Lamoon_Han_Sara_-_Orange_Ph%C6%B0%C6%A1ng_M%E1%BB%B9_Chi_Lamoon_Han_Sara_-_SoundLoadMate.com.mp3",
+    cover: "https://res.cloudinary.com/jb6ttotp/image/upload/v1789615891/images_10.jpg",
+  },
 ];

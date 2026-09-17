@@ -4,12 +4,26 @@ import { useEffect, useRef, useState } from "react";
 import { motion } from "framer-motion";
 import { Badge } from "@/shared/ui/badge";
 
-const VIDEO_BASE_SRC = "https://www.youtube.com/embed/0qoiC8_fi8k?rel=0";
+const YOUTUBE_ORIGIN = "https://www.youtube.com";
+const VIDEO_BASE_SRC = `${YOUTUBE_ORIGIN}/embed/0qoiC8_fi8k?rel=0&enablejsapi=1`;
 const VIDEO_IDLE_SRC = `${VIDEO_BASE_SRC}&autoplay=0`;
 const VIDEO_AUTOPLAY_SRC = `${VIDEO_BASE_SRC}&autoplay=1&mute=1`;
 
+type PlayerStateDetail = {
+  isPlaying?: boolean;
+};
+
+function muteYouTubeVideo(iframe: HTMLIFrameElement | null) {
+  iframe?.contentWindow?.postMessage(
+    JSON.stringify({ event: "command", func: "muteVideo", args: [] }),
+    YOUTUBE_ORIGIN
+  );
+}
+
 export function Video() {
   const videoRef = useRef<HTMLDivElement>(null);
+  const iframeRef = useRef<HTMLIFrameElement>(null);
+  const isMusicPlayingRef = useRef(false);
   const [shouldAutoplay, setShouldAutoplay] = useState(false);
 
   useEffect(() => {
@@ -29,6 +43,18 @@ export function Video() {
     observer.observe(element);
     return () => observer.disconnect();
   }, [shouldAutoplay]);
+
+  useEffect(() => {
+    const handlePlayerState = (event: Event) => {
+      const { isPlaying = false } = (event as CustomEvent<PlayerStateDetail>).detail ?? {};
+      isMusicPlayingRef.current = isPlaying;
+
+      if (isPlaying) muteYouTubeVideo(iframeRef.current);
+    };
+
+    window.addEventListener("player:state", handlePlayerState);
+    return () => window.removeEventListener("player:state", handlePlayerState);
+  }, []);
 
   return (
     <section id="video" className="bg-secondary/45 py-20 text-foreground">
@@ -61,12 +87,16 @@ export function Video() {
         >
           <div className="relative aspect-video overflow-hidden rounded-2xl bg-card shadow-2xl shadow-primary/10">
             <iframe
+              ref={iframeRef}
               className="w-full h-full"
               src={shouldAutoplay ? VIDEO_AUTOPLAY_SRC : VIDEO_IDLE_SRC}
               title="YouTube video player"
               frameBorder="0"
               allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
               allowFullScreen
+              onLoad={() => {
+                if (isMusicPlayingRef.current) muteYouTubeVideo(iframeRef.current);
+              }}
             ></iframe>
           </div>
         </motion.div>
