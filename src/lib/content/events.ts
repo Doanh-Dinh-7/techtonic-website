@@ -166,7 +166,7 @@ export const termEvents: TermEvent[] = [
           "👥 Đối tượng tham gia: Sinh viên năm 1 và năm 2 Trường Đại học Kinh Tế - Đại học Đà Nẵng, ưu tiên sinh viên các ngành có yếu tố CNTT (có thể là thành viên hoặc chưa là thành viên CLB).",
           "📚 Nội dung: Vòng đơn, vòng phỏng vấn, vòng training và vòng thực tập.",
         ],
-        note: "Tuyển thành viên tự do và thành viên Ban Chủ Nhiệm phải được tuyển cùng lúc để tận dụng tối đa nguồn sinh viên của trường Đại học Kinh Tế - Đại học Đà Nẵng. Nên tuyển trước các câu lạc bộ, liên chi đoàn có cùng tệp thành viên mục tiêu như CLB I-Design, LCĐ Khoa Thương Mại Điện Tử, LCĐ Khoa Thống kê - Tin học.",
+        note: "Định hướng tuyển thành viên: TechTonic hướng đến việc tổ chức các hoạt động tuyển thành viên trong cùng một giai đoạn, tạo điều kiện để sinh viên Trường Đại học Kinh tế – Đại học Đà Nẵng có thể tìm hiểu và lựa chọn vị trí phù hợp với năng lực, sở thích và định hướng phát triển của bản thân. CLB đồng thời mong muốn tăng cường kết nối với các khoa, liên chi đoàn và câu lạc bộ trong trường để mở rộng cơ hội giao lưu, học hỏi và xây dựng một cộng đồng sinh viên yêu thích công nghệ cùng phát triển.",
       },
     ],
     side: "right",
