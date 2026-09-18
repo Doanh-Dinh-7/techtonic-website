@@ -97,11 +97,7 @@ export const homePlaylist = [
     src: "https://res.cloudinary.com/jb6ttotp/video/upload/v1789583008/ATVNCG2026_Move_on.mp3",
     cover: "https://res.cloudinary.com/jb6ttotp/image/upload/v1789583851/images_1.jpg",
   },
-  {
-    title: "Giữ Anh Cho Ngày Hôm Qua",
-    src: "https://res.cloudinary.com/jb6ttotp/video/upload/v1789582961/HONG_DNG_-_GI_ANH_CHO_NGY_HM_QUA.mp3",
-    cover: "https://res.cloudinary.com/jb6ttotp/image/upload/v1789584094/images_9.jpg",
-  },
+
   {
     title: "Laviai",
     src: "https://res.cloudinary.com/jb6ttotp/video/upload/v1789582989/LAVIAI_REMIX_ft_HIEUTHUHAI_2PILLZ.mp3",
@@ -123,19 +119,10 @@ export const homePlaylist = [
     src: "https://res.cloudinary.com/jb6ttotp/video/upload/v1789582995/XE_AP_Thuy_Chi_Ft_Hoang_Dung_At_CONCERT_25.mp3",
     cover: "https://res.cloudinary.com/jb6ttotp/image/upload/v1789583978/images_4.jpg",
   },
-  {
-    title: "Mưa Cứ Rơi",
-    src: "https://res.cloudinary.com/jb6ttotp/video/upload/v1789582971/Ma_c_ri_-_MR_A_ft_WRXDIE_low_quality.mp3",
-    cover: "https://res.cloudinary.com/jb6ttotp/image/upload/v1789583995/images_5.jpg",
-  },
+
   {
     title: "Haru Haru",
     src: "https://res.cloudinary.com/jb6ttotp/video/upload/v1789582992/Haru_Haru.mp3",
     cover: "https://res.cloudinary.com/jb6ttotp/image/upload/v1789583975/images_2.jpg",
-  },
-  {
-    title: "I'll Be there",
-    src: "https://res.cloudinary.com/jb6ttotp/video/upload/v1789615968/I_LL_BE_THERE_-_Orange_Ph%C6%B0%C6%A1ng_M%E1%BB%B9_Chi_Lamoon_Han_Sara_-_Orange_Ph%C6%B0%C6%A1ng_M%E1%BB%B9_Chi_Lamoon_Han_Sara_-_SoundLoadMate.com.mp3",
-    cover: "https://res.cloudinary.com/jb6ttotp/image/upload/v1789615891/images_10.jpg",
   },
 ];
