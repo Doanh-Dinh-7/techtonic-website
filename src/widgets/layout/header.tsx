@@ -8,7 +8,6 @@ import { usePathname } from "next/navigation";
 import { Button } from "@/shared/ui/button";
 import { ThemeToggle } from "@/widgets/layout/theme-toggle";
 import { useHeaderNavigation } from "@/widgets/layout/hooks/use-header-navigation";
-
 const mainNav = [
   { name: "Trang chủ", href: "/" },
   { name: "Giới thiệu", href: "/about" },

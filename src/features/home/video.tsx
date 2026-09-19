@@ -3,14 +3,19 @@
 import { useEffect, useRef, useState } from "react";
 import { motion } from "framer-motion";
 import { Badge } from "@/shared/ui/badge";
+import { useYouTubeAudioDuck } from "@/shared/hooks/use-youtube-audio-duck";
 
-const VIDEO_BASE_SRC = "https://www.youtube.com/embed/0qoiC8_fi8k?rel=0";
+const YOUTUBE_ORIGIN = "https://www.youtube.com";
+const VIDEO_BASE_SRC = `${YOUTUBE_ORIGIN}/embed/0qoiC8_fi8k?rel=0&enablejsapi=1`;
 const VIDEO_IDLE_SRC = `${VIDEO_BASE_SRC}&autoplay=0`;
 const VIDEO_AUTOPLAY_SRC = `${VIDEO_BASE_SRC}&autoplay=1&mute=1`;
 
 export function Video() {
   const videoRef = useRef<HTMLDivElement>(null);
+  const iframeRef = useRef<HTMLIFrameElement>(null);
   const [shouldAutoplay, setShouldAutoplay] = useState(false);
+
+  useYouTubeAudioDuck(iframeRef);
 
   useEffect(() => {
     const element = videoRef.current;
@@ -61,6 +66,7 @@ export function Video() {
         >
           <div className="relative aspect-video overflow-hidden rounded-2xl bg-card shadow-2xl shadow-primary/10">
             <iframe
+              ref={iframeRef}
               className="w-full h-full"
               src={shouldAutoplay ? VIDEO_AUTOPLAY_SRC : VIDEO_IDLE_SRC}
               title="YouTube video player"
