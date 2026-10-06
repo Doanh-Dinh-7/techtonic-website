@@ -37,7 +37,7 @@ const galleryItems = {
     },
     {
       id: "15",
-      src: "https://res.cloudinary.com/dggsvq2tw/image/upload/v1758206576/tx3_fcyobt.webp",
+      src: "https://res.cloudinary.com/jb6ttotp/image/upload/v1791274171/IMG_0743.jpg",
       alt: "TechXplore 3",
     },
     {
@@ -57,7 +57,7 @@ const galleryItems = {
     },
     {
       id: "19",
-      src: "https://res.cloudinary.com/dggsvq2tw/image/upload/v1758206577/tx5_brjia6.webp",
+      src: "https://res.cloudinary.com/dggsvq2tw/image/upload/v1758206576/tx3_fcyobt.webp",
       alt: "TechXplore 5",
     },
   ],
