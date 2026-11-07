@@ -185,12 +185,6 @@ export const aboutTeamTerms: AboutTeamTerm[] = [
               image:
                 "https://res.cloudinary.com/dggsvq2tw/image/upload/v1785757609/%C4%90o%C3%A0n_Ng%E1%BB%8Dc_B%E1%BA%A3o_Tr%C3%A2n_hrqimk.png",
             },
-            {
-              name: "Nguyễn Thị Ngọc Nhi",
-              role: "Thành viên",
-              image:
-                "https://res.cloudinary.com/dggsvq2tw/image/upload/v1785764795/Nguy%E1%BB%85n_Th%E1%BB%8B_Ng%E1%BB%8Dc_Nhi_bdaxme.png",
-            },
           ]),
         ],
       },

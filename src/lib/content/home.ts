@@ -74,16 +74,6 @@ export const homeTestimonials: HomeTestimonial[] = [
     image:
       "https://res.cloudinary.com/dggsvq2tw/image/upload/v1785817600/H%E1%BB%93_V%C4%83n_Tr%C6%B0%E1%BB%9Dng_nlrxqc.png",
   },
-  {
-    id: "ngoc-nhi",
-    name: "Nguyễn Thị Ngọc Nhi",
-    role: "Cựu thành viên Ban Sự Kiện CLB TechTonic nhiệm kỳ 2025 - 2026",
-    year: 2024,
-    text: "Nhờ tham gia CLB, mình vừa học hỏi, rèn luyện kỹ năng, vừa gắn kết như một gia đình nhỏ. Ở vai trò Phó chủ nhiệm, mình tự hào đồng hành cùng mọi người tạo ra hoạt động ý nghĩa, kỷ niệm đẹp. CLB là môi trường tuyệt vời để khám phá bản thân, phát triển năng lực và lan tỏa giá trị tích cực.",
-    catVariant: "magenta",
-    image:
-      "https://res.cloudinary.com/jb6ttotp/image/upload/v1789325930/Screenshot_2026-09-14_015833.png",
-  },
 ];
 
 export const homePlaylist = [
