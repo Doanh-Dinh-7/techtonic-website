@@ -1,7 +1,14 @@
 "use client";
 
-import { useCallback, useEffect, useState } from "react";
-import { AnimatePresence, motion } from "framer-motion";
+import { useCallback, useEffect, useRef, useState, type TouchEvent } from "react";
+import {
+  AnimatePresence,
+  animate,
+  motion,
+  useMotionValue,
+  useTransform,
+  type MotionValue,
+} from "framer-motion";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 
 import { departmentBookPages } from "@/lib/content/departments";
@@ -16,9 +23,31 @@ import { useIsMobile } from "@/hooks/use-mobile";
 import { cn } from "@/shared/utils";
 
 const TOTAL_PAGES = departmentBookPages.length;
-const FLIP_DURATION = 0.65;
+/** Thời gian một lần lật trang (giây). */
+const FLIP_DURATION = 0.9;
+/** easeInOutCubic – chậm lúc nhấc trang, nhanh ở giữa, chậm lại khi trang hạ xuống. */
+const FLIP_EASE = [0.645, 0.045, 0.355, 1] as const;
+const SWIPE_THRESHOLD = 50;
 
 type FlipDirection = "next" | "prev";
+
+type FlipState = {
+  direction: FlipDirection;
+  from: number;
+  to: number;
+};
+
+const clampPage = (index: number) => Math.min(Math.max(index, 0), TOTAL_PAGES - 1);
+
+function isTypingTarget(target: EventTarget | null) {
+  if (!(target instanceof HTMLElement)) return false;
+  return (
+    target.isContentEditable ||
+    target.tagName === "INPUT" ||
+    target.tagName === "TEXTAREA" ||
+    target.tagName === "SELECT"
+  );
+}
 
 export function DepartmentsBook() {
   const reducedMotion = useReducedMotionPreference();
@@ -27,80 +56,115 @@ export function DepartmentsBook() {
   const isLandscape = layout === "landscape";
 
   const [currentPage, setCurrentPage] = useState(0);
-  const [isFlipping, setIsFlipping] = useState(false);
-  const [flipDirection, setFlipDirection] = useState<FlipDirection | null>(null);
-  const [flipTarget, setFlipTarget] = useState<number | null>(null);
+  const [flip, setFlip] = useState<FlipState | null>(null);
+  /** Trang người dùng yêu cầu trong lúc đang lật – sẽ lật tiếp ngay khi xong. */
+  const [pendingPage, setPendingPage] = useState<number | null>(null);
+  const touchStartRef = useRef<{ x: number; y: number } | null>(null);
 
-  const canGoPrev = currentPage > 0 && !isFlipping;
-  const canGoNext = currentPage < TOTAL_PAGES - 1 && !isFlipping;
+  /** Trang "đích" mà sách sẽ dừng lại (tính cả lần lật đang chạy và lần lật đang chờ). */
+  const destinationPage = pendingPage ?? flip?.to ?? currentPage;
 
-  const startFlip = useCallback(
-    (direction: FlipDirection) => {
-      if (isFlipping) return;
-      const target = direction === "next" ? currentPage + 1 : currentPage - 1;
-      if (target < 0 || target >= TOTAL_PAGES) return;
+  const goTo = useCallback(
+    (rawTarget: number) => {
+      const target = clampPage(rawTarget);
+
+      if (flip) {
+        setPendingPage(target === flip.to ? null : target);
+        return;
+      }
+      if (target === currentPage) return;
 
       if (reducedMotion) {
         setCurrentPage(target);
         return;
       }
 
-      setFlipDirection(direction);
-      setFlipTarget(target);
-      setIsFlipping(true);
+      setFlip({
+        direction: target > currentPage ? "next" : "prev",
+        from: currentPage,
+        to: target,
+      });
     },
-    [currentPage, isFlipping, reducedMotion]
+    [currentPage, flip, reducedMotion]
   );
 
+  const goNext = useCallback(() => goTo(destinationPage + 1), [goTo, destinationPage]);
+  const goPrev = useCallback(() => goTo(destinationPage - 1), [goTo, destinationPage]);
+
   const handleFlipComplete = useCallback(() => {
-    if (flipTarget !== null) {
-      setCurrentPage(flipTarget);
+    if (!flip) return;
+    const landed = flip.to;
+    setCurrentPage(landed);
+
+    // Lật tiếp ngay nếu người dùng đã bấm thêm trong lúc đang lật.
+    if (pendingPage !== null && pendingPage !== landed) {
+      setFlip({
+        direction: pendingPage > landed ? "next" : "prev",
+        from: landed,
+        to: pendingPage,
+      });
+    } else {
+      setFlip(null);
     }
-    setIsFlipping(false);
-    setFlipDirection(null);
-    setFlipTarget(null);
-  }, [flipTarget]);
+    setPendingPage(null);
+  }, [flip, pendingPage]);
 
   useEffect(() => {
     const onKeyDown = (e: KeyboardEvent) => {
-      if (e.key === "ArrowRight") startFlip("next");
-      if (e.key === "ArrowLeft") startFlip("prev");
+      if (isTypingTarget(e.target)) return;
+      if (e.key === "ArrowRight") goNext();
+      if (e.key === "ArrowLeft") goPrev();
     };
     window.addEventListener("keydown", onKeyDown);
     return () => window.removeEventListener("keydown", onKeyDown);
-  }, [startFlip]);
+  }, [goNext, goPrev]);
 
-  const activePage = departmentBookPages[currentPage];
-  const activeColors = departmentColorStyles[activePage.color];
+  const onTouchStart = (e: TouchEvent) => {
+    const touch = e.touches[0];
+    touchStartRef.current = { x: touch.clientX, y: touch.clientY };
+  };
+
+  const onTouchEnd = (e: TouchEvent) => {
+    const start = touchStartRef.current;
+    touchStartRef.current = null;
+    if (!start) return;
+    const touch = e.changedTouches[0];
+    const dx = touch.clientX - start.x;
+    const dy = touch.clientY - start.y;
+    if (Math.abs(dx) < SWIPE_THRESHOLD || Math.abs(dx) < Math.abs(dy) * 1.5) return;
+    if (dx < 0) goNext();
+    else goPrev();
+  };
+
+  // Trang nằm cố định bên dưới. Khi lật tới: trang đích nằm dưới, trang hiện tại lật đi.
+  // Khi lật lui: trang hiện tại nằm dưới, trang đích lật về đè lên.
+  const basePageIndex = flip ? (flip.direction === "next" ? flip.to : flip.from) : currentPage;
+  const leafPageIndex = flip ? (flip.direction === "next" ? flip.from : flip.to) : null;
+  const basePage = departmentBookPages[basePageIndex];
+  const baseColors = departmentColorStyles[basePage.color];
   const pagePadding = isLandscape ? "pl-4" : "pl-3";
+  const indicatorPage = flip ? flip.to : currentPage;
 
   return (
     <div className={cn("mx-auto w-full", isLandscape ? "max-w-5xl" : "max-w-3xl")}>
       <div className="mb-6 flex flex-col items-center gap-3">
-        <p className="text-sm text-muted-foreground dark:text-white/50">
-          Trang {currentPage + 1} / {TOTAL_PAGES}
+        <p className="text-sm text-muted-foreground dark:text-white/50" aria-live="polite">
+          Trang {indicatorPage + 1} / {TOTAL_PAGES}
         </p>
         <div className="flex gap-2">
           {departmentBookPages.map((page, index) => (
             <button
               key={page.id}
               type="button"
-              disabled={isFlipping}
-              onClick={() => {
-                if (index === currentPage || isFlipping) return;
-                if (reducedMotion || Math.abs(index - currentPage) !== 1) {
-                  setCurrentPage(index);
-                  return;
-                }
-                startFlip(index > currentPage ? "next" : "prev");
-              }}
+              onClick={() => goTo(index)}
               className={cn(
-                "h-2 rounded-full transition-all",
-                index === currentPage
+                "h-2 rounded-full transition-all duration-500",
+                index === indicatorPage
                   ? cn("w-6", departmentColorStyles[page.color].dot)
                   : "w-2 bg-slate-400/50 hover:bg-slate-500/70 dark:bg-white/20 dark:hover:bg-white/40"
               )}
               aria-label={`Đi tới trang ${index + 1}: ${page.title}`}
+              aria-current={index === indicatorPage ? "page" : undefined}
             />
           ))}
         </div>
@@ -114,8 +178,8 @@ export function DepartmentsBook() {
       >
         <NavButton
           direction="prev"
-          disabled={!canGoPrev}
-          onClick={() => startFlip("prev")}
+          disabled={destinationPage <= 0}
+          onClick={goPrev}
           label="Trang trước"
         />
 
@@ -124,7 +188,8 @@ export function DepartmentsBook() {
             "relative w-full",
             isLandscape ? "max-w-[min(100%,920px)]" : "max-w-[min(100%,520px)]"
           )}
-          style={{ perspective: isLandscape ? "1800px" : "1200px" }}
+          onTouchStart={onTouchStart}
+          onTouchEnd={onTouchEnd}
         >
           <div
             className={cn(
@@ -138,21 +203,21 @@ export function DepartmentsBook() {
             className={cn(
               "relative overflow-hidden border border-white/10 shadow-2xl shadow-black/50",
               "bg-gradient-to-br",
-              isLandscape ? "aspect-[16/10] rounded-xl" : "aspect-[3/4] rounded-r-xl rounded-l-sm",
-              activeColors.bookPage
+              isLandscape ? "aspect-[16/10] rounded-xl" : "aspect-[3/4] rounded-l-sm rounded-r-xl",
+              baseColors.bookPage
             )}
           >
             <div
               className={cn(
-                "absolute bottom-0 left-0 top-0 z-20",
+                "absolute bottom-0 left-0 top-0 z-20 transition-colors duration-700",
                 isLandscape ? "w-4 rounded-l-xl" : "w-3 rounded-l-sm",
-                activeColors.bookSpine
+                baseColors.bookSpine
               )}
               aria-hidden
             />
 
             {reducedMotion ? (
-              <AnimatePresence mode="wait">
+              <AnimatePresence mode="wait" initial={false}>
                 <motion.div
                   key={currentPage}
                   initial={{ opacity: 0 }}
@@ -161,38 +226,33 @@ export function DepartmentsBook() {
                   transition={{ duration: 0.2 }}
                   className={cn("absolute inset-0", pagePadding)}
                 >
-                  <BookPageShell page={activePage} layout={layout} />
+                  <BookPageShell page={basePage} layout={layout} />
                 </motion.div>
               </AnimatePresence>
-            ) : isFlipping && flipTarget !== null && flipDirection ? (
-              <FlipLayers
-                direction={flipDirection}
-                layout={layout}
-                pagePadding={pagePadding}
-                topPage={
-                  flipDirection === "next"
-                    ? departmentBookPages[currentPage]
-                    : departmentBookPages[flipTarget]
-                }
-                bottomPage={
-                  flipDirection === "next"
-                    ? departmentBookPages[flipTarget]
-                    : departmentBookPages[currentPage]
-                }
-                onComplete={handleFlipComplete}
-              />
             ) : (
               <div className={cn("absolute inset-0", pagePadding)}>
-                <BookPageShell page={activePage} layout={layout} />
+                <BookPageShell key={basePage.id} page={basePage} layout={layout} />
               </div>
             )}
           </div>
+
+          {/* Lớp lật trang nằm ngoài khung overflow-hidden để giữ được không gian 3D. */}
+          {flip && leafPageIndex !== null && (
+            <FlipOverlay
+              key={`${flip.from}-${flip.to}`}
+              direction={flip.direction}
+              page={departmentBookPages[leafPageIndex]}
+              layout={layout}
+              pagePadding={pagePadding}
+              onComplete={handleFlipComplete}
+            />
+          )}
         </div>
 
         <NavButton
           direction="next"
-          disabled={!canGoNext}
-          onClick={() => startFlip("next")}
+          disabled={destinationPage >= TOTAL_PAGES - 1}
+          onClick={goNext}
           label="Trang sau"
         />
       </div>
@@ -205,7 +265,7 @@ function BookPageShell({ page, layout }: { page: DepartmentBookPage; layout: Boo
     <div
       className={cn(
         "relative h-full w-full overflow-hidden bg-slate-950/60",
-        layout === "landscape" ? "rounded-r-lg rounded-l-md" : "rounded-r-lg"
+        layout === "landscape" ? "rounded-l-md rounded-r-lg" : "rounded-r-lg"
       )}
     >
       <DepartmentsBookPageContent page={page} layout={layout} className="h-full" />
@@ -213,63 +273,214 @@ function BookPageShell({ page, layout }: { page: DepartmentBookPage; layout: Boo
   );
 }
 
-type FlipLayersProps = {
+type FlipOverlayProps = {
   direction: FlipDirection;
+  page: DepartmentBookPage;
   layout: BookLayout;
   pagePadding: string;
-  topPage: DepartmentBookPage;
-  bottomPage: DepartmentBookPage;
   onComplete: () => void;
 };
 
-function FlipLayers({
-  direction,
-  layout,
-  pagePadding,
-  topPage,
-  bottomPage,
-  onComplete,
-}: FlipLayersProps) {
-  const isNext = direction === "next";
-  const initialRotate = isNext ? 0 : 180;
-  const animateRotate = isNext ? -180 : 0;
+/** Tổng độ cong tối đa (độ) giữa gáy và mép ngoài của tờ giấy, đạt được giữa lần lật. */
+const MAX_CURL = 70;
+
+const toRad = (deg: number) => (deg * Math.PI) / 180;
+
+/**
+ * Tờ giấy mềm, bản lề ở gáy sách (cạnh trái).
+ *
+ * Tờ giấy được chia thành nhiều dải dọc lồng nhau: dải đầu quay quanh gáy theo góc
+ * `base`, mỗi dải con quay thêm một góc `bend` quanh mép trái của nó. Nhờ vậy mép ngoài
+ * luôn đi trước phần gần gáy → tờ giấy cong như giấy thật. `bend` = sin(π·p) nên giấy
+ * phẳng lúc bắt đầu/kết thúc và cong nhất ở giữa.
+ *  - next: base 0° → -180° (tờ hiện tại lật qua gáy sang trái)
+ *  - prev: base -180° → 0° (tờ trước lật về, phủ lên trang hiện tại)
+ */
+function FlipOverlay({ direction, page, layout, pagePadding, onComplete }: FlipOverlayProps) {
   const isLandscape = layout === "landscape";
+  const stripCount = isLandscape ? 14 : 10;
+  const isNext = direction === "next";
+
+  const progress = useMotionValue(0);
+
+  const onCompleteRef = useRef(onComplete);
+  useEffect(() => {
+    onCompleteRef.current = onComplete;
+  }, [onComplete]);
+
+  useEffect(() => {
+    const controls = animate(progress, 1, {
+      duration: FLIP_DURATION,
+      ease: FLIP_EASE,
+      onComplete: () => onCompleteRef.current(),
+    });
+    return () => controls.stop();
+  }, [progress]);
+
+  const base = useTransform(progress, (p) => (isNext ? -180 * p : -180 * (1 - p)));
+  // Mép ngoài đi trước: lật tới thì cong về -, lật lui thì cong về +.
+  const bend = useTransform(progress, (p) => {
+    // Góc còn lại tới vị trí đích – không để mép giấy cong vượt qua mặt phẳng trang.
+    const remaining = 180 * (1 - p);
+    const curl = Math.min(Math.sin(Math.PI * p) * MAX_CURL, remaining);
+    return ((isNext ? -1 : 1) * curl) / (stripCount - 1);
+  });
+
+  // Tờ giấy mờ dần khi đã nằm hẳn bên trái gáy (ngoài khung sách).
+  const leafOpacity = useTransform(base, [-180, -168, -125, 0], [0, 0, 1, 1]);
+  // Bóng của tờ giấy đổ lên trang bên dưới, co dần về phía gáy theo hình chiếu cos(θ).
+  const castOpacity = useTransform(base, [-180, -100, -35, 0], [0, 0.2, 0.55, 0]);
+  const castWidth = useTransform(base, (deg) => {
+    const projected = Math.max(Math.cos(toRad(deg)), 0);
+    return `${Math.min(projected * 100 + 6, 100)}%`;
+  });
+
+  const faceRadius = isLandscape ? "rounded-l-md rounded-r-lg" : "rounded-r-lg";
+  const colors = departmentColorStyles[page.color];
 
   return (
-    <div className={cn("absolute inset-0", pagePadding)} style={{ transformStyle: "preserve-3d" }}>
-      <div className="absolute inset-0 z-0">
-        <BookPageShell page={bottomPage} layout={layout} />
+    <div className={cn("pointer-events-none absolute inset-px z-30", pagePadding)} aria-hidden>
+      <div className="relative h-full w-full">
+        <motion.div
+          className={cn("absolute inset-y-0 left-0", faceRadius)}
+          style={{
+            width: castWidth,
+            opacity: castOpacity,
+            background:
+              "linear-gradient(to right, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.45) 55%, rgba(0,0,0,0) 100%)",
+          }}
+        />
+
+        {/* opacity đặt ở lớp perspective (không preserve-3d) để không làm phẳng tờ giấy. */}
+        <motion.div
+          className="absolute inset-0"
+          style={{
+            opacity: leafOpacity,
+            perspective: isLandscape ? 2600 : 1600,
+            perspectiveOrigin: "0% 50%",
+          }}
+        >
+          <LeafStrip
+            index={0}
+            count={stripCount}
+            base={base}
+            bend={bend}
+            page={page}
+            layout={layout}
+            backGradient={colors.bookPage}
+          />
+        </motion.div>
+      </div>
+    </div>
+  );
+}
+
+type LeafStripProps = {
+  index: number;
+  count: number;
+  base: MotionValue<number>;
+  bend: MotionValue<number>;
+  page: DepartmentBookPage;
+  layout: BookLayout;
+  backGradient: string;
+};
+
+/** Một dải dọc của tờ giấy; dải con được lồng bên trong và nối tiếp ở mép phải. */
+function LeafStrip({ index, count, base, bend, page, layout, backGradient }: LeafStripProps) {
+  const isFirst = index === 0;
+  const isLast = index === count - 1;
+  const isLandscape = layout === "landscape";
+
+  // Dải đầu quay theo base quanh gáy, các dải sau chỉ quay thêm phần cong.
+  const rotateY = isFirst ? base : bend;
+
+  // Góc tuyệt đối của dải này so với mặt phẳng trang → dùng để đổ bóng / ánh sáng.
+  const absoluteAngle = useTransform([base, bend], ([b, k]: number[]) => b + index * k);
+  const shade = useTransform(absoluteAngle, (deg) => {
+    const facing = Math.abs(Math.cos(toRad(deg)));
+    return (1 - facing) * 0.65;
+  });
+  // Vệt sáng chạy dọc chỗ giấy cong khi dải nghiêng khoảng 60–80°.
+  const gloss = useTransform(absoluteAngle, (deg) => {
+    const a = Math.abs(deg) > 90 ? 180 - Math.abs(deg) : Math.abs(deg);
+    return Math.max(0, 1 - Math.abs(a - 68) / 16) * 0.16;
+  });
+
+  // Nội dung đầy đủ của trang, dịch sang trái để dải này chỉ hiện đúng lát cắt của nó.
+  const sliceStyle = {
+    width: `${count * 100}%`,
+    left: `${-index * 100}%`,
+  };
+
+  return (
+    <motion.div
+      className="absolute inset-y-0"
+      style={{
+        left: isFirst ? 0 : "100%",
+        width: isFirst ? `${100 / count}%` : "100%",
+        rotateY,
+        transformOrigin: "left center",
+        transformStyle: "preserve-3d",
+        willChange: "transform",
+      }}
+    >
+      {/* Mặt trước: lát cắt của trang (rộng thêm 1px để không lộ khe giữa các dải) */}
+      <div
+        className={cn(
+          "absolute inset-y-0 left-0 overflow-hidden bg-slate-950",
+          isFirst && isLandscape && "rounded-l-md",
+          isLast && "rounded-r-lg"
+        )}
+        style={{
+          width: isLast ? "100%" : "calc(100% + 1px)",
+          backfaceVisibility: "hidden",
+          WebkitBackfaceVisibility: "hidden",
+        }}
+      >
+        <div
+          className={cn("absolute inset-y-0 bg-gradient-to-br", backGradient)}
+          style={sliceStyle}
+        >
+          <BookPageShell page={page} layout={layout} />
+        </div>
+        <motion.div className="absolute inset-0 bg-black" style={{ opacity: shade }} />
+        <motion.div className="absolute inset-0 bg-white" style={{ opacity: gloss }} />
       </div>
 
-      <motion.div
-        className="absolute inset-0 z-10"
+      {/* Mặt sau: giấy trơn */}
+      <div
+        className={cn(
+          "absolute inset-y-0 left-0 overflow-hidden bg-slate-950",
+          isFirst && isLandscape && "rounded-r-md",
+          isLast && "rounded-l-lg"
+        )}
         style={{
-          transformOrigin: isNext ? "left center" : "right center",
-          transformStyle: "preserve-3d",
+          width: isLast ? "100%" : "calc(100% + 1px)",
+          transform: "rotateY(180deg)",
           backfaceVisibility: "hidden",
+          WebkitBackfaceVisibility: "hidden",
         }}
-        initial={{ rotateY: initialRotate }}
-        animate={{ rotateY: animateRotate }}
-        transition={{ duration: FLIP_DURATION, ease: [0.4, 0, 0.2, 1] }}
-        onAnimationComplete={onComplete}
       >
-        <div className="relative h-full w-full">
-          <BookPageShell page={topPage} layout={layout} />
-          <div
-            className={cn(
-              "pointer-events-none absolute inset-0",
-              isLandscape ? "rounded-r-lg rounded-l-md" : "rounded-r-lg"
-            )}
-            style={{
-              background: isNext
-                ? "linear-gradient(to left, rgba(0,0,0,0.45) 0%, rgba(0,0,0,0.1) 40%, transparent 70%)"
-                : "linear-gradient(to right, rgba(0,0,0,0.45) 0%, rgba(0,0,0,0.1) 40%, transparent 70%)",
-            }}
-            aria-hidden
-          />
-        </div>
-      </motion.div>
-    </div>
+        <div
+          className={cn("absolute inset-y-0 bg-gradient-to-bl", backGradient)}
+          style={{ width: `${count * 100}%`, right: `${-index * 100}%` }}
+        />
+        <motion.div className="absolute inset-0 bg-black" style={{ opacity: shade }} />
+        <motion.div className="absolute inset-0 bg-white" style={{ opacity: gloss }} />
+      </div>
+
+      {!isLast && (
+        <LeafStrip
+          index={index + 1}
+          count={count}
+          base={base}
+          bend={bend}
+          page={page}
+          layout={layout}
+          backGradient={backGradient}
+        />
+      )}
+    </motion.div>
   );
 }
 
