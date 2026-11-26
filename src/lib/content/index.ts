@@ -12,3 +12,4 @@ export * from "./blog-posts";
 export * from "./faq";
 export * from "./home-activities";
 export * from "./home";
+export * from "./playground";

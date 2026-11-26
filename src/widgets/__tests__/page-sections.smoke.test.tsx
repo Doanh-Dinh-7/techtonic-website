@@ -8,6 +8,7 @@ import { AboutPageSections } from "@/widgets/about/about-page-sections";
 import { DepartmentsPageContent } from "@/widgets/departments/departments-page-content";
 import { EventsPageContent } from "@/widgets/events/events-page-content";
 import { HomePageSections } from "@/widgets/home/home-page-sections";
+import { PlaygroundPageContent } from "@/widgets/playground/playground-page-content";
 import { RecruitmentPageSections } from "@/widgets/recruitment/recruitment-page-sections";
 
 describe("Route section smoke", () => {
@@ -18,6 +19,7 @@ describe("Route section smoke", () => {
 
     await waitFor(() => {
       expect(document.getElementById("core-values")).toBeTruthy();
+      expect(document.getElementById("playground")).toBeTruthy();
       expect(document.getElementById("contact")).toBeTruthy();
     });
     expect(document.getElementById("music")).toBeNull();
@@ -72,5 +74,13 @@ describe("Route section smoke", () => {
       ).toBeInTheDocument();
       expect(screen.getByRole("heading", { name: /Hoạt động & Sự kiện/i })).toBeInTheDocument();
     });
+  });
+
+  it("playground: renders AI Gesture Puzzle heading", () => {
+    render(<PlaygroundPageContent />);
+
+    expect(
+      screen.getByRole("heading", { name: /AI Gesture Puzzle/i, level: 1 })
+    ).toBeInTheDocument();
   });
 });

@@ -33,6 +33,7 @@ export const SITE_ROUTES = [
   "/about",
   "/departments",
   "/events",
+  "/playground",
   "/portfolio",
   "/recruitment",
 ] as const;

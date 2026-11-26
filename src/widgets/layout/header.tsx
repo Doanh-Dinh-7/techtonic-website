@@ -1,7 +1,7 @@
 "use client";
 
 import { motion, AnimatePresence } from "framer-motion";
-import { Menu, X, Users } from "lucide-react";
+import { Menu, X, Users, Gamepad2 } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
@@ -14,6 +14,7 @@ const mainNav = [
   { name: "Các ban", href: "/departments" },
   // { name: "Dự án", href: "/portfolio" },
   { name: "Hoạt động", href: "/events" },
+  { name: "Playground", href: "/playground" },
   { name: "Tuyển thành viên", href: "/recruitment" },
 ] as const;
 
@@ -84,10 +85,16 @@ export function Header({ show, onLogoClick }: HeaderProps) {
                     <Link
                       key={item.href}
                       href={item.href}
-                      className={`text-sm font-medium transition-colors whitespace-nowrap ${
+                      className={`inline-flex items-center gap-1.5 text-sm font-medium transition-colors whitespace-nowrap ${
                         active ? "text-primary" : "text-muted-foreground hover:text-primary"
                       }`}
                     >
+                      {item.href === "/playground" && (
+                        <Gamepad2
+                          className="h-4 w-4 text-cyan-500 dark:text-cyan-300"
+                          aria-hidden
+                        />
+                      )}
                       {item.name}
                     </Link>
                   );
@@ -156,13 +163,19 @@ export function Header({ show, onLogoClick }: HeaderProps) {
                         <Link
                           key={item.href}
                           href={item.href}
-                          className={`block w-full text-left px-4 py-2 rounded-md transition-colors ${
+                          className={`flex items-center gap-2 w-full text-left px-4 py-2 rounded-md transition-colors ${
                             active
                               ? "bg-accent text-primary font-medium"
                               : "text-muted-foreground hover:bg-accent hover:text-primary"
                           }`}
                           onClick={() => setMobileMenuOpen(false)}
                         >
+                          {item.href === "/playground" && (
+                            <Gamepad2
+                              className="h-4 w-4 text-cyan-500 dark:text-cyan-300"
+                              aria-hidden
+                            />
+                          )}
                           {item.name}
                         </Link>
                       );

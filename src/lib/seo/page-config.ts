@@ -46,6 +46,19 @@ export const PAGE_SEO = {
       "DUE Đà Nẵng",
     ],
   },
+  playground: {
+    path: "/playground",
+    title: "Playground",
+    description:
+      "Trải nghiệm mini-game AI Gesture Puzzle của Ban Chuyên Môn TechTonic Club: chụp ảnh và ghép hình 3×3 bằng cử chỉ bàn tay qua webcam.",
+    keywords: [
+      "TechTonic Playground",
+      "AI Gesture Puzzle",
+      "mini game",
+      "MediaPipe",
+      "Ban Chuyên Môn",
+    ],
+  },
   portfolio: {
     path: "/portfolio",
     title: "Dự án & thành tích",
