@@ -20,6 +20,10 @@ const Activities = dynamic(() =>
   import("@/features/home/activities").then((m) => ({ default: m.Activities }))
 );
 
+const PlaygroundSpotlight = dynamic(() =>
+  import("@/features/home/playground-spotlight").then((m) => ({ default: m.PlaygroundSpotlight }))
+);
+
 const Achievements = dynamic(() =>
   import("@/features/home/achievements").then((m) => ({ default: m.Achievements }))
 );
@@ -52,6 +56,9 @@ export function HomePageSections() {
       </DeferredMount>
       <DeferredMount minHeight="24rem" rootMargin="280px 0px">
         <Activities />
+      </DeferredMount>
+      <DeferredMount minHeight="24rem" rootMargin="260px 0px">
+        <PlaygroundSpotlight />
       </DeferredMount>
       <DeferredMount minHeight="22rem" rootMargin="260px 0px">
         <Achievements />

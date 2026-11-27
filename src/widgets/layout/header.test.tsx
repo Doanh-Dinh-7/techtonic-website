@@ -20,6 +20,7 @@ describe("Header", () => {
     ).toBeGreaterThanOrEqual(1);
     expect(screen.getByRole("link", { name: "Trang chủ" })).toHaveAttribute("href", "/");
     expect(screen.getByRole("link", { name: "Hoạt động" })).toHaveAttribute("href", "/events");
+    expect(screen.getByRole("link", { name: "Playground" })).toHaveAttribute("href", "/playground");
     expect(screen.getByRole("link", { name: "Tuyển thành viên" })).toHaveAttribute(
       "href",
       "/recruitment"
